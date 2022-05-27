@@ -12,12 +12,26 @@ code {
     monospace;
 }
 
+
+[data-home] {
+  min-height: 100vh;
+}
+
+/* 
+[data-work] {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+} */
+
+
 @media (min-width:768px) {
   [data-heading] {
     font-size: 80px;
   }
-}
 
-[data-home] {
-  min-height: 100vh;
+  [data-work] {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
+  }
 }
