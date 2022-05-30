@@ -1,47 +1,56 @@
 import React from 'react'
 import TypeAnimation from 'react-type-animation';
 import 'animate.css';
+import Modal from './Modal';
+import Skill from './Skill';
+import Contact from './Contact';
 export default function Home() {
   const workData = [
 
     {
       ss: "https://i.ibb.co/99dfcWW/image.png",
       title: 'Flying Wheels',
-      techonologies: 'stripe,react,Daisy ui,nodejs,Mongodb,Firebase,react-hooks-form,tailwindcss,',
+      tech: 'stripe,react,Daisy ui,nodejs,Mongodb,Firebase,react-hooks-form,tailwindcss,',
+      desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis eligendi asperiores excepturi dolor autem modi animi. Explicabo quae perferendis est!',
       live: "https://manufacturer-admin.web.app/"
     },
     {
       ss: "https://i.ibb.co/99dfcWW/image.png",
       title: 100,
-      techonologies: 'stripe,react,Daisy ui,nodejs,Mongodb,Firebase,react-hooks-form,tailwindcss,',
+      tech: 'stripe,react,Daisy ui,nodejs,Mongodb,Firebase,react-hooks-form,tailwindcss,',
+      desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis eligendi asperiores excepturi dolor autem modi animi. Explicabo quae perferendis est!',
       live: "https://github.com/un-earthly/flying-wheels-client.git"
     },
     {
       ss: "https://i.ibb.co/99dfcWW/image.png",
       title: 100,
-      techonologies: 'stripe,react,Daisy ui,nodejs,Mongodb,Firebase,react-hooks-form,tailwindcss,',
+      tech: 'stripe,react,Daisy ui,nodejs,Mongodb,Firebase,react-hooks-form,tailwindcss,',
+      desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis eligendi asperiores excepturi dolor autem modi animi. Explicabo quae perferendis est!',
       live: "https://github.com/un-earthly/flying-wheels-client.git"
     },
     {
       ss: "https://i.ibb.co/99dfcWW/image.png",
       title: 100,
-      techonologies: 'stripe,react,Daisy ui,nodejs,Mongodb,Firebase,react-hooks-form,tailwindcss,',
+      tech: 'stripe,react,Daisy ui,nodejs,Mongodb,Firebase,react-hooks-form,tailwindcss,',
+      desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis eligendi asperiores excepturi dolor autem modi animi. Explicabo quae perferendis est!',
       live: "https://github.com/un-earthly/flying-wheels-client.git"
     },
     {
       ss: "https://i.ibb.co/99dfcWW/image.png",
       title: 100,
-      techonologies: 'stripe,react,Daisy ui,nodejs,Mongodb,Firebase,react-hooks-form,tailwindcss,',
+      tech: 'stripe,react,Daisy ui,nodejs,Mongodb,Firebase,react-hooks-form,tailwindcss,',
+      desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis eligendi asperiores excepturi dolor autem modi animi. Explicabo quae perferendis est!',
       live: "https://github.com/un-earthly/flying-wheels-client.git"
     },
 
 
   ]
+
   return (
     <div >
 
       {/* HOME SECTION */}
-      <div data-home className="d-flex flex-column ps-5 justify-content-center align-items-center h-100" >
+      <div data-home className="d-flex flex-column justify-content-center align-items-center h-100" >
         <h1 data-heading>MD.ALAMIN</h1>
         <p style={{ color: 'lightcoral' }} className='h6 my-2'>
           <TypeAnimation
@@ -62,24 +71,46 @@ export default function Home() {
       <div data-work className="container py-5" >
         {
           workData.map(w => (
-            <div class="card my-3" >
-              <div data-card class="position-relative d-flex align-items-center justify-content-center">
+            <div className="card my-3" >
+              <div data-card className="position-relative d-flex align-items-center justify-content-center">
                 <img src={w.ss} className='w-100' alt="" />
                 <div data-card__body className='position-absolute text-white'>
                   <div>
-                    <a target='_blank' href={w.live} class="card-link">{w.title}</a>
-                    <a target='_blank' href={w.client} class="card-link">Client</a>
-                    <a target='_blank' href={w.server} class="card-link">Server</a>
+                    <button type="button" className="btn text-white btn-link btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                      Details
+                    </button>
                   </div>
-                  <p data-tech class="card-text text-capitalize">{w.techonologies} </p>
                 </div>
               </div>
-            </div>
+              <Modal client={w.live} live={w.live} modalTech={w.tech} modalDesc={w.desc} server={w.live} />
+            </div >
           ))
         }
-      </div>
+      </div >
 
 
-    </div>
+      {/* skills SECTION */}
+      < section className='skills' >
+        <h1>Skills &amp; Technologies</h1>
+        <div data-skills>
+
+          <Skill exp="Over 10 years of experience building web applications." lang="PHP, NodeJS" frameworks="Laravel, CodeIgniter" heading="Backend" />
+          <Skill exp="Over 10 years of experience building web applications." lang="PHP, NodeJS" frameworks="Laravel, CodeIgniter" heading="Backend" />
+          <Skill exp="Over 10 years of experience building web applications." lang="PHP, NodeJS" frameworks="Laravel, CodeIgniter" heading="Backend" />
+          <Skill exp="Over 10 years of experience building web applications." lang="PHP, NodeJS" frameworks="Laravel, CodeIgniter" heading="Backend" />
+          <Skill exp="Over 10 years of experience building web applications." lang="PHP, NodeJS" frameworks="Laravel, CodeIgniter" heading="Backend" />
+          <Skill exp="Over 10 years of experience building web applications." lang="PHP, NodeJS" frameworks="Laravel, CodeIgniter" heading="Backend" />
+        </div>
+      </section >
+
+      {/* about SECTION */}
+
+      < section className="about" >
+
+      </section >
+      {/* contact section */}
+      < Contact />
+
+    </div >
   )
 }
