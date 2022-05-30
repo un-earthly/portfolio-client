@@ -113,17 +113,61 @@ section.skills>h1 {
   color: rgb(57, 57, 57);
 }
 
+
 [data-skills] {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(1, 1fr);
   gap: 1rem;
   padding: 1.5rem;
 }
 
+
+@media (min-width:550px) {
+  [data-skills] {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width:1024px) {
+  [data-skills] {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
 
 .content {
   background: rgb(251, 255, 248);
   padding: 1rem;
   border-radius: 8px;
   font-size: 13px;
+}
+
+.position-btm-rgt {
+  bottom: 20px;
+  right: 20px;
+  animation: movebtn 3s ease-in-out infinite;
+  transition: all .5s ease-in-out;
+}
+
+
+
+@keyframes movebtn {
+  0% {
+    transform: translateY(0px);
+  }
+
+  25% {
+    transform: translateY(20px);
+  }
+
+  50% {
+    transform: translateY(0px);
+  }
+
+  75% {
+    transform: translateY(-20px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
 }

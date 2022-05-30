@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import TypeAnimation from 'react-type-animation';
 import 'animate.css';
 import Modal from './Modal';
@@ -46,7 +46,26 @@ export default function Home() {
 
   ]
 
+  const [showTopBtn, setShowTopBtn] = useState(false);
+  useEffect(() => {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 400) {
+        setShowTopBtn(true);
+      } else {
+        setShowTopBtn(false);
+      }
+    });
+  }, []);
+
+  const goToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
   return (
+
+
     <div >
 
       {/* HOME SECTION */}
@@ -109,8 +128,13 @@ export default function Home() {
 
       </section >
       {/* contact section */}
-      < Contact />
+      <section className="bg-dark text-white">
 
+        < Contact />
+      </section>
+
+      <div className={`top-to-btm  ${showTopBtn ? "d-block" : "d-none"}`} onClick={goToTop}><i class="bi bi-arrow-up-square-fill position-fixed position-btm-rgt text-info h1"></i>
+      </div>
     </div >
   )
 }

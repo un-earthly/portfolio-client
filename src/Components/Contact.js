@@ -10,22 +10,31 @@ export default function Contact() {
     reset()
   }
   return (
-    <form className='w-50 mx-auto' onSubmit={handleSubmit(onSubmit)}>
-
+    <form className='w-50 mx-auto py-5' onSubmit={handleSubmit(onSubmit)}>
+      <div className='my-5 d-flex align-items-center justify-content-center flex-column'>
+        <small className='text-secondary'>Have Any Plan?</small>
+        <h1 className='text-center'>Let's Talk</h1>
+      </div>
       <div className="form-floating mb-3">
-        <input type="email" className="form-control" {...register("email", { required: { value: true, message: "Email Is Required" } })} id="floatingInput" placeholder="name@example.com" />
-        <label for="floatingInput">Email address</label>
+        <input type="text" className="form-control bg-transparent" {...register("name", { required: { value: true, message: "Name Is Required" } })} id="flotingName" placeholder=' ' />
+        <label htmlFor="flotingName">Your Name</label>
+
+        {errors.name && <span className="text-danger">{errors.name.message}</span>}
+      </div >
+      <div className="form-floating mb-3">
+        <input type="email" className="form-control bg-transparent" {...register("email", { required: { value: true, message: "Email Is Required" } })} id="floatingEmail" placeholder=' ' />
+        <label htmlFor="floatingEmail">Email address</label>
 
         {errors.email && <span className="text-danger">{errors.email.message}</span>}
       </div >
       <div className="form-floating" >
         <div className="form-floating" >
-          <textarea className="form-control" placeholder="Leave a comment here" id="floatingTextarea2" {...register("msg", { required: { value: true, message: "Please Enter Your Message" } })}></textarea >
-          <label for="floatingTextarea2">Comments</label>
+          <textarea className="form-control bg-transparent" id="floatingMessage" {...register("msg", { required: { value: true, message: "Please Enter Your Message" } })} placeholder=' '></textarea >
+          <label htmlFor="floatingMessage">Your Message</label>
         </div >
         {errors.msg && <span className="text-danger"> {errors.msg.message}</span>}
       </div >
-      <button className="btn btn-outline-dark">Submit</button>
+      <button className="btn btn-outline-light my-4 w-100"  >Submit</button>
     </form >
   )
 }
