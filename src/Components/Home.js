@@ -96,10 +96,10 @@ export default function Home() {
           />
         </p>
         <div className='d-flex' >
-          <a className='d-block animate__delay-2s animate__animated animate__bounceInLeft' href="https://github.com/un-earthly" target="_blank" rel="noopener noreferrer"><i className=" pe-4 text-secondary bi bi-github"></i></a>
-          <a className='d-block animate__delay-2s animate__animated animate__bounceInDown' href="mailto:vijayalamin@gmail.com"><i className="px-4 text-secondary bi bi-envelope"></i></a>
-          <a className='d-block animate__delay-2s animate__animated animate__bounceInUp' href="https://www.linkedin.com/in/alamin-5678b123a/" target="_blank" rel="noopener noreferrer"><i className="px-4 text-secondary bi bi-linkedin"></i></a>
-          <a className='d-block animate__delay-2s animate__animated animate__bounceInRight' href="https://wa.me/qr/DSCEYYSP3GEIP1" target="_blank" rel="noopener noreferrer"><i className="px-4 text-secondary bi bi-whatsapp"></i></a>
+          <a className='d-block animate__animated animate__bounceInLeft' href="https://github.com/un-earthly" target="_blank" rel="noopener noreferrer"><i className=" pe-4 text-secondary bi bi-github"></i></a>
+          <a className='d-block animate__animated animate__bounceInDown' href="mailto:vijayalamin@gmail.com"><i className="px-4 text-secondary bi bi-envelope"></i></a>
+          <a className='d-block animate__animated animate__bounceInUp' href="https://www.linkedin.com/in/alamin-5678b123a/" target="_blank" rel="noopener noreferrer"><i className="px-4 text-secondary bi bi-linkedin"></i></a>
+          <a className='d-block animate__animated animate__bounceInRight' href="https://wa.me/qr/DSCEYYSP3GEIP1" target="_blank" rel="noopener noreferrer"><i className="px-4 text-secondary bi bi-whatsapp"></i></a>
         </div>
       </div>
 
