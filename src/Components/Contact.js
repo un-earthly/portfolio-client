@@ -1,5 +1,6 @@
 import React from 'react'
 import { useForm } from 'react-hook-form';
+import ScrollAnimation from 'react-animate-on-scroll';
 
 export default function Contact() {
   const { formState: { errors }, register, reset, handleSubmit } = useForm()
@@ -12,8 +13,15 @@ export default function Contact() {
   return (
     <form className='w-50 mx-auto py-5' onSubmit={handleSubmit(onSubmit)}>
       <div className='my-5 d-flex align-items-center justify-content-center flex-column'>
-        <small className='text-secondary'>Have Any Plan?</small>
-        <h1 className='text-center'>Let's Talk</h1>
+        <ScrollAnimation animateIn="animate__fadeInRight" animateOut='animate__fadeOutLeft' duration={2} >
+
+          <small className='text-secondary'>Have Any Plan?</small>
+        </ScrollAnimation>
+        <ScrollAnimation animateIn="animate__fadeInLeft" animateOut='animate__fadeOutRight' duration={2} >
+
+          <h1 className='text-center'>Let's Talk</h1>
+        </ScrollAnimation>
+
       </div>
       <div className="form-floating mb-3">
         <input type="text" className="form-control bg-transparent" {...register("name", { required: { value: true, message: "Name Is Required" } })} id="flotingName" placeholder=' ' />
