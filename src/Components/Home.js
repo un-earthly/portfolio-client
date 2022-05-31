@@ -4,6 +4,7 @@ import Modal from './Modal';
 import Skill from './Skill';
 import Contact from './Contact';
 import ScrollAnimation from 'react-animate-on-scroll';
+import { db, auth } from "../firebase.init"
 export default function Home() {
   const workData = [
 
@@ -122,13 +123,13 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
-                {workDetails && <Modal workDetails={workDetails} />}
               </div >
             ))
           }
         </div >
       </ScrollAnimation >
 
+      {workDetails && <Modal workDetails={workDetails} />}
 
       {/* skills SECTION */}
       < section className='skills' >
