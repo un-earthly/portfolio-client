@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import TypeAnimation from 'react-type-animation';
+import ReactTypingEffect from 'react-typing-effect';
 import Modal from './Modal';
 import Skill from './Skill';
 import Contact from './Contact';
 import ScrollAnimation from 'react-animate-on-scroll';
-import { db, auth } from "../firebase.init"
 export default function Home() {
   const workData = [
 
@@ -91,8 +90,9 @@ export default function Home() {
       <div data-home className="d-flex flex-column justify-content-center align-items-center h-100" >
         <h1 data-heading>MD.ALAMIN</h1>
         <p style={{ color: 'lightcoral' }} className='h6 my-2'>
-          <TypeAnimation
-            sequence={['MONOGODB | EXPRESS JS | REACT JS | NODE JS', 1000, '']}
+          <ReactTypingEffect data-name
+            text={['MONOGODB | EXPRESS JS | REACT JS | NODE JS']}
+            speed={200}
           />
         </p>
         <div className='d-flex' >
@@ -107,7 +107,7 @@ export default function Home() {
       {/* WORKS SECTION */}
 
 
-      <ScrollAnimation animateIn="animate__fadeInLeft" animateOut='animate__fadeOutRight' duration={2} >
+      <ScrollAnimation animateIn="animate__fadeInUp" duration={2} >
 
         <div data-work className="container py-5" >
           {
@@ -133,18 +133,18 @@ export default function Home() {
 
       {/* skills SECTION */}
       < section className='skills' >
-        <ScrollAnimation animateIn="animate__fadeInUp" animateOut='animate__fadeOutUp' duration={2} >
+        <ScrollAnimation animateIn="animate__" animateOut='animate__fadeOutUp' duration={2} >
 
           <h1>Skills &amp; Technologies</h1>
         </ScrollAnimation >
         <div data-skills>
 
-          <Skill exp="Over 10 years of experience building web applications." lang="PHP, NodeJS" frameworks="Laravel, CodeIgniter" heading="Backend" />
-          <Skill exp="Over 10 years of experience building web applications." lang="PHP, NodeJS" frameworks="Laravel, CodeIgniter" heading="Backend" />
-          <Skill exp="Over 10 years of experience building web applications." lang="PHP, NodeJS" frameworks="Laravel, CodeIgniter" heading="Backend" />
-          <Skill exp="Over 10 years of experience building web applications." lang="PHP, NodeJS" frameworks="Laravel, CodeIgniter" heading="Backend" />
-          <Skill exp="Over 10 years of experience building web applications." lang="PHP, NodeJS" frameworks="Laravel, CodeIgniter" heading="Backend" />
-          <Skill exp="Over 10 years of experience building web applications." lang="PHP, NodeJS" frameworks="Laravel, CodeIgniter" heading="Backend" />
+          <Skill animation="fadeInRight" exp="Over 10 years of experience building web applications." lang="PHP, NodeJS" frameworks="Laravel, CodeIgniter" heading="Backend" />
+          <Skill animation="fadeInUp" exp="Over 10 years of experience building web applications." lang="PHP, NodeJS" frameworks="Laravel, CodeIgniter" heading="Backend" />
+          <Skill animation="fadeInDown" exp="Over 10 years of experience building web applications." lang="PHP, NodeJS" frameworks="Laravel, CodeIgniter" heading="Backend" />
+          <Skill animation="fadeInLeft" exp="Over 10 years of experience building web applications." lang="PHP, NodeJS" frameworks="Laravel, CodeIgniter" heading="Backend" />
+          <Skill animation="fadeInRight" exp="Over 10 years of experience building web applications." lang="PHP, NodeJS" frameworks="Laravel, CodeIgniter" heading="Backend" />
+          <Skill animation="fadeInDown" exp="Over 10 years of experience building web applications." lang="PHP, NodeJS" frameworks="Laravel, CodeIgniter" heading="Backend" />
         </div>
       </section >
 
@@ -158,7 +158,6 @@ export default function Home() {
 
         < Contact />
       </section>
-
       <div className={`top-to-btm  ${showTopBtn ? "d-block" : "d-none"}`} onClick={goToTop}><i class="bi bi-arrow-up-square-fill position-fixed position-btm-rgt text-info h1"></i>
       </div>
     </div >

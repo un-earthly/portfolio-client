@@ -1,8 +1,8 @@
 import React from 'react'
 
-export default function Skill({ heading, exp, frameworks, lang }) {
+export default function Skill({ heading, exp, frameworks, lang, animation }) {
     return (
-        <div className="content">
+        <div className={`content animate__animated animate__${animation} `}>
             <h5>{heading}</h5>
             <p>
                 {exp}

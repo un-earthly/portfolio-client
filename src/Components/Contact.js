@@ -1,12 +1,12 @@
 import React from 'react'
 import { useForm } from 'react-hook-form';
 import ScrollAnimation from 'react-animate-on-scroll';
-
+import axiosPrivate from "../axiosPrivate"
 export default function Contact() {
   const { formState: { errors }, register, reset, handleSubmit } = useForm()
   const onSubmit = data => {
 
-    console.log(data)
+    axiosPrivate.post("http://localhost/message", data)
 
     reset()
   }
@@ -24,20 +24,20 @@ export default function Contact() {
 
       </div>
       <div className="form-floating mb-3">
-        <input type="text" className="form-control bg-transparent" {...register("name", { required: { value: true, message: "Name Is Required" } })} id="flotingName" placeholder=' ' />
+        <input type="text" className="form-control bg-transparent text-white" {...register("name", { required: { value: true, message: "Name Is Required" } })} id="flotingName" placeholder=' ' />
         <label htmlFor="flotingName">Your Name</label>
 
         {errors.name && <span className="text-danger">{errors.name.message}</span>}
       </div >
       <div className="form-floating mb-3">
-        <input type="email" className="form-control bg-transparent" {...register("email", { required: { value: true, message: "Email Is Required" } })} id="floatingEmail" placeholder=' ' />
+        <input type="email" className="form-control bg-transparent text-white" {...register("email", { required: { value: true, message: "Email Is Required" } })} id="floatingEmail" placeholder=' ' />
         <label htmlFor="floatingEmail">Email address</label>
 
         {errors.email && <span className="text-danger">{errors.email.message}</span>}
       </div >
       <div className="form-floating" >
         <div className="form-floating" >
-          <textarea className="form-control bg-transparent" id="floatingMessage" {...register("msg", { required: { value: true, message: "Please Enter Your Message" } })} placeholder=' '></textarea >
+          <textarea className="form-control bg-transparent text-white" id="floatingMessage" {...register("msg", { required: { value: true, message: "Please Enter Your Message" } })} placeholder=' '></textarea >
           <label htmlFor="floatingMessage">Your Message</label>
         </div >
         {errors.msg && <span className="text-danger"> {errors.msg.message}</span>}
