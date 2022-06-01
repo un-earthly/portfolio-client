@@ -4,59 +4,21 @@ import Modal from './Modal';
 import Skill from './Skill';
 import Contact from './Contact';
 import ScrollAnimation from 'react-animate-on-scroll';
+import axios from 'axios';
 export default function Home() {
-  const workData = [
 
-    {
-      ss: "https://i.ibb.co/99dfcWW/image.png",
-      title: 'Flying Wheels',
-      tech: 'stripe,react,Daisy ui,nodejs,Mongodb,Firebase,react-hooks-form,tailwindcss,',
-      desc: 'Flying Wheels is a cycle wheels Manufacturers application that they use to track edit showcase their products and delivery.',
-      live: "https://manufacturer-admin.web.app/",
-      server: "https://github.com/un-earthly/flying-wheels-server",
-      client: "https://github.com/un-earthly/flying-wheels-client",
-    },
-    {
-      ss: "https://i.ibb.co/M27Xvvt/image.png",
-      title: "Gagets Heaven",
-      tech: 'stripe,react,Daisy ui,nodejs,Mongodb,Firebase,react-hooks-form,tailwindcss,',
-      desc: 'gadgets heaven is a warehouse that imports and distributes electronics. this site is created for making their data visible to their admins. and they showcase their inventory.',
-      live: "https://gadgets-heaven-97bc2.web.app/",
-      server: "https://github.com/un-earthly/gadgets-heaven-server",
-      client: "https://github.com/un-earthly/gadgets-heaven-client",
-    },
-    {
-      ss: "https://i.ibb.co/KWbX65M/image.png",
-      title: "Jarins Parlour",
-      tech: 'stripe,react,Daisy ui,nodejs,Mongodb,Firebase,react-hooks-form,tailwindcss,',
-      desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis eligendi asperiores excepturi dolor autem modi animi. Explicabo quae perferendis est!',
-      live: "https://jerins-parlour-f046c.web.app/",
-      client: "https://github.com/un-earthly/jerins-parlour-client",
-    },
-    {
-      ss: "https://i.ibb.co/bX4Fw19/image.png",
-      title: "MERN Todo",
-      tech: 'Axios, bootstrap, firebase, react,react-hook-form react-router-dom, Node js, express js, Mongo Db.',
-      desc: 'An essential CRUD operation drove the application using the MERN stack.Where users can keep track their tasks.easy to login ,register,update and delete.',
-      live: "https://todo-d793a.web.app/",
-      client: "https://github.com/un-earthly/client-todo",
-      server: "https://github.com/un-earthly/server-todo"
-    },
-    {
-      ss: "https://i.ibb.co/XkTwBw9/image.png",
-      title: "GPU Reviews",
-      tech: 'react, react router, bootstrap icons, google fonts, recharts, tailwind css.',
-      desc: 'A basic react client side, Where Users has reviewd about a gpu, and practice of recharts, which is used for different charts shown in the dashboard section.',
-      live: "https://gpu-reviews.netlify.app/",
-      client: "https://github.com/un-earthly/gpu-review",
-    },
-
-
-  ]
-
+  const [works, setWorks] = useState([])
+  const [skills, setSkills] = useState([])
   const [workDetails, setWorkDetails] = useState({});
   const [showTopBtn, setShowTopBtn] = useState(false);
   const [loader, setLoader] = useState(true);
+  useEffect(() => {
+    axios.get("http://localhost/project").then(res => setWorks(res.data))
+  }, []);
+  useEffect(() => {
+    axios.get("http://localhost/skill").then(res => setSkills(res.data))
+
+  }, []);
   useEffect(() => {
     window.addEventListener('load', () => {
       setLoader(false)
@@ -107,27 +69,39 @@ export default function Home() {
       {/* WORKS SECTION */}
 
 
-      <ScrollAnimation animateIn="animate__fadeInUp" duration={2} >
 
-        <div data-work className="container py-5" >
+      <div className="container py-5" >
+        <div className='my-5'>
+          <ScrollAnimation animateIn="animate__fadeInLeft" duration={2} >
+            <small className='text-center d-block'>The Projects Im Working On</small>
+
+          </ScrollAnimation>
+          <ScrollAnimation animateIn="animate__fadeInRight" duration={2} >
+            <h1 className='text-center'>My Project</h1>
+          </ScrollAnimation>
+        </div>
+        <div data-work>
+
           {
-            workData.map(w => (
-              <div className="card my-3" >
-                <div data-card className="position-relative d-flex align-items-center justify-content-center">
-                  <img src={w.ss} className='w-100' alt="" />
-                  <div data-card__body className='position-absolute text-white'>
-                    <div>
-                      <button onClick={() => setWorkDetails(w)} type="button" className="btn text-white btn-link btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        Details
-                      </button>
+            works.map(w => (
+              <ScrollAnimation animateIn="animate__fadeInUp" duration={2} >
+                <div className="card my-3" >
+                  <div data-card style={{ backgroundImage: `url(${w.ss})` }} className="position-relative d-flex align-items-center justify-content-center">
+                    <div data-card__body className='position-absolute text-white'>
+                      <div>
+                        <button onClick={() => setWorkDetails(w)} type="button" className="btn text-white btn-link btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                          Details
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div >
+                </div >
+
+              </ScrollAnimation >
             ))
           }
         </div >
-      </ScrollAnimation >
+      </div>
 
       {workDetails && <Modal workDetails={workDetails} />}
 
@@ -138,13 +112,9 @@ export default function Home() {
           <h1>Skills &amp; Technologies</h1>
         </ScrollAnimation >
         <div data-skills>
-
-          <Skill animation="fadeInRight" exp="Over 10 years of experience building web applications." lang="PHP, NodeJS" frameworks="Laravel, CodeIgniter" heading="Backend" />
-          <Skill animation="fadeInUp" exp="Over 10 years of experience building web applications." lang="PHP, NodeJS" frameworks="Laravel, CodeIgniter" heading="Backend" />
-          <Skill animation="fadeInDown" exp="Over 10 years of experience building web applications." lang="PHP, NodeJS" frameworks="Laravel, CodeIgniter" heading="Backend" />
-          <Skill animation="fadeInLeft" exp="Over 10 years of experience building web applications." lang="PHP, NodeJS" frameworks="Laravel, CodeIgniter" heading="Backend" />
-          <Skill animation="fadeInRight" exp="Over 10 years of experience building web applications." lang="PHP, NodeJS" frameworks="Laravel, CodeIgniter" heading="Backend" />
-          <Skill animation="fadeInDown" exp="Over 10 years of experience building web applications." lang="PHP, NodeJS" frameworks="Laravel, CodeIgniter" heading="Backend" />
+          {skills.map(skill => (
+            <Skill skill={skill} />
+          ))}
         </div>
       </section >
 

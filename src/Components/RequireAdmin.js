@@ -1,20 +1,20 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import Dashboard from './Dashboard';
 
 export default function RequireAdmin() {
     const { formState: { errors }, register, handleSubmit } = useForm()
     const [admin, setAdmin] = useState(false)
-    const navigate = useNavigate()
+    const [error, setError] = useState("")
     const onSubmit = data => {
         const adminName = process.env.REACT_APP_admin_name
         const adminPass = process.env.REACT_APP_admin_pass
-        const userName = data.name
+        const userName = data.email
         const userPass = data.pass
-        if (adminName !== userName && adminPass !== userPass) {
-            return navigate("/")
+        if (adminName === userName && adminPass === userPass) {
+            setAdmin(true)
         }
-        setAdmin(true)
+        setError("Your Credentials are not correct")
     }
     if (!admin) {
 
@@ -39,6 +39,7 @@ export default function RequireAdmin() {
 
                     {errors.pass && <span className="text-danger">{errors.pass.message}</span>}
                 </div >
+                {<span className='text-danger'>{error}</span>}
                 <button className="btn btn-outline-dark my-4 w-100 animate__animated animate__fadeInUp">Submit</button>
             </form >
         )
@@ -46,7 +47,7 @@ export default function RequireAdmin() {
     else {
         return <>
 
-            <h1>Dashboard</h1>
+            <Dashboard />
 
         </>
     }

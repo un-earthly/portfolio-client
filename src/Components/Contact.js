@@ -5,8 +5,8 @@ import axiosPrivate from "../axiosPrivate"
 export default function Contact() {
   const { formState: { errors }, register, reset, handleSubmit } = useForm()
   const onSubmit = data => {
-
-    axiosPrivate.post("http://localhost/message", data)
+    const { name, msg, email } = data
+    axiosPrivate.post("http://localhost/message", { name, email, msg, status: "not replied" })
 
     reset()
   }

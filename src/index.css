@@ -47,6 +47,8 @@ code {
 
   [data-card] {
     min-height: 400px;
+    background-position: center;
+    background-size: cover;
   }
 
   [data-card__body] a {
@@ -54,11 +56,6 @@ code {
   }
 }
 
-
-[data-card]>img {
-  height: 100%;
-  object-fit: cover;
-}
 
 [data-card__body] {
   opacity: 0;
@@ -178,4 +175,29 @@ section.skills h1 {
   100% {
     transform: translateY(0px);
   }
+}
+
+
+
+[data-dashboard] {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+}
+
+[data-admin__content] {
+  grid-column: span 9;
+}
+
+[data-sidebar] {
+  grid-column: span 3;
+}
+
+[data-sidebar] a {
+  color: white;
+  text-decoration: none;
+  padding: 0 20px;
+}
+
+.active {
+  color: cyan;
 }
