@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 export default function ManageSkills() {
     const { formState: { errors }, register, handleSubmit } = useForm()
     const onSubmit = data => {
-        axios.post("http://localhost/skill", data)
+        axios.post("https://portfolio-backend-39.herokuapp.com/skill", data)
     }
     return (
         <div>

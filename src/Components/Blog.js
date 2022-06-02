@@ -7,7 +7,7 @@ export default function Blog() {
     const { name } = useParams()
     const [blog, setBlog] = useState({})
     useEffect(() => {
-        axios.get(`http://localhost/blog/${name}`)
+        axios.get(`https://portfolio-backend-39.herokuapp.com/blog/${name}`)
             .then(res => setBlog(res.data))
     }, [name])
     return (

@@ -13,10 +13,10 @@ export default function Home() {
   const [showTopBtn, setShowTopBtn] = useState(false);
   const [loader, setLoader] = useState(true);
   useEffect(() => {
-    axios.get("http://localhost/project").then(res => setWorks(res.data))
+    axios.get("https://portfolio-backend-39.herokuapp.com/project").then(res => setWorks(res.data))
   }, []);
   useEffect(() => {
-    axios.get("http://localhost/skill").then(res => setSkills(res.data))
+    axios.get("https://portfolio-backend-39.herokuapp.com/skill").then(res => setSkills(res.data))
 
   }, []);
   useEffect(() => {
