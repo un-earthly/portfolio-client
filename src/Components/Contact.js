@@ -11,7 +11,7 @@ export default function Contact() {
     reset()
   }
   return (
-    <form className='w-50 mx-auto py-5' onSubmit={handleSubmit(onSubmit)}>
+    <form data-contact className='mx-auto px-2 py-5' onSubmit={handleSubmit(onSubmit)}>
       <div className='my-5 d-flex align-items-center justify-content-center flex-column'>
         <ScrollAnimation animateIn="animate__fadeInRight" animateOut='animate__fadeOutLeft' duration={2} >
 
