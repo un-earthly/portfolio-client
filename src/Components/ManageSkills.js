@@ -1,9 +1,12 @@
+import axios from 'axios'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 
 export default function ManageSkills() {
     const { formState: { errors }, register, handleSubmit } = useForm()
-    const onSubmit = data => console.log(data)
+    const onSubmit = data => {
+        axios.post("http://localhost/skill", data)
+    }
     return (
         <div>
             <form className='w-50 mx-auto py-5' onSubmit={handleSubmit(onSubmit)}>
@@ -14,25 +17,25 @@ export default function ManageSkills() {
 
                 </div>
                 <div className="form-floating mb-3  animate__animated animate__fadeInLeft">
-                    <input type="text" className="form-control bg-transparent " {...register("name", { required: { value: true, message: "Email Is Required" } })} id="name" placeholder=' ' />
+                    <input type="text" className="form-control bg-transparent " {...register("name", { required: { value: true, message: "Skill Name Is Required" } })} id="name" placeholder=' ' />
                     <label htmlFor="name">Skill Name</label>
 
                     {errors.name && <span className="text-danger">{errors.name.message}</span>}
                 </div >
                 <div className="form-floating mb-3  animate__animated animate__fadeInRight">
-                    <input type="text" className="form-control bg-transparent " {...register("desc", { required: { value: true, message: "Password Is Required" } })} id="desc" placeholder=' ' />
+                    <input type="text" className="form-control bg-transparent " {...register("desc", { required: { value: true, message: "Skill Description Is Required" } })} id="desc" placeholder=' ' />
                     <label htmlFor="desc">Skill Description</label>
 
                     {errors.desc && <span className="text-danger">{errors.desc.message}</span>}
                 </div >
                 <div className="form-floating mb-3  animate__animated animate__fadeInRight">
-                    <input type="text" className="form-control bg-transparent " {...register("lang", { required: { value: true, message: "Password Is Required" } })} id="lang" placeholder=' ' />
+                    <input type="text" className="form-control bg-transparent " {...register("lang")} id="lang" placeholder=' ' />
                     <label htmlFor="lang">Languages</label>
 
                     {errors.lang && <span className="text-danger">{errors.lang.message}</span>}
                 </div >
                 <div className="form-floating mb-3  animate__animated animate__fadeInRight">
-                    <input type="text" className="form-control bg-transparent " {...register("frameworks", { required: { value: true, message: "Password Is Required" } })} id="frameworks" placeholder=' ' />
+                    <input type="text" className="form-control bg-transparent " {...register("frameworks")} id="frameworks" placeholder=' ' />
                     <label htmlFor="frameworks">Frameworks</label>
 
                     {errors.frameworks && <span className="text-danger">{errors.frameworks.message}</span>}
