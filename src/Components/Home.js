@@ -84,9 +84,9 @@ export default function Home() {
 
           {
             works.map(w => (
-              <ScrollAnimation animateIn="animate__fadeInUp" duration={2} >
+              <ScrollAnimation animateIn="animate__fadeInUp" duration={2} key={w._id}>
                 <div className="card my-3" >
-                  <div data-card style={{ backgroundImage: `url(${w.ss})` }} className="position-relative d-flex align-items-center justify-content-center">
+                  <div data-card style={{ backgroundImage: `url(${w.img})` }} className="position-relative d-flex align-items-center justify-content-center">
                     <div data-card__body className='position-absolute text-white'>
                       <div>
                         <button onClick={() => setWorkDetails(w)} type="button" className="btn text-white btn-link btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -107,7 +107,7 @@ export default function Home() {
 
       {/* skills SECTION */}
       < section className='skills' >
-        <ScrollAnimation animateIn="animate__" animateOut='animate__fadeOutUp' duration={2} >
+        <ScrollAnimation animateIn="animate__fadeInDown" animateOut='animate__fadeOutUp' duration={2} >
 
           <h1>Skills &amp; Technologies</h1>
         </ScrollAnimation >
@@ -128,7 +128,7 @@ export default function Home() {
 
         < Contact />
       </section>
-      <div className={`top-to-btm  ${showTopBtn ? "d-block" : "d-none"}`} onClick={goToTop}><i class="bi bi-arrow-up-square-fill position-fixed position-btm-rgt text-info h1"></i>
+      <div className={`top-to-btm  ${showTopBtn ? "d-block" : "d-none"}`} onClick={goToTop}><i className="bi bi-arrow-up-square-fill position-fixed position-btm-rgt text-info h1"></i>
       </div>
     </div >
   )

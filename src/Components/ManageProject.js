@@ -1,9 +1,12 @@
+import axios from 'axios'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 
 export default function ManageProject() {
     const { formState: { errors }, register, handleSubmit } = useForm()
-    const onSubmit = data => console.log(data)
+    const onSubmit = data => {
+        axios.post("http://localhost/project", data)
+    }
     return (
         <div>
 
@@ -28,12 +31,10 @@ export default function ManageProject() {
 
                     {errors.desc && <span className="text-danger">{errors.desc.message}</span>}
                 </div >
-                <div className="form-floating mb-3  animate__animated animate__fadeInRight">
-                    <div class="mb-3">
-                        <label for="formFile" class="form-label">Project Image</label>
-                        <input class="form-control" type="file"{...register("img", { required: { value: true, message: "Project Image Is Required" } })} id="formFile" />
-                        {errors.img && <span className="text-danger" >{errors.img.message}</span>}
-                    </div>
+                <div className="form-floating mb-3  animate__animated animate__fadeInLeft">
+                    <input className="form-control" type="text"{...register("img", { required: { value: true, message: "Project Image Is Required" } })} placeholder=" " id="img" />
+                    <label for="img" className="form-label">Project Image</label>
+                    {errors.img && <span className="text-danger" >{errors.img.message}</span>}
                 </div >
                 <div className="form-floating mb-3  animate__animated animate__fadeInRight">
                     <input type="text" className="form-control bg-transparent " {...register("tech", { required: { value: true, message: "Password Is Required" } })} id="tech" placeholder=' ' />
@@ -41,7 +42,7 @@ export default function ManageProject() {
 
                     {errors.tech && <span className="text-danger">{errors.tech.message}</span>}
                 </div >
-                <div className="form-floating mb-3  animate__animated animate__fadeInRight">
+                <div className="form-floating mb-3  animate__animated animate__fadeInLeft">
                     <input type="text" className="form-control bg-transparent " {...register("client", { required: { value: true, message: "Project Client Side Code Is Required" } })} id="client" placeholder=' ' />
                     <label htmlFor="client">Project Client Side Code</label>
 
@@ -52,7 +53,7 @@ export default function ManageProject() {
                     <label htmlFor="server">Project Server Side Code</label>
                     {errors.server && <span className="text-danger">{errors.server.message}</span>}
                 </div >
-                <div className="form-floating mb-3  animate__animated animate__fadeInRight">
+                <div className="form-floating mb-3  animate__animated animate__fadeInLeft">
                     <input type="text" className="form-control bg-transparent " {...register("live", { required: { value: true, message: "Project Live Site Link Is Required" } })} id="live" placeholder=' ' />
                     <label htmlFor="live">Project Live Site Link</label>
                     {errors.live && <span className="text-danger">{errors.live.message}</span>}

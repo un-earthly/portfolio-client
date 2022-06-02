@@ -5,10 +5,10 @@ export default function Dashboard() {
     return (
         <div style={{ height: "100vh" }} data-dashboard>
 
-            <div class="d-flex flex-column flex-shrink-0 p-3 bg-secondary text-white h-100" data-sidebar>
+            <div className="d-flex flex-column flex-shrink-0 p-3 bg-secondary text-white h-100" data-sidebar>
                 <div className="sticky-top d-flex justify-content-center flex-column">
 
-                    <span class="fs-4">Admin Panel</span>
+                    <span className="fs-4">Admin Panel</span>
                     <NavLink activeclassname="active" to='/'>
                         Home
                     </NavLink>
