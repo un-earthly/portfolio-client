@@ -1,12 +1,12 @@
 import React from 'react'
 
 export default function Skill({ skill }) {
-    const { heading, exp, frameworks, lang } = skill
+    const { name, desc, frameworks, lang } = skill
     return (
         <div>
-            <h5>{heading}</h5>
+            <h5>{name}</h5>
             <p>
-                {exp}
+                {desc}
             </p>
             <p>
 
