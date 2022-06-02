@@ -4,16 +4,16 @@ import React, { useEffect, useState } from 'react'
 export default function Message() {
     const [messages, setMessages] = useState([])
     useEffect(() => {
-        axios.get('http://localhost/message').then(res => setMessages(res.data))
+        axios.get('https://portfolio-backend-39.herokuapp.com/message').then(res => setMessages(res.data))
     }, [messages])
 
     const replied = id => {
-        axios.patch(`http://localhost/message/${id}`)
+        axios.patch(`https://portfolio-backend-39.herokuapp.com/message/${id}`)
             .then(res => console.log(res.data))
 
     }
     const deleteMsg = id => {
-        axios.delete(`http://localhost/message/${id}`)
+        axios.delete(`https://portfolio-backend-39.herokuapp.com/message/${id}`)
             .then(res => console.log(res.data))
 
     }

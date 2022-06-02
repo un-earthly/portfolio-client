@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 export default function ManageProject() {
     const { formState: { errors }, register, handleSubmit } = useForm()
     const onSubmit = data => {
-        axios.post("http://localhost/project", data)
+        axios.post("https://portfolio-backend-39.herokuapp.com/project", data)
     }
     return (
         <div>
