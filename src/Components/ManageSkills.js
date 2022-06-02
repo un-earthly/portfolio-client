@@ -14,28 +14,28 @@ export default function ManageSkills() {
 
                 </div>
                 <div className="form-floating mb-3  animate__animated animate__fadeInLeft">
-                    <input type="email" className="form-control bg-transparent " {...register("email", { required: { value: true, message: "Email Is Required" } })} id="floatingEmail" placeholder=' ' />
-                    <label htmlFor="floatingEmail">Skill Name</label>
+                    <input type="text" className="form-control bg-transparent " {...register("name", { required: { value: true, message: "Email Is Required" } })} id="name" placeholder=' ' />
+                    <label htmlFor="name">Skill Name</label>
 
-                    {errors.email && <span className="text-danger">{errors.email.message}</span>}
+                    {errors.name && <span className="text-danger">{errors.name.message}</span>}
                 </div >
                 <div className="form-floating mb-3  animate__animated animate__fadeInRight">
-                    <input type="password" className="form-control bg-transparent " {...register("pass", { required: { value: true, message: "Password Is Required" } })} id="flotingName" placeholder=' ' />
-                    <label htmlFor="flotingName">Skill Description</label>
+                    <input type="text" className="form-control bg-transparent " {...register("desc", { required: { value: true, message: "Password Is Required" } })} id="desc" placeholder=' ' />
+                    <label htmlFor="desc">Skill Description</label>
 
-                    {errors.pass && <span className="text-danger">{errors.pass.message}</span>}
+                    {errors.desc && <span className="text-danger">{errors.desc.message}</span>}
                 </div >
                 <div className="form-floating mb-3  animate__animated animate__fadeInRight">
-                    <input type="password" className="form-control bg-transparent " {...register("pass", { required: { value: true, message: "Password Is Required" } })} id="flotingName" placeholder=' ' />
-                    <label htmlFor="flotingName">Languages</label>
+                    <input type="text" className="form-control bg-transparent " {...register("lang", { required: { value: true, message: "Password Is Required" } })} id="lang" placeholder=' ' />
+                    <label htmlFor="lang">Languages</label>
 
-                    {errors.pass && <span className="text-danger">{errors.pass.message}</span>}
+                    {errors.lang && <span className="text-danger">{errors.lang.message}</span>}
                 </div >
                 <div className="form-floating mb-3  animate__animated animate__fadeInRight">
-                    <input type="password" className="form-control bg-transparent " {...register("pass", { required: { value: true, message: "Password Is Required" } })} id="flotingName" placeholder=' ' />
-                    <label htmlFor="flotingName">Frameworks</label>
+                    <input type="text" className="form-control bg-transparent " {...register("frameworks", { required: { value: true, message: "Password Is Required" } })} id="frameworks" placeholder=' ' />
+                    <label htmlFor="frameworks">Frameworks</label>
 
-                    {errors.pass && <span className="text-danger">{errors.pass.message}</span>}
+                    {errors.frameworks && <span className="text-danger">{errors.frameworks.message}</span>}
                 </div >
                 <button className="btn btn-outline-dark my-4 w-100 animate__animated animate__fadeInUp">Submit</button>
             </form >
