@@ -109,7 +109,7 @@ export default function Home() {
       < section className='skills' >
         <ScrollAnimation animateIn="animate__fadeInDown" animateOut='animate__fadeOutUp' duration={2} >
 
-          <h1>Skills &amp; Technologies</h1>
+          <h1>Skills &amp; Experience</h1>
         </ScrollAnimation >
         <div data-skills>
           {skills.map(skill => (

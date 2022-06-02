@@ -204,6 +204,7 @@ section.skills h1 {
 [data-skill] {
   background-image: linear-gradient(to left, rgb(231, 255, 251), rgb(243, 255, 232));
   padding: 1rem;
+  height: max-content;
   box-shadow: 0 0 20px rgba(34, 23, 213, .3);
   border-radius: 15px;
 }
