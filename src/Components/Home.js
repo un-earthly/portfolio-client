@@ -1,29 +1,27 @@
 import React, { useEffect, useState } from 'react'
-import ReactTypingEffect from 'react-typing-effect';
 import Modal from './Modal';
 import Skill from './Skill';
 import Contact from './Contact';
 import ScrollAnimation from 'react-animate-on-scroll';
 import axios from 'axios';
+import useSkill from '../Hooks/useSkill';
 export default function Home() {
 
   const [works, setWorks] = useState([])
-  const [skills, setSkills] = useState([])
   const [workDetails, setWorkDetails] = useState({});
   const [showTopBtn, setShowTopBtn] = useState(false);
-  const [loader, setLoader] = useState(true);
+  // const [loader, setLoader] = useState(true);
+
+  const { skills } = useSkill()
   useEffect(() => {
     axios.get("https://portfolio-backend-39.herokuapp.com/project").then(res => setWorks(res.data))
   }, []);
-  useEffect(() => {
-    axios.get("https://portfolio-backend-39.herokuapp.com/skill").then(res => setSkills(res.data))
 
-  }, []);
-  useEffect(() => {
-    window.addEventListener('load', () => {
-      setLoader(false)
-    });
-  }, []);
+  // useEffect(() => {
+  //   window.addEventListener('load', () => {
+  //     setLoader(false)
+  //   });
+  // }, []);
   useEffect(() => {
     window.addEventListener('scroll', () => {
       if (window.scrollY > 400) {
@@ -40,28 +38,28 @@ export default function Home() {
       behavior: 'smooth',
     });
   };
-  if (loader) {
-    return <div style={{ height: "100vh", width: "100vw" }} className="d-flex align-items-center justify-content-center">Loading ...</div>
-  }
+  // if (loader) {
+  //   return <div style={{ height: "100vh", width: "100vw" }} className="d-flex align-items-center justify-content-center">Loading ...</div>
+  // }
   return (
 
 
     <div >
 
       {/* HOME SECTION */}
-      <div data-home className="d-flex flex-column justify-content-center align-items-center h-100" >
+      <div data-home className="d-flex flex-column justify-content-center align-items-center h-100 text-white" >
         <h1 data-heading>MD.ALAMIN</h1>
-        <p style={{ color: 'lightcoral' }} className='h6 my-2'>
-          <ReactTypingEffect data-name
-            text={['MONOGODB | EXPRESS JS | REACT JS | NODE JS']}
-            speed={200}
-          />
-        </p>
+        <div className='h6 my-2 d-flex'>
+          <p className="animate__animated animate__fadeInLeft">MONOGO DB</p> <span className="mx-1">|</span>
+          <p className="animate__animated animate__fadeInDown">EXPRESS JS</p><span className="mx-1">|</span>
+          <p className="animate__animated animate__fadeInUp">REACT JS </p> <span className="mx-1">|</span>
+          <p className="animate__animated animate__fadeInRight">NODE JS</p>
+        </div>
         <div className='d-flex' >
-          <a className='d-block animate__animated animate__bounceInLeft' href="https://github.com/un-earthly" target="_blank" rel="noopener noreferrer"><i className=" pe-4 text-secondary bi bi-github"></i></a>
-          <a className='d-block animate__animated animate__bounceInDown' href="mailto:vijayalamin@gmail.com"><i className="px-4 text-secondary bi bi-envelope"></i></a>
-          <a className='d-block animate__animated animate__bounceInUp' href="https://www.linkedin.com/in/alamin-5678b123a/" target="_blank" rel="noopener noreferrer"><i className="px-4 text-secondary bi bi-linkedin"></i></a>
-          <a className='d-block animate__animated animate__bounceInRight' href="https://wa.me/qr/DSCEYYSP3GEIP1" target="_blank" rel="noopener noreferrer"><i className="px-4 text-secondary bi bi-whatsapp"></i></a>
+          <a className='d-block animate__animated animate__bounceInLeft' href="https://github.com/un-earthly" target="_blank" rel="noopener noreferrer"><i className=" pe-4 text-white bi bi-github"></i></a>
+          <a className='d-block animate__animated animate__bounceInDown' href="mailto:vijayalamin@gmail.com"><i className="px-4 text-white bi bi-envelope"></i></a>
+          <a className='d-block animate__animated animate__bounceInUp' href="https://www.linkedin.com/in/alamin-5678b123a/" target="_blank" rel="noopener noreferrer"><i className="px-4 text-white bi bi-linkedin"></i></a>
+          <a className='d-block animate__animated animate__bounceInRight' href="https://wa.me/qr/DSCEYYSP3GEIP1" target="_blank" rel="noopener noreferrer"><i className="px-4 text-white bi bi-whatsapp"></i></a>
         </div>
       </div>
 
@@ -113,7 +111,9 @@ export default function Home() {
         </ScrollAnimation >
         <div data-skills>
           {skills.map(skill => (
-            <Skill skill={skill} />
+            <ScrollAnimation animateIn="animate__fadeInUp" duration={2} key={skill._id}>
+              <Skill skill={skill} />
+            </ScrollAnimation>
           ))}
         </div>
       </section >

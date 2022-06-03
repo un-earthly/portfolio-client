@@ -4,7 +4,9 @@ import RequireAdmin from "./Components/RequireAdmin";
 import Message from "./Components/Message.js";
 import ManageSkills from "./Components/ManageSkills.js";
 import ManageProject from "./Components/ManageProject.js";
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Error from "./Components/Error";
 function App() {
   return (
     <div className="App">
@@ -15,8 +17,10 @@ function App() {
           <Route path="/admin/messages" element={<Message />} />
           <Route path="/admin/skills" element={<ManageSkills />} />
           <Route path="/admin/manage-project" element={<ManageProject />} />
+          <Route path="*" element={<Error />} />
         </Route>
       </Routes>
+      <ToastContainer />
     </div>
   );
 }

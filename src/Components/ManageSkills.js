@@ -1,11 +1,25 @@
 import axios from 'axios'
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import useSkill from '../Hooks/useSkill'
 
 export default function ManageSkills() {
     const { formState: { errors }, register, handleSubmit } = useForm()
+    const { skills } = useSkill()
     const onSubmit = data => {
         axios.post("https://portfolio-backend-39.herokuapp.com/skill", data)
+    }
+
+
+    // const update = id => {
+    //     axios.patch(`https://portfolio-backend-39.herokuapp.com/skill/${id}`,data)
+    //         .then(res => console.log(res.data))
+
+    // }
+    const deleteSkl = id => {
+        axios.delete(`https://portfolio-backend-39.herokuapp.com/skill/${id}`)
+            .then(res => console.log(res.data))
+
     }
     return (
         <div>
@@ -42,6 +56,37 @@ export default function ManageSkills() {
                 </div >
                 <button className="btn btn-outline-dark my-4 w-100 animate__animated animate__fadeInUp">Submit</button>
             </form >
+
+            <div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Edit</th>
+                            <th scope="col">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            skills.map((s, i) => (<tr>
+                                <th scope="row">{i + 1}</th>
+                                <td>{s.name}</td>
+                                <td>
+
+                                    <button onClick={() => deleteSkl(s._id)} className="btn btn-sm btn-outline-danger"><i class="bi bi-pencil"></i></button>
+                                </td>
+                                <td>
+
+                                    <button onClick={() => deleteSkl(s._id)} className="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                </td>
+
+                            </tr>
+                            ))
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
     )
 }
