@@ -5,23 +5,21 @@ import Contact from './Contact';
 import ScrollAnimation from 'react-animate-on-scroll';
 import axios from 'axios';
 import useSkill from '../Hooks/useSkill';
+import MySkeleton from './MySkeleton';
 export default function Home() {
 
   const [works, setWorks] = useState([])
   const [workDetails, setWorkDetails] = useState({});
   const [showTopBtn, setShowTopBtn] = useState(false);
-  // const [loader, setLoader] = useState(true);
+  const [loader, setLoader] = useState(true);
 
   const { skills } = useSkill()
   useEffect(() => {
-    axios.get("https://portfolio-backend-39.herokuapp.com/project").then(res => setWorks(res.data))
+    axios.get("https://portfolio-backend-39.herokuapp.com/project").then(res => {
+      setWorks(res.data)
+      setLoader(false)
+    })
   }, []);
-
-  // useEffect(() => {
-  //   window.addEventListener('load', () => {
-  //     setLoader(false)
-  //   });
-  // }, []);
   useEffect(() => {
     window.addEventListener('scroll', () => {
       if (window.scrollY > 400) {
@@ -38,9 +36,6 @@ export default function Home() {
       behavior: 'smooth',
     });
   };
-  // if (loader) {
-  //   return <div style={{ height: "100vh", width: "100vw" }} className="d-flex align-items-center justify-content-center">Loading ...</div>
-  // }
   return (
 
 
@@ -81,22 +76,31 @@ export default function Home() {
         <div data-work>
 
           {
-            works.map(w => (
-              <ScrollAnimation animateIn="animate__fadeInUp" duration={2} key={w._id}>
-                <div className="my-3" >
-                  <div data-card style={{ backgroundImage: `url(${w.img})` }} className="position-relative d-flex align-items-center justify-content-center">
-                    <div data-card__body className='position-absolute text-white'>
-                      <div>
-                        <button onClick={() => setWorkDetails(w)} type="button" className="btn text-white btn-link btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                          Details
-                        </button>
+            loader ?
+              <>
+                <MySkeleton />
+                <MySkeleton />
+                <MySkeleton />
+                <MySkeleton />
+              </>
+              :
+              works.map(w => (
+
+                <ScrollAnimation animateIn="animate__fadeInUp" duration={2} key={w._id}>
+                  <div className="my-3" >
+                    <div data-card style={{ backgroundImage: `url(${w.img})` }} className="position-relative d-flex align-items-center justify-content-center">
+                      <div data-card__body className='position-absolute text-white'>
+                        <div>
+                          <button onClick={() => setWorkDetails(w)} type="button" className="btn text-white btn-link btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            Details
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div >
+                  </div >
 
-              </ScrollAnimation >
-            ))
+                </ScrollAnimation >
+              ))
           }
         </div >
       </div>
@@ -110,11 +114,14 @@ export default function Home() {
           <h1>Skills &amp; Experience</h1>
         </ScrollAnimation >
         <div data-skills>
-          {skills.map(skill => (
-            <ScrollAnimation animateIn="animate__fadeInUp" duration={2} key={skill._id}>
-              <Skill skill={skill} />
-            </ScrollAnimation>
-          ))}
+          {
+            skills.map(skill => (
+              <ScrollAnimation animateIn="animate__fadeInUp" duration={2} key={skill._id}>
+                <Skill skill={skill} />
+              </ScrollAnimation>
+            ))
+
+          }
         </div>
       </section >
 
