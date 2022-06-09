@@ -6,6 +6,7 @@ import ScrollAnimation from 'react-animate-on-scroll';
 import axios from 'axios';
 import useSkill from '../Hooks/useSkill';
 import MySkeleton from './MySkeleton';
+import cv from "../assets/cv.pdf"
 export default function Home() {
 
   const [works, setWorks] = useState([])
@@ -43,7 +44,8 @@ export default function Home() {
 
       {/* HOME SECTION */}
       <div data-home className="d-flex flex-column justify-content-center align-items-center h-100 text-white" >
-        <h1 data-heading>MD.ALAMIN</h1>
+
+        <h1 data-heading data-base__heading>MD.ALAMIN</h1>
         <div className='h6 my-2 d-flex'>
           <p className="animate__animated animate__fadeInLeft">MONOGO DB</p> <span className="mx-1">|</span>
           <p className="animate__animated animate__fadeInDown">EXPRESS JS</p><span className="mx-1">|</span>
@@ -56,6 +58,8 @@ export default function Home() {
           <a className='d-block animate__animated animate__bounceInUp' href="https://www.linkedin.com/in/alamin-5678b123a/" target="_blank" rel="noopener noreferrer"><i className="px-4 text-white bi bi-linkedin"></i></a>
           <a className='d-block animate__animated animate__bounceInRight' href="https://wa.me/qr/DSCEYYSP3GEIP1" target="_blank" rel="noopener noreferrer"><i className="px-4 text-white bi bi-whatsapp"></i></a>
         </div>
+        <a class="btn btn-outline-light mt-3 animate__animated animate__fadeInUp" href={cv} title="" download>Download Resume</a>
+
       </div>
 
 
@@ -70,7 +74,7 @@ export default function Home() {
 
           </ScrollAnimation>
           <ScrollAnimation animateIn="animate__fadeInRight" duration={2} >
-            <h1 className='text-center'>My Project</h1>
+            <h1 data-heading className='text-center'>My Project</h1>
           </ScrollAnimation>
         </div>
         <div data-work>
@@ -111,7 +115,7 @@ export default function Home() {
       < section className='skills' >
         <ScrollAnimation animateIn="animate__fadeInDown" animateOut='animate__fadeOutUp' duration={2} >
 
-          <h1>Skills &amp; Experience</h1>
+          <h1 data-heading>Skills &amp; Experience</h1>
         </ScrollAnimation >
         <div data-skills>
           {

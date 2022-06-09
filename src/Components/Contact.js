@@ -20,7 +20,7 @@ export default function Contact() {
         </ScrollAnimation>
         <ScrollAnimation animateIn="animate__fadeInLeft" animateOut='animate__fadeOutRight' duration={2} >
 
-          <h1 className='text-center'>Let's Talk</h1>
+          <h1 className='text-center' data-heading>Let's Talk</h1>
         </ScrollAnimation>
 
       </div>
@@ -43,7 +43,7 @@ export default function Contact() {
         </div >
         {errors.msg && <span className="text-danger"> {errors.msg.message}</span>}
       </div >
-      <button className="btn btn-outline-light my-4 w-100"  >Submit</button>
+      <button className="btn btn-outline-light my-4 w-100">Submit</button>
     </form >
   )
 }

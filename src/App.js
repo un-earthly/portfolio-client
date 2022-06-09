@@ -10,6 +10,7 @@ import Error from "./Components/Error";
 function App() {
   return (
     <div className="App">
+      <div id="serialcursor"></div>
       <Routes>
 
         <Route path='/' element={<Home />} />
