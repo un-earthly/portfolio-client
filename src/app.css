@@ -1,0 +1,13 @@
+@font-face {
+    font-family: 'breathing';
+    src: url(./fonts/Breathing.ttf)
+}
+
+@font-face {
+    font-family: 'azoSans';
+    src: url(./fonts/AzoSans-Light.ttf);
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
