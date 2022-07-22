@@ -5,7 +5,7 @@ module.exports = {
     fontFamily: {
       azoSans: "azoSans",
       breathing: "breathing"
-    }
+    },
   },
   plugins: []
 };
