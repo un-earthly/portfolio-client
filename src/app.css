@@ -1,3 +1,5 @@
+@import url('../node_modules/bootstrap-icons/font/bootstrap-icons.css');
+
 @font-face {
     font-family: 'breathing';
     src: url(./fonts/Breathing.ttf)

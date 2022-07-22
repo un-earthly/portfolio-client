@@ -1,12 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		%sveltekit.head%
-	</head>
-	<body>
-		<div>%sveltekit.body%</div>
-	</body>
+
+<head>
+	<meta charset="utf-8" />
+	<link rel="icon" href="%sveltekit.assets%/favicon.png" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	%sveltekit.head%
+</head>
+<style>
+	::-webkit-scrollbar {
+		width: 5px;
+		height: 16px;
+	}
+
+	::-webkit-scrollbar-track {
+		border-radius: 100vh;
+		background: rgb(4, 4, 17);
+	}
+
+	::-webkit-scrollbar-thumb {
+		border-radius: 100vh;
+		background: rgba(0, 255, 255, 0.448);
+		border: 1px solid cyan;
+	}
+
+	::-webkit-scrollbar-thumb:hover {
+		background: #a0aec0;
+	}
+</style>
+
+<body class="bg-black">
+	<div>%sveltekit.body%</div>
+</body>
+
 </html>
