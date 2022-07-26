@@ -10,6 +10,21 @@
     src: url(./fonts/AzoSans-Light.ttf);
 }
 
+@font-face {
+    font-family: 'wo1';
+    src: url(./fonts/W01Light.ttf);
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+body {
+    background-image: url(/bg.webp);
+    background-color: rgba(40, 40, 40, 0.396);
+    background-blend-mode: color;
+    background-position: center;
+    background-size: cover;
+    font-family: "wo1";
+}

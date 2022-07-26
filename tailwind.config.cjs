@@ -4,7 +4,8 @@ module.exports = {
   theme: {
     fontFamily: {
       azoSans: "azoSans",
-      breathing: "breathing"
+      breathing: "breathing",
+      wo1: "wo1",
     },
   },
   plugins: []
