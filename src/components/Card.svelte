@@ -1,9 +1,8 @@
-<script>
-    export let url;
-    export let desc;
-    export let img;
-    export let title;
-    export let isImg;
+<script lang="ts">
+    export let url: string;
+    export let desc: string;
+    export let img: string;
+    export let title: string;
 </script>
 
 <div class="grid grid-cols-12 bg-gray-900 p-5 gap-4 rounded-xl lg:w-1/2">
