@@ -21,6 +21,7 @@
 
 
 body {
+    user-select: none;
     background-image: url(/bg.webp);
     background-color: rgba(40, 40, 40, 0.396);
     background-blend-mode: color;

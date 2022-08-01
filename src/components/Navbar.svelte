@@ -7,15 +7,17 @@
     }
 
     $: getPath($page.url.pathname);
-    let showMenu: boolean = true;
+    let showMenu: boolean = false;
     const handleMobileIconClick = () => (showMenu = !showMenu);
 </script>
 
 <nav
     class="text-gray-500 font-azoSans font-semibold flex items-center justify-between"
 >
-    <div class="lg:hidden font-breathing">MA</div>
-    <div class="lg:hidden" on:click={handleMobileIconClick}>
+    <div
+        class="absolute left-10 lg:bottom-10 top-10"
+        on:click={handleMobileIconClick}
+    >
         <i
             class={`bi bi-${
                 showMenu ? "list-nested" : "list"
@@ -23,26 +25,26 @@
         />
     </div>
     <div
-        class={`${
-            showMenu ? "flex" : "hidden"
-        } flex-col lg:flex-row lg:space-x-4 absolute top-1/2 right-1/2 translate-x-1/2 -translate-y-1/2 lg:top-32 duration-500`}
+        class="flex flex-col absolute left-5 space-y-6 top-20 text-center duration-500"
     >
         <a
-            class={`${
-                path === "/" ? "text-gray-300 active" : ""
-            } hover:text-gray-100 link duration-500 uppercase text-xs tracking-widest relative`}
+            class={`${path === "/" ? "text-gray-300 active" : ""}
+            
+            ${showMenu ? "opacity-100" : "opacity-0"}
+            hover:text-gray-100 link duration-500 delay-75 uppercase text-xs tracking-widest relative`}
             href="/">Home</a
         >
         <a
-            class={`${
-                path === "/about" ? "text-gray-300 active" : ""
-            } hover:text-gray-100 link duration-500 uppercase text-xs tracking-widest relative`}
+            class={`${path === "/about" ? "text-gray-300 active" : ""}
+            ${showMenu ? "opacity-100" : "opacity-0"}
+            hover:text-gray-100 link duration-500 delay-150 uppercase text-xs tracking-widest relative`}
             href="/about">About</a
         >
         <a
-            class={`${
-                path === "/contact" ? "text-gray-300 active" : ""
-            } hover:text-gray-100 link duration-500 uppercase text-xs tracking-widest relative`}
+            class={`${path === "/contact" ? "text-gray-300 active" : ""}
+            ${showMenu ? "opacity-100" : "opacity-0"}
+            
+            hover:text-gray-100 link duration-500 delay-300 uppercase text-xs tracking-widest relative`}
             href="/contact">Contact</a
         >
     </div>

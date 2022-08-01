@@ -5,7 +5,9 @@
 <svelte:head>
     <title>Contact - Alamin</title>
 </svelte:head>
-<div class=" text-gray-400 space-y-10 grid lg:grid-cols-2 p-5 lg:w-3/4 mx-auto">
+<!-- <div
+    class=" text-gray-400 space-y-10 grid lg:grid-cols-2 p-5 lg:w-3/4 mx-auto duration-1000"
+>
     <form class="space-y-4 md:py-8 mt-8 md:mt-32 p-4">
         <div class="relative">
             <label for="name" class="leading-7 text-sm">Name</label>
@@ -40,4 +42,11 @@
         </div>
         <SocialIcons />
     </form>
-</div>
+
+</div> -->
+<main class="text-gray-400 grid place-items-center h-screen">
+    <!-- <h3>Lets have a chat</h3>
+    <div
+        class=" border-r-emerald-200 border-l-lime-200 border-teal-200 border h-1/2 w-1/4 rounded-md mt-36"
+    /> -->
+</main>

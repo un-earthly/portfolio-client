@@ -5,7 +5,9 @@
 <svelte:head>
     <title>Home - MD Alamin</title>
 </svelte:head>
-<main class="bg-gradient-to-b from-black to-black bg-center bg-cover">
+<main
+    class="bg-gradient-to-b from-black to-black bg-center bg-cover duration-1000"
+>
     <div
         class="h-screen flex items-end justify-center bg-black/90 bg-blend-soft-light bg-[url('/indarkbg.jpg')] bg-center bg-contain bg-no-repeat"
     >
