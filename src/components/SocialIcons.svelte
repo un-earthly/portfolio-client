@@ -5,7 +5,7 @@
         />
     </a>
     <a target="blank" href="https://github.com/un-earthly">
-        <i class="bi bi-github text-gray-500 hover:text-black duration-500" />
+        <i class="bi bi-github text-gray-500 hover:text-white duration-500" />
     </a>
     <a
         target="blank"

@@ -15,7 +15,7 @@
     class="text-gray-500 font-azoSans font-semibold flex items-center justify-between"
 >
     <div
-        class="absolute left-10 lg:bottom-10 top-10"
+        class="absolute left-10 top-10 cursor-pointer"
         on:click={handleMobileIconClick}
     >
         <i
@@ -30,19 +30,19 @@
         <a
             class={`${path === "/" ? "text-gray-300 active" : ""}
             
-            ${showMenu ? "opacity-100" : "opacity-0"}
+            ${showMenu ? "opacity-100" : "opacity-0 pointer-events-none"}
             hover:text-gray-100 link duration-500 delay-75 uppercase text-xs tracking-widest relative`}
             href="/">Home</a
         >
         <a
             class={`${path === "/about" ? "text-gray-300 active" : ""}
-            ${showMenu ? "opacity-100" : "opacity-0"}
+            ${showMenu ? "opacity-100" : "opacity-0 pointer-events-none"}
             hover:text-gray-100 link duration-500 delay-150 uppercase text-xs tracking-widest relative`}
             href="/about">About</a
         >
         <a
             class={`${path === "/contact" ? "text-gray-300 active" : ""}
-            ${showMenu ? "opacity-100" : "opacity-0"}
+            ${showMenu ? "opacity-100" : "opacity-0 pointer-events-none"}
             
             hover:text-gray-100 link duration-500 delay-300 uppercase text-xs tracking-widest relative`}
             href="/contact">Contact</a
