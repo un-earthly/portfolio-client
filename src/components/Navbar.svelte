@@ -12,10 +12,10 @@
 </script>
 
 <nav
-    class="text-gray-500 font-azoSans font-semibold flex items-center justify-between"
+    class="text-gray-500 font-azoSans font-semibold flex items-center text-[10px] justify-between"
 >
     <div
-        class="absolute left-10 top-10 cursor-pointer"
+        class="absolute left-8 top-10 cursor-pointer"
         on:click={handleMobileIconClick}
     >
         <i
@@ -24,27 +24,25 @@
             } text-2xl duration-500`}
         />
     </div>
-    <div
-        class="flex flex-col absolute left-5 space-y-6 top-20 text-center duration-500"
-    >
+    <div class="flex flex-col absolute left-14 space-y-3 top-20 duration-500">
         <a
-            class={`${path === "/" ? "text-gray-300 active" : ""}
+            class={`${path === "/" ? "text-gray-400 active" : ""}
             
             ${showMenu ? "opacity-100" : "opacity-0 pointer-events-none"}
-            hover:text-gray-100 link duration-500 delay-75 uppercase text-xs tracking-widest relative`}
+            hover:text-gray-400 mr-auto link duration-500 delay-75 uppercase tracking-widest relative`}
             href="/">Home</a
         >
         <a
-            class={`${path === "/about" ? "text-gray-300 active" : ""}
+            class={`${path === "/about" ? "text-gray-400 active" : ""}
             ${showMenu ? "opacity-100" : "opacity-0 pointer-events-none"}
-            hover:text-gray-100 link duration-500 delay-150 uppercase text-xs tracking-widest relative`}
+            hover:text-gray-400 mr-auto link ml-4 duration-500 delay-150 uppercase tracking-widest relative`}
             href="/about">About</a
         >
         <a
-            class={`${path === "/contact" ? "text-gray-300 active" : ""}
+            class={`${path === "/contact" ? " active text-gray-400" : ""}
             ${showMenu ? "opacity-100" : "opacity-0 pointer-events-none"}
             
-            hover:text-gray-100 link duration-500 delay-300 uppercase text-xs tracking-widest relative`}
+            hover:text-gray-400 mr-auto link ml-8 duration-500 delay-300 uppercase tracking-widest relative`}
             href="/contact">Contact</a
         >
     </div>
@@ -59,10 +57,9 @@
         position: absolute;
         height: 2px;
         width: 0%;
-        background: rgb(198, 198, 198);
-        left: 50%;
+        background: rgb(107 114 128);
         bottom: 0;
-        transform: translate(-50%, 50%);
+        left: 0;
         transition: 0.5s;
     }
     .link:hover:after {
