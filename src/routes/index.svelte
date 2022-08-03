@@ -3,7 +3,7 @@
 </script>
 
 <svelte:head>
-    <title>Home - MD Alamin</title>
+    <title>home - md alamin</title>
 </svelte:head>
 <main
     class="bg-gradient-to-b from-black to-black bg-center bg-cover duration-1000"

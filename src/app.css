@@ -28,4 +28,5 @@ body {
     background-position: center;
     background-size: cover;
     font-family: "wo1";
+    text-transform: lowercase;
 }

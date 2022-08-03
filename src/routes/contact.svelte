@@ -3,7 +3,7 @@
 </script>
 
 <svelte:head>
-    <title>Contact - Alamin</title>
+    <title>contact - alamin</title>
 </svelte:head>
 <!-- <div
     class=" text-gray-400 space-y-10 grid lg:grid-cols-2 p-5 lg:w-3/4 mx-auto duration-1000"
