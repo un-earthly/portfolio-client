@@ -19,6 +19,9 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+    text-transform: lowercase;
+}
 
 body {
     user-select: none;
@@ -28,5 +31,4 @@ body {
     background-position: center;
     background-size: cover;
     font-family: "wo1";
-    text-transform: lowercase;
 }
