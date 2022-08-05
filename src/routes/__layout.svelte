@@ -10,5 +10,5 @@
 {#if loading}
   <Loader />
 {/if}
-<Navbar />
 <slot />
+<Navbar />

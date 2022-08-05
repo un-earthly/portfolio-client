@@ -1,4 +1,4 @@
-<!-- <script lang="ts">
+<script lang="ts">
     const nameWords = ["m", "d", ".", "a", "l", "a", "m", "i", "n"];
 </script>
 
@@ -12,4 +12,4 @@
             >{word}
         </span>
     {/each}
-</div> -->
+</div>
