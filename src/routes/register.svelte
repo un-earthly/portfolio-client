@@ -4,7 +4,9 @@
         e.preventDefault();
         const email = e.target.email.value;
         const pass = e.target.pass.value;
-        const credentials = JSON.stringify({ email, pass });
+        const name = e.target.name.value;
+        const credentials = JSON.stringify({ email, pass, name });
+        console.log(credentials);
     };
 </script>
 
@@ -14,7 +16,15 @@
             on:submit={(e) => handleLogin(e)}
             class="lg:w-1/3 w-full relative space-y-6 text-gray-400"
         >
-            <h3 class="text-3xl text-center">Please login</h3>
+            <h3 class="text-3xl text-center">Please Register</h3>
+            <input
+                type="text"
+                name="name"
+                id="name"
+                class="bg-gray-400/10 focus:bg-gray-400/20 duration-500 p-3 outline-none focus:outline-none block w-full"
+                placeholder="user name"
+                required
+            />
             <input
                 type="email"
                 name="email"
@@ -36,8 +46,8 @@
                 class="bg-gray-400/10 hover:bg-gray-400/20 duration-500 flex items-center justify-center w-full p-3"
                 >submit</button
             >
-            <a class="absolute" href="/register">register.</a>
-            <p class="absolute right-0">forgot password.</p>
+            <a class="absolute" href="/login">Login.</a>
+            <a href="/" class="absolute right-0">fly home.</a>
         </form>
     </main>
 </PageTransitions>

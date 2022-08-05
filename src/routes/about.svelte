@@ -25,19 +25,33 @@
             </blockquote>
         </div>
 
-        <p class="lg:w-1/4 text-right ml-auto mr-10">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis
-            eligendi quod maiores numquam quas rem corporis. Sunt quibusdam
-            harum illo ex modi odio corrupti quam! Repellendus est fugit ipsa
-            ex.
-        </p>
-        <div class="relative grid grid-cols-3 m-12 gap-8">
+        <div
+            class="flex items-center container mx-auto lg:px-10 p-3 justify-between"
+        >
+            <p class="w-1/3 text-left">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab in
+                ipsa iure quaerat unde dolore, nisi dolorum repellat maxime
+                facilis.
+            </p>
+            <p class="w-1/3 text-right">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab in
+                ipsa iure quaerat unde dolore, nisi dolorum repellat maxime
+                facilis.
+            </p>
+        </div>
+
+        <div
+            class="h-32 w-32 absolute px-8 flex items-center justify-center text-center bg-gray-700/10 left-1/2 -translate-x-1/2 -top-0 rounded-full hover:bg-gray-700/30 py-2 duration-500"
+        >
+            <a href="/projects"> show me some work </a>
+        </div>
+        <div class="relative grid lg:grid-cols-3 p-4 lg:m-12 gap-8">
             <div>
                 <Step
                     content="illum architecto quam officia facere fuga aut eum, harum quo odio totam
                     incidunt? Ratione inventore sequi aut officia dicta deleniti suscipit
                     non facilis tenetur perspiciatis, ut, explicabo totam a dolore magni,"
-                    heading="Hello"
+                    heading="analysis and simplify the problem"
                 />
             </div>
             <div>
@@ -45,7 +59,7 @@
                     content="illum architecto quam officia facere fuga aut eum, harum quo odio totam
                     incidunt? Ratione inventore sequi aut officia dicta deleniti suscipit
                     non facilis tenetur perspiciatis, ut, explicabo totam a dolore magni,"
-                    heading="Hello"
+                    heading="define the possible required tools and technologies"
                 />
             </div>
             <div>
@@ -53,12 +67,12 @@
                     content="illum architecto quam officia facere fuga aut eum, harum quo odio totam
                     incidunt? Ratione inventore sequi aut officia dicta deleniti suscipit
                     non facilis tenetur perspiciatis, ut, explicabo totam a dolore magni,"
-                    heading="Hello"
+                    heading="code the web and pushlish"
                 />
             </div>
 
             <h4
-                class="absolute -bottom-5 right-10 animate-bounce hover:animate-none text-xl "
+                class="absolute lg:top-56 -top-4 right-10 animate-bounce hover:animate-none text-xl "
             >
                 my approch??
             </h4>
