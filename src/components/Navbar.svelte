@@ -54,6 +54,12 @@
             href="/about">About</a
         >
         <a
+            class={`${path === "/projects" ? " active text-gray-400" : ""}
+            ${showMenu ? "opacity-100" : "opacity-0 pointer-events-none"}
+            hover:text-gray-400 link w-max duration-500 delay-200 uppercase tracking-widest relative`}
+            href="/projects">Projects</a
+        >
+        <a
             class={`${
                 path === "/contact" ? " active text-gray-400" : ""
             }            

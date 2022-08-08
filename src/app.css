@@ -32,3 +32,7 @@ body {
     background-size: cover;
     font-family: "wo1";
 }
+
+[data-floating-link]:hover i {
+    @apply opacity-100
+}
