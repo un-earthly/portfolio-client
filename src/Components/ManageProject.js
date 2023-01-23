@@ -1,11 +1,12 @@
 import axios from 'axios'
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { baseURL } from '../utils/urls'
 
 export default function ManageProject() {
     const { formState: { errors }, register, handleSubmit } = useForm()
     const onSubmit = data => {
-        axios.post("https://portfolio-backend-39.herokuapp.com/project", data)
+        axios.post(baseURL + "/project", data)
     }
     return (
         <div>

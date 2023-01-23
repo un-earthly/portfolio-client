@@ -1,19 +1,23 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import { baseURL } from '../utils/urls'
 
 export default function Message() {
     const [messages, setMessages] = useState([])
     useEffect(() => {
-        axios.get('https://portfolio-backend-39.herokuapp.com/message').then(res => setMessages(res.data))
+        axios.get(`${baseURL}/message`)
+            .then(res => setMessages(res.data))
     }, [messages])
 
     const replied = id => {
-        axios.patch(`https://portfolio-backend-39.herokuapp.com/message/${id}`)
+        axios
+            .patch(`${baseURL}/message/${id}`)
             .then(res => console.log(res.data))
 
     }
     const deleteMsg = id => {
-        axios.delete(`https://portfolio-backend-39.herokuapp.com/message/${id}`)
+        axios
+            .delete(`${baseURL}/message/${id}`)
             .then(res => console.log(res.data))
 
     }

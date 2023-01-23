@@ -7,6 +7,7 @@ import axios from 'axios';
 import useSkill from '../Hooks/useSkill';
 import MySkeleton from './MySkeleton';
 import cv from "../assets/cv.pdf"
+import { baseURL } from '../utils/urls';
 export default function Home() {
 
   const [works, setWorks] = useState([])
@@ -16,7 +17,7 @@ export default function Home() {
 
   const { skills } = useSkill()
   useEffect(() => {
-    axios.get("https://portfolio-backend-39.herokuapp.com/project").then(res => {
+    axios.get(baseURL + "/project").then(res => {
       setWorks(res.data)
       setLoader(false)
     })

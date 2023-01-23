@@ -7,7 +7,7 @@ export default function Contact() {
   const { formState: { errors }, register, reset, handleSubmit } = useForm()
   const onSubmit = data => {
     const { name, msg, email } = data
-    axiosPrivate.post("https://portfolio-backend-39.herokuapp.com/message", { name, email, msg, status: "not replied" })
+    axiosPrivate.post("baseURLmessage", { name, email, msg, status: "not replied" })
     toast.success("Sent")
     reset()
   }

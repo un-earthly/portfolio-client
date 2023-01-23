@@ -9,9 +9,8 @@ export default function RequireAdmin() {
     const onSubmit = data => {
         const adminName = process.env.REACT_APP_admin_name
         const adminPass = process.env.REACT_APP_admin_pass
-        const userName = data.email
-        const userPass = data.pass
-        if (adminName === userName && adminPass === userPass) {
+        const { email, pass } = data
+        if (adminName === email && adminPass === pass) {
             setAdmin(true)
         }
         setError("Your Credentials are not correct")
@@ -28,7 +27,7 @@ export default function RequireAdmin() {
 
                 </div>
                 <div className="form-floating mb-3  animate__animated animate__fadeInLeft">
-                    <input type="email" className="form-control bg-transparent " {...register("email", { required: { value: true, message: "Email Is Required" } })} id="floatingEmail" placeholder=' ' />
+                    <input type="text" className="form-control bg-transparent " {...register("email", { required: { value: true, message: "Email Is Required" } })} id="floatingEmail" placeholder=' ' />
                     <label htmlFor="floatingEmail">Your Admin Email</label>
 
                     {errors.email && <span className="text-danger">{errors.email.message}</span>}

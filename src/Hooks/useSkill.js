@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { baseURL } from "../utils/urls";
 
 
 export default function useSkill() {
@@ -7,7 +8,9 @@ export default function useSkill() {
     const [skills, setSkills] = useState([])
 
     useEffect(() => {
-        axios.get("https://portfolio-backend-39.herokuapp.com/skill").then(res => setSkills(res.data))
+        axios
+            .get(baseURL + "/skill")
+            .then(res => setSkills(res.data))
 
     }, [skills]);
 

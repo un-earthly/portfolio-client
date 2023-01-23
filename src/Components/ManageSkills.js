@@ -2,22 +2,23 @@ import axios from 'axios'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import useSkill from '../Hooks/useSkill'
+import { baseURL } from '../utils/urls'
 
 export default function ManageSkills() {
     const { formState: { errors }, register, handleSubmit } = useForm()
     const { skills } = useSkill()
     const onSubmit = data => {
-        axios.post("https://portfolio-backend-39.herokuapp.com/skill", data)
+        axios.post(baseURL + "/skill", data)
     }
 
 
     // const update = id => {
-    //     axios.patch(`https://portfolio-backend-39.herokuapp.com/skill/${id}`,data)
+    //     axios.patch(`baseURLskill/${id}`,data)
     //         .then(res => console.log(res.data))
 
     // }
     const deleteSkl = id => {
-        axios.delete(`https://portfolio-backend-39.herokuapp.com/skill/${id}`)
+        axios.delete(baseURL + `/skill/${id}`)
             .then(res => console.log(res.data))
 
     }
