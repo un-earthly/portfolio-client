@@ -6,7 +6,7 @@ import { baseURL } from '../utils/urls'
 export default function ManageProject() {
     const { formState: { errors }, register, handleSubmit } = useForm()
     const onSubmit = data => {
-        axios.post(baseURL + "/project", data)
+        axios.post(baseURL + "/project/insert", data)
     }
     return (
         <div>

@@ -9,8 +9,8 @@ export default function useSkill() {
 
     useEffect(() => {
         axios
-            .get(baseURL + "/skill")
-            .then(res => setSkills(res.data))
+            .get(baseURL + "/skill/list")
+            .then(res => setSkills(res.data.data))
 
     }, [skills]);
 

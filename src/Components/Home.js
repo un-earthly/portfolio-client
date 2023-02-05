@@ -17,10 +17,11 @@ export default function Home() {
 
   const { skills } = useSkill()
   useEffect(() => {
-    axios.get(baseURL + "/project").then(res => {
-      setWorks(res.data)
-      setLoader(false)
-    })
+    axios.get(baseURL + "/project/list")
+      .then(res => {
+        setWorks(res.data.data)
+        setLoader(false)
+      })
   }, []);
   useEffect(() => {
     window.addEventListener('scroll', () => {
@@ -140,7 +141,10 @@ export default function Home() {
 
         < Contact />
       </section>
-      <div className={`top-to-btm  ${showTopBtn ? "d-block" : "d-none"}`} onClick={goToTop}><i className="bi bi-arrow-up-square-fill position-fixed position-btm-rgt text-info h1"></i>
+      <div className={`top-to-btm  ${showTopBtn ? "d-block" : "d-none"}`}
+        onClick={goToTop}
+      >
+        <i className="bi bi-arrow-up-square-fill position-fixed position-btm-rgt text-info h1"></i>
       </div>
     </div >
   )

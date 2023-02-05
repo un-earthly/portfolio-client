@@ -8,7 +8,7 @@ export default function ManageSkills() {
     const { formState: { errors }, register, handleSubmit } = useForm()
     const { skills } = useSkill()
     const onSubmit = data => {
-        axios.post(baseURL + "/skill", data)
+        axios.post(baseURL + "/skill/insert", data)
     }
 
 
@@ -18,8 +18,8 @@ export default function ManageSkills() {
 
     // }
     const deleteSkl = id => {
-        axios.delete(baseURL + `/skill/${id}`)
-            .then(res => console.log(res.data))
+        axios.delete(baseURL + `/skill/delete/${id}`)
+            .then(res => console.log(res.data.data))
 
     }
     return (

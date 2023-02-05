@@ -5,20 +5,20 @@ import { baseURL } from '../utils/urls'
 export default function Message() {
     const [messages, setMessages] = useState([])
     useEffect(() => {
-        axios.get(`${baseURL}/message`)
-            .then(res => setMessages(res.data))
+        axios.get(`${baseURL}/message/list`)
+            .then(res => setMessages(res.data.data))
     }, [messages])
 
     const replied = id => {
         axios
-            .patch(`${baseURL}/message/${id}`)
-            .then(res => console.log(res.data))
+            .patch(`${baseURL}/message/update/${id}`)
+            .then(res => console.log(res.data.data))
 
     }
     const deleteMsg = id => {
         axios
-            .delete(`${baseURL}/message/${id}`)
-            .then(res => console.log(res.data))
+            .delete(`${baseURL}/message/delete/${id}`)
+            .then(res => console.log(res.data.data))
 
     }
     return (

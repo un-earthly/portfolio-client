@@ -10,7 +10,7 @@ export default function RequireAdmin() {
         const adminName = process.env.REACT_APP_admin_name
         const adminPass = process.env.REACT_APP_admin_pass
         const { email, pass } = data
-        if (adminName === email && adminPass === pass) {
+        if (email === "scorp" && pass === "123456") {
             setAdmin(true)
         }
         setError("Your Credentials are not correct")
