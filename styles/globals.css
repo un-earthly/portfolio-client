@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+
+@layer base {
+  :root {
+    --color-text-base:#ff7700;
+    --color-text-inverted:#444444;
+    --color-text-white:#ffffff;
+    --color-text-muted:#c7d2fe;
+    --color-fill:#ff7700;
+    --color-dark:#000000;
+    --color-bgdark:#111827;
+    --color-button-accent:#ffffff;
+    --color-button-accent-hover:#eef2ff;
+    --color-button-muted:#ff7700;
+    --color-darkmode:#111827;
+  }
+}
+
+/* Toggle B */
+input:checked ~ .dot {
+  transform: translateX(100%);
+  background-color: #48bb78;
+}
+
+.img-sepia {
+  filter: sepia(1);
+}
+
+
+.text-outline{
+  transition: .4s;
+  -webkit-text-stroke: 2px #ffffff;
+  font-size: 2em;
+}
+.text-outline:hover{
+  -webkit-text-stroke: 2px transparent;
+}
+
+.text-outline-cyan{
+  -webkit-text-stroke: .5px cyan;
+  font-size: 1.8em;
+  transition: 3s;
+}
+.text-outline-cyan:hover{
+  color: cyan;
+  -webkit-text-stroke:transparent;
+  transition: 300ms;
+}
