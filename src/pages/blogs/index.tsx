@@ -1,30 +1,4 @@
-import Head from "next/head";
-import Link from "next/link";
-
-interface BlogProps {
-    title: string;
-    content: string;
-    id: string;
-}
-
-const Blog: React.FC<BlogProps> = ({ title, content, id }) => {
-    return (
-        <div className="flex flex-col bg-gray-800 rounded-lg p-5">
-            <Head>
-                <title>{title}</title>
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
-
-            <h2 className="text-2xl font-bold mb-3 text-white">{title}</h2>
-            <p className="text-lg leading-relaxed mb-3 text-white">{content}</p>
-            <Link href="/blogs/[id]" as={`/blogs/${id}`}>
-                <a className="bg-orange-500 text-center text-white px-3 py-2 rounded-lg hover:bg-orange-600">
-                    Read More
-                </a>
-            </Link>
-        </div>
-    );
-};
+import BlogCard from "../../components/BlogCard";
 
 const Blogs: React.FC = () => {
     const blogs = [
@@ -54,7 +28,7 @@ const Blogs: React.FC = () => {
             <div className="flex flex-wrap">
                 {blogs.map(blog => (
                     <div className="w-full md:w-1/3 px-3 mb-5" key={blog.id}>
-                        <Blog title={blog.title} content={blog.content} id={blog.id} />
+                        <BlogCard title={blog.title} content={blog.content} id={blog.id} />
                     </div>
                 ))}
             </div>

@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
 import "../../styles/globals.css";
-import type { AppProps } from "next/app";
 import Header from "../components/header/header";
 import { store } from '../redux/store';
 import { Provider } from 'react-redux';
 import Loading from "../components/Loading";
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps }: { Component: React.FC<{}>, pageProps: any }) {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -27,7 +26,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             : <> <Header />
 
               <section
-                className={`${loading === true ? " animate-Loading " : ""} bg-black text-white`}
+                className="bg-black text-white"
               >
                 <Component {...pageProps} />
               </section>

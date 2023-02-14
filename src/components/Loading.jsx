@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import * as THREE from 'three';
+const THREE = require('three');
 
 const LoadingPage = () => {
     const containerRef = useRef(null);
@@ -34,7 +34,16 @@ const LoadingPage = () => {
     return (
         <div>
             <div ref={containerRef} />
-            <p style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>Please wait</p>
+            <p
+                style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)'
+                }}
+            >
+                Please wait
+            </p>
         </div>
     );
 };
