@@ -6,7 +6,7 @@ import { ProjectInterface } from '../interface/ProjectInterface'
 export default function Portfolio(props: { data: ProjectInterface[] }) {
   return (
     <div>
-      {props.data.map((project: ProjectInterface) => <ProjectCard project={project} />)}
+      {props.data.map((project: ProjectInterface) => <ProjectCard key={project._id} project={project} />)}
     </div>
   )
 }

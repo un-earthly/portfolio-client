@@ -17,14 +17,14 @@ export default function ProjectCard({ project }: Props) {
                 <div className="flex">
                     {project.server &&
                         <button className="bg-indigo-600 duration-300 hover:bg-indigo-700 text-white font-bold py-2 px-4">
-                            <a target={"_blank"} href={project.server}>Server</a>
+                            <a rel="noreferrer" target={"_blank"} href={project.server}>Server</a>
                         </button>
                     }
                     <button className="bg-orange-600 duration-300 hover:bg-orange-700 text-white font-bold py-2 px-4">
-                        <a target={"_blank"} href={project.client}>Client</a>
+                        <a rel="noreferrer" target={"_blank"} href={project.client}>Client</a>
                     </button>
                     <button className="bg-cyan-500 duration-300 hover:bg-cyan-700 text-white font-bold py-2 px-4">
-                        <a target={"_blank"} href={project.live}>Live</a>
+                        <a rel="noreferrer" target={"_blank"} href={project.live}>Live</a>
                     </button>
                 </div>
             </div>

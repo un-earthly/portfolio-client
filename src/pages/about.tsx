@@ -19,7 +19,7 @@ const About = () => {
           </h2>
           <p className="lg:w-3/4 text-center lg:text-left">
 
-            Im MD Alamin, I’m MERN stack developer with 1 year of experience
+            Im MD Alamin, I&apos;m MERN stack developer with 1 year of experience
             building Full-stack web applications. Proficient in MongoDB, Express,
             React, and Node.js. Skilled in designing and implementing
             user-friendly web apps. Strong problem-solving abilities and
@@ -84,7 +84,7 @@ const About = () => {
 
             <ul className="list-disc">
               <li>
-                Worked on the development of the company's ed-tech platform using React, Node.js, and Postgresql.
+                Worked on the development of the company&apos;s ed-tech platform using React, Node.js, and Postgresql.
               </li>
               <li>
                 Implemented features such as user authentication, Api Conncetions, optimized code

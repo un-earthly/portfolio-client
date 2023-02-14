@@ -11,7 +11,7 @@ export default function Drawer({ handler }: Props) {
     return (
         <div className="bg-black h-screen w-screen flex items-center justify-center">
             <div className="px-4 py-6 text-center text-4xl font-bold ">
-                <Link
+                <Link passHref
                     href="/"
                 >
                     <p
@@ -22,6 +22,7 @@ export default function Drawer({ handler }: Props) {
                 </Link>
                 <Link
                     href="/blogs"
+                    passHref
                 >
                     <p
                         className={`block mt-8 py-2 cursor-pointer  hover:text-cyan-400 transition-colors duration-200 ease-in-out  ${path === "blogs" ? "text-cyan-400 text-[2em]" : "text-outline"}`}
@@ -31,6 +32,7 @@ export default function Drawer({ handler }: Props) {
                 </Link>
                 <Link
                     href="/portfolio"
+                    passHref
                 >
                     <p
                         className={`block mt-8 py-2 cursor-pointer  hover:text-cyan-400 transition-colors duration-200 ease-in-out  ${path === "portfolio" ? "text-cyan-400 text-[2em]" : "text-outline"}`}
@@ -40,6 +42,7 @@ export default function Drawer({ handler }: Props) {
                 </Link>
                 <Link
                     href="/about"
+                    passHref
                 >
                     <p
                         className={`block mt-8 py-2 cursor-pointer text-[2em] hover:text-cyan-400 transition-colors duration-200 ease-in-out  ${path === "about" ? "text-cyan-400 text-[2em]" : "text-outline"}`}
@@ -49,6 +52,7 @@ export default function Drawer({ handler }: Props) {
                 </Link>
                 <Link
                     href="/contact"
+                    passHref
                 >
                     <p
                         className={`block mt-8 py-2 cursor-pointer  hover:text-cyan-400 transition-colors duration-200 ease-in-out  ${path === "contact" ? "text-cyan-400 text-[2em]" : "text-outline"}`}
