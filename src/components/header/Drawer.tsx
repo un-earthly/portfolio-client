@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import Router, { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import React from 'react'
 import CloseSVG from '../icons/close';
 
@@ -20,7 +20,7 @@ export default function Drawer({ handler }: Props) {
                         Home
                     </p>
                 </Link>
-                <Link
+                {/* <Link
                     href="/blogs"
                     passHref
                 >
@@ -29,7 +29,7 @@ export default function Drawer({ handler }: Props) {
                     >
                         Blogs
                     </p>
-                </Link>
+                </Link> */}
                 <Link
                     href="/portfolio"
                     passHref

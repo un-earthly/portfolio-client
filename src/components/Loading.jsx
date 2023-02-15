@@ -13,7 +13,9 @@ const LoadingPage = () => {
         containerRef.current.appendChild(renderer.domElement);
 
         const geometry = new THREE.BoxGeometry(1, 1, 1);
-        const material = new THREE.MeshBasicMaterial({ color: "cyan" });
+        const material = new THREE.MeshBasicMaterial({
+            color: "cyan",
+        });
         const cube = new THREE.Mesh(geometry, material);
 
         scene.add(cube);
@@ -41,6 +43,7 @@ const LoadingPage = () => {
                     left: '50%',
                     transform: 'translate(-50%, -50%)'
                 }}
+                className="font-bold"
             >
                 Please wait
             </p>

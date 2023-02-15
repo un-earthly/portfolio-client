@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Link from 'next/link';
 const Home = () => (
+  
   <div className="h-fit">
     <Head>
       <title>MD.ALAMIN</title>

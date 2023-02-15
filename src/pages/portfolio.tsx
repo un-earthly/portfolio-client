@@ -16,5 +16,4 @@ Portfolio.getInitialProps = async () => {
   const res = await axios.get<ProjectInterface[]>(GET_PROJECT_LIST_URL);
   const data = res.data;
   return data;
-
 }
