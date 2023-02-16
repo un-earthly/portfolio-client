@@ -14,22 +14,17 @@ export default function Portfolio({ data }: any) {
     }
   }, [data]);
 
-  return <div>{
-    loading ?
-      <div>Loading...</div>
-      :
-      <div>
-        {data
+  return <div>
+    {
+      loading ? <p>loading...</p> :
+
+        data
           .map((project: ProjectInterface) =>
             <ProjectCard
               key={project._id}
               project={project}
             />
           )}
-      </div>
-
-
-  }
   </div>
 }
 

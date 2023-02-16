@@ -1,22 +1,36 @@
 import Head from 'next/head';
 import Link from 'next/link';
 const Home = () => (
-  
+
   <div className="h-fit">
     <Head>
       <title>MD.ALAMIN</title>
     </Head>
     <div className='flex lg:items-center justify-between flex-col lg:flex-row overflow-hidden'>
       <div className='lg:pl-24 px-10 mt-20 lg:mt-0'>
-        <h1 className='md:text-[6.8rem] text-5xl'>
+        <h1 className='md:text-[6.8rem] text-[4rem] text-5xl'>
           Hi, I&apos;m
-          MD<span className='text-cyan-400'>.</span>Alamin
+          MD
+          <span className='text-cyan-400'>.</span>
+          Alamin
         </h1>
-        <p className='md:text-2xl tracking-wide my-5'>A passionate <span className='text-cyan-400 uppercase'>mern</span> focused javascript devloper</p>
-        <a download href="/resume.pdf"> <button className='rounded-full font-bold capitalize duration-300 h-14 w-40 text-black inline-flex items-center justify-center text-2xl bg-cyan-400'>resume</button></a>
-        <Link passHref href="/portfolio">
-          <button className='rounded-full mt-5 md:mt-0 md:ml-5 capitalize duration-300 text-outline-cyan text-transparent h-14 w-40 inline-flex items-center justify-center text-2xl border-2 border-cyan-400'>portfolio</button>
-        </Link>
+        <p className='md:text-2xl text-lg tracking-wide my-5'>
+          A passionate
+          <span className='text-cyan-400 uppercase'> mern </span>
+          focused javascript devloper
+        </p>
+        <div className='flex flex-row space-x-3'>
+          <a download href="/resume.pdf">
+            {/* <button className='rounded-full font-bold capitalize duration-300 h-full w-full  text-black inline-flex items-center justify-center md:text-2xl text-md bg-cyan-400'>resume</button> */}
+            <button className="bg-cyan-500 text-black lg:text-3xl font-bold py-2 px-4 rounded-full">
+              Resume
+            </button>
+
+          </a>
+          <Link passHref href="/portfolio">
+            <button className=' text-outline-cyan border-2 border-cyan-400 lg:text-3xl font-bold py-2 px-4 rounded-full text-transparent'>Portfolio</button>
+          </Link>
+        </div>
         <div className="mt-10 flex space-x-3">
           <Link passHref href="https://github.com/un-earthly">
             <a className='cursor-pointer'>
@@ -41,7 +55,7 @@ const Home = () => (
           </Link>
         </div>
       </div>
-      <div>
+      <div className='flex items-center justify-end'>
         <img src="/profile.png" alt="" />
       </div>
     </div>

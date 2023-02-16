@@ -7,7 +7,7 @@ interface Props {
 export default function ProjectCard({ project }: Props) {
     return (
         <div className='relative pt-10 '>
-            <img src={project.img} alt="" />
+            <img src={project.img} />
             <div className='absolute space-y-7 z-10 font-semibold bg-black/70 text-white h-full w-full flex items-center justify-center flex-col top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2'>
                 <p className='w-3/4 text-xs md:text-base lg:text-3xl text-center'>{project.name}</p>
                 <p className='w-3/4 text-xs md:text-base text-center'>{project.desc}</p>

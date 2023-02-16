@@ -43,7 +43,6 @@ input:checked ~ .dot {
 
 .text-outline-cyan{
   -webkit-text-stroke: .5px cyan;
-  font-size: 1.8em;
   transition: 3s;
 }
 .text-outline-cyan:hover{
