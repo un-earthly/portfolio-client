@@ -51,3 +51,7 @@ input:checked ~ .dot {
   -webkit-text-stroke:transparent;
   transition: 300ms;
 }
+
+button:active{
+  transform: scale(.9);
+}

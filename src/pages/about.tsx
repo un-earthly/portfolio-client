@@ -5,7 +5,7 @@ import Image from "next/image";
 const About = () => {
 
   return (
-    <div className="bg-black lg:px-36 px-20 py-3">
+    <div className="bg-black lg:px-36 px-6 py-3 min-h-screen">
       <div className="group">
         <h1 className="uppercase tracking-widest lg:tracking-[2.5rem] md:text-5xl">About ME</h1>
         <div className="h-1 w-full bg-gray-200 mt-3 relative">
@@ -33,10 +33,10 @@ const About = () => {
 
             Technical Skills
           </h2>
-          <div className="lg:w-3/4 grid grid-cols-3">
+          <div className="lg:w-3/4 grid md:grid-cols-3 text-center lg:text-left lg:space-x-4 gap-10 space-y-4 md:space-y-0 ">
             <div>
               <p className="font-bold">Expertise</p>
-              <ul className="list-disc">
+              <ul className="xl:list-disc">
                 <li>JavaScript</li>
                 <li>React</li>
                 <li>Node & Express js</li>
@@ -46,7 +46,7 @@ const About = () => {
             </div>
             <div>
               <p className="font-bold">Comfortable</p>
-              <ul className="list-disc">
+              <ul className="xl:list-disc">
                 <li>Redux</li>
                 <li>Firebase</li>
                 <li>Typescript</li>
@@ -55,24 +55,23 @@ const About = () => {
             </div>
             <div>
               <p className="font-bold">familiar</p>
-              <ul className="list-disc">
+              <ul className="xl:list-disc">
                 <li>Docker</li>
-                <li>AWS</li>
                 <li>Php & Laravel</li>
-                <li>Vue js</li>
+                <li>Vue & Nuxt js</li>
                 <li>Three js</li>
               </ul>
             </div>
           </div>
         </div>
-        <div className="mt-10 flex items-center justify-center flex-col lg:flex-row">
+        <div className="mt-10 flex items-center justify-center flex-col px-10 md:px-0 lg:flex-row">
           <h2 className="lg:w-1/4 font-bold text-3xl mb-3 lg:mb-0 lg:text-2xl">
 
             Experience
           </h2>
-          <div className="lg:w-3/4">
+          <div className="lg:w-3/4 text-center space-y-5 lg:space-y-0 lg:text-left">
 
-            <p>
+            <p className="font-bold">
               Web Developer
             </p>
             <p>
@@ -82,7 +81,7 @@ const About = () => {
               August 2022 - Present
             </p>
 
-            <ul className="list-disc">
+            <ul className="lg:list-disc list-decimal space-y-3 lg:space-y-0">
               <li>
                 Worked on the development of the company&apos;s ed-tech platform using React, Node.js, and Postgresql.
               </li>

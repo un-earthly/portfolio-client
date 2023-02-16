@@ -2,18 +2,41 @@ import axios from 'axios';
 import ProjectCard from '../components/ProjectCard';
 import { GET_PROJECT_LIST_URL } from "../utilities/urls"
 import { ProjectInterface } from '../interface/ProjectInterface'
+import { GetServerSideProps } from 'next';
+import { useEffect, useState } from 'react';
 
-export default function Portfolio(props: { data: ProjectInterface[] }) {
-  return (
-    <div>
-      {props.data.map((project: ProjectInterface) => <ProjectCard key={project._id} project={project} />)}
-    </div>
-  )
+export default function Portfolio({ data }: any) {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (data) {
+      setLoading(false);
+    }
+  }, [data]);
+
+  return <div>{
+    loading ?
+      <div>Loading...</div>
+      :
+      <div>
+        {data
+          .map((project: ProjectInterface) =>
+            <ProjectCard
+              key={project._id}
+              project={project}
+            />
+          )}
+      </div>
+
+
+  }
+  </div>
 }
 
-
-Portfolio.getInitialProps = async () => {
+export const getServerSideProps: GetServerSideProps<any> = async () => {
   const res = await axios.get<ProjectInterface[]>(GET_PROJECT_LIST_URL);
   const data = res.data;
-  return data;
+  return {
+    props: data
+  };
 }
