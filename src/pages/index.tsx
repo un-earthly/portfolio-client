@@ -20,7 +20,7 @@ const Home = () => (
           focused javascript devloper
         </p>
         <div className='flex flex-row space-x-3'>
-          <a href="https://drive.google.com/file/d/10BaS_yXh6rCaq1VltTYsx3SfuO_pjD7F/view?usp=sharing">
+          <a target="_blank" href="https://drive.google.com/file/d/10BaS_yXh6rCaq1VltTYsx3SfuO_pjD7F/view?usp=sharing">
             {/* <button className='rounded-full font-bold capitalize duration-300 h-full w-full  text-black inline-flex items-center justify-center md:text-2xl text-md bg-cyan-400'>resume</button> */}
             <button className="bg-cyan-500 text-black lg:text-3xl font-bold py-2 px-4 rounded-full">
               Resume
