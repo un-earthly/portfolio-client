@@ -37,7 +37,7 @@ $blur-opacity: .01;
     box-shadow: 0px $card-box-shadow-1-y $card-box-shadow-1-blur $card-box-shadow-1, 0px $card-box-shadow-2-y $card-box-shadow-2-blur $card-box-shadow-2, 0 0 0 1px $card-border-color;
     padding: 56px 16px 16px 16px;
     border-radius: 15px;
-    cursor: pointer;
+    // cursor: pointer;
     position: relative;
     transition: box-shadow .25s;
 
@@ -58,6 +58,7 @@ $blur-opacity: .01;
         opacity: 0;
         transition: opacity .5s;
 
+
         &:before {
             content: '';
             width: 150%;
@@ -70,6 +71,7 @@ $blur-opacity: .01;
             opacity: $card-shine-opacity;
             transform: translateX(-50%);
             background-image: $card-shine-gradient;
+
         }
     }
 
@@ -81,9 +83,11 @@ $blur-opacity: .01;
         -webkit-mask-image: radial-gradient(circle at 60% 5%, black 0%, black 15%, transparent 60%);
         mask-image: radial-gradient(circle at 60% 5%, black 0%, black 15%, transparent 60%);
 
+
         .tiles {
             opacity: 0;
             transition: opacity .25s;
+
 
             .tile {
                 position: absolute;
@@ -92,10 +96,12 @@ $blur-opacity: .01;
                 animation-iteration-count: infinite;
                 opacity: 0;
 
+
                 &.tile-4,
                 &.tile-6,
                 &.tile-10 {
                     animation-delay: -2s;
+
                 }
 
                 &.tile-3,
@@ -201,6 +207,7 @@ $blur-opacity: .01;
             opacity: 0;
             transition: opacity .35s;
 
+
             &:before,
             &:after {
                 content: '';
@@ -276,9 +283,11 @@ $blur-opacity: .01;
             opacity: 1;
             transition-duration: .5s;
             transition-delay: 0s;
+
         }
 
         .background {
+
 
             .tiles {
                 opacity: 1;
@@ -292,6 +301,7 @@ $blur-opacity: .01;
             .line {
                 opacity: 1;
                 transition-duration: .15s;
+
 
                 &:before {
                     transform: scaleX(1);
@@ -311,6 +321,7 @@ $blur-opacity: .01;
 
                 &.line-2 {
 
+
                     &:before,
                     &:after {
                         transition-delay: .15s;
@@ -318,6 +329,7 @@ $blur-opacity: .01;
                 }
 
                 &.line-3 {
+
 
                     &:before,
                     &:after {

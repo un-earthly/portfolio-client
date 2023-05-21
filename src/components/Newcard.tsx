@@ -14,22 +14,23 @@ export default function Newcard({ project }: Props) {
                     <p className='text-xs lg:text-xl text-center font-semibold'>{project.name}</p>
                     <p className='text-xs  text-center'>{project.desc}</p>
                     <p className='text-xs text-center mt-3'><span className='text-gray-300'>Built with </span>{project.tech}</p>
+                    <div className="flex items-center justify-center my-5">
+                        {project.server &&
+                            <button className="bg-indigo-600 duration-300 hover:bg-indigo-700 text-white font-bold py-2 px-4  z-50">
+                                <a rel="noreferrer" target={"_blank"} href={project.server}>Server</a>
+                            </button>
+                        }
+                        <button className="bg-orange-600 duration-300 hover:bg-orange-700 text-white font-bold py-2 px-4  z-50">
+                            <a rel="noreferrer" target={"_blank"} href={project.client}>Client</a>
+                        </button>
+                        <button className="bg-cyan-500 duration-300 hover:bg-cyan-700 text-white font-bold py-2 px-4  z-50">
+                            <a rel="noreferrer" target={"_blank"} href={project.live}>Live</a>
+                        </button>
+                    </div>
                 </div>
                 <div className='space-x-3 text-xs md:text-base'>
                 </div>
-                <div className="flex items-center justify-center my-5">
-                    {project.server &&
-                        <button className="bg-indigo-600 duration-300 hover:bg-indigo-700 text-white font-bold py-2 px-4">
-                            <a rel="noreferrer" target={"_blank"} href={project.server}>Server</a>
-                        </button>
-                    }
-                    <button className="bg-orange-600 duration-300 hover:bg-orange-700 text-white font-bold py-2 px-4">
-                        <a rel="noreferrer" target={"_blank"} href={project.client}>Client</a>
-                    </button>
-                    <button className="bg-cyan-500 duration-300 hover:bg-cyan-700 text-white font-bold py-2 px-4">
-                        <a rel="noreferrer" target={"_blank"} href={project.live}>Live</a>
-                    </button>
-                </div>
+
                 <div className={styles.shine}></div>
                 <div className={styles.background}>
                     <div className={styles.tiles}>
@@ -51,7 +52,10 @@ export default function Newcard({ project }: Props) {
                     <div className={`${styles.line} ${styles['line-2']}`}></div>
                     <div className={`${styles.line} ${styles['line-3']}`}></div>
                 </div>
+
+
             </div>
         </div>
+
     )
 }
