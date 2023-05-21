@@ -1,14 +1,4 @@
-let BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-
-// if (process.env.BASE_URL) {
-//     BASE_URL = "https://portfolio-hb2w.onrender.com/api/v1"
-// }
-// else {
-//     BASE_URL = "http://localhost/api/v1"
-// }
-
-// project url
-
+let BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost/api/v1"
 
 export const PROJECT_URL = BASE_URL + "/project"
 export const GET_PROJECT_LIST_URL = PROJECT_URL + "/list"

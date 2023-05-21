@@ -69,29 +69,32 @@ const About = () => {
 
             Experience
           </h2>
-          <div className="lg:w-3/4 text-center space-y-5 lg:space-y-0 lg:text-left">
+          <div className="lg:w-3/4 text-center space-y-10 lg:text-left">
+            <div className="">
 
-            <p className="font-bold">
-              Web Developer
-            </p>
-            <p>
-              Ishqool, Dhaka Bangladesh
-            </p>
-            <p>
-              August 2022 - Present
-            </p>
+              <p className="font-bold text-lg">
+                Web Developer
+              </p>
+              <p className="text-gray-300 font-semibold text-sm">
+                Ishqool, Dhaka Bangladesh
+              </p>
+              <p className="text-gray-300 text-sm">
+                August 2022 - Present
+              </p>
 
-            <ul className="lg:list-disc list-decimal space-y-3 lg:space-y-0">
-              <li>
-                Worked on the development of the company&apos;s ed-tech platform using React, Node.js, and Postgresql.
-              </li>
-              <li>
-                Implemented features such as user authentication, Api Conncetions, optimized code
-              </li>
-              <li>
-                Collaborated with the design team to ensure a seamless user experience.
-              </li>
-            </ul>
+              <ul className="lg:list-disc text-gray-300 list-decimal space-y-3 text-xs my-4 lg:space-y-0">
+                <li>
+                  Worked on the development of the company&apos;s ed-tech platform using React, Node.js, and Postgresql.
+                </li>
+                <li>
+                  Implemented features such as user authentication, Api Conncetions, optimized code
+                </li>
+                <li>
+                  Collaborated with the design team to ensure a seamless user experience.
+                </li>
+              </ul>
+            </div>
+
           </div>
         </div>
       </div>
