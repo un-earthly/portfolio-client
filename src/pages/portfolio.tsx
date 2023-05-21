@@ -4,6 +4,7 @@ import { GET_PROJECT_LIST_URL } from "../utilities/urls"
 import { ProjectInterface } from '../interface/ProjectInterface'
 import { GetServerSideProps } from 'next';
 import { useEffect, useState } from 'react';
+import Newcard from '../components/Newcard';
 
 export default function Portfolio({ data }: any) {
   const [loading, setLoading] = useState(true);
@@ -15,16 +16,21 @@ export default function Portfolio({ data }: any) {
   }, [data]);
 
   return <div>
-    {
-      loading ? <p>loading...</p> :
+    <h1 className="text-3xl py-10 text-bold text-center ">
+      Portfolio projects
+    </h1>
+    <div className='grid lg:grid-cols-3 relative gap-8 px-10'>
+      {
+        loading ? <p>loading...</p> :
 
-        data
-          .map((project: ProjectInterface) =>
-            <ProjectCard
-              key={project._id}
-              project={project}
-            />
-          )}
+          data
+            .map((project: ProjectInterface) =>
+              <Newcard
+                key={project._id}
+                project={project}
+              />
+            )}
+    </div>
   </div>
 }
 
