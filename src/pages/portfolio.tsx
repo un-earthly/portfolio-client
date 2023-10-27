@@ -12,7 +12,8 @@ export default function Portfolio() {
     async function fetchData() {
       try {
         const res = await axios.get(GET_PROJECT_LIST_URL);
-        setData(res.data);
+        console.log(res)
+        setData(res.data.data);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data", error);
