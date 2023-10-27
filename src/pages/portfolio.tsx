@@ -1,14 +1,25 @@
 import axios from 'axios';
-import ProjectCard from '../components/ProjectCard';
 import { GET_PROJECT_LIST_URL } from "../utilities/urls"
 import { ProjectInterface } from '../interface/ProjectInterface'
-import { GetServerSideProps } from 'next';
 import { useEffect, useState } from 'react';
 import Newcard from '../components/Newcard';
 
-export default function Portfolio({ data }: any) {
+export default function Portfolio() {
   const [loading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
 
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const res = await axios.get(GET_PROJECT_LIST_URL);
+        setData(res.data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching data", error);
+      }
+    }
+    fetchData();
+  }, []);
   useEffect(() => {
     if (data) {
       setLoading(false);
@@ -32,12 +43,4 @@ export default function Portfolio({ data }: any) {
             )}
     </div>
   </div>
-}
-
-export const getServerSideProps: GetServerSideProps<any> = async () => {
-  const res = await axios.get<ProjectInterface[]>(GET_PROJECT_LIST_URL);
-  const data = res.data;
-  return {
-    props: data
-  };
 }

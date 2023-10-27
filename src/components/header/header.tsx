@@ -11,7 +11,7 @@ const Header = () => {
   return (
     <section className="relative z-50 bg-black py-3">
       <div className="flex items-center justify-between px-10">
-        <Link passHref href="/">
+        <Link href="/">
           <p className="text-3xl text-white font-bold cursor-pointer">MD<span className="text-cyan-400">.</span></p>
         </Link>
         <div className="flex cursor-pointer flex-wrap items-center justify-between py-4 gap-4">
