@@ -8,7 +8,7 @@ export default function Newcard({ project }: Props) {
     return (
         <div>
             <div className={styles.card}>
-                <img className='opacity-20' alt="project" src={project.img} />
+                <img className='opacity-20 h-80' alt="project" src={project.img} />
 
                 <div className="text-center w-full">
                     <p className='text-xs lg:text-xl text-center font-semibold'>{project.name}</p>

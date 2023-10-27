@@ -3,6 +3,7 @@ import { GET_PROJECT_LIST_URL } from "../utilities/urls"
 import { ProjectInterface } from '../interface/ProjectInterface'
 import { useEffect, useState } from 'react';
 import Newcard from '../components/Newcard';
+import SkeletonCard from '../components/Skeleton/SkeletonCard';
 
 export default function Portfolio() {
   const [loading, setLoading] = useState(true);
@@ -22,7 +23,7 @@ export default function Portfolio() {
     fetchData();
   }, []);
   useEffect(() => {
-    if (data) {
+    if (data.length > 0) {
       setLoading(false);
     }
   }, [data]);
@@ -32,9 +33,9 @@ export default function Portfolio() {
       Portfolio projects
     </h1>
     <div className='grid lg:grid-cols-3 relative gap-8 px-10'>
-      {
-        loading ? <p>loading...</p> :
 
+      {
+        loading ? [1, 2, 3, 4, 5, 6].map(e => <SkeletonCard key={e}></SkeletonCard>) :
           data
             .map((project: ProjectInterface) =>
               <Newcard

@@ -37,7 +37,7 @@ $blur-opacity: .01;
     box-shadow: 0px $card-box-shadow-1-y $card-box-shadow-1-blur $card-box-shadow-1, 0px $card-box-shadow-2-y $card-box-shadow-2-blur $card-box-shadow-2, 0 0 0 1px $card-border-color;
     padding: 56px 16px 16px 16px;
     border-radius: 15px;
-    // cursor: pointer;
+    cursor: pointer;
     position: relative;
     transition: box-shadow .25s;
 
