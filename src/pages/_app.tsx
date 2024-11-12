@@ -33,7 +33,7 @@ function MyApp({ Component, pageProps }: { Component: React.FC<{}>, pageProps: a
           <Header />
 
           <section
-            className="bg-black text-white"
+            className="bg-black text-white h-screen"
           >
             <Component {...pageProps} />
           </section>
