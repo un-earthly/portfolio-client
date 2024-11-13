@@ -1,9 +1,10 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button, } from "@/components/ui/button"
-import { Github, Linkedin, Mail } from 'lucide-react'
+import { FileUser, Github, Linkedin, Mail } from 'lucide-react'
+import Link from 'next/link'
 
 export default function Hero() {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
@@ -27,7 +28,7 @@ export default function Hero() {
     ]
 
     return (
-        <div className="relative min-h-screen overflow-hidden text-gray-400" >
+        <div className="relative max-h-screen overflow-hidden text-gray-400" >
             {
                 codeSnippets.map((snippet, index) => (
                     <motion.div
@@ -52,14 +53,14 @@ export default function Hero() {
                 ))}
 
             <div className="relative flex items-center justify-center min-h-screen" >
-                <div className="max-w-4xl p-8 text-center bg-gray-800/10 bg-opacity-50 backdrop-filter backdrop-blur-lg rounded-xl shadow-lg" >
+                <div className="max-w-4xl p-8 text-center bg-gradient-to-br from-transparent to-gray-900/5 shadow-[rgba(0,0,0,0.1)_10px_5px_4px_0px] bg-opacity-50 backdrop-filter backdrop-blur-lg rounded-xl" >
                     <motion.h1
                         className="mb-6 text-5xl font-bold text-gray-100"
                         initial={{ opacity: 0, y: -50 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
                     >
-                        MD<span className="text-cyan-500">.</span>ALAMIN
+                        <span className="text-cyan-500">.</span>ALAMIN
                     </motion.h1>
                     < motion.h2
                         className="mb-6 text-2xl font-semibold text-gray-300"
@@ -84,18 +85,30 @@ export default function Hero() {
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.8, delay: 0.6 }}
                     >
-                        <Button variant="outline" size="icon" >
-                            <Github className="h-5 w-5" />
-                            <span className="sr-only" > GitHub </span>
-                        </Button>
-                        < Button variant="outline" size="icon" >
-                            <Linkedin className="h-5 w-5" />
-                            <span className="sr-only" > LinkedIn </span>
-                        </Button>
-                        < Button variant="outline" size="icon" >
-                            <Mail className="h-5 w-5" />
-                            <span className="sr-only" > Email </span>
-                        </Button>
+                        <Link href='https://github.com/un-earthly' target='_blank'>
+                            <Button variant="outline" size="icon" >
+                                <Github className="h-5 w-5 font-black text-black" />
+                                <span className="sr-only" > GitHub </span>
+                            </Button>
+                        </Link>
+                        <Link href="https://www.linkedin.com/in/alamin-md/" target='_blank'>
+                            <Button variant="outline" size="icon" >
+                                <Linkedin className="h-5 w-5 font-black text-black" />
+                                <span className="sr-only" > LinkedIn </span>
+                            </Button>
+                        </Link>
+                        <Link href="mailto:vijayalamin@gmail.com">
+                            <Button variant="outline" size="icon" >
+                                <Mail className="h-5 w-5 font-black text-black" />
+                                <span className="sr-only" > Email </span>
+                            </Button>
+                        </Link>
+                        <Link href="">
+                            <Button variant="outline" size="icon" >
+                                <FileUser className="h-5 w-5 font-black text-black" />
+                                <span className="sr-only" > Email </span>
+                            </Button>
+                        </Link>
                     </motion.div>
 
                 </div>

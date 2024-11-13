@@ -12,11 +12,8 @@ export default function Home() {
     tools: ['Git/Github', 'Firebase', 'Stripe', 'Figma', 'NPM', 'Trello', 'Postman', 'ChatGPT']
   };
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black to-gray-900 text-gray-300">
-      <Head>
-        <title>MD.ALAMIN - Full-Stack Software Developer</title>
-        <meta name="description" content="Full-Stack Developer with over 3 years of experience in web and mobile applications, specializing in React, Node.js, and cloud technologies." />
-      </Head>
+    <div className="min-h-screen bg-gradient-to-b h-80 pb-10 overflow-y-auto from-black to-gray-900 text-gray-300">
+
       <Hero />
       <section className="container mx-auto px-4 py-16">
         <div className="max-w-4xl mx-auto">

@@ -5,6 +5,7 @@ import Link from "next/link";
 import NavIcon from "../icons/navicon";
 import { useState } from "react";
 import Drawer from "@/components/drawer";
+import Hero from "@/components/hero";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -27,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased h-screen overflow-hidden`}
       >
         <section className="relative z-50 bg-black py-3">
           <div className="flex items-center justify-between px-10">
@@ -42,7 +43,12 @@ export default function RootLayout({
             <Drawer handler={() => setMenuIsOpen(false)} />
           </div>
         </section>
-        {children}
+        <div className=" bg-gradient-to-b from-black to-gray-900 text-gray-300 ">
+
+          {children}
+
+        </div>
+
       </body>
     </html>
   );

@@ -28,21 +28,26 @@ export default function Portfolio() {
         }
     }, [data]);
 
-    return <div className='bg-transparent'>
-        <h1 className="text-3xl py-10 text-bold text-center ">
-            Portfolio projects
-        </h1>
-        <div className='grid lg:grid-cols-3 relative gap-8 px-10'>
+    return (
+        <div className='h-screen' >
+            <div className='h-full relative overflow-auto '>
+                <div className="container grid lg:grid-cols-3 gap-8 mx-auto pb-40  ">
 
-            {
-                loading ? [1, 2, 3, 4, 5, 6].map(e => <SkeletonCard key={e}></SkeletonCard>) :
-                    data
-                        .map((project) =>
-                            <Newcard
-                                key={project._id}
-                                project={project}
-                            />
-                        )}
+                    {
+                        loading ?
+                            [1, 2, 3, 4, 5, 6].map(e => <SkeletonCard key={e}></SkeletonCard>)
+                            :
+                            data.map((project) => {
+                                return (
+                                    <Newcard
+                                        key={project._id}
+                                        project={project}
+                                    />
+                                )
+                            })
+                    }
+                </div>
+            </div>
         </div>
-    </div>
+    )
 }
