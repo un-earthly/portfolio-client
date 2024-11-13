@@ -1,30 +1,45 @@
 import React from 'react'
 import styles from './newcard.module.scss'
 import { ProjectInterface } from '../interface/ProjectInterface'
+import { FileCode, Globe, Server } from 'lucide-react'
+import { Card } from './ui/card'
 interface Props {
     project: ProjectInterface
 }
 export default function Newcard({ project }: Props) {
     return (
         <div>
-            <div className={styles.card}>
-                <img className='opacity-20 h-80' alt="project" src={project.img} />
+            <Card className={`${styles.card} bg-gradient-to-br from-bg/10 to-bg/5 text-gray-300`}>
+                <div className="flex place-content-center py-3">
+                    <img className='opacity-20 h-80' alt="project" src={project.img} />
+                </div>
 
                 <div className="text-center w-full">
                     <p className='text-xs lg:text-xl text-center font-semibold'>{project.name}</p>
-                    <p className='text-xs  text-center'>{project.desc}</p>
-                    <p className='text-xs text-center mt-3'><span className='text-gray-300'>Built with </span>{project.tech}</p>
-                    <div className="flex items-center justify-center my-5">
-                        {project.server &&
-                            <button className="bg-indigo-600 duration-300 hover:bg-indigo-700 text-white font-bold py-2 px-4  z-50">
-                                <a rel="noreferrer" target={"_blank"} href={project.server}>Server</a>
+                    {/* <p className='text-xs  text-center'>{project.desc}</p> */}
+                    {/* <p className='text-xs text-center mt-3'><span className='text-gray-300'>Built with </span>{project.tech}</p> */}
+                    <div className="flex items-center justify-center my-5 gap-4">
+                        {project.server && (
+                            <button className="px-4 py-2 rounded-lg bg-slate-800/50 text-violet-300 hover:bg-slate-700/50 hover:text-violet-200 transition-all duration-300 font-medium border border-slate-700/50 hover:border-violet-500/30 backdrop-blur-sm flex items-center gap-2 group">
+                                <Server className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                                <a rel="noreferrer" target="_blank" href={project.server}>
+                                    Server
+                                </a>
                             </button>
-                        }
-                        <button className="bg-orange-600 duration-300 hover:bg-orange-700 text-white font-bold py-2 px-4  z-50">
-                            <a rel="noreferrer" target={"_blank"} href={project.client}>Client</a>
+                        )}
+
+                        <button className="px-4 py-2 rounded-lg bg-slate-800/50 text-rose-300 hover:bg-slate-700/50 hover:text-rose-200 transition-all duration-300 font-medium border border-slate-700/50 hover:border-rose-500/30 backdrop-blur-sm flex items-center gap-2 group">
+                            <FileCode className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                            <a rel="noreferrer" target="_blank" href={project.client}>
+                                Client
+                            </a>
                         </button>
-                        <button className="bg-cyan-500 duration-300 hover:bg-cyan-700 text-white font-bold py-2 px-4  z-50">
-                            <a rel="noreferrer" target={"_blank"} href={project.live}>Live</a>
+
+                        <button className="px-4 py-2 rounded-lg bg-slate-800/50 text-teal-300 hover:bg-slate-700/50 hover:text-teal-200 transition-all duration-300 font-medium border border-slate-700/50 hover:border-teal-500/30 backdrop-blur-sm flex items-center gap-2 group">
+                            <Globe className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                            <a rel="noreferrer" target="_blank" href={project.live}>
+                                Live
+                            </a>
                         </button>
                     </div>
                 </div>
@@ -54,8 +69,8 @@ export default function Newcard({ project }: Props) {
                 </div>
 
 
-            </div>
-        </div>
+            </Card>
+        </div >
 
     )
 }
