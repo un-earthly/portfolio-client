@@ -29,25 +29,21 @@ export default function Portfolio() {
     }, [data]);
 
     return (
-        <div className='h-screen' >
-            <div className='h-full relative overflow-auto '>
-                <div className="container grid lg:grid-cols-3 gap-8 mx-auto pb-40  ">
+        <div className="container grid lg:grid-cols-1 gap-8 mx-auto pb-40  ">
 
-                    {
-                        loading ?
-                            [1, 2, 3, 4, 5, 6].map(e => <SkeletonCard key={e}></SkeletonCard>)
-                            :
-                            data.map((project) => {
-                                return (
-                                    <Newcard
-                                        key={project._id}
-                                        project={project}
-                                    />
-                                )
-                            })
-                    }
-                </div>
-            </div>
+            {
+                loading ?
+                    [1, 2, 3, 4, 5, 6].map(e => <SkeletonCard key={e}></SkeletonCard>)
+                    :
+                    data.map((project: any) => {
+                        return (
+                            <Newcard
+                                key={project._id}
+                                project={project}
+                            />
+                        )
+                    })
+            }
         </div>
     )
 }

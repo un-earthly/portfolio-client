@@ -1,9 +1,9 @@
-import Hero from "@/components/hero";
+'use client'
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Briefcase } from "lucide-react";
-import Head from "next/head";
+import React from 'react'
+import { Button, } from "@/components/ui/button"
+import { Briefcase } from 'lucide-react'
 
 export default function Home() {
   const skills = {
@@ -11,11 +11,10 @@ export default function Home() {
     comfortable: ['Docker', 'React Native', 'Flutter', 'Web Socket', 'AWS EC2', 'S3', 'Redis', 'MSSQL', 'MySQL'],
     tools: ['Git/Github', 'Firebase', 'Stripe', 'Figma', 'NPM', 'Trello', 'Postman', 'ChatGPT']
   };
-  return (
-    <div className="min-h-screen h-80 pb-10 overflow-y-auto text-gray-300">
 
-      <Hero />
-      <section className="container mx-auto px-4 py-16">
+  return (
+    <div>
+      <section className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold mb-8 text-center">Key Achievements</h2>
           <div className="grid gap-8 md:grid-cols-2">
@@ -177,5 +176,6 @@ export default function Home() {
         </div>
       </section>
     </div>
+
   );
 }

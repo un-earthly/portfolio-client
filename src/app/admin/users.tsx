@@ -1,9 +1,9 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { GET_MASSAGE_LIST_URL } from '../../utilities/urls';
+import { GET_MASSAGE_LIST_URL } from '../utilities/urls';
 
 export default function Users() {
-    let [data, setData] = useState<any[]>([])
+    const [data, setData] = useState<any[]>([])
     useEffect(() => {
         axios.get(GET_MASSAGE_LIST_URL)
             .then(res => { setData(res.data.data) })
