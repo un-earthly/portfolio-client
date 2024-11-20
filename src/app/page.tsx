@@ -5,200 +5,8 @@ import React from 'react'
 import { Button, } from "@/components/ui/button"
 import { Activity, ArrowUpRight, Briefcase, Building2, CheckCircle, Code2, Cpu, Database, ExternalLink, Globe, Laptop, Layout, Mail, MessageSquare, Microscope, Palette, PenTool, Repeat, Rocket, Search, Sparkles, Store, Trophy, Users, Wrench } from 'lucide-react'
 import Link from "next/link";
-
+import { achievements, developmentProcess, experiences, projects, services, skills } from '@/mock-data'
 export default function Home() {
-  const skills = {
-    specialized: ['React & Next.js', 'Redux', 'TypeScript', 'Node & Express JS', 'MongoDB', 'PostgreSQL', 'Vue & Nuxt.js'],
-    comfortable: ['Docker', 'React Native', 'Flutter', 'Web Socket', 'AWS EC2', 'S3', 'Redis', 'MSSQL', 'MySQL'],
-    tools: ['Git/Github', 'Firebase', 'Stripe', 'Figma', 'NPM', 'Trello', 'Postman', 'ChatGPT']
-  };
-  const experiences = [
-    {
-      title: "Project Manager",
-      company: "Masleap Plc",
-      period: "August 2024 - Present",
-      responsibilities: [
-        "Leading two system management projects for USA-based clients",
-        "Designing ERDs and system architecture for scalable solutions",
-        "Mentoring junior developers and conducting Scrum ceremonies",
-        "Creating Low-Level and High-Level Designs for efficient development"
-      ]
-    },
-    {
-      title: "Software Engineer",
-      company: "TNC Global Limited",
-      period: "November 2023 - July 2024",
-      responsibilities: [
-        "Led frontend team in developing ERP management prototype",
-        "Developed and maintained applications using React JS and Next.js",
-        "Deployed applications to AWS EC2 for scalable cloud solutions",
-        "Mentored junior developers and resolved complex UI challenges"
-      ]
-    },
-    {
-      title: "Front-End Developer",
-      company: "Premium Solutions Limited",
-      period: "March 2023 - June 2024",
-      responsibilities: [
-        "Implemented frontend for 5 e-commerce projects",
-        "Developed using Flutter, Vue.js, and Next.js for diverse client needs",
-        "Specialized in responsive and user-friendly interfaces",
-        "Integrated frontend with backend APIs for seamless functionality"
-      ]
-    }
-  ];
-  const achievements = [
-    {
-      title: 'LMS Development',
-      description: 'Developed and published an LMS serving 3,000+ users, showcasing scalability and user-centric design.',
-      icon: Layout
-    },
-    {
-      title: 'E-commerce Solutions',
-      description: 'Delivered 5 e-commerce applications, including Flutter and React Native solutions for international clients.',
-      icon: Store
-    },
-    {
-      title: 'ERP Management',
-      description: 'Led frontend team in developing and designing an ERP management prototype, demonstrating leadership and technical expertise.',
-      icon: Users
-    },
-    {
-      title: 'Project Leadership',
-      description: 'Currently leading two system management projects for USA-based clients, focusing on scalable and efficient solutions.',
-      icon: Trophy
-    }
-  ];
-  const projects = [
-    {
-      id: 'lms-platform',
-      title: "Learning Management System",
-      description: "A comprehensive LMS platform serving 3,000+ users with features like course management, progress tracking, and interactive assessments.",
-      image: "/api/placeholder/600/400",
-      technologies: ['Next.js', 'TypeScript', 'Node.js', 'MongoDB'],
-      liveUrl: '#',
-      githubUrl: '#',
-    },
-    {
-      id: 'erp-system',
-      title: "Enterprise Resource Planning System",
-      description: "A full-featured ERP solution for managing business operations, including inventory, HR, and financial management modules.",
-      image: "/api/placeholder/600/400",
-      technologies: ['React', 'Redux', 'Express', 'PostgreSQL'],
-      liveUrl: '#',
-      githubUrl: '#',
-    }
-  ];
-  const services = [
-    {
-      id: 'full-stack-dev',
-      icon: Code2,
-      title: "Full Stack Development",
-      shortDesc: "End-to-end web applications with modern technologies.",
-      description: "Crafting scalable and maintainable applications using React, Next.js, Node.js, and more.",
-      keyFeatures: [
-        "Custom web application development",
-        "RESTful API design and implementation",
-        "Database architecture and optimization",
-        "Performance optimization and scaling"
-      ]
-    },
-    {
-      id: 'ui-ux-design',
-      icon: Palette,
-      title: "UI/UX Design",
-      shortDesc: "User-centered design solutions that engage and convert.",
-      description: "Creating intuitive interfaces with a focus on user experience and conversion optimization.",
-      keyFeatures: [
-        "Responsive web design",
-        "User interface prototyping",
-        "Interaction design",
-        "Usability testing"
-      ]
-    },
-    {
-      id: 'tech-consulting',
-      icon: Database,
-      title: "Technical Consulting",
-      shortDesc: "Strategic technology guidance and solutions architecture.",
-      description: "Providing expert advice on technology stack selection and architecture decisions.",
-      keyFeatures: [
-        "Technology stack assessment",
-        "Architecture planning",
-        "Performance optimization",
-        "Security best practices"
-      ]
-    }
-  ];
-
-  const developmentProcess = [
-    {
-      icon: Search,
-      title: "Discovery & Planning",
-      description: "Requirements gathering and project scope definition using Agile user stories.",
-      details: [
-        "As a [user type], I want to [action] so that [benefit]",
-        "Story point estimation",
-        "Sprint planning",
-        "Acceptance criteria definition"
-      ]
-    },
-    {
-      icon: PenTool,
-      title: "Design & Architecture",
-      description: "System design and technical architecture planning.",
-      details: [
-        "High-level system design",
-        "Database schema design",
-        "API endpoint planning",
-        "UI/UX wireframing"
-      ]
-    },
-    {
-      icon: Laptop,
-      title: "Development",
-      description: "Iterative development in sprints following Agile principles.",
-      details: [
-        "2-week sprint cycles",
-        "Daily stand-ups",
-        "Code reviews",
-        "Continuous Integration"
-      ]
-    },
-    {
-      icon: Microscope,
-      title: "Testing & QA",
-      description: "Comprehensive testing and quality assurance.",
-      details: [
-        "Unit testing",
-        "Integration testing",
-        "User acceptance testing",
-        "Performance testing"
-      ]
-    },
-    {
-      icon: Rocket,
-      title: "Deployment",
-      description: "Smooth deployment and production release.",
-      details: [
-        "Automated deployment",
-        "Environment configuration",
-        "Performance monitoring",
-        "Security checks"
-      ]
-    },
-    {
-      icon: Repeat,
-      title: "Maintenance & Support",
-      description: "Ongoing support and iterative improvements.",
-      details: [
-        "Bug fixes",
-        "Feature enhancements",
-        "Performance optimization",
-        "Security updates"
-      ]
-    }
-  ];
   return (
     <div>
       <section className="container mx-auto px-4">
@@ -412,7 +220,6 @@ export default function Home() {
                         ))}
                       </div>
 
-                      {/* These buttons need to stop event propagation to work with the parent link */}
                       <div className="flex gap-4 relative z-20">
                         <Button
                           variant="outline"
@@ -442,7 +249,6 @@ export default function Home() {
                     </div>
                   </div>
 
-                  {/* Hover instruction */}
                   <div className="absolute bottom-4 right-4 flex items-center gap-2 text-sm text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <span>View Case Study</span>
                     <ArrowUpRight className="h-4 w-4" />
@@ -466,7 +272,6 @@ export default function Home() {
                 <Card
                   className="group relative overflow-hidden bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300 h-full transform hover:-translate-y-1 hover:shadow-lg hover:shadow-cyan-500/10"
                 >
-                  {/* Cyan gradient overlay */}
                   <div className="absolute inset-0 bg-gradient-to-r from-cyan-950/30 via-slate-900/30 to-blue-950/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                   <CardContent className="relative z-10 p-6">
@@ -493,21 +298,18 @@ export default function Home() {
                       ))}
                     </ul>
 
-                    {/* View Details link */}
                     <div className="mt-4 flex items-center gap-2 text-cyan-400 text-sm opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
                       <span>Explore Service</span>
                       <ArrowUpRight className="h-4 w-4" />
                     </div>
                   </CardContent>
 
-                  {/* Cyan border glow */}
                   <div className="absolute inset-0 border border-cyan-500/0 group-hover:border-cyan-500/20 rounded-lg transition-colors duration-300" />
                 </Card>
               </Link>
             ))}
           </div>
 
-          {/* Service badges/tags */}
           <div className="mt-12 flex flex-wrap justify-center gap-3">
             {[
               "Web Development",
@@ -529,7 +331,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Quick contact card */}
         <div className="max-w-4xl mx-auto mt-16">
           <Card className="group relative overflow-hidden bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300">
             <div className="absolute inset-0 bg-gradient-to-r from-cyan-950/30 via-slate-900/30 to-blue-950/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -556,7 +357,6 @@ export default function Home() {
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold mb-8 text-center text-gray-100">Development Process</h2>
           <div className="relative">
-            {/* Timeline line */}
             <div className="absolute left-8 top-0 bottom-0 w-px bg-gradient-to-b from-cyan-500/50 via-blue-500/50 to-purple-500/50 hidden md:block" />
 
             <div className="space-y-8">
