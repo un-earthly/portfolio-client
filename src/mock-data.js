@@ -197,12 +197,22 @@ const developmentProcess = [
     ]
   }
 ];
-
+const tags = [
+  "Web Development",
+  "Mobile Apps",
+  "Cloud Solutions",
+  "DevOps",
+  "API Development",
+  "Database Design",
+  "System Architecture",
+  "Performance Optimization"
+]
 export {
   developmentProcess,
   achievements,
   experiences,
   projects,
   services,
+  tags,
   skills,
 }

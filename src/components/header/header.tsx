@@ -4,10 +4,7 @@ import NavIcon from "../icons/navicon";
 import Drawer from "./Drawer";
 
 const Header = () => {
-
   const [menuIsOpen, setMenuIsOpen] = useState<boolean>(false);
-
-
   return (
     <section className="relative z-50 bg-black py-3">
       <div className="flex items-center justify-between px-10">

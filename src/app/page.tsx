@@ -3,9 +3,9 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import React from 'react'
 import { Button, } from "@/components/ui/button"
-import { Activity, ArrowUpRight, Briefcase, Building2, CheckCircle, Code2, Cpu, Database, ExternalLink, Globe, Laptop, Layout, Mail, MessageSquare, Microscope, Palette, PenTool, Repeat, Rocket, Search, Sparkles, Store, Trophy, Users, Wrench } from 'lucide-react'
+import { ArrowUpRight, Briefcase, Building2, CheckCircle, Code2, Cpu, Database, ExternalLink, Globe, Laptop, Layout, Mail, MessageSquare, Microscope, Palette, PenTool, Repeat, Rocket, Search, Sparkles, Store, Trophy, Users, Wrench } from 'lucide-react'
 import Link from "next/link";
-import { achievements, developmentProcess, experiences, projects, services, skills } from '@/mock-data'
+import { achievements, developmentProcess, experiences, projects, services, skills, tags } from '@/mock-data'
 export default function Home() {
   return (
     <div>
@@ -23,7 +23,7 @@ export default function Home() {
                 <CardHeader className="relative z-10">
                   <div className="flex items-center gap-3 mb-2">
                     <div className="p-2 bg-slate-800/50 rounded-lg group-hover:bg-slate-700/50 transition-colors">
-                      <achievement.icon className="h-5 w-5 text-blue-400" />
+                      <achievement.icon className="h-5 w-5 text-cyan-400" />
                     </div>
                     <h3 className="text-xl font-semibold text-gray-100">{achievement.title}</h3>
                   </div>
@@ -38,19 +38,19 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="container mx-auto px-4 py-16">
+      <section className="container mx-auto px-4 py-16 ">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold mb-8 text-center">Technical Expertise</h2>
           <div className="grid gap-8">
             <Card className="group relative overflow-hidden bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300">
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-950/30 via-slate-900/30 to-fuchsia-950/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-r from-cyan-950/30 via-slate-900/30 to-blue-950/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
               <CardHeader className="relative z-10">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-slate-800/50 rounded-lg group-hover:bg-slate-700/50 transition-colors">
-                    <Cpu className="h-5 w-5 text-purple-400" />
+                    <Cpu className="h-5 w-5 text-cyan-400" />
                   </div>
-                  <CardTitle>Core Technologies</CardTitle>
+                  <CardTitle className="text-gray-100">Core Technologies</CardTitle>
                 </div>
               </CardHeader>
               <CardContent className="relative z-10 flex flex-wrap gap-2">
@@ -58,24 +58,24 @@ export default function Home() {
                   <Badge
                     key={skill}
                     variant="default"
-                    className="bg-purple-500/10 hover:bg-purple-500/20 text-purple-200 transition-colors"
+                    className="bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-200 transition-colors"
                   >
                     {skill}
                   </Badge>
                 ))}
               </CardContent>
-              <div className="absolute inset-0 border border-purple-500/0 group-hover:border-purple-500/20 rounded-lg transition-colors duration-300" />
+              <div className="absolute inset-0 border border-cyan-500/0 group-hover:border-cyan-500/20 rounded-lg transition-colors duration-300" />
             </Card>
 
             <Card className="group relative overflow-hidden bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300">
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-950/30 via-slate-900/30 to-fuchsia-950/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-r from-cyan-950/30 via-slate-900/30 to-blue-950/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
               <CardHeader className="relative z-10">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-slate-800/50 rounded-lg group-hover:bg-slate-700/50 transition-colors">
-                    <Wrench className="h-5 w-5 text-purple-400" />
+                    <Wrench className="h-5 w-5 text-cyan-400" />
                   </div>
-                  <CardTitle>Additional Competencies</CardTitle>
+                  <CardTitle className="text-gray-100">Additional Competencies</CardTitle>
                 </div>
               </CardHeader>
               <CardContent className="relative z-10 flex flex-wrap gap-2">
@@ -83,24 +83,24 @@ export default function Home() {
                   <Badge
                     key={skill}
                     variant="outline"
-                    className="border-purple-500/30 hover:bg-purple-500/10 text-gray-300 transition-colors"
+                    className="border-cyan-500/30 hover:bg-cyan-500/10 text-gray-300 transition-colors"
                   >
                     {skill}
                   </Badge>
                 ))}
               </CardContent>
-              <div className="absolute inset-0 border border-purple-500/0 group-hover:border-purple-500/20 rounded-lg transition-colors duration-300" />
+              <div className="absolute inset-0 border border-cyan-500/0 group-hover:border-cyan-500/20 rounded-lg transition-colors duration-300" />
             </Card>
 
             <Card className="group relative overflow-hidden bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300">
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-950/30 via-slate-900/30 to-fuchsia-950/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-r from-cyan-950/30 via-slate-900/30 to-blue-950/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
               <CardHeader className="relative z-10">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-slate-800/50 rounded-lg group-hover:bg-slate-700/50 transition-colors">
-                    <Wrench className="h-5 w-5 text-purple-400" />
+                    <Wrench className="h-5 w-5 text-cyan-400" />
                   </div>
-                  <CardTitle>Tools & Platforms</CardTitle>
+                  <CardTitle className="text-gray-100">Tools & Platforms</CardTitle>
                 </div>
               </CardHeader>
               <CardContent className="relative z-10 flex flex-wrap gap-2">
@@ -108,13 +108,13 @@ export default function Home() {
                   <Badge
                     key={tool}
                     variant="outline"
-                    className="border-purple-500/30 hover:bg-purple-500/10 text-gray-300 transition-colors"
+                    className="border-cyan-500/30 hover:bg-cyan-500/10 text-gray-300 transition-colors"
                   >
                     {tool}
                   </Badge>
                 ))}
               </CardContent>
-              <div className="absolute inset-0 border border-purple-500/0 group-hover:border-purple-500/20 rounded-lg transition-colors duration-300" />
+              <div className="absolute inset-0 border border-cyan-500/0 group-hover:border-cyan-500/20 rounded-lg transition-colors duration-300" />
             </Card>
           </div>
         </div>
@@ -173,7 +173,7 @@ export default function Home() {
 
       <section className="container mx-auto px-4 py-16">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold mb-8 text-center">Featured Projects</h2>
+          <h2 className="text-3xl font-bold mb-8 text-center text-gray-100">Featured Projects</h2>
           <div className="grid gap-8">
             {projects.map((project) => (
               <Card
@@ -182,7 +182,7 @@ export default function Home() {
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-950/30 via-slate-900/30 to-blue-950/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-                <Link href={`/case-study/${project.id}`} className="absolute inset-0 z-10">
+                <Link href={`/portfolio/${project.id}`} className="absolute inset-0 z-10">
                   <span className="sr-only">View case study for {project.title}</span>
                 </Link>
 
@@ -270,7 +270,7 @@ export default function Home() {
             {services.map((service) => (
               <Link href={`/services/${service.id}`} key={service.id}>
                 <Card
-                  className="group relative overflow-hidden bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300 h-full transform hover:-translate-y-1 hover:shadow-lg hover:shadow-cyan-500/10"
+                  className="group relative overflow-hidden bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300 h-full transform hover:-translate-y-1"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-cyan-950/30 via-slate-900/30 to-blue-950/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
@@ -280,16 +280,16 @@ export default function Home() {
                         <service.icon className="h-6 w-6 text-cyan-400" />
                       </div>
                       <div className="p-2 rounded-full bg-slate-800/50 group-hover:bg-cyan-500/20 transition-colors duration-300">
-                        <ArrowUpRight className="h-5 w-5 text-cyan-400 transform group-hover:rotate-45 transition-transform duration-300" />
+                        <ArrowUpRight className="h-5 w-5 text-cyan-400" />
                       </div>
                     </div>
 
                     <h3 className="text-xl font-bold mb-2 text-gray-100 group-hover:text-cyan-200 transition-colors duration-300">
                       {service.title}
                     </h3>
-                    <p className="text-gray-400 mb-4">{service.shortDesc}</p>
+                    <p className="text-gray-400">{service.shortDesc}</p>
 
-                    <ul className="space-y-2">
+                    <ul className="space-y-2 mt-4">
                       {service.keyFeatures.slice(0, 2).map((feature, idx) => (
                         <li key={idx} className="flex items-start gap-2 text-gray-300">
                           <span className="mt-2 h-1.5 w-1.5 rounded-full bg-cyan-500/70 shrink-0" />
@@ -297,11 +297,6 @@ export default function Home() {
                         </li>
                       ))}
                     </ul>
-
-                    <div className="mt-4 flex items-center gap-2 text-cyan-400 text-sm opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                      <span>Explore Service</span>
-                      <ArrowUpRight className="h-4 w-4" />
-                    </div>
                   </CardContent>
 
                   <div className="absolute inset-0 border border-cyan-500/0 group-hover:border-cyan-500/20 rounded-lg transition-colors duration-300" />
@@ -309,45 +304,6 @@ export default function Home() {
               </Link>
             ))}
           </div>
-
-          <div className="mt-12 flex flex-wrap justify-center gap-3">
-            {[
-              "Web Development",
-              "Mobile Apps",
-              "Cloud Solutions",
-              "DevOps",
-              "API Development",
-              "Database Design",
-              "System Architecture",
-              "Performance Optimization"
-            ].map((tag, index) => (
-              <span
-                key={index}
-                className="px-4 py-2 rounded-full bg-cyan-500/10 text-cyan-200 text-sm border border-cyan-500/20 hover:bg-cyan-500/20 transition-all duration-300 cursor-pointer hover:scale-105"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        <div className="max-w-4xl mx-auto mt-16">
-          <Card className="group relative overflow-hidden bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300">
-            <div className="absolute inset-0 bg-gradient-to-r from-cyan-950/30 via-slate-900/30 to-blue-950/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-            <CardContent className="relative z-10 p-8 flex flex-col md:flex-row items-center justify-between gap-6">
-              <div>
-                <h3 className="text-xl font-bold mb-2 text-gray-100">Need a Custom Solution?</h3>
-                <p className="text-gray-400">Let's discuss how I can help bring your ideas to life.</p>
-              </div>
-              <button className="px-6 py-3 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-200 border border-cyan-500/20 transition-all duration-300 flex items-center gap-2 hover:scale-105">
-                <MessageSquare className="h-5 w-5" />
-                Schedule a Call
-              </button>
-            </CardContent>
-
-            <div className="absolute inset-0 border border-cyan-500/0 group-hover:border-cyan-500/20 rounded-lg transition-colors duration-300" />
-          </Card>
         </div>
       </section>
 
