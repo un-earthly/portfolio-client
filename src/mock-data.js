@@ -75,18 +75,35 @@ const projects = [
     ],
     liveUrl: '#',
     githubUrl: '#',
+    category: 'Full Stack Application',
+    metrics: {
+      users: '3,000+',
+      satisfaction: '95%',
+      performance: '99.9%'
+    },
+    timeline: '4 months',
+
   },
   {
     id: 'erp-system',
     title: "Enterprise Resource Planning System",
     description: "A full-featured ERP solution for managing business operations, including inventory, HR, and financial management modules.",
     image: "/api/placeholder/600/400",
-    technologies: ['React', 'Redux', 'Express', 'PostgreSQL'
-    ],
+    technologies: ['React', 'Redux', 'Express', 'PostgreSQL'],
     liveUrl: '#',
     githubUrl: '#',
+    category: 'Full Stack Application',
+    metrics: {
+      users: '3,000+',
+      satisfaction: '95%',
+      performance: '99.9%'
+    },
+    timeline: '4 months',
+
   }
 ];
+const categories = ['All Projects', 'Full Stack', 'Mobile Apps', 'E-Commerce', 'Enterprise'];
+
 const services = [
   {
     id: 'full-stack-dev',
@@ -215,4 +232,5 @@ export {
   services,
   tags,
   skills,
+  categories
 }

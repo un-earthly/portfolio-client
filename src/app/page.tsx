@@ -263,7 +263,7 @@ export default function Home() {
       </section>
 
 
-      <section className="container mx-auto px-4 py-16">
+      {/* <section className="container mx-auto px-4 py-16">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold mb-8 text-center text-gray-100">Services</h2>
           <div className="grid md:grid-cols-3 gap-6">
@@ -305,7 +305,7 @@ export default function Home() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
 
 
@@ -366,11 +366,11 @@ export default function Home() {
               <Button
                 asChild
                 size="lg"
-                className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 transition-colors"
+                className="bg-gradient-to-bl from-cyan-400 to-cyan-600 hover:from-emerald-500 hover:to-teal-500 transition-colors"
               >
                 <a href="mailto:vijayalamin@gmail.com" className="flex items-center gap-2">
                   <Mail className="h-5 w-5" />
-                  Schedule a Consultation
+                  Schedule a Conversation
                 </a>
               </Button>
             </CardContent>
