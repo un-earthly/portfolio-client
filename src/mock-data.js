@@ -224,6 +224,24 @@ const tags = [
   "System Architecture",
   "Performance Optimization"
 ]
+const links = [
+  {
+    href: '/',
+    label: 'Home'
+  },
+  {
+    href: "/portfolio",
+    label: 'Portfolio'
+  },
+  {
+    href: '/about',
+    label: 'About'
+  },
+  {
+    href: '/contact',
+    label: 'Contact'
+  },
+]
 export {
   developmentProcess,
   achievements,
@@ -232,5 +250,6 @@ export {
   services,
   tags,
   skills,
-  categories
+  categories,
+  links
 }
