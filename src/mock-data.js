@@ -1,5 +1,10 @@
 import {
-  Book, Brain, Code2, Users, Laptop, Database, Shield, Zap, Coffee, FileUser, Github, Globe, Heart, Layout, Linkedin, Mail, Microscope, Music, Palette, PenTool, Puzzle, Repeat, Rocket, Search, Store, Target, Trophy
+  Book, Brain, Code2, Users, Laptop, Database, Shield, Zap, Coffee, FileUser, Github, Globe, Heart, Layout, Linkedin, Mail, Microscope, Music, Palette, PenTool, Puzzle, Repeat, Rocket, Search, Store, Target, Trophy,
+  Code,
+  AlertCircle,
+  Smartphone,
+  LayoutDashboard,
+  Terminal
 } from "lucide-react";
 import localFont from "next/font/local";
 
@@ -107,7 +112,7 @@ const experiences = [
         "period": "6 months",
       }
     ],
-    keyTechnologies: ['React JS', 'Redux', 'Next Js', 'Node JS', 'Express JS', 'Postgre SQL', 'Socket IO', 'Firebase', 'ERD', 'Jest']
+    keyTechnologies: ['React JS', 'Redux', 'Next Js', 'Node JS', 'Express JS', 'Postgre SQL', 'Socket IO', 'Firebase', 'ERD', 'Jest', 'Redis']
 
   }
 ];
@@ -119,7 +124,7 @@ const achievements = [
   },
   {
     title: 'E-commerce Solutions',
-    description: 'Delivered 5 e-commerce applications, including Flutter and React Native solutions for international clients.',
+    description: 'Delivered 8 e-commerce applications, including Flutter and React Native solutions for international clients.',
     icon: Store
   },
   {
@@ -129,18 +134,17 @@ const achievements = [
   },
   {
     title: 'Project Leadership',
-    description: 'Currently leading two system management projects for USA-based clients, focusing on scalable and efficient solutions.',
+    description: 'Currently leading two system management projects for USA-based clients,And delivered a project with 95% success ratio, focusing on scalable and efficient solutions.',
     icon: Trophy
   }
 ];
 const projects = [
   {
-    id: 'lms-platform',
+    id: 'ishqool',
     title: "Learning Management System",
-    description: "A comprehensive LMS platform serving 3,000+ users with features like course management, progress tracking, and interactive assessments.",
-    image: "/api/placeholder/600/400",
-    technologies: ['Next.js', 'TypeScript', 'Node.js', 'MongoDB'
-    ],
+    description: "Ishqool is an emerging edtech startup in Bangladesh focusing on digital education solutions. It aims to transform how education is delivered in the country by leveraging technology to create engaging and accessible learning experiences.",
+    image: "https://i.ibb.co.com/Kz7sJv9/image.png",
+    technologies: ['Next.js', 'TypeScript', 'Node.js', 'MongoDB', 'Redis'],
     liveUrl: '#',
     githubUrl: '#',
     category: 'Full Stack Application',
@@ -149,24 +153,18 @@ const projects = [
       satisfaction: '95%',
       performance: '99.9%'
     },
-    timeline: '4 months',
+    timeline: '8 months',
 
   },
   {
-    id: 'erp-system',
-    title: "Enterprise Resource Planning System",
-    description: "A full-featured ERP solution for managing business operations, including inventory, HR, and financial management modules.",
-    image: "/api/placeholder/600/400",
+    id: 'gobadi',
+    title: "Gobadi",
+    description: "Gobadi is a mobile application designed to empower local farmers and livestock owners by providing a comprehensive platform for livestock management, veterinary support, and productivity enhancement. The app enables users to monitor their livestock’s health, schedule vaccinations, and connect with veterinarians. A unique AI-powered analyzer allows users to upload ...",
+    image: "https://i.ibb.co.com/N3fxDvN/image.png",
     technologies: ['React', 'Redux', 'Express', 'PostgreSQL'],
-    liveUrl: '#',
+    liveUrl: 'https://gobadi-admin.vercel.app/',
     githubUrl: '#',
-    category: 'Full Stack Application',
-    metrics: {
-      users: '3,000+',
-      satisfaction: '95%',
-      performance: '99.9%'
-    },
-    timeline: '4 months',
+    category: 'Web & Mobile Application',
 
   }
 ];
@@ -465,139 +463,381 @@ const socialLinks = [
   }
 
 ];
-const lms = {
-  id: 'lms-platform',
-  title: 'Learning Management System',
-  subtitle: 'A comprehensive e-learning platform revolutionizing online education',
-  thumbnail: '/api/placeholder/1200/600',
-  timeline: '4 months',
-  role: 'Lead Developer',
-  client: 'EdTech Startup',
-  overview: 'Developed a scalable LMS platform that handles 3,000+ concurrent users, featuring real-time analytics, interactive content delivery, and comprehensive progress tracking.',
-  challenges: [
-    {
-      title: 'Scalability',
-      description: 'Handling large-scale concurrent user sessions and real-time data updates',
-      icon: Users
+const projectsDetails = [
+  {
+    id: 'ishqool',
+    title: 'IshQool Ed-tech',
+    subtitle: "My first professional project where I learned full-stack development by building an education platform under senior mentorship.",
+    thumbnail: 'https://i.ibb.co.com/Kz7sJv9/image.png',
+    timeline: '8 months',
+    role: 'Web Developer → Full Stack Developer',
+    client: 'EdTech Startup',
+    overview: `In my first professional role at Ishqool, I started as a junior developer working on their Learning Management System (LMS). Under the guidance of senior developers, I learned to build React components, implement APIs, and work with databases. This hands-on experience at a Bangladeshi edtech startup taught me practical web development while contributing to a platform that makes education more accessible.`,
+    challenges: [
+      {
+        title: 'Learning Curve',
+        description: 'Mastering Git workflows, code review processes, and the MERN stack',
+        icon: Users
+      },
+      {
+        title: 'Complex Architecture',
+        description: 'Understanding MVC pattern and client-server communication',
+        icon: Zap
+      },
+      {
+        title: 'Team Collaboration',
+        description: 'Following coding standards and documentation requirements',
+        icon: Shield
+      }
+    ],
+    solutions: [
+      {
+        title: 'Guided Learning of MERN Stack',
+        description: 'Built features using Node.js, Express, MongoDB, and React under senior guidance',
+        icon: Database,
+        details: [
+          'Created REST APIs using Express for user authentication and course management',
+          'Built React components for student dashboard and course viewer',
+          'Wrote MongoDB queries for user data and course content storage',
+          'Connected React components to backend APIs using Axios',
+          'Used Git for version control and pull request workflows'
+        ]
+      },
+      {
+        title: 'Real-time Feature Implementation',
+        description: 'Built WebSocket features with mentor support',
+        icon: Laptop,
+        details: [
+          'Implemented course progress tracking updates',
+          'Built WebSocket connection for live quiz participation',
+          'Created real-time notification system for course updates'
+        ]
+      },
+      {
+        title: 'Security Implementation',
+        description: 'Learned and applied security measures under senior supervision',
+        icon: Shield,
+        details: [
+          'Implemented JWT tokens for user session management',
+          'Set up role-based permissions for students and teachers',
+          'Applied input validation and sanitization'
+        ]
+      }
+    ],
+    techStack: {
+      frontend: ['React.js', 'TypeScript', 'Scss', 'Redux Toolkit'],
+      backend: ['Node.js', 'Express', 'WebSocket', 'RESTful APIs', 'JWT', 'RBAC', 'Postman'],
+      database: ['PostgreSQL', 'Redis', 'MongoDB'],
+      devops: ['Docker', 'AWS', 'Github Actions', 'AWS S3']
     },
-    {
-      title: 'Performance',
-      description: 'Optimizing content delivery and reducing loading times across devices',
-      icon: Zap
+    keyFeatures: [
+      'Course content player with video and text lessons',
+      'Student progress tracking dashboard',
+      'Teacher analytics for course performance',
+      'User management system',
+      'Automated quiz grading system',
+      'Video lecture streaming'
+    ],
+    metrics: {
+      users: '3,000+',
+      satisfaction: '95%',
+      performance: '99.9%',
+      uptime: '99.99%'
     },
-    {
-      title: 'Security',
-      description: 'Ensuring data privacy and implementing robust authentication',
-      icon: Shield
-    }
-  ],
-  solutions: [
-    {
-      title: 'Microservices Architecture',
-      description: 'Implemented a scalable microservices architecture using Node.js and Docker',
-      icon: Database,
-      details: [
-        'Service isolation for better scaling',
-        'Load balancing across services',
-        'Containerized deployments'
+    developmentPhases: [
+      {
+        title: 'Initial Learning Phase',
+        duration: '4 weeks',
+        activities: [
+          'Studied the existing React component structure',
+          'Learned Express routing and middleware concepts',
+          'Practiced MongoDB CRUD operations',
+          'Set up local development environment',
+          'Completed assigned Udemy courses on MERN stack'
+        ]
+      },
+      {
+        title: 'Guided Development',
+        duration: '8 weeks',
+        activities: [
+          'Built login and registration forms in React',
+          'Created APIs for user authentication',
+          'Set up MongoDB schemas for users and courses',
+          'Participated in daily code reviews',
+          'Fixed CSS styling issues and UI bugs'
+        ]
+      },
+      {
+        title: 'Growing Responsibilities',
+        duration: '12 weeks',
+        activities: [
+          'Built course viewer component in React',
+          'Created APIs for course management',
+          'Added WebSocket for real-time features',
+          'Implemented user roles and permissions',
+          'Optimized frontend performance'
+        ]
+      },
+      {
+        title: 'Independent Contribution',
+        duration: '4 weeks',
+        activities: [
+          'Built quiz module frontend and backend',
+          'Created student progress tracking system',
+          'Added real-time notifications',
+          'Implemented error logging system',
+          'Helped with AWS S3 integration'
+        ]
+      }
+    ],
+    results: [
+      {
+        metric: 'Technical Skills',
+        value: 'MERN',
+        description: 'Learned full-stack JavaScript development'
+      },
+      {
+        metric: 'Features Built',
+        value: '4',
+        description: 'Auth, Courses, Quiz, Progress tracking modules'
+      },
+      {
+        metric: 'Code Quality',
+        value: '90%',
+        description: 'Pull request approval rate'
+      }
+    ],
+    href: 'https://www.ishqool.com/',
+    responsibilities: [
+      {
+        role: 'Junior Web Developer (Initial Phase)',
+        icon: Code,
+        tasks: [
+          'Built login and registration pages in React',
+          'Connected authentication APIs to frontend forms',
+          'Created course listing and detail pages from Figma designs',
+          'Fixed browser compatibility issues in Chrome and Firefox'
+        ]
+      },
+      {
+        role: 'Growing Full-Stack Developer (Later Phase)',
+        icon: Database,
+        tasks: [
+          'Created MongoDB schemas for quiz and progress tracking',
+          'Built REST APIs for quiz submission and grading',
+          'Added JWT authentication to protect admin routes',
+          'Implemented WebSocket for live quiz participation',
+          'Optimized image loading with lazy loading'
+        ]
+      }
+    ]
+  }, {
+    id: 'gobadi',
+    title: 'Gobadi',
+    subtitle: 'Technical architect and lead developer for an AI-powered livestock healthcare platform',
+    thumbnail: 'https://i.ibb.co.com/N3fxDvN/image.png',
+    timeline: '4 months',
+    role: 'Technical Architect & Lead Developer',
+    client: 'Internal Product',
+    overview: `Gobadi is our startup's livestock management platform that revolutionizes veterinary care through AI-powered diagnostics and telemedicine. As the technical architect and lead developer, I designed and implemented both the mobile application and admin dashboard, focusing on creating a robust architecture that handles AI-based disease detection, automated pricing systems, and real-time vet consultations. Working closely with product management, I established the technical foundation for scaling our platform.`,
+
+    challenges: [
+      {
+        title: 'System Architecture',
+        description: 'Designing a scalable architecture to handle AI processing, real-time communication, and automated pricing',
+        icon: Database
+      },
+      {
+        title: 'AI Integration',
+        description: 'Creating reliable image processing pipeline for livestock disease detection and automated price calculation',
+        icon: Brain
+      },
+      {
+        title: 'Performance at Scale',
+        description: 'Implementing advanced caching and state management for optimal user experience',
+        icon: Zap
+      },
+      {
+        title: 'Error Handling',
+        description: 'Developing comprehensive error handling and logging system for better debugging and monitoring',
+        icon: AlertCircle
+      }
+    ],
+
+    solutions: [
+      {
+        title: 'Robust Architecture Design',
+        description: 'Implemented scalable architecture with advanced error handling and logging',
+        icon: Database,
+        details: [
+          'Designed modular architecture separating AI processing, user management, and consultation systems',
+          'Implemented comprehensive error handling with detailed logging',
+          'Created efficient caching strategies using Redis',
+          'Built automated failover systems for critical services',
+          'Developed optimized database schemas for quick data retrieval'
+        ]
+      },
+      {
+        title: 'Mobile App Development',
+        description: 'Built React Native app with optimized state management and offline capabilities',
+        icon: Smartphone,
+        details: [
+          'Implemented efficient Redux state management architecture',
+          'Created optimized image processing pipeline for AI analysis',
+          'Built real-time consultation feature with WebSocket',
+          'Developed robust offline mode with data synchronization',
+          'Implemented automated price calculation system'
+        ]
+      },
+      {
+        title: 'Admin Dashboard',
+        description: 'Developed comprehensive admin interface with real-time monitoring',
+        icon: LayoutDashboard,
+        details: [
+          'Built scalable React admin dashboard using shadcn/ui',
+          'Implemented real-time monitoring of system metrics',
+          'Created detailed analytics for disease detection patterns',
+          'Developed vet consultation management system',
+          'Added automated pricing oversight tools'
+        ]
+      },
+      {
+        title: 'AI Integration',
+        description: 'Implemented robust AI processing pipeline for disease detection',
+        icon: Brain,
+        details: [
+          'Created optimized image processing pipeline for OpenAI integration',
+          'Implemented automated disease detection system',
+          'Built dynamic pricing algorithm based on AI analysis',
+          'Developed caching system for AI responses',
+          'Added failure handling for AI processing'
+        ]
+      }
+    ],
+
+    techStack: {
+      frontend: [
+        'React',
+        'React Native',
+        'Redux Toolkit',
+        'Tailwind CSS',
+        'shadcn/ui',
+        'Socket.io Client'
+      ],
+      backend: [
+        'Node.js',
+        'Express',
+        'JWT',
+        'Socket.io',
+        'OpenAI API'
+      ],
+      database: [
+        'PostgreSQL',
+        'Redis',
+        'Sequelize ORM'
+      ],
+      monitoring: [
+        'Winston Logger',
+        'Error Tracking',
+        'Performance Monitoring'
       ]
     },
-    {
-      title: 'Real-time Features',
-      description: 'WebSocket implementation for live updates and progress tracking',
-      icon: Laptop,
-      details: [
-        'Real-time progress updates',
-        'Live collaboration features',
-        'Instant notifications'
-      ]
+
+    keyFeatures: [
+      'AI-powered livestock disease detection',
+      'Automated consultation pricing',
+      'Real-time vet consultation system',
+      'Advanced error tracking and logging',
+      'Optimized state management',
+      'Comprehensive admin dashboard',
+      'Real-time system monitoring',
+      'Robust caching implementation',
+      'Automated failover systems',
+      'Performance optimization'
+    ],
+
+    metrics: {
+      processing_time: '2s',
+      ai_accuracy: '95%',
+      app_performance: '99%',
+      uptime: '99.9%'
     },
-    {
-      title: 'Security Measures',
-      description: 'Comprehensive security implementation with multiple layers',
-      icon: Shield,
-      details: [
-        'JWT-based authentication',
-        'Role-based access control',
-        'Data encryption'
-      ]
-    }
-  ],
-  techStack: {
-    frontend: ['Next.js', 'TypeScript', 'TailwindCSS', 'Redux Toolkit'],
-    backend: ['Node.js', 'Express', 'WebSocket', 'GraphQL'],
-    database: ['PostgreSQL', 'Redis', 'MongoDB'],
-    devops: ['Docker', 'AWS', 'Github Actions', 'Terraform']
-  },
-  keyFeatures: [
-    'Interactive course content delivery',
-    'Real-time progress tracking',
-    'Advanced analytics dashboard',
-    'Multi-tenant architecture',
-    'Automated assessment system',
-    'Interactive video lectures'
-  ],
-  metrics: {
-    users: '3,000+',
-    satisfaction: '95%',
-    performance: '99.9%',
-    uptime: '99.99%'
-  },
-  developmentPhases: [
-    {
-      title: 'Discovery & Planning',
-      duration: '2 weeks',
-      activities: [
-        'Requirement analysis and documentation',
-        'System architecture design',
-        'Technology stack selection',
-        'Sprint planning and story pointing'
-      ]
-    },
-    {
-      title: 'Development',
-      duration: '12 weeks',
-      activities: [
-        'Frontend development with Next.js',
-        'Backend API development',
-        'Database schema design',
-        'Real-time features implementation'
-      ]
-    },
-    {
-      title: 'Testing & Optimization',
-      duration: '2 weeks',
-      activities: [
-        'Performance testing and optimization',
-        'Security testing and auditing',
-        'User acceptance testing',
-        'Load testing and scaling'
-      ]
-    }
-  ],
-  results: [
-    {
-      metric: 'User Engagement',
-      value: '300%',
-      description: 'Increase in average user session duration'
-    },
-    {
-      metric: 'Course Completion',
-      value: '50%',
-      description: 'Reduction in average course completion time'
-    },
-    {
-      metric: 'System Performance',
-      value: '99.9%',
-      description: 'Uptime with sub-second response times'
-    }
-  ],
-  testimonial: {
-    quote: "The platform has transformed how we deliver educational content to our users. The performance and user experience are exceptional.",
-    author: "Sarah Johnson",
-    role: "CEO, EdTech Startup"
+
+    developmentPhases: [
+      {
+        title: 'Architecture Planning',
+        duration: '2 weeks',
+        activities: [
+          'Designing system architecture for scalability',
+          'Planning state management structure',
+          'Creating error handling strategy',
+          'Designing AI integration pipeline',
+          'Planning caching implementation'
+        ]
+      },
+      {
+        title: 'Foundation Development',
+        duration: '4 weeks',
+        activities: [
+          'Setting up base architecture',
+          'Implementing core state management',
+          'Creating error handling system',
+          'Building logging infrastructure',
+          'Implementing caching system'
+        ]
+      },
+      {
+        title: 'Feature Implementation',
+        duration: '6 weeks',
+        activities: [
+          'Developing AI image processing pipeline',
+          'Building consultation system',
+          'Creating pricing algorithm',
+          'Implementing real-time features',
+          'Building admin dashboard'
+        ]
+      },
+      {
+        title: 'Optimization Phase',
+        duration: '4 weeks',
+        activities: [
+          'Optimizing app performance',
+          'Enhancing error handling',
+          'Improving caching efficiency',
+          'Refining AI processing',
+          'Streamlining state management'
+        ]
+      }
+    ],
+
+    responsibilities: [
+      {
+        role: 'Technical Architect',
+        icon: Code,
+        tasks: [
+          'Designed scalable system architecture for mobile and web applications',
+          'Created efficient state management structure using Redux',
+          'Implemented comprehensive error handling and logging system',
+          'Designed AI integration pipeline for disease detection',
+          'Developed automated pricing calculation system'
+        ]
+      },
+      {
+        role: 'Lead Developer',
+        icon: Terminal,
+        tasks: [
+          'Built React Native mobile application with optimized performance',
+          'Developed React admin dashboard with real-time monitoring',
+          'Implemented advanced caching strategies',
+          'Created robust error tracking and debugging systems',
+          'Optimized application performance and state management'
+        ]
+      }
+    ],
+
+    href: 'https://gobadi-admin.vercel.app/'
   }
-};
+];
 export {
   developmentProcess,
   achievements,
@@ -615,6 +855,6 @@ export {
   codeSnippets,
   geistSans,
   geistMono,
-  lms as project,
+  projectsDetails,
   socialLinks
 }
