@@ -13,37 +13,102 @@ const skills = {
 };
 const experiences = [
   {
-    title: "Project Manager",
-    company: "Masleap Plc",
-    period: "August 2024 - Present",
-    responsibilities: [
-      "Leading two system management projects for USA-based clients",
-      "Designing ERDs and system architecture for scalable solutions",
-      "Mentoring junior developers and conducting Scrum ceremonies",
-      "Creating Low-Level and High-Level Designs for efficient development"
-    ]
+    "company": "Masleap Plc",
+    "companyLogo": "https://media.licdn.com/dms/image/v2/C4D0BAQEn0kE51pSFMw/company-logo_100_100/company-logo_100_100/0/1635880649194",
+    "duration": "4 months",
+    "type": "Full-time",
+    "location": "On-site",
+    "positions": [
+      {
+        "title": "Project Manager",
+        "duration": "Oct 2024 - Present",
+        "period": "2 months",
+      },
+      {
+        "title": "Project Lead Developer",
+        "duration": "Aug 2024 - Oct 2024",
+        "period": "3 months",
+        "location": "Mohammadpur, Dhaka",
+      }
+    ],
+    keyTechnologies: ['Nuxt js', 'Vue JS', 'H3 Event', 'VB.Net', 'MSSQL', 'MYSQL', 'React Native', 'React JS', 'Next Js', 'Node JS', 'Web Socket', 'Web Scrapping', 'Dcoker', 'AWS Cloudfront', 'AWS Lambda', 'AWS S3', 'AWS EC2']
   },
   {
-    title: "Software Engineer",
-    company: "TNC Global Limited",
-    period: "November 2023 - July 2024",
-    responsibilities: [
-      "Led frontend team in developing ERP management prototype",
-      "Developed and maintained applications using React JS and Next.js",
-      "Deployed applications to AWS EC2 for scalable cloud solutions",
-      "Mentored junior developers and resolved complex UI challenges"
-    ]
+    "company": "TNC Global Ltd",
+    "duration": "9 months",
+    "type": "Full-time",
+    "location": "Dhaka, Bangladesh · On-site",
+    "positions": [
+      {
+        "title": "Front End Lead",
+        "duration": "Feb 2024 - Jul 2024",
+        "period": "6 months",
+      },
+      {
+        "title": "Software Engineer",
+        "duration": "Nov 2023 - Feb 2024",
+        "period": "4 months",
+      }
+    ],
+    keyTechnologies: ['React Js', 'Next js', 'Jotai', 'Django', 'DRF', 'PostgreSQL', 'Django ORM', 'Figma', 'AWS EC2', 'AWS S3', 'Web Socket', 'Multi tenants', 'Micro services', 'Dcoker']
   },
   {
-    title: "Front-End Developer",
-    company: "Premium Solutions Limited",
-    period: "March 2023 - June 2024",
-    responsibilities: [
-      "Implemented frontend for 5 e-commerce projects",
-      "Developed using Flutter, Vue.js, and Next.js for diverse client needs",
-      "Specialized in responsive and user-friendly interfaces",
-      "Integrated frontend with backend APIs for seamless functionality"
-    ]
+    "company": "Premium Solutions Limited",
+    "companyLogo": "https://media.licdn.com/dms/image/v2/C4D0BAQHv__l-6HAS9Q/company-logo_100_100/company-logo_100_100/0/1656110075472",
+    "duration": "1 year 5 months",
+    "type": "Full-time",
+    "location": "Dhaka, Bangladesh · Remote",
+    "positions": [
+      {
+        "title": "Full-stack Developer",
+        "duration": "Sep 2023 - Jul 2024",
+        "period": "11 months",
+        "description": "Over the years, I've had the chance to work on some exciting projects for clients across the Middle East, Europe, Bangladesh, and China. One of the most interesting projects I worked on was a Node.js application integrated with Shopify. I built this system to make life easier for Shopify store owners by automating tasks like finding suppliers, managing shipping, and tracking orders—all from a single admin dashboard. It connected businesses with verified suppliers worldwide and streamlined the entire process, saving a lot of time and effort.\n\nAnother project I'm proud of is a Flutter mobile app I developed for an online fish store in the Middle East. This app made it easy for users to find the fish they needed by category, use advanced search options, and manage their orders without any hassle. It was all about creating a smooth and user-friendly shopping experience.\n\nI've also been part of teams working on multiple B2B e-commerce platforms, building features like product listings, order tracking, and supplier profiles. These projects focused on making business operations simpler and more efficient for clients.\n\nWhat I've learned through these experiences is the importance of delivering solutions that are not just technically sound but also practical and easy to use. I've always prioritized creating scalable and reliable systems while making sure everything is delivered on time. It's been a great journey, and I'm excited to keep building solutions that make a difference!"
+      },
+      {
+        "title": "Frontend Developer",
+        "duration": "Mar 2023 - Aug 2024",
+        "period": "6 months",
+      }
+    ],
+    keyTechnologies: ['React Js', 'Svelte Kit', 'Redux', 'Next js', 'Node JS', 'Flutter', 'React Native', 'MongoDB', 'Shopify', 'Bubble', 'C Panel']
+
+  },
+  {
+    "company": "Prolific Tech Solutions",
+    "duration": "8 months",
+    "type": "Part-time",
+    "location": "Remote",
+    "positions": [
+      {
+        "title": "React Native Developer",
+        "duration": "Nov 2022 - Jun 2023",
+        "period": "8 months",
+      }
+    ],
+    keyTechnologies: ['React Native', 'Socket IO', 'Redux', 'Firebase', 'Node JS', 'Express JS', 'Google Maps', 'Internationalization', 'Jest']
+
+  },
+  {
+    "company": "IshQool",
+    "companyLogo": "https://media.licdn.com/dms/image/v2/D4D0BAQGdwOuHisFr3g/company-logo_100_100/company-logo_100_100/0/1680240340779",
+    "duration": "8 months",
+    "type": "Full-time",
+    "location": "Dhaka, Bangladesh · Remote",
+    "positions": [
+      {
+        "title": "Full-stack Developer",
+        "duration": "Jan 2023 - Mar 2023",
+        "period": "3 months",
+      },
+      {
+        "title": "Web Developer",
+        "duration": "Aug 2022 - Jan 2023",
+        "period": "6 months",
+      }
+    ],
+    keyTechnologies: ['React JS', 'Redux', 'Next Js', 'Node JS', 'Express JS', 'Postgre SQL', 'Socket IO', 'Firebase', 'ERD', 'Jest']
+
   }
 ];
 const achievements = [

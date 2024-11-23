@@ -63,7 +63,7 @@ const DesktopAside = () => <div className="w-full h-screen hidden p-4 lg:p-8 lg:
     >
         {socialLinks.map(e => {
             return (
-                <Link href={e.href} target='_blank'>
+                <Link href={e.href} key={e.href} target='_blank'>
                     <Button
                         variant="ghost"
                         size="icon"

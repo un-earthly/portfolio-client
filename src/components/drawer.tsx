@@ -16,6 +16,7 @@ export default function Drawer({ handler }: Props) {
 
                 {links.map(e => {
                     return (<Link
+                        key={e.href}
                         href={e.href}
                         passHref
                         onClick={handler}

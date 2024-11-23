@@ -3,9 +3,10 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import React from 'react'
 import { Button, } from "@/components/ui/button"
-import { ArrowUpRight, Briefcase, Building2, CheckCircle, Code2, Cpu, Database, ExternalLink, Globe, Laptop, Layout, Mail, MessageSquare, Microscope, Palette, PenTool, Repeat, Rocket, Search, Sparkles, Store, Trophy, Users, Wrench } from 'lucide-react'
+import { ArrowUpRight, Briefcase, Building2, CheckCircle, Clock, Code2, Cpu, Database, ExternalLink, Globe, Laptop, Layout, Mail, MapPin, MessageSquare, Microscope, Palette, PenTool, Repeat, Rocket, Search, Sparkles, Store, Trophy, Users, Wrench } from 'lucide-react'
 import Link from "next/link";
-import { achievements, developmentProcess, experiences, projects, skills, tags } from '@/mock-data'
+import { achievements, developmentProcess, experiences, projects, skills } from '@/mock-data'
+import ExperienceCard from "@/components/ExperinceCard";
 export default function Home() {
   return (
     <div className="max-w-4xl mx-auto space-y-6">
@@ -117,50 +118,18 @@ export default function Home() {
       </section>
 
       <section>
-        <h2 className="text-3xl font-bold mb-8 text-center">Professional Experience</h2>
+        <Link href="/experience" className="block w-fit mx-auto mb-4">
+          <div className="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-slate-800/50 transition-all duration-300 cursor-pointer group">
+            <h2 className="text-3xl font-bold text-center group-hover:text-cyan-400 transition-colors">
+              Professional Experience
+            </h2>
+            <ArrowUpRight className="h-6 w-6 text-cyan-400 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300 ease-out" />
+            <span className="sr-only">View all experiences</span>
+          </div>
+        </Link>
         <div className="grid gap-8">
-          {experiences.map((exp, index) => (
-            <Card
-              key={index}
-              className="group relative bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-cyan-950/30 via-slate-900/30 to-blue-950/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-              <CardHeader className="relative z-10">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 bg-slate-800/50 rounded-lg group-hover:bg-slate-700/50 transition-colors">
-                      <Briefcase className="h-5 w-5 text-cyan-400" />
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-semibold text-gray-100">{exp.title}</h3>
-                      <div className="flex items-center gap-2 text-sm text-gray-400">
-                        <Building2 className="h-4 w-4" />
-                        <span>{exp.company}</span>
-                        <span>•</span>
-                        <span>{exp.period}</span>
-                      </div>
-                    </div>
-                  </div>
-                  <button className="p-2 rounded-full hover:bg-slate-800/50 transition-colors group-hover:text-cyan-400">
-                    <ArrowUpRight className="h-5 w-5 transform text-cyan-400 group-hover:rotate-45 transition-transform duration-300" />
-                  </button>
-                </div>
-              </CardHeader>
-
-              <CardContent className="relative z-10">
-                <ul className="space-y-2">
-                  {exp.responsibilities.map((resp, idx) => (
-                    <li key={idx} className="flex items-start gap-2 text-gray-300">
-                      <span className="mt-2 h-1.5 w-1.5 rounded-full bg-cyan-500/70 shrink-0" />
-                      {resp}
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-
-              <div className="absolute inset-0 border border-cyan-500/0 group-hover:border-cyan-500/20 rounded-lg transition-colors duration-300" />
-            </Card>
+          {experiences.slice(0, 2).map((company, index) => (
+            <ExperienceCard company={company} key={index} />
           ))}
         </div>
       </section>
