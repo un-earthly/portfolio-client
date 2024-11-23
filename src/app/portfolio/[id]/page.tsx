@@ -23,7 +23,6 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
 const CaseStudyPage = () => {
-    // Example data - In a real app, this would come from your CMS or data source
     const project = {
         id: 'lms-platform',
         title: 'Learning Management System',
@@ -473,7 +472,7 @@ const CaseStudyPage = () => {
                                             <MessageSquare className="h-4 w-4 mr-2" />
                                             Schedule a Consultation
                                         </Button>
-                                        <Button variant="outline" className="border-cyan-500/20 text-cyan-400 hover:bg-cyan-500/10">
+                                        <Button variant="outline" className="border-cyan-500/20 text-cyan-400 hover:bg-cyan-500/10 hover:text-cyan-300">
                                             <Eye className="h-4 w-4 mr-2" />
                                             View More Projects
                                         </Button>

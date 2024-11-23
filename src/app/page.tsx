@@ -5,11 +5,11 @@ import React from 'react'
 import { Button, } from "@/components/ui/button"
 import { ArrowUpRight, Briefcase, Building2, CheckCircle, Code2, Cpu, Database, ExternalLink, Globe, Laptop, Layout, Mail, MessageSquare, Microscope, Palette, PenTool, Repeat, Rocket, Search, Sparkles, Store, Trophy, Users, Wrench } from 'lucide-react'
 import Link from "next/link";
-import { achievements, developmentProcess, experiences, projects, services, skills, tags } from '@/mock-data'
+import { achievements, developmentProcess, experiences, projects, skills, tags } from '@/mock-data'
 export default function Home() {
   return (
     <div>
-      <section className="container mx-auto px-4">
+      <section className="container  mx-auto px-4">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold mb-8 text-center">Key Achievements</h2>
           <div className="grid gap-8 md:grid-cols-2">
@@ -353,31 +353,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="container mx-auto px-4 py-16">
-        <div className="max-w-4xl mx-auto text-center">
-          <Card className="group relative overflow-hidden bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300">
-            <div className="absolute inset-0 bg-gradient-to-r from-emerald-950/30 via-slate-900/30 to-teal-950/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-            <CardContent className="relative z-10 py-8">
-              <h2 className="text-3xl font-bold mb-4 text-white">Ready to Elevate Your Digital Presence?</h2>
-              <p className="text-lg text-gray-400 mb-8">
-                Let's discuss how my expertise in full-stack development and cloud solutions can drive your project to success.
-              </p>
-              <Button
-                asChild
-                size="lg"
-                className="bg-gradient-to-bl from-cyan-400 to-cyan-600 hover:from-emerald-500 hover:to-teal-500 transition-colors"
-              >
-                <a href="mailto:vijayalamin@gmail.com" className="flex items-center gap-2">
-                  <Mail className="h-5 w-5" />
-                  Schedule a Conversation
-                </a>
-              </Button>
-            </CardContent>
-            <div className="absolute inset-0 border border-emerald-500/0 group-hover:border-emerald-500/20 rounded-lg transition-colors duration-300" />
-          </Card>
-        </div>
-      </section>
     </div>
 
   );

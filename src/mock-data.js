@@ -1,4 +1,5 @@
 import { Book, Brain, Code2, Coffee, Database, Globe, Heart, Laptop, Layout, Microscope, Music, Palette, PenTool, Puzzle, Repeat, Rocket, Search, Store, Target, Trophy, Users } from "lucide-react";
+import localFont from "next/font/local";
 
 const skills = {
   specialized: ['React & Next.js', 'Redux', 'TypeScript', 'Node & Express JS', 'MongoDB', 'PostgreSQL', 'Vue & Nuxt.js'
@@ -242,6 +243,13 @@ const links = [
     label: 'Contact'
   },
 ];
+const codeSnippets = [
+  { color: 'text-green-400', content: '<div>' },
+  { color: 'text-blue-400', content: 'const dev =' },
+  { color: 'text-yellow-400', content: 'function()' },
+  { color: 'text-pink-400', content: '=> {' },
+  { color: 'text-purple-400', content: 'return (' },
+];
 const persona = {
   role: "Full Stack Developer",
   mission: "To craft elegant solutions to complex problems while continuously learning and growing",
@@ -353,7 +361,19 @@ const personalInterests = [
     title: "Music Lover",
     description: "Coding with rhythm"
   }
-]
+];
+
+const geistSans = localFont({
+  src: "./app/fonts/GeistVF.woff",
+  variable: "--font-geist-sans",
+  weight: "100 900",
+});
+
+const geistMono = localFont({
+  src: "./app/fonts/GeistMonoVF.woff",
+  variable: "--font-geist-mono",
+  weight: "100 900",
+});
 export {
   developmentProcess,
   achievements,
@@ -367,5 +387,8 @@ export {
   sprints,
   userStories,
   persona,
-  personalInterests
+  personalInterests,
+  codeSnippets,
+  geistSans,
+  geistMono,
 }

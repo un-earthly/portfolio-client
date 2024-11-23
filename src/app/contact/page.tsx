@@ -149,7 +149,7 @@ const ContactForm = () => {
         //         </button>
         //     </form>
         // </div>
-        <div className="min-h-[93vh] flex items-center justify-center">
+        <div className="lg:min-h-[93vh] flex items-center justify-center">
             <Card className="w-full max-w-lg mx-auto space-y-8 bg-gradient-to-br from-bg/10 to-bg/5 text-gray-300">
                 <CardHeader className="space-y-2">
                     <CardTitle className="text-3xl font-bold">Contact me</CardTitle>
