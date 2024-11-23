@@ -54,11 +54,17 @@ export default function RootLayout({
         <div className="bg-gradient-to-b from-black to-gray-900 text-gray-300">
           <div className="relative overflow-hidden text-gray-400">
             <AnimatedBackground mousePosition={mousePosition} />
-            <div className="flex flex-col lg:grid lg:grid-cols-9 min-h-screen">
-              <DesktopAside />
-              <MobileInto />
-              <main className="w-full lg:col-span-6 h-[calc(100vh-6rem)] overflow-y-auto lg:h-screen py-4 lg:py-10 px-4 lg:px-8">
-                {children}
+            <div className="grid grid-cols-9">
+              <div className="col-span-3">
+                <DesktopAside />
+              </div>
+              <div className="col-span-9 lg:hidden">
+                <MobileInto />
+              </div>
+              <main className="lg:col-span-6 col-span-9 overflow-hidden">
+                <div className="lg:h-screen h-[67vh] w-full overflow-y-scroll">
+                  {children}
+                </div>
               </main>
             </div>
           </div>

@@ -4,7 +4,7 @@ import { socialLinks } from "@/mock-data";
 import Link from "next/link";
 
 
-const MobileInto = () => <div className="w-11/12 mx-auto lg:hidden bg-gradient-to-br from-black/40 to-gray-900/60 border border-cyan-500/20 rounded-xl shadow-lg backdrop-filter backdrop-blur-lg">
+const MobileInto = () => <div className="w-11/12 mx-auto bg-gradient-to-br from-black/40 to-gray-900/60 border border-cyan-500/20 rounded-xl shadow-lg backdrop-filter backdrop-blur-lg">
     <div className="p-4">
         <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">

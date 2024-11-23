@@ -4,7 +4,7 @@ import { Card } from "./ui/card";
 import { socialLinks } from "@/mock-data";
 import Link from "next/link";
 import { Button } from "./ui/button";
-const DesktopAside = () => <div className="w-full hidden lg:col-span-3 p-4 lg:p-8 lg:flex items-center justify-center flex-col text-center bg-gradient-to-br from-transparent to-gray-900/5 shadow-[rgba(0,0,0,0.1)_10px_5px_4px_0px] bg-opacity-50 backdrop-filter backdrop-blur-lg rounded-xl">
+const DesktopAside = () => <div className="w-full hidden p-4 lg:p-8 lg:flex items-center justify-center flex-col text-center bg-gradient-to-br from-transparent to-gray-900/5 shadow-[rgba(0,0,0,0.1)_10px_5px_4px_0px] bg-opacity-50 backdrop-filter backdrop-blur-lg rounded-xl">
     <div className="flex items-center justify-center">
         <Image
             src="/pp.png"
