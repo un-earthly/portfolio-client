@@ -1,82 +1,3 @@
-// 'use client'
-
-// import { ChevronDown } from 'lucide-react'
-// import { useState } from 'react'
-
-// export default function Component() {
-//   const [activeSection, setActiveSection] = useState<string | null>(null)
-
-//   const toggleSection = (section: string) => {
-//     setActiveSection(activeSection === section ? null : section)
-//   }
-
-//   const Section = ({ title, children, id }: { title: string; children: React.ReactNode; id: string }) => (
-//     <div className="mb-8">
-//       <button
-//         onClick={() => toggleSection(id)}
-//         className="flex justify-between items-center w-full text-left text-xl font-semibold text-gray-200 mb-4 focus:outline-none"
-//       >
-//         {title}
-//         <ChevronDown className={`w-6 h-6 transition-transform duration-300 ${activeSection === id ? 'transform rotate-180' : ''}`} />
-//       </button>
-//       <div className={`overflow-hidden transition-all duration-300 ${activeSection === id ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
-//         {children}
-//       </div>
-//     </div>
-//   )
-
-//   return (
-//     <div className="max-w-3xl mx-auto">
-
-
-//       <Section title="About Me" id="about">
-//         <p className="text-gray-400 leading-relaxed">
-//           I&apos;m a dynamic developer with over 3 years of experience across the MERN stack, complemented by hands-on expertise in mobile development, system design, and web scraping. I specialize in creating scalable, high-performance web solutions using Next.js, React.js, Vue.js, Node.js, MongoDB, PostgreSQL, MSSQL, and MySQL. Throughout my career, I&apos;ve contributed to both frontend and backend development, driving efficiencies and delivering user-centric solutions.
-//         </p>
-//       </Section>
-
-//       <Section title="Key Skills" id="skills">
-//         <ul className="grid grid-cols-2 gap-2 text-gray-400">
-//           <li className="flex items-center"><span className="w-2 h-2 bg-purple-500 rounded-full mr-2"></span>React & Next.js</li>
-//           <li className="flex items-center"><span className="w-2 h-2 bg-purple-500 rounded-full mr-2"></span>Vue.js & Nuxt.js</li>
-//           <li className="flex items-center"><span className="w-2 h-2 bg-purple-500 rounded-full mr-2"></span>Node.js & Express.js</li>
-//           <li className="flex items-center"><span className="w-2 h-2 bg-purple-500 rounded-full mr-2"></span>MongoDB & PostgreSQL</li>
-//           <li className="flex items-center"><span className="w-2 h-2 bg-purple-500 rounded-full mr-2"></span>React Native & Flutter</li>
-//           <li className="flex items-center"><span className="w-2 h-2 bg-purple-500 rounded-full mr-2"></span>Docker & Kubernetes</li>
-//           <li className="flex items-center"><span className="w-2 h-2 bg-purple-500 rounded-full mr-2"></span>AWS (EC2, S3)</li>
-//           <li className="flex items-center"><span className="w-2 h-2 bg-purple-500 rounded-full mr-2"></span>System Design & Architecture</li>
-//         </ul>
-//       </Section>
-
-//       <Section title="Professional Highlights" id="highlights">
-//         <ul className="space-y-3 text-gray-400">
-//           <li className="flex items-start">
-//             <span className="w-2 h-2 bg-purple-500 rounded-full mr-2 mt-2"></span>
-//             <span>Currently leading two system management projects for USA-based clients at Masleap, focusing on building scalable solutions.</span>
-//           </li>
-//           <li className="flex items-start">
-//             <span className="w-2 h-2 bg-purple-500 rounded-full mr-2 mt-2"></span>
-//             <span>Developed and published an LMS serving 3,000+ users at Ishqool, progressing from Junior React Developer to Full-Stack Developer.</span>
-//           </li>
-//           <li className="flex items-start">
-//             <span className="w-2 h-2 bg-purple-500 rounded-full mr-2 mt-2"></span>
-//             <span>Delivered 5 e-commerce applications, including Flutter and React Native solutions for Middle Eastern and Northern clients at Premium Solutions Limited.</span>
-//           </li>
-//           <li className="flex items-start">
-//             <span className="w-2 h-2 bg-purple-500 rounded-full mr-2 mt-2"></span>
-//             <span>Led the frontend team at TNC Global Limited after successfully developing and designing an ERP management prototype.</span>
-//           </li>
-//           <li className="flex items-start">
-//             <span className="w-2 h-2 bg-purple-500 rounded-full mr-2 mt-2"></span>
-//             <span>Improved overall app performance and implemented multilingual support using React Native at Prolific Tech Solution.</span>
-//           </li>
-//         </ul>
-//       </Section>
-
-//     </div>
-//   )
-// }
-
 
 import React from 'react';
 import {
@@ -86,7 +7,6 @@ import {
   Target,
   Sparkles,
   Heart,
-  Clock,
   Puzzle,
   Book,
   Rocket,
@@ -96,109 +16,16 @@ import {
   Laptop
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
+import { persona, personalInterests, sprints, userStories } from '@/mock-data';
 
 const AboutMe = () => {
-  const persona = {
-    role: "Full Stack Developer",
-    mission: "To craft elegant solutions to complex problems while continuously learning and growing",
-    characteristics: [
-      {
-        trait: "Problem Solver",
-        description: "Thrives on tackling challenging technical puzzles",
-        icon: Puzzle
-      },
-      {
-        trait: "Continuous Learner",
-        description: "Passionate about staying current with technology",
-        icon: Book
-      },
-      {
-        trait: "Team Player",
-        description: "Values collaboration and knowledge sharing",
-        icon: Heart
-      }
-    ],
-    epics: [
-      {
-        title: "The Origin Story",
-        description: "Started coding journey with a fascination for creating things",
-        milestones: [
-          "First 'Hello World' at age 12",
-          "Built first website for school project",
-          "Won regional coding competition"
-        ],
-        icon: Rocket
-      },
-      {
-        title: "The Learning Path",
-        description: "Continuous pursuit of knowledge and excellence",
-        milestones: [
-          "Computer Science Degree",
-          "Multiple tech certifications",
-          "Regular conference speaker"
-        ],
-        icon: Brain
-      },
-      {
-        title: "The Professional Journey",
-        description: "Growing through challenges and achievements",
-        milestones: [
-          "Led multiple successful projects",
-          "Mentored junior developers",
-          "Contributed to open source"
-        ],
-        icon: Target
-      }
-    ]
-  };
 
-  const userStories = [
-    {
-      as: "A Developer",
-      want: "To create scalable and maintainable solutions",
-      so: "That I can help businesses grow and succeed",
-      metrics: ["5+ years experience", "20+ successful projects", "3 tech talks delivered"]
-    },
-    {
-      as: "A Team Member",
-      want: "To collaborate and share knowledge",
-      so: "That the whole team can grow together",
-      metrics: ["10+ developers mentored", "15+ code reviews weekly", "5+ team workshops conducted"]
-    },
-    {
-      as: "A Tech Enthusiast",
-      want: "To stay current with technology trends",
-      so: "That I can implement the best solutions",
-      metrics: ["Daily learning routine", "Regular blog posts", "Open source contributions"]
-    }
-  ];
-
-  const sprints = [
-    {
-      title: "Technical Expertise",
-      velocity: "High",
-      skills: [
-        { name: "Frontend Development", level: 90 },
-        { name: "Backend Development", level: 85 },
-        { name: "DevOps & Cloud", level: 80 }
-      ]
-    },
-    {
-      title: "Soft Skills",
-      velocity: "Consistent",
-      skills: [
-        { name: "Team Collaboration", level: 95 },
-        { name: "Problem Solving", level: 90 },
-        { name: "Communication", level: 85 }
-      ]
-    }
-  ];
 
   return (
     <div className="min-h-screen py-16">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
-          {/* Persona Header */}
+
           <div className="text-center mb-16">
             <div className="inline-block p-4 rounded-full bg-cyan-500/10 mb-6">
               <Code2 className="h-12 w-12 text-cyan-400" />
@@ -257,7 +84,7 @@ const AboutMe = () => {
             </div>
           </section>
 
-          {/* Epic Journey */}
+
           <section className="mb-16">
             <h2 className="text-2xl font-bold text-gray-100 mb-8">Epic Journey</h2>
             <div className="relative">
@@ -295,7 +122,7 @@ const AboutMe = () => {
             </div>
           </section>
 
-          {/* Sprint Velocity & Skills */}
+
           <section className="mb-16">
             <h2 className="text-2xl font-bold text-gray-100 mb-8">Sprint Velocity & Skills</h2>
             <div className="space-y-8">
@@ -334,23 +161,7 @@ const AboutMe = () => {
           <section>
             <h2 className="text-2xl font-bold text-gray-100 mb-8">Beyond Code</h2>
             <div className="grid md:grid-cols-3 gap-6">
-              {[
-                {
-                  icon: Coffee,
-                  title: "Coffee Enthusiast",
-                  description: "Perfect brew for perfect code"
-                },
-                {
-                  icon: Globe,
-                  title: "World Explorer",
-                  description: "Discovering new perspectives"
-                },
-                {
-                  icon: Music,
-                  title: "Music Lover",
-                  description: "Coding with rhythm"
-                }
-              ].map((interest, index) => (
+              {personalInterests.map((interest, index) => (
                 <Card key={index} className="bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300">
                   <CardContent className="p-6 text-center">
                     <div className="inline-block p-3 rounded-full bg-cyan-500/10 mb-4">

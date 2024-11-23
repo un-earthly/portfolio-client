@@ -1,4 +1,4 @@
-import { Code2, Database, Laptop, Layout, Microscope, Palette, PenTool, Repeat, Rocket, Search, Store, Trophy, Users } from "lucide-react";
+import { Book, Brain, Code2, Coffee, Database, Globe, Heart, Laptop, Layout, Microscope, Music, Palette, PenTool, Puzzle, Repeat, Rocket, Search, Store, Target, Trophy, Users } from "lucide-react";
 
 const skills = {
   specialized: ['React & Next.js', 'Redux', 'TypeScript', 'Node & Express JS', 'MongoDB', 'PostgreSQL', 'Vue & Nuxt.js'
@@ -241,6 +241,118 @@ const links = [
     href: '/contact',
     label: 'Contact'
   },
+];
+const persona = {
+  role: "Full Stack Developer",
+  mission: "To craft elegant solutions to complex problems while continuously learning and growing",
+  characteristics: [
+    {
+      trait: "Problem Solver",
+      description: "Thrives on tackling challenging technical puzzles",
+      icon: Puzzle
+    },
+    {
+      trait: "Continuous Learner",
+      description: "Passionate about staying current with technology",
+      icon: Book
+    },
+    {
+      trait: "Team Player",
+      description: "Values collaboration and knowledge sharing",
+      icon: Heart
+    }
+  ],
+  epics: [
+    {
+      title: "The Origin Story",
+      description: "Started coding journey with a fascination for creating things",
+      milestones: [
+        "First 'Hello World' at age 12",
+        "Built first website for school project",
+        "Won regional coding competition"
+      ],
+      icon: Rocket
+    },
+    {
+      title: "The Learning Path",
+      description: "Continuous pursuit of knowledge and excellence",
+      milestones: [
+        "Computer Science Degree",
+        "Multiple tech certifications",
+        "Regular conference speaker"
+      ],
+      icon: Brain
+    },
+    {
+      title: "The Professional Journey",
+      description: "Growing through challenges and achievements",
+      milestones: [
+        "Led multiple successful projects",
+        "Mentored junior developers",
+        "Contributed to open source"
+      ],
+      icon: Target
+    }
+  ]
+};
+
+const userStories = [
+  {
+    as: "A Developer",
+    want: "To create scalable and maintainable solutions",
+    so: "That I can help businesses grow and succeed",
+    metrics: ["5+ years experience", "20+ successful projects", "3 tech talks delivered"]
+  },
+  {
+    as: "A Team Member",
+    want: "To collaborate and share knowledge",
+    so: "That the whole team can grow together",
+    metrics: ["10+ developers mentored", "15+ code reviews weekly", "5+ team workshops conducted"]
+  },
+  {
+    as: "A Tech Enthusiast",
+    want: "To stay current with technology trends",
+    so: "That I can implement the best solutions",
+    metrics: ["Daily learning routine", "Regular blog posts", "Open source contributions"]
+  }
+];
+
+const sprints = [
+  {
+    title: "Technical Expertise",
+    velocity: "High",
+    skills: [
+      { name: "Frontend Development", level: 90 },
+      { name: "Backend Development", level: 85 },
+      { name: "DevOps & Cloud", level: 80 }
+    ]
+  },
+  {
+    title: "Soft Skills",
+    velocity: "Consistent",
+    skills: [
+      { name: "Team Collaboration", level: 95 },
+      { name: "Problem Solving", level: 90 },
+      { name: "Communication", level: 85 }
+    ]
+  }
+];
+const personalInterests = [
+  {
+    icon: Coffee,
+    title: "Coffee Enthusiast",
+    description: "Perfect brew for perfect code"
+  },
+  {
+    icon: Globe,
+    title: "World Explorer",
+    description: "Discovering new perspectives"
+  },
+  {
+    icon: Music,
+    title: "Music Lover",
+    description: "Coding with rhythm"
+  }
 ]
 export {
   developmentProcess,
@@ -251,5 +363,9 @@ export {
   tags,
   skills,
   categories,
-  links
+  links,
+  sprints,
+  userStories,
+  persona,
+  personalInterests
 }
