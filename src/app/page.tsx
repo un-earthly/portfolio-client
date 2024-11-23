@@ -16,7 +16,7 @@ export default function Home() {
             {achievements.map((achievement, index) => (
               <Card
                 key={index}
-                className="group relative overflow-hidden bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300 transform hover:-translate-y-1"
+                className="group relative bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300 transform hover:-translate-y-1"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-950/30 via-slate-900/30 to-indigo-950/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
@@ -42,7 +42,7 @@ export default function Home() {
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold mb-8 text-center">Technical Expertise</h2>
           <div className="grid gap-8">
-            <Card className="group relative overflow-hidden bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300">
+            <Card className="group relative bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300">
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-950/30 via-slate-900/30 to-blue-950/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
               <CardHeader className="relative z-10">
@@ -67,7 +67,7 @@ export default function Home() {
               <div className="absolute inset-0 border border-cyan-500/0 group-hover:border-cyan-500/20 rounded-lg transition-colors duration-300" />
             </Card>
 
-            <Card className="group relative overflow-hidden bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300">
+            <Card className="group relative bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300">
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-950/30 via-slate-900/30 to-blue-950/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
               <CardHeader className="relative z-10">
@@ -92,7 +92,7 @@ export default function Home() {
               <div className="absolute inset-0 border border-cyan-500/0 group-hover:border-cyan-500/20 rounded-lg transition-colors duration-300" />
             </Card>
 
-            <Card className="group relative overflow-hidden bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300">
+            <Card className="group relative bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300">
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-950/30 via-slate-900/30 to-blue-950/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
               <CardHeader className="relative z-10">
@@ -127,7 +127,7 @@ export default function Home() {
             {experiences.map((exp, index) => (
               <Card
                 key={index}
-                className="group relative overflow-hidden bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl"
+                className="group relative bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-950/30 via-slate-900/30 to-blue-950/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
@@ -178,7 +178,7 @@ export default function Home() {
             {projects.map((project) => (
               <Card
                 key={project.id}
-                className="group relative overflow-hidden bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300 transform hover:-translate-y-1"
+                className="group relative bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300 transform hover:-translate-y-1"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-950/30 via-slate-900/30 to-blue-950/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
@@ -188,7 +188,7 @@ export default function Home() {
 
                 <CardContent className="relative z-10 p-6">
                   <div className="grid md:grid-cols-2 gap-6">
-                    <div className="relative overflow-hidden rounded-lg">
+                    <div className="relative rounded-lg">
                       <img
                         src={project.image}
                         alt={`${project.title} preview`}
@@ -270,7 +270,7 @@ export default function Home() {
             {services.map((service) => (
               <Link href={`/services/${service.id}`} key={service.id}>
                 <Card
-                  className="group relative overflow-hidden bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300 h-full transform hover:-translate-y-1"
+                  className="group relative bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300 h-full transform hover:-translate-y-1"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-cyan-950/30 via-slate-900/30 to-blue-950/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
@@ -319,7 +319,7 @@ export default function Home() {
               {developmentProcess.map((step, index) => (
                 <Card
                   key={index}
-                  className="relative group overflow-hidden bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300 ml-0 md:ml-16"
+                  className="relative group bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300 ml-0 md:ml-16"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-cyan-950/30 via-slate-900/30 to-blue-950/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 

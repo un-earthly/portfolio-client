@@ -3,8 +3,7 @@ import { codeSnippets } from "@/mock-data";
 import { useEffect, useState } from "react";
 import { motion } from 'framer-motion'
 
-
-export const AnimatedBackground = ({ mousePosition }: any) => {
+const AnimatedBackground = ({ mousePosition }: any) => {
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
@@ -38,3 +37,5 @@ export const AnimatedBackground = ({ mousePosition }: any) => {
         </>
     );
 };
+
+export default AnimatedBackground;

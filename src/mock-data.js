@@ -1,4 +1,6 @@
-import { Book, Brain, Code2, Coffee, Database, FileUser, Github, Globe, Heart, Laptop, Layout, Linkedin, Mail, Microscope, Music, Palette, PenTool, Puzzle, Repeat, Rocket, Search, Store, Target, Trophy, Users } from "lucide-react";
+import {
+  Book, Brain, Code2, Users, Laptop, Database, Shield, Zap, Coffee, FileUser, Github, Globe, Heart, Layout, Linkedin, Mail, Microscope, Music, Palette, PenTool, Puzzle, Repeat, Rocket, Search, Store, Target, Trophy
+} from "lucide-react";
 import localFont from "next/font/local";
 
 const skills = {
@@ -397,7 +399,140 @@ const socialLinks = [
     href: ''
   }
 
-]
+];
+const lms = {
+  id: 'lms-platform',
+  title: 'Learning Management System',
+  subtitle: 'A comprehensive e-learning platform revolutionizing online education',
+  thumbnail: '/api/placeholder/1200/600',
+  timeline: '4 months',
+  role: 'Lead Developer',
+  client: 'EdTech Startup',
+  overview: 'Developed a scalable LMS platform that handles 3,000+ concurrent users, featuring real-time analytics, interactive content delivery, and comprehensive progress tracking.',
+  challenges: [
+    {
+      title: 'Scalability',
+      description: 'Handling large-scale concurrent user sessions and real-time data updates',
+      icon: Users
+    },
+    {
+      title: 'Performance',
+      description: 'Optimizing content delivery and reducing loading times across devices',
+      icon: Zap
+    },
+    {
+      title: 'Security',
+      description: 'Ensuring data privacy and implementing robust authentication',
+      icon: Shield
+    }
+  ],
+  solutions: [
+    {
+      title: 'Microservices Architecture',
+      description: 'Implemented a scalable microservices architecture using Node.js and Docker',
+      icon: Database,
+      details: [
+        'Service isolation for better scaling',
+        'Load balancing across services',
+        'Containerized deployments'
+      ]
+    },
+    {
+      title: 'Real-time Features',
+      description: 'WebSocket implementation for live updates and progress tracking',
+      icon: Laptop,
+      details: [
+        'Real-time progress updates',
+        'Live collaboration features',
+        'Instant notifications'
+      ]
+    },
+    {
+      title: 'Security Measures',
+      description: 'Comprehensive security implementation with multiple layers',
+      icon: Shield,
+      details: [
+        'JWT-based authentication',
+        'Role-based access control',
+        'Data encryption'
+      ]
+    }
+  ],
+  techStack: {
+    frontend: ['Next.js', 'TypeScript', 'TailwindCSS', 'Redux Toolkit'],
+    backend: ['Node.js', 'Express', 'WebSocket', 'GraphQL'],
+    database: ['PostgreSQL', 'Redis', 'MongoDB'],
+    devops: ['Docker', 'AWS', 'Github Actions', 'Terraform']
+  },
+  keyFeatures: [
+    'Interactive course content delivery',
+    'Real-time progress tracking',
+    'Advanced analytics dashboard',
+    'Multi-tenant architecture',
+    'Automated assessment system',
+    'Interactive video lectures'
+  ],
+  metrics: {
+    users: '3,000+',
+    satisfaction: '95%',
+    performance: '99.9%',
+    uptime: '99.99%'
+  },
+  developmentPhases: [
+    {
+      title: 'Discovery & Planning',
+      duration: '2 weeks',
+      activities: [
+        'Requirement analysis and documentation',
+        'System architecture design',
+        'Technology stack selection',
+        'Sprint planning and story pointing'
+      ]
+    },
+    {
+      title: 'Development',
+      duration: '12 weeks',
+      activities: [
+        'Frontend development with Next.js',
+        'Backend API development',
+        'Database schema design',
+        'Real-time features implementation'
+      ]
+    },
+    {
+      title: 'Testing & Optimization',
+      duration: '2 weeks',
+      activities: [
+        'Performance testing and optimization',
+        'Security testing and auditing',
+        'User acceptance testing',
+        'Load testing and scaling'
+      ]
+    }
+  ],
+  results: [
+    {
+      metric: 'User Engagement',
+      value: '300%',
+      description: 'Increase in average user session duration'
+    },
+    {
+      metric: 'Course Completion',
+      value: '50%',
+      description: 'Reduction in average course completion time'
+    },
+    {
+      metric: 'System Performance',
+      value: '99.9%',
+      description: 'Uptime with sub-second response times'
+    }
+  ],
+  testimonial: {
+    quote: "The platform has transformed how we deliver educational content to our users. The performance and user experience are exceptional.",
+    author: "Sarah Johnson",
+    role: "CEO, EdTech Startup"
+  }
+};
 export {
   developmentProcess,
   achievements,
@@ -415,5 +550,6 @@ export {
   codeSnippets,
   geistSans,
   geistMono,
+  lms as project,
   socialLinks
 }
