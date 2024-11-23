@@ -1,4 +1,4 @@
-import { Book, Brain, Code2, Coffee, Database, Globe, Heart, Laptop, Layout, Microscope, Music, Palette, PenTool, Puzzle, Repeat, Rocket, Search, Store, Target, Trophy, Users } from "lucide-react";
+import { Book, Brain, Code2, Coffee, Database, FileUser, Github, Globe, Heart, Laptop, Layout, Linkedin, Mail, Microscope, Music, Palette, PenTool, Puzzle, Repeat, Rocket, Search, Store, Target, Trophy, Users } from "lucide-react";
 import localFont from "next/font/local";
 
 const skills = {
@@ -374,6 +374,30 @@ const geistMono = localFont({
   variable: "--font-geist-mono",
   weight: "100 900",
 });
+const socialLinks = [
+  {
+    label: "GitHub",
+    icon: Github,
+    href: 'https://github.com/un-earthly'
+  },
+  {
+    label: "LinkedIn",
+    icon: Linkedin,
+    href: "https://www.linkedin.com/in/alamin-md/"
+  },
+
+  {
+    label: "Email",
+    icon: Mail,
+    href: 'mailto:vijayalamin@gmail.com'
+  },
+  {
+    label: "Resume",
+    icon: FileUser,
+    href: ''
+  }
+
+]
 export {
   developmentProcess,
   achievements,
@@ -391,4 +415,5 @@ export {
   codeSnippets,
   geistSans,
   geistMono,
+  socialLinks
 }
