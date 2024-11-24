@@ -21,7 +21,7 @@ const DesktopAside = () => <div className="w-full h-screen hidden p-4 lg:p-8 lg:
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
         >
-            <span className="text-cyan-500">.</span>ALAMIN
+            MD<span className="text-cyan-500">.</span>ALAMIN
         </motion.h1>
         <motion.h2
             className="mb-6 text-xl md:text-2xl font-semibold text-gray-300"
