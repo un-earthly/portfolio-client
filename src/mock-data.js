@@ -514,7 +514,7 @@ const socialLinks = [
   {
     label: "Resume",
     icon: FileUser,
-    href: ''
+    href: 'https://drive.google.com/file/d/1aDJZf0X53e2rbY8kqUVouQLH01dmeIzI/view?usp=sharing'
   }
 
 ];
