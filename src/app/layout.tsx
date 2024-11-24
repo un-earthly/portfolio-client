@@ -59,7 +59,7 @@ export default function RootLayout({
 
           <div className="flex-1 bg-gradient-to-b from-black to-gray-900 text-gray-300">
             <div className="relative text-gray-400">
-              <div className="overflow-hidden w-screen">
+              <div className="overflow-hidden hidden lg:block w-screen">
                 <AnimatedBackground mousePosition={mousePosition} />
               </div>
               <div className="grid grid-cols-9 gap-4">
