@@ -5,7 +5,7 @@ import { socialLinks } from "@/mock-data";
 import Link from "next/link";
 import { Button } from "./ui/button";
 const DesktopAside = () => <div className="w-full h-screen hidden p-4 lg:p-8 lg:flex items-center justify-center flex-col text-center bg-gradient-to-br from-transparent to-gray-900/5 shadow-[rgba(0,0,0,0.1)_10px_5px_4px_0px] bg-opacity-50 backdrop-filter backdrop-blur-lg rounded-xl">
-    <div className="flex items-center justify-center">
+    {/* <div className="flex items-center justify-center">
         <Image
             src="/pp.png"
             height={200}
@@ -13,7 +13,7 @@ const DesktopAside = () => <div className="w-full h-screen hidden p-4 lg:p-8 lg:
             className='border-cyan-500 border-2 rounded-full border-dashed w-32 h-32 md:w-48 md:h-48 lg:w-[200px] lg:h-[200px]'
             alt="dp"
         />
-    </div>
+    </div> */}
     <div className="-space-y-4 mt-4">
         <motion.h1
             className="mb-6 text-3xl md:text-4xl lg:text-5xl font-bold text-gray-100"

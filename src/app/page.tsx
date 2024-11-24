@@ -139,6 +139,7 @@ export default function Home() {
         <div className="grid gap-8">
           {projects.slice(0, 2).map((project) => (
             <Card
+
               key={project.id}
               className="group relative bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300 transform hover:-translate-y-1"
             >
@@ -162,9 +163,11 @@ export default function Home() {
                   <div className="relative">
                     <div className="flex items-start justify-between mb-2">
                       <h3 className="text-xl font-bold text-gray-100">{project.title}</h3>
-                      <div className="p-2 rounded-full bg-slate-800/50 group-hover:bg-cyan-500/20 transition-colors">
-                        <ArrowUpRight className="h-5 w-5 text-cyan-400" />
-                      </div>
+                      <Link href={'/portfolio/' + project.id}>
+                        <div className="p-2 rounded-full bg-slate-800/50 group-hover:bg-cyan-500/20 transition-colors">
+                          <ArrowUpRight className="h-5 w-5 text-cyan-400" />
+                        </div>
+                      </Link>
                     </div>
 
                     <p className="text-gray-400 mb-4">
@@ -187,34 +190,21 @@ export default function Home() {
                         variant="outline"
                         size="sm"
                         className="group-hover:text-cyan-400 group-hover:border-cyan-400/50"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          window.open(project.liveUrl, '_blank');
-                        }}
                       >
                         <ExternalLink className="h-4 w-4 mr-2" />
                         View Live
                       </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="group-hover:text-cyan-400 group-hover:border-cyan-400/50"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          window.open(project.githubUrl, '_blank');
-                        }}
-                      >
-                        <ExternalLink className="h-4 w-4 mr-2" />
-                        Source Code
-                      </Button>
+
                     </div>
                   </div>
                 </div>
 
-                <div className="absolute bottom-4 right-4 flex items-center gap-2 text-sm text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <span>View Case Study</span>
-                  <ArrowUpRight className="h-4 w-4" />
-                </div>
+                <Link href={'/portfolio/' + project.id}>
+                  <div className="absolute bottom-4 right-4 flex items-center gap-2 text-sm text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <span>View Case Study</span>
+                    <ArrowUpRight className="h-4 w-4" />
+                  </div>
+                </Link>
               </CardContent>
 
               <div className="absolute inset-0 border border-cyan-500/0 group-hover:border-cyan-500/20 rounded-lg transition-colors duration-300" />

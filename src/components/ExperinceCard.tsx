@@ -1,8 +1,15 @@
-import { ArrowUpRight, Briefcase, Clock, MapPin } from "lucide-react";
+'use client'
+import { Briefcase, Clock, MapPin } from "lucide-react";
 import { Card, CardContent, CardFooter, CardHeader } from "./ui/card";
 import { Badge } from "./ui/badge";
+import { useState } from "react";
 
 export default function ExperienceCard({ company }: any) {
+    const [isExpanded, setIsExpanded] = useState(false);
+    const truncateText = (text: any, maxLength: any) => {
+        if (text.length <= maxLength) return text;
+        return text.slice(0, maxLength).trim() + '...';
+    };
     return (
         <Card
             className="group relative bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl"
@@ -37,9 +44,6 @@ export default function ExperienceCard({ company }: any) {
                             </div>
                         </div>
                     </div>
-                    {/* <button className="p-2 rounded-full hover:bg-slate-800/50 transition-colors group-hover:text-cyan-400">
-                        <ArrowUpRight className="h-5 w-5 transform text-cyan-400 group-hover:rotate-45 transition-transform duration-300" />
-                    </button> */}
                 </div>
             </CardHeader>
 
@@ -52,14 +56,28 @@ export default function ExperienceCard({ company }: any) {
                                 <h4 className="font-medium">{position.title}</h4>
                                 <span className="text-sm text-gray-400">• {position.duration}</span>
                             </div>
-                            {position.description && (
-                                <p className="mt-2 text-sm text-gray-400 whitespace-pre-line">
-                                    {position.description}
-                                </p>
-                            )}
+
                         </div>
                     ))}
                 </div>
+                {company.description && (
+                    <div className="mt-2">
+                        <p className="text-sm text-gray-400 whitespace-pre-line">
+                            {isExpanded
+                                ? company.description
+                                : truncateText(company.description, 100)
+                            }
+                        </p>
+                        {company.description.length > 100 && (
+                            <button
+                                onClick={() => setIsExpanded(!isExpanded)}
+                                className="text-sm text-cyan-400 hover:text-cyan-300 mt-1 focus:outline-none"
+                            >
+                                {isExpanded ? 'Show Less' : 'Show More'}
+                            </button>
+                        )}
+                    </div>
+                )}
             </CardContent>
             {
                 company.keyTechnologies && <CardFooter>

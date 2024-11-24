@@ -8,7 +8,7 @@ const MobileInto = () => <div className="w-11/12 mx-auto bg-gradient-to-br from-
     <div className="p-4">
         <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-                <div className="relative">
+                {/* <div className="relative">
                     <Image
                         src="/pp.png"
                         height={50}
@@ -16,7 +16,7 @@ const MobileInto = () => <div className="w-11/12 mx-auto bg-gradient-to-br from-
                         className="rounded-full border-2 border-cyan-500 border-dashed"
                         alt="Profile"
                     />
-                </div>
+                </div> */}
                 <div>
                     <motion.h2
                         initial={{ opacity: 0, x: -20 }}
