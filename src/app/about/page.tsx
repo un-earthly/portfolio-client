@@ -2,21 +2,11 @@
 import React from 'react';
 import {
   Code2,
-  Coffee,
-  Brain,
-  Target,
   Sparkles,
-  Heart,
-  Puzzle,
-  Book,
-  Rocket,
   ArrowRight,
-  Music,
-  Globe,
-  Laptop
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
-import { persona, personalInterests, skillCategories, sprints, userStories } from '@/mock-data';
+import { persona, personalInterests, skillCategories, userStories } from '@/mock-data';
 
 const AboutMe = () => {
 
