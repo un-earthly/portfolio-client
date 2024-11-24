@@ -4,7 +4,11 @@ import {
   AlertCircle,
   Smartphone,
   LayoutDashboard,
-  Terminal
+  Terminal,
+  Gamepad,
+  PencilRuler,
+  Microchip,
+  BrainCircuit
 } from "lucide-react";
 import localFont from "next/font/local";
 
@@ -344,9 +348,10 @@ const persona = {
       title: "The Origin Story",
       description: "Started coding journey with a fascination for creating things",
       milestones: [
-        "First 'Hello World' at age 12",
-        "Built first website for school project",
-        "Won regional coding competition"
+        "First 'Hello World' at age 16 with python inspired by Automate The Boring Stuff",
+        "Built first website watching tutorials on yt",
+        "Introduced with freecodecamp and started learning and udemy",
+
       ],
       icon: Rocket
     },
@@ -354,9 +359,9 @@ const persona = {
       title: "The Learning Path",
       description: "Continuous pursuit of knowledge and excellence",
       milestones: [
-        "Computer Science Degree",
-        "Multiple tech certifications",
-        "Regular conference speaker"
+        "A Selft thought journey started with 3 books",
+        "Completed 20+ courses from Udemy, Linkedin, Programming hero",
+        "Tought myself system design via books and industry expert developers"
       ],
       icon: Brain
     },
@@ -366,7 +371,7 @@ const persona = {
       milestones: [
         "Led multiple successful projects",
         "Mentored junior developers",
-        "Contributed to open source"
+        "Diverse Range of projects from basic static sites to erp"
       ],
       icon: Target
     }
@@ -378,55 +383,106 @@ const userStories = [
     as: "A Developer",
     want: "To create scalable and maintainable solutions",
     so: "That I can help businesses grow and succeed",
-    metrics: ["5+ years experience", "20+ successful projects", "3 tech talks delivered"]
+    metrics: ["3+ years experience", "20+ successful projects", "2 Lead Roles"]
   },
   {
     as: "A Team Member",
     want: "To collaborate and share knowledge",
     so: "That the whole team can grow together",
-    metrics: ["10+ developers mentored", "15+ code reviews weekly", "5+ team workshops conducted"]
+    metrics: ["10+ developers mentored", "15+ code reviews weekly", "Collaboration with other developers"]
   },
   {
     as: "A Tech Enthusiast",
     want: "To stay current with technology trends",
     so: "That I can implement the best solutions",
-    metrics: ["Daily learning routine", "Regular blog posts", "Open source contributions"]
+    metrics: ["Daily learning routine", "Regular blog posts", "Research Papers"]
   }
 ];
-
-const sprints = [
+const skillCategories = [
   {
-    title: "Technical Expertise",
-    velocity: "High",
+    title: "Frontend Technologies",
+    icon: "🎨",
     skills: [
-      { name: "Frontend Development", level: 90 },
-      { name: "Backend Development", level: 85 },
-      { name: "DevOps & Cloud", level: 80 }
+      "React, Next.js, Remix, Redux/RTK",
+      "Vue, Nuxt, Vuex, Pinia",
+      "Svelte, SvelteKit, Qwik",
+      "React Native, Flutter, Ionic",
+      "TypeScript, JavaScript, WebAssembly"
     ]
   },
   {
-    title: "Soft Skills",
-    velocity: "Consistent",
+    title: "Backend & APIs",
+    icon: "⚡",
     skills: [
-      { name: "Team Collaboration", level: 95 },
-      { name: "Problem Solving", level: 90 },
-      { name: "Communication", level: 85 }
+      "Node.js, Express, NestJS, Fastify",
+      "Django, DRF, FastAPI, Flask",
+      "GraphQL, REST, gRPC, WebSockets",
+      "OAuth2, JWT, API Gateway",
+      "Message Queues (RabbitMQ, Kafka)"
+    ]
+  },
+  {
+    title: "Data & Storage",
+    icon: "💾",
+    skills: [
+      "PostgreSQL, MySQL, MSSQL",
+      "MongoDB, Cassandra, Redis",
+      "Elasticsearch, Clickhouse",
+      "Data Modeling & Normalization",
+      "Query Optimization & Indexing"
+    ]
+  },
+  {
+    title: "System Architecture",
+    icon: "🏗️",
+    skills: [
+      "Microservices, Event-Driven",
+      "Monolithic, Layered, Hexagonal",
+      "CQRS, Event Sourcing",
+      "Serverless, FaaS, BaaS",
+      "Domain-Driven Design (DDD)"
+    ]
+  },
+  {
+    title: "Core CS Concepts",
+    icon: "🧮",
+    skills: [
+      "DSA, Time/Space Complexity",
+      "Design Patterns, SOLID, Clean Code",
+      "Concurrency, Threading, Async",
+      "Distributed Systems, CAP Theorem",
+      "System Design & Scalability"
+    ]
+  },
+  {
+    title: "DevOps & Infrastructure",
+    icon: "🔧",
+    skills: [
+      "Docker, Kubernetes",
+      "CI/CD, GitOps, Infrastructure as Code",
+      "AWS S3, Ec2, Cloudefront, RDS, Amplify,EFS ",
+      "Monitoring, Logging, Tracing",
+      "Security Best Practices, OWASP"
     ]
   }
 ];
 const personalInterests = [
   {
-    icon: Coffee,
-    title: "Coffee Enthusiast",
-    description: "Perfect brew for perfect code"
+    icon: Microchip,
+    title: "IoT & Custom Rigs",
+    description: "Building smart home automation systems and custom PC setups for optimal performance"
+  },
+  {
+    icon: BrainCircuit,
+    title: "Generative AI",
+    description: "Exploring and developing AI models for creative problem-solving and automation"
   },
   {
     icon: Music,
     title: "Music Lover",
-    description: "Coding with rhythm"
-  }
+    description: "Finding inspiration in melodies while coding and creating playlists for different programming moods"
+  },
 ];
-
 const geistSans = localFont({
   src: "./app/fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -847,7 +903,7 @@ export {
   skills,
   categories,
   links,
-  sprints,
+  skillCategories,
   userStories,
   persona,
   personalInterests,

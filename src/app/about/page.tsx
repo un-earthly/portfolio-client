@@ -16,7 +16,7 @@ import {
   Laptop
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
-import { persona, personalInterests, sprints, userStories } from '@/mock-data';
+import { persona, personalInterests, skillCategories, sprints, userStories } from '@/mock-data';
 
 const AboutMe = () => {
 
@@ -50,7 +50,7 @@ const AboutMe = () => {
 
 
         <section className="mb-16">
-          <h2 className="text-2xl font-bold text-gray-100 mb-8">User Stories</h2>
+          <h2 className="text-2xl font-bold text-gray-100 mb-8">Highlights</h2>
           <div className="space-y-6">
             {userStories.map((story, index) => (
               <Card key={index} className="group bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300">
@@ -123,33 +123,22 @@ const AboutMe = () => {
 
 
         <section className="mb-16">
-          <h2 className="text-2xl font-bold text-gray-100 mb-8">Sprint Velocity & Skills</h2>
-          <div className="space-y-8">
-            {sprints.map((sprint, index) => (
-              <Card key={index} className="bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800">
+          <h2 className="text-2xl font-bold text-gray-100 mb-8">Technical Expertise</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {skillCategories.map((category, index) => (
+              <Card key={index} className="bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-700 transition-colors">
                 <CardContent className="p-6">
-                  <div className="flex items-center justify-between mb-6">
-                    <h3 className="text-lg font-semibold text-gray-100">{sprint.title}</h3>
-                    <span className="px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-200 text-sm">
-                      Velocity: {sprint.velocity}
-                    </span>
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className="text-2xl">{category.icon}</span>
+                    <h3 className="text-lg font-semibold text-gray-100">{category.title}</h3>
                   </div>
-                  <div className="space-y-4">
-                    {sprint.skills.map((skill, idx) => (
-                      <div key={idx}>
-                        <div className="flex justify-between text-sm mb-2">
-                          <span className="text-gray-300">{skill.name}</span>
-                          <span className="text-cyan-400">{skill.level}%</span>
-                        </div>
-                        <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
-                          <div
-                            className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full transition-all duration-500"
-                            style={{ width: `${skill.level}%` }}
-                          />
-                        </div>
-                      </div>
+                  <ul className="space-y-2">
+                    {category.skills.map((skill, idx) => (
+                      <li key={idx} className="text-gray-300 text-sm">
+                        {skill}
+                      </li>
                     ))}
-                  </div>
+                  </ul>
                 </CardContent>
               </Card>
             ))}
