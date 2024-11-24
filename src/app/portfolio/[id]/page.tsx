@@ -90,7 +90,7 @@ const CaseStudyPage = () => {
                         <Card className="relative overflow-hidden bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 mb-16 transform hover:scale-[1.01] transition-transform">
                             <div className="absolute inset-0 bg-gradient-to-r from-cyan-950/30 via-slate-900/30 to-blue-950/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                             <CardContent className="p-6 grid grid-cols-2 md:grid-cols-4 gap-6">
-                                {Object.entries(metrics).map(([key, value]) => (
+                                {Object.entries(metrics).map(([key, value]: any) => (
                                     <div key={key} className="text-center">
                                         <p className="text-2xl font-bold text-cyan-400 mb-1">{value}</p>
                                         <p className="text-gray-400 capitalize">{key.replace('_', ' ')}</p>
@@ -115,7 +115,7 @@ const CaseStudyPage = () => {
                                 <>
                                     <h2 className="text-2xl font-bold text-gray-100 mb-6">Key Challenges</h2>
                                     <div className="grid gap-6 mb-12">
-                                        {challenges.map((challenge, index) => (
+                                        {challenges.map((challenge: any, index: any) => (
                                             <Card key={index} className="bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300">
                                                 <CardContent className="p-6">
                                                     <div className="flex items-start gap-4">
@@ -138,7 +138,7 @@ const CaseStudyPage = () => {
                                 <>
                                     <h2 className="text-2xl font-bold text-gray-100 mb-6">Solutions Implemented</h2>
                                     <div className="grid gap-6">
-                                        {solutions.map((solution, index) => (
+                                        {solutions.map((solution: any, index: any) => (
                                             <Card key={index} className="group bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300">
                                                 <CardContent className="p-6">
                                                     <div className="flex items-start gap-4">
@@ -150,7 +150,7 @@ const CaseStudyPage = () => {
                                                             <p className="text-gray-400 mb-4">{solution.description}</p>
                                                             {solution.details?.length > 0 && (
                                                                 <ul className="space-y-2">
-                                                                    {solution.details.map((detail, idx) => (
+                                                                    {solution.details.map((detail: any, idx: any) => (
                                                                         <li key={idx} className="flex items-start gap-2 text-gray-300">
                                                                             <CheckCircle className="h-4 w-4 text-cyan-400 shrink-0 mt-1" />
                                                                             <span>{detail}</span>
@@ -173,12 +173,12 @@ const CaseStudyPage = () => {
                         <section className="mb-16">
                             <h2 className="text-2xl font-bold text-gray-100 mb-6">Technology Stack</h2>
                             <div className="grid md:grid-cols-2 gap-8">
-                                {Object.entries(techStack).map(([category, technologies]) => (
+                                {Object.entries(techStack).map(([category, technologies]: any) => (
                                     <Card key={category} className="bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800">
                                         <CardContent className="p-6">
                                             <h3 className="text-lg font-semibold text-gray-100 mb-4 capitalize">{category}</h3>
                                             <div className="flex flex-wrap gap-2">
-                                                {technologies.map((tech) => (
+                                                {technologies.map((tech: any) => (
                                                     <span
                                                         key={tech}
                                                         className="px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-200 text-sm border border-cyan-500/20 hover:bg-cyan-500/20 transition-colors"
@@ -201,7 +201,7 @@ const CaseStudyPage = () => {
                                 <div className="absolute left-8 top-0 bottom-0 w-px bg-gradient-to-b from-cyan-500/50 via-blue-500/50 to-cyan-500/50 hidden md:block" />
 
                                 <div className="space-y-8">
-                                    {developmentPhases.map((phase, index) => (
+                                    {developmentPhases.map((phase: any, index: any) => (
                                         <div key={index} className="relative ml-0 md:ml-16">
                                             <div className="absolute left-[-2rem] top-6 w-4 h-4 rounded-full bg-cyan-400 hidden md:block" />
 
@@ -213,7 +213,7 @@ const CaseStudyPage = () => {
                                                     </div>
                                                     {phase.activities?.length > 0 && (
                                                         <ul className="space-y-2">
-                                                            {phase.activities.map((activity, idx) => (
+                                                            {phase.activities.map((activity: any, idx: any) => (
                                                                 <li key={idx} className="flex items-start gap-2 text-gray-300">
                                                                     <CheckCircle className="h-4 w-4 text-cyan-400 shrink-0 mt-1" />
                                                                     <span>{activity}</span>
@@ -234,7 +234,7 @@ const CaseStudyPage = () => {
                         <section className="mb-16">
                             <h2 className="text-2xl font-bold text-gray-100 mb-6">Role & Responsibilities</h2>
                             <div className="space-y-6">
-                                {responsibilities.map((position, index) => (
+                                {responsibilities.map((position: any, index: any) => (
                                     <Card
                                         key={index}
                                         className="bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300"
@@ -250,7 +250,7 @@ const CaseStudyPage = () => {
                                                     </h3>
                                                     {position.tasks?.length > 0 && (
                                                         <div className="grid gap-3">
-                                                            {position.tasks.map((task, taskIndex) => (
+                                                            {position.tasks.map((task: any, taskIndex: any) => (
                                                                 <div
                                                                     key={taskIndex}
                                                                     className="flex items-start gap-3 p-3 rounded-lg bg-slate-900/50 border border-slate-800 hover:border-cyan-500/20 transition-colors"
@@ -274,7 +274,7 @@ const CaseStudyPage = () => {
                         <section>
                             <h2 className="text-2xl font-bold text-gray-100 mb-6">Results & Impact</h2>
                             <div className="grid md:grid-cols-3 gap-6 mb-8">
-                                {results.map((result, index) => (
+                                {results.map((result: any, index: any) => (
                                     <Card key={index} className="bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300">
                                         <CardContent className="p-6 text-center">
                                             <div className="text-3xl font-bold text-cyan-400 mb-2">
@@ -296,7 +296,7 @@ const CaseStudyPage = () => {
                         <section className="mb-16">
                             <h2 className="text-2xl font-bold text-gray-100 mb-6">Key Features</h2>
                             <div className="grid md:grid-cols-2 gap-6">
-                                {keyFeatures.map((feature, index) => (
+                                {keyFeatures.map((feature: any, index: any) => (
                                     <div
                                         key={index}
                                         className="flex items-start gap-3 p-4 rounded-lg bg-slate-900/50 border border-slate-800 hover:border-cyan-500/20 transition-colors"

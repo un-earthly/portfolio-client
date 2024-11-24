@@ -137,7 +137,7 @@ export default function Home() {
       <section>
         <h2 className="text-3xl font-bold mb-8 text-center text-gray-100">Featured Projects</h2>
         <div className="grid gap-8">
-          {projects.map((project) => (
+          {projects.slice(0, 2).map((project) => (
             <Card
               key={project.id}
               className="group relative bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300 transform hover:-translate-y-1"
