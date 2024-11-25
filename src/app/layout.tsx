@@ -59,7 +59,7 @@ export default function RootLayout({
               <div className="col-span-12 mt-20 lg:hidden block">
                 <MobileInto />
               </div>
-              <div className="lg:col-span-7 mt-5 lg:mt-20 pb-64 md:pb-4 lg:pb-16 col-span-12 px-3 md:px-10 lg:px-0 overflow-y-scroll h-[95vh] text-gray-300">
+              <div className="lg:col-span-7 mt-5 lg:mt-20 pb-64 lg:pb-16 col-span-12 px-3 md:px-10 lg:px-0 overflow-y-scroll h-[95vh] text-gray-300">
                 {children}
               </div>
             </div>
