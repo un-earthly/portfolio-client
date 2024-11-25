@@ -311,10 +311,6 @@ const links = [
     href: '/about',
     label: 'About'
   },
-  {
-    href: '/contact',
-    label: 'Contact'
-  },
 ];
 const codeSnippets = [
   { color: 'text-green-400', content: '<div>' },

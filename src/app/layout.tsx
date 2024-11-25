@@ -8,6 +8,7 @@ import { geistMono, geistSans } from "@/mock-data";
 import DesktopAside from "@/components/desktopAside";
 import MobileInto from "@/components/mobileBanner";
 import AnimatedBackground from "@/components/background";
+import Navbar from "@/components/drawer";
 
 export default function RootLayout({
   children,
@@ -42,41 +43,24 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} overflow-hidden w-screen !p-0`}>
-        <div className="flex flex-col min-h-screen">
-          <section className="sticky top-0 z-[9999] bg-black py-3">
-            <div className="flex items-center justify-between px-4 md:px-10">
-              <Link href="/" onClick={scrollToTop}>
-                <p className="text-3xl text-white font-bold cursor-pointer">MD<span className="text-cyan-400">.</span></p>
-              </Link>
-              <div className="flex cursor-pointer flex-wrap items-center justify-between py-4 gap-4">
-                <NavIcon handler={() => setMenuIsOpen(true)} />
-              </div>
-            </div>
-            <div className={`fixed duration-300 top-0 ${!menuIsOpen ? "right-full" : "right-0"}`}>
-              <Drawer handler={scrollToTop} />
-            </div>
-          </section>
+        <div className="grid grid-cols-12 bg-gradient-to-b from-black to-gray-900">
+          <div className="overflow-hidden hidden lg:block w-screen">
+            <AnimatedBackground mousePosition={mousePosition} />
+          </div>
+          <div className="col-span-12">
+            <Navbar />
+          </div>
 
-          <div className="flex-1 bg-gradient-to-b from-black to-gray-900 text-gray-300">
-            <div className="relative text-gray-400">
-              <div className="overflow-hidden hidden lg:block w-screen">
-                <AnimatedBackground mousePosition={mousePosition} />
+          <div className="h-screen overflow-hidden col-span-12">
+            <div className="grid grid-cols-12">
+              <div className="col-span-5 hidden lg:block">
+                <DesktopAside />
               </div>
-              <div className="grid grid-cols-9 gap-4">
-                <div className="col-span-3 hidden lg:block">
-                  <DesktopAside />
-                </div>
-                <div className="col-span-9 lg:hidden">
-                  <MobileInto />
-                </div>
-                <main className="lg:col-span-6 pb-20 h-[calc(100vh-1rem)] overflow-y-auto col-span-9">
-                  <div
-                    ref={contentRef}
-                    className="px-4 lg:px-0 py-1"
-                  >
-                    {children}
-                  </div>
-                </main>
+              <div className="col-span-12 mt-20 lg:hidden block">
+                <MobileInto />
+              </div>
+              <div className="lg:col-span-7 mt-5 lg:mt-20 pb-64 md:pb-4 lg:pb-16 col-span-12 px-3 md:px-10 lg:px-0 overflow-y-scroll h-[95vh] text-gray-300">
+                {children}
               </div>
             </div>
           </div>

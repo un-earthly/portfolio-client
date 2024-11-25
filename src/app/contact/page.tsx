@@ -103,52 +103,6 @@ const ContactForm = () => {
     };
 
     return (
-        // <div className='flex flex-col items-center justify-center h-screen'>
-        //     <h1 className='lg:text-4xl text-xl'>Contact Me</h1>
-        //     <form onSubmit={handleFormSubmit} className="bg-black p-4 rounded-lg sm:w-2/3 lg:w-1/2 mx-auto">
-        //         <label htmlFor="name" className="text-white">
-        //             Name
-        //         </label>
-        //         <input
-        //             type="text"
-        //             id="name"
-        //             name="name"
-        //             value={formData.name}
-        //             onChange={handleFormFieldChange}
-        //             className="bg-gray-700 text-white p-2 rounded mb-4 w-full"
-        //         />
-
-        //         <label htmlFor="email" className="text-white">
-        //             Email
-        //         </label>
-        //         <input
-        //             type="email"
-        //             id="email"
-        //             name="email"
-        //             value={formData.email}
-        //             onChange={handleFormFieldChange}
-        //             className="bg-gray-700 text-white p-2 rounded mb-4 w-full"
-        //         />
-
-        //         <label htmlFor="message" className="text-white">
-        //             Message
-        //         </label>
-        //         <textarea
-        //             id="message"
-        //             name="message"
-        //             value={formData.message}
-        //             onChange={handleFormFieldChange}
-        //             className="bg-gray-700 text-white p-2 rounded mb-4 w-full"
-        //         ></textarea>
-        //         {formState.isSubmitting && <p className='text-yellow-500'>Sending message...</p>}
-        //         {formState.isSuccess && <p className='text-green-500'>Message sent successfully!</p>}
-        //         {formState.isError && <p className='text-red-500'>{formState.errorMessage}</p>}
-
-        //         <button type="submit" className="bg-cyan-500 text-white py-2 px-4 mt-4 rounded-full w-full">
-        //             Send
-        //         </button>
-        //     </form>
-        // </div>
         <div className="lg:min-h-[93vh] flex items-center justify-center">
             <Card className="w-full max-w-lg mx-auto space-y-8 bg-gradient-to-br from-bg/10 to-bg/5 text-gray-300">
                 <CardHeader className="space-y-2">

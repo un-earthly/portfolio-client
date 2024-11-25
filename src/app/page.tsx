@@ -7,6 +7,8 @@ import { ArrowUpRight, Briefcase, Building2, CheckCircle, Clock, Code2, Cpu, Dat
 import Link from "next/link";
 import { achievements, developmentProcess, experiences, projects, skills } from '@/mock-data'
 import ExperienceCard from "@/components/ExperinceCard";
+import { truncateText } from "@/lib/utils";
+import ProjectCard from "@/components/ProjectCard";
 export default function Home() {
   return (
     <div className="max-w-4xl mx-auto space-y-6">
@@ -138,77 +140,7 @@ export default function Home() {
         <h2 className="text-3xl font-bold mb-8 text-center text-gray-100">Featured Projects</h2>
         <div className="grid gap-8">
           {projects.slice(0, 2).map((project) => (
-            <Card
-
-              key={project.id}
-              className="group relative bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300 transform hover:-translate-y-1"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-cyan-950/30 via-slate-900/30 to-blue-950/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-              <Link href={`/portfolio/${project.id}`} className="absolute inset-0 z-10">
-                <span className="sr-only">View case study for {project.title}</span>
-              </Link>
-
-              <CardContent className="relative z-10 p-6">
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="relative rounded-lg">
-                    <img
-                      src={project.image}
-                      alt={`${project.title} preview`}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  </div>
-
-                  <div className="relative">
-                    <div className="flex items-start justify-between mb-2">
-                      <h3 className="text-xl font-bold text-gray-100">{project.title}</h3>
-                      <Link href={'/portfolio/' + project.id}>
-                        <div className="p-2 rounded-full bg-slate-800/50 group-hover:bg-cyan-500/20 transition-colors">
-                          <ArrowUpRight className="h-5 w-5 text-cyan-400" />
-                        </div>
-                      </Link>
-                    </div>
-
-                    <p className="text-gray-400 mb-4">
-                      {project.description}
-                    </p>
-
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {project.technologies.map((tech) => (
-                        <span
-                          key={tech}
-                          className="px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-200 text-sm"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-
-                    <div className="flex gap-4 relative z-20">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="group-hover:text-cyan-400 group-hover:border-cyan-400/50"
-                      >
-                        <ExternalLink className="h-4 w-4 mr-2" />
-                        View Live
-                      </Button>
-
-                    </div>
-                  </div>
-                </div>
-
-                <Link href={'/portfolio/' + project.id}>
-                  <div className="absolute bottom-4 right-4 flex items-center gap-2 text-sm text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <span>View Case Study</span>
-                    <ArrowUpRight className="h-4 w-4" />
-                  </div>
-                </Link>
-              </CardContent>
-
-              <div className="absolute inset-0 border border-cyan-500/0 group-hover:border-cyan-500/20 rounded-lg transition-colors duration-300" />
-            </Card>
+            <ProjectCard project={project} />
           ))}
         </div>
       </section>

@@ -3,13 +3,10 @@ import { Briefcase, Clock, MapPin } from "lucide-react";
 import { Card, CardContent, CardFooter, CardHeader } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { useState } from "react";
+import { truncateText } from "@/lib/utils";
 
 export default function ExperienceCard({ company }: any) {
     const [isExpanded, setIsExpanded] = useState(false);
-    const truncateText = (text: any, maxLength: any) => {
-        if (text.length <= maxLength) return text;
-        return text.slice(0, maxLength).trim() + '...';
-    };
     return (
         <Card
             className="group relative bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl"
