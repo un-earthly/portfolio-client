@@ -8,7 +8,8 @@ import {
   Gamepad,
   PencilRuler,
   Microchip,
-  BrainCircuit
+  BrainCircuit,
+  Clock
 } from "lucide-react";
 import localFont from "next/font/local";
 
@@ -174,6 +175,17 @@ const projects = [
     githubUrl: '#',
     category: 'Web & Mobile Application',
 
+  },
+  {
+    id: 'gsm',
+    title: "Grimm Scientific Management (GSM)",
+    description: "A comprehensive management software for Grimm Scientific, covering payroll, employee management, logistics, and more. Migrated a legacy VB.NET application to Nuxt.js for scalability while optimizing a massive, unstructured MSSQL database.",
+    image: "/gsm.png",
+    technologies: ['Nuxt.js', 'Node.js', 'MSSQL', 'Sequelize', 'Tailwind CSS'],
+    liveUrl: 'https://gmssystem.paradynamix.com/login',
+    githubUrl: '#',
+    category: 'Enterprise Application',
+    timeline: '3 months'
   }
 ];
 const categories = ['All Projects', 'Full Stack', 'Mobile Apps', 'E-Commerce', 'Enterprise'];
@@ -682,7 +694,8 @@ const projectsDetails = [
         ]
       }
     ]
-  }, {
+  },
+  {
     id: 'gobadi',
     title: 'Gobadi',
     subtitle: 'Technical architect and lead developer for an AI-powered livestock healthcare platform',
@@ -887,7 +900,103 @@ const projectsDetails = [
     ],
 
     href: 'https://gobadi-admin.vercel.app/'
+  },
+  {
+    id: "gsm",
+    title: "Grimm Scientific Management (GSM)",
+    subtitle: "A high-stakes modernization project converting a legacy VB.NET desktop application into a scalable web and mobile solution.",
+    thumbnail: "/grimm.png",
+    timeline: "9 months",
+    role: "Lead Developer",
+    client: "Grimm Scientific",
+    overview: `GSM is an all-encompassing management software for Grimm Scientific, covering payroll, payment processing, employee management, attendance, KPI, product management, supply chain logistics, and company-wide operations. The project involved migrating a slow, legacy VB.NET desktop application to a modern Nuxt.js-based solution with MSSQL while retaining the original database structure.`,
+    challenges: [
+      {
+        title: "Legacy System Constraints",
+        description: "Handling outdated VB.NET code with no documentation or optimization.",
+        icon: Clock
+      },
+      {
+        title: "Complex Database",
+        description: "A massive database with millions of entries, lacking table relations or indexing.",
+        icon: Database
+      },
+      {
+        title: "Team Learning Curve",
+        description: "Introducing developers to Nuxt.js, MSSQL, and working with legacy structures.",
+        icon: Users
+      },
+      {
+        title: "Tight Deadlines",
+        description: "Delivering the first phase by November with minimal initial planning.",
+        icon: Shield
+      }
+    ],
+    solutions: [
+      {
+        title: "Robust Database Optimization",
+        description: "Refactored and optimized the database for performance and scalability.",
+        icon: Database,
+        details: [
+          "Introduced indexing for faster query execution on large datasets.",
+          "Refactored inefficient multi-join queries using nested subqueries.",
+          "Eliminated redundant and replicated queries for streamlined data retrieval.",
+          "Guided the team in understanding and optimizing SQL queries.",
+          "Improved database performance to handle millions of entries efficiently."
+        ]
+      },
+      {
+        title: "Scalable API Design",
+        description: "Developed scalable and efficient APIs using Nuxt.js and H3.",
+        icon: Laptop,
+        details: [
+          "Built modular, low-latency APIs to handle complex operations.",
+          "Implemented horizontal scaling for future growth.",
+          "Leveraged Nuxt H3 for high-performance server-side architecture.",
+          "Streamlined backend development with Sequelize and MSSQL integration.",
+          "Hosted and deployed solutions on AWS using GitLab CI/CD pipelines."
+        ]
+      },
+      {
+        title: "Developer Mentorship and Management",
+        description: "Led a team of developers while ensuring technical excellence.",
+        icon: Users,
+        details: [
+          "Conducted code reviews and guided team members on SQL and Nuxt.js.",
+          "Introduced efficient tools like ChatGPT and Claude for productivity.",
+          "Managed sprints, task assignments, and workflows via Jira.",
+          "Provided hands-on mentorship to bridge learning gaps in MSSQL and Nuxt.",
+          "Maintained high team morale despite tight deadlines and project challenges."
+        ]
+      },
+      {
+        title: "Legacy Code Migration",
+        description: "Converted legacy VB.NET functionalities into modern, web-based equivalents.",
+        icon: Shield,
+        details: [
+          "Analyzed and documented legacy VB.NET code for smooth migration.",
+          "Recreated core desktop application features in Nuxt.js for web and mobile.",
+          "Ensured feature parity with the original system while improving performance.",
+          "Implemented logging and error handling mechanisms for seamless user experience.",
+          "Delivered a usable, scalable platform meeting all client requirements."
+        ]
+      }
+    ],
+    techStack: {
+      frontend: ["Nuxt.js", "Vue.js", "Tailwind CSS"],
+      backend: ["Node.js", "H3 APIs", "Sequelize", "JWT", "RBAC"],
+      database: ["MSSQL", "Sequelize"],
+      devops: ["AWS", "GitLab CI/CD", "Docker"]
+    },
+    keyFeatures: [
+      "Modernized payroll and payment processing system.",
+      "Optimized employee attendance and KPI management.",
+      "Improved supply chain logistics tracking.",
+      "Horizontal scalability for future growth.",
+      "Enhanced database performance for large datasets."
+    ]
   }
+
 ];
 export {
   developmentProcess,
