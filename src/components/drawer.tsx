@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation';
 import CloseSVG from '../icons/close';
 import { links } from '@/mock-data';
 import NavIcon from '@/icons/navicon';
+import Image from 'next/image';
 
 type Props = {
     handler: () => void;
@@ -60,7 +61,8 @@ export default function Navbar() {
                         onClick={scrollToTop}
                         className="text-3xl text-white font-bold hover:opacity-80 transition-opacity duration-200"
                     >
-                        MD<span className="text-cyan-400">.</span>
+                        {/* MD<span className="text-cyan-400">.</span> */}
+                        <Image src='/logo_md.png' alt="logo" height={50} width={50} />
                     </Link>
                     <div className="hover:cursor-pointer">
                         <NavIcon handler={() => setMenuIsOpen(true)} />
