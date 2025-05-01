@@ -2,12 +2,10 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import React from 'react'
-import { Button, } from "@/components/ui/button"
-import { ArrowUpRight, Briefcase, Building2, CheckCircle, Clock, Code2, Cpu, Database, ExternalLink, Globe, Laptop, Layout, Mail, MapPin, MessageSquare, Microscope, Palette, PenTool, Repeat, Rocket, Search, Sparkles, Store, Trophy, Users, Wrench } from 'lucide-react'
+import { ArrowUpRight, CheckCircle, Cpu, Wrench } from 'lucide-react'
 import Link from "next/link";
 import { achievements, developmentProcess, experiences, projects, skills } from '@/mock-data'
 import ExperienceCard from "@/components/ExperinceCard";
-import { truncateText } from "@/lib/utils";
 import ProjectCard from "@/components/ProjectCard";
 export default function Home() {
   return (

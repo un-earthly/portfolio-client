@@ -14,59 +14,137 @@ import {
 import localFont from "next/font/local";
 
 const skills = {
-  specialized: ['React & Next.js', 'Redux', 'TypeScript', 'Node & Express JS', 'MongoDB', 'PostgreSQL', 'Vue & Nuxt.js'
+  specialized: [
+    // Core Frontend
+    'TypeScript',
+    'JavaScript (ES6+)',
+    'React & Next.js',
+    'Redux & Redux Toolkit',
+    'Vue & Nuxt.js',
+    'React Native',
+    // Backend
+    'Node.js & Express',
+    'NestJS',
+    'REST APIs',
+    'GraphQL',
+    // Databases
+    'MongoDB',
+    'PostgreSQL',
+    // Architecture
+    'Micro Frontend',
+    'System Design',
+    'Design Patterns'
   ],
-  comfortable: ['Docker', 'React Native', 'Flutter', 'Web Socket', 'AWS EC2', 'S3', 'Redis', 'MSSQL', 'MySQL'
+  comfortable: [
+    // DevOps & Cloud
+    'Docker',
+    'Kubernetes',
+    'AWS (EC2, S3, Lambda)',
+    'CI/CD Pipelines',
+    // Backend Tools
+    'RabbitMQ',
+    'Redis',
+    'Web Sockets',
+    // Databases
+    'MySQL',
+    'MSSQL',
+    // Testing
+    'Jest',
+    'React Testing Library',
+    // Frontend
+    'Tailwind CSS',
+    'Material UI',
+    'Flutter',
+    'Webpack',
+    // API Design
+    'OpenAPI/Swagger',
+    'API Security'
   ],
-  tools: ['Git/Github', 'Firebase', 'Stripe', 'Figma', 'NPM', 'Trello', 'Postman', 'ChatGPT'
+  tools: [
+    // Version Control
+    'Git',
+    'GitHub/GitLab',
+    // Project Management
+    'Jira',
+    'Trello',
+    // Development
+    'VS Code',
+    'Postman',
+    // Design
+    'Figma',
+    // AI Tools
+    'ChatGPT',
+    'GitHub Copilot',
+    // Build Tools
+    'npm/yarn/pnpm',
+    // Security
+    'JWT',
+    'OAuth 2.0'
   ]
 };
 const experiences = [
   {
+    "company": "All Generation Tech",
+    "companyLogo": "https://media.licdn.com/dms/image/v2/D4D0BAQHoOVFxddbjLg/company-logo_200_200/company-logo_200_200/0/1727288301001/all_generation_tech_logo?e=1751500800&v=beta&t=MsVnceDiYQkwvKlLtw4gUmXAMLFSs_BnKAqVai3c2-M",
+    "positions": [
+      {
+        "title": "Software Engineer",
+        "duration": "Dec 2024 - Present",
+        "period": "6 months",
+      }
+    ],
+    "duration": "December 2024 - Present (6 months)",
+    "type": "Full-time",
+    "location": "New York, United States - Remote",
+    "description": "",
+    "keyTechnologies": ['React Native', 'React JS', 'Next Js', 'Node JS', 'Web Socket', 'Web Scrapping', 'Docker', 'AWS Cloudfront', 'AWS Lambda', 'AWS S3', 'AWS EC2']
+
+  },
+  {
     "company": "Masleap Plc",
-    "companyLogo": "https://media.licdn.com/dms/image/v2/C4D0BAQEn0kE51pSFMw/company-logo_100_100/company-logo_100_100/0/1635880649194",
+    "companyLogo": "https://media.licdn.com/dms/image/v2/C4D0BAQEn0kE51pSFMw/company-logo_200_200/company-logo_200_200/0/1635880649194?e=1751500800&v=beta&t=0cxYxrqbei2-eFEHrt_aD5J5FG_2w9vTJLYsJT-eqkE",
     "duration": "4 months",
     "type": "Full-time",
-    "location": "On-site",
+    "location": "Dhaka, Bangladesh - On-site",
     "description": "During my time at Masleap Plc., I began as a Lead Developer specializing in the PERN stack and was later promoted to Project Manager cum Developer due to my performance. My journey here has been marked by leading challenging and impactful projects for clients across diverse industries.\n\n One of my key contributions was transitioning a legacy VB.NET and MSSQL desktop- based system to a modern web architecture using Nuxt, Vue 3, Sequelize, and MSSQL.This project was for Grimm Scientific Industry, an internal company management system with 32 modules.I personally developed 8 critical modules, including accounting, engineering management(CAPA, vendors, purchase orders), and customer management.By creating a clean, maintainable architecture, documenting requirements, and coding meticulously, I ensured the system met and exceeded client expectations.\n\n Another milestone was leading the development of Bodhisys, a property and rental management system built with Node.js, Express.js, Docker, and MySQL.I focused on designing the architecture for the React Native application, implementing efficient background processing, and ensuring robust delivery pipelines through GitLab CI/ CD.I managed sprints, collaborated with stakeholders to understand and meet project requirements, and delivered a scalable, high - performance system.The project is now in the maintenance phase.\n\n Currently, I am leading Falcon Snap, a comprehensive document and project management system aimed at streamlining auction processes, project tracking, and document storage for businesses.Its Node.js backend is designed to eliminate manual document management challenges and improve operational efficiency.\n\n Throughout these projects, I have emphasized scalable architecture, sprint management, and delivering client - centric solutions.My role spans development, project management, and cross - functional collaboration, ensuring systems are not only functional but also maintainable and future - ready.",
     "positions": [
       {
         "title": "Project Manager",
-        "duration": "Oct 2024 - Present",
-        "period": "2 months",
+        "duration": "Oct 2024 - Apr 2025",
+        "period": "7 months",
       },
       {
         "title": "Project Lead Developer",
-        "duration": "Aug 2024 - Oct 2024",
-        "period": "3 months",
+        "duration": "Nov 2023 - Oct 2024",
+        "period": "11 months",
         "location": "Mohammadpur, Dhaka",
       }
     ],
     keyTechnologies: ['Nuxt js', 'Vue JS', 'H3 Event', 'VB.Net', 'MSSQL', 'MYSQL', 'React Native', 'React JS', 'Next Js', 'Node JS', 'Web Socket', 'Web Scrapping', 'Dcoker', 'AWS Cloudfront', 'AWS Lambda', 'AWS S3', 'AWS EC2']
   },
-  {
-    "company": "TNC Global Ltd",
-    "duration": "9 months",
-    "type": "Full-time",
-    "location": "Dhaka, Bangladesh · On-site",
-    "positions": [
-      {
-        "title": "Front End Lead",
-        "duration": "Feb 2024 - Jul 2024",
-        "period": "6 months",
-      },
-      {
-        "title": "Software Engineer",
-        "duration": "Nov 2023 - Feb 2024",
-        "period": "4 months",
-      }
-    ],
-    description: "At TNC Global Limited, I began as a Full Stack Developer and was later promoted to Frontend Lead due to my contributions across multiple challenging projects. My role spanned technical development, team leadership, and stakeholder management, enabling me to make a significant impact on the company's key products.\m\nOne of the flagship projects I worked on was BanBox, a PHP- based e - commerce platform designed for order management, CRM purposes, delivery management, and related workflow control.I contributed to the development of its front - end features and worked on optimizing the platform's overall functionality to ensure seamless operations for both business owners and customers.\n\nAnother major project was a comprehensive ERP management system designed to support multitenant functionality with modules such as HRM, order management, company management, and accounting.This project transitioned from jQuery and HTML prototypes to a more modern stack involving Django and React, ensuring scalability and long - term maintainability.\n\nA pivotal moment in my journey was convincing stakeholders to transition from direct HTML / CSS prototyping to Figma for UI / UX design.Leveraging my prior frontend experience, I developed a Figma prototype to demonstrate its advantages.This decision not only streamlined the design process but also enabled better communication between designers and developers.\n\nI played a key role in laying the foundation for the ERP project alongside a backend developer, initially setting up the Django REST framework.As the project scaled, I led the frontend development team, which grew from two members to a team of 14, ensuring high performance and code quality through React and Redux.My responsibilities included building the architecture, maintaining performance metrics, managing workflows using Trello, and introducing QA processes for the client - facing application.\n\nAdditionally, I contributed to the development of iOS and Android applications for the ERP system, further expanding its reach.My experience at TNC Global taught me the importance of bridging the gap between technical and non - technical perspectives, effectively translating client requirements into functional, user - friendly solutions.",
-    keyTechnologies: ['React Js', 'Next js', 'Jotai', 'Django', 'DRF', 'PostgreSQL', 'Django ORM', 'Figma', 'AWS EC2', 'AWS S3', 'Web Socket', 'Multi tenants', 'Micro services', 'Dcoker', 'sslcommerz']
-  },
+  // {
+  //   "company": "TNC Global Ltd",
+  //   "duration": "9 months",
+  //   "type": "Full-time",
+  //   "location": "Dhaka, Bangladesh · On-site",
+  //   "positions": [
+  //     {
+  //       "title": "Front End Lead",
+  //       "duration": "Feb 2024 - Jul 2024",
+  //       "period": "6 months",
+  //     },
+  //     {
+  //       "title": "Software Engineer",
+  //       "duration": "Nov 2023 - Feb 2024",
+  //       "period": "4 months",
+  //     }
+  //   ],
+  //   description: "At TNC Global Limited, I began as a Full Stack Developer and was later promoted to Frontend Lead due to my contributions across multiple challenging projects. My role spanned technical development, team leadership, and stakeholder management, enabling me to make a significant impact on the company's key products.\m\nOne of the flagship projects I worked on was BanBox, a PHP- based e - commerce platform designed for order management, CRM purposes, delivery management, and related workflow control.I contributed to the development of its front - end features and worked on optimizing the platform's overall functionality to ensure seamless operations for both business owners and customers.\n\nAnother major project was a comprehensive ERP management system designed to support multitenant functionality with modules such as HRM, order management, company management, and accounting.This project transitioned from jQuery and HTML prototypes to a more modern stack involving Django and React, ensuring scalability and long - term maintainability.\n\nA pivotal moment in my journey was convincing stakeholders to transition from direct HTML / CSS prototyping to Figma for UI / UX design.Leveraging my prior frontend experience, I developed a Figma prototype to demonstrate its advantages.This decision not only streamlined the design process but also enabled better communication between designers and developers.\n\nI played a key role in laying the foundation for the ERP project alongside a backend developer, initially setting up the Django REST framework.As the project scaled, I led the frontend development team, which grew from two members to a team of 14, ensuring high performance and code quality through React and Redux.My responsibilities included building the architecture, maintaining performance metrics, managing workflows using Trello, and introducing QA processes for the client - facing application.\n\nAdditionally, I contributed to the development of iOS and Android applications for the ERP system, further expanding its reach.My experience at TNC Global taught me the importance of bridging the gap between technical and non - technical perspectives, effectively translating client requirements into functional, user - friendly solutions.",
+  //   keyTechnologies: ['React Js', 'Next js', 'Jotai', 'Django', 'DRF', 'PostgreSQL', 'Django ORM', 'Figma', 'AWS EC2', 'AWS S3', 'Web Socket', 'Multi tenants', 'Micro services', 'Dcoker', 'sslcommerz']
+  // },
   {
     "company": "Premium Solutions Limited",
-    "companyLogo": "https://media.licdn.com/dms/image/v2/C4D0BAQHv__l-6HAS9Q/company-logo_100_100/company-logo_100_100/0/1656110075472",
+    "companyLogo": "https://media.licdn.com/dms/image/v2/C4D0BAQHv__l-6HAS9Q/company-logo_100_100/company-logo_100_100/0/1656110075472/premium_solutions_limited_logo?e=1751500800&v=beta&t=branW0SGZj0ClBOQr2oKErsmSnZpdtcqRPGgWQ51xlk",
     "duration": "1 year 5 months",
     "type": "Full-time",
     "location": "Dhaka, Bangladesh · Remote",
@@ -89,7 +167,7 @@ const experiences = [
   {
     "company": "Prolific Tech Solutions",
     "duration": "8 months",
-    "type": "Part-time",
+    "type": "Freelance",
     "location": "Remote",
     "positions": [
       {
@@ -104,24 +182,24 @@ const experiences = [
   },
   {
     "company": "IshQool",
-    "companyLogo": "https://media.licdn.com/dms/image/v2/D4D0BAQGdwOuHisFr3g/company-logo_100_100/company-logo_100_100/0/1680240340779",
-    "duration": "8 months",
+    "companyLogo": "https://media.licdn.com/dms/image/v2/D4D0BAQGdwOuHisFr3g/company-logo_100_100/company-logo_100_100/0/1680240340779?e=1751500800&v=beta&t=frj3w-icnTZhx3i4Mc5RkczDwZzNzTplydMoH9IbMhM",
+    "duration": "1 Years",
     "type": "Full-time",
     "location": "Dhaka, Bangladesh · Remote",
     "positions": [
       {
         "title": "Full-stack Developer",
-        "duration": "Jan 2023 - Mar 2023",
-        "period": "3 months",
+        "duration": "Jan 2023 - May 2023",
+        "period": "5 months",
       },
       {
         "title": "Web Developer",
-        "duration": "Aug 2022 - Jan 2023",
-        "period": "6 months",
+        "duration": "June 2022 - Jan 2023",
+        "period": "8 months",
       }
     ],
     'description': `At Ishqool, I played a core role in developing their Learning Management System (LMS), aimed at providing accessible and engaging digital learning solutions for students and educators. Ishqool, a Bangladeshi edtech startup, is aligned with the growing edtech sector driven by increasing internet penetration and a tech-savvy youth demographic in the country.\n\nI developed key LMS functionalities such as student management (enrollment, attendance, and progress tracking), interactive learning modules, and custom dashboards for real-time insights, tailored to both educators and students.\n\n Using the MERN stack, along with tools like Docker and Redis, I ensured the platform’s robustness, scalability, and efficiency. I built backend solutions that handled data securely, supporting assignments, assessments, and analytics.\n\n I contributed to designing user-friendly interfaces, ensuring the platform was responsive and accessible on mobile devices, an important feature for Bangladesh's digital ecosystem. I focused on the needs of students, educators, and administrators to create an intuitive experience.\n\n I implemented solutions to ensure the LMS could handle a growing user base without compromising on performance. Security was also a key priority, and I followed best practices to protect user data and maintain platform integrity.\n\n I helped position Ishqool as a competitive player in Bangladesh’s edtech market by providing innovative features that addressed local educational needs. Understanding industry trends, such as skills development and exam preparation, allowed me to scale the LMS for both institutional and individual learners.\n\nIshqool operates in a rapidly growing edtech market in Bangladesh, with competitors like 10 Minute School and Shikho making strides. The LMS I developed played a key role in digitizing education and supporting both urban and rural learners. This experience has deepened my expertise in building scalable, impactful educational solutions, and addressing challenges in emerging markets.`,
-    keyTechnologies: ['React JS', 'Redux', 'Next Js', 'Node JS', 'Express JS', 'Postgre SQL', 'Socket IO', 'Firebase', 'ERD', 'Jest', 'Redis']
+    "keyTechnologies": ['React JS', 'Redux', 'Next Js', 'Node JS', 'Express JS', 'Postgre SQL', 'Socket IO', 'Firebase', 'ERD', 'Jest', 'Redis']
 
   }
 ];
