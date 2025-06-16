@@ -1,8 +1,5 @@
 'use client'
 import "./globals.css";
-import Link from "next/link";
-import NavIcon from "../icons/navicon";
-import Drawer from "@/components/drawer";
 import React, { useState, useEffect, useRef } from 'react'
 import { geistMono, geistSans } from "@/mock-data";
 import DesktopAside from "@/components/desktopAside";
@@ -15,10 +12,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [menuIsOpen, setMenuIsOpen] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isMounted, setIsMounted] = useState(false);
-  const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setIsMounted(true);
@@ -31,39 +26,46 @@ export default function RootLayout({
     };
   }, []);
 
-  const scrollToTop = () => {
-    contentRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
-    setMenuIsOpen(false);
-  };
-
   if (!isMounted) {
     return null;
   }
 
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} overflow-hidden w-screen !p-0`}>
-        <div className="grid grid-cols-12 bg-gradient-to-b from-black to-gray-900">
-          <div className="overflow-hidden hidden lg:block w-screen">
+    <html lang="en" className="scroll-smooth">
+      <body className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-gradient-to-b from-black to-gray-900 overflow-x-hidden`}>
+        {/* Background Animation Layer */}
+        <div className="fixed inset-0 pointer-events-none">
+          <div className="absolute inset-0 overflow-hidden">
             <AnimatedBackground mousePosition={mousePosition} />
           </div>
-          <div className="col-span-12">
-            <Navbar />
-          </div>
+        </div>
 
-          <div className="h-screen overflow-hidden col-span-12">
-            <div className="grid grid-cols-12">
-              <div className="col-span-5 hidden lg:block">
-                <DesktopAside />
-              </div>
-              <div className="col-span-12 mt-20 lg:hidden block">
+        {/* Main Content Layer */}
+        <div className="relative z-10">
+          <Navbar />
+
+          <main className="container mx-auto px-4 lg:px-8">
+            <div className="grid lg:grid-cols-12 gap-8 pt-20">
+              {/* Desktop Sidebar */}
+              <aside className="hidden lg:block lg:col-span-5">
+                <div className="sticky top-24">
+                  <DesktopAside />
+                </div>
+              </aside>
+
+              {/* Mobile Banner */}
+              <div className="lg:hidden">
                 <MobileInto />
               </div>
-              <div className="lg:col-span-7 mt-5 lg:mt-20 pb-64 lg:pb-16 col-span-12 px-3 md:px-10 lg:px-0 overflow-y-scroll h-[95vh] text-gray-300">
-                {children}
+
+              {/* Main Content */}
+              <div className="lg:col-span-7 min-h-[calc(100vh-6rem)]">
+                <div className="pb-16 lg:pb-24">
+                  {children}
+                </div>
               </div>
             </div>
-          </div>
+          </main>
         </div>
       </body>
     </html>

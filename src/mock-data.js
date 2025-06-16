@@ -84,6 +84,23 @@ const skills = {
 };
 const experiences = [
   {
+    "company": "Mediusware",
+    "companyLogo": "https://media.licdn.com/dms/image/v2/D560BAQF2PifV7yh-oQ/company-logo_200_200/B56ZU23g_LGQAI-/0/1740382278023/mediusware_ltd_logo?e=1755734400&v=beta&t=25cZvVjpSbGc1BbrNdgfds1PbDgaufvUBql66gae5qo",
+    "positions": [
+      {
+        "title": "Senior Software Engineer",
+        "duration": "May 2025 - Present",
+        "period": "Ongoing",
+      }
+    ],
+    "duration": "December 2024 - Present (6 months)",
+    "type": "Full-time",
+    "location": "Mohammadpur, Dhaka - On-site",
+    "description": "",
+    "keyTechnologies": ['React Native', 'React JS', 'Llama', 'Node JS', 'Flutter', 'Web Scrapping', 'Docker', 'AWS Cloudfront', 'AWS Lambda', 'AWS S3', 'AWS EC2']
+
+  },
+  {
     "company": "All Generation Tech",
     "companyLogo": "https://media.licdn.com/dms/image/v2/D4D0BAQHoOVFxddbjLg/company-logo_200_200/company-logo_200_200/0/1727288301001/all_generation_tech_logo?e=1751500800&v=beta&t=MsVnceDiYQkwvKlLtw4gUmXAMLFSs_BnKAqVai3c2-M",
     "positions": [
@@ -110,92 +127,34 @@ const experiences = [
     "positions": [
       {
         "title": "Project Manager",
-        "duration": "Oct 2024 - Apr 2025",
-        "period": "7 months",
+        "duration": "Oct 2024 - May 2025",
+        "period": "8 months",
       },
       {
         "title": "Project Lead Developer",
-        "duration": "Nov 2023 - Oct 2024",
-        "period": "11 months",
+        "duration": "May 2023 - Sep 2024",
+        "period": "1 yr 4 months",
         "location": "Mohammadpur, Dhaka",
-      }
+      },
     ],
     keyTechnologies: ['Nuxt js', 'Vue JS', 'H3 Event', 'VB.Net', 'MSSQL', 'MYSQL', 'React Native', 'React JS', 'Next Js', 'Node JS', 'Web Socket', 'Web Scrapping', 'Dcoker', 'AWS Cloudfront', 'AWS Lambda', 'AWS S3', 'AWS EC2']
-  },
-  // {
-  //   "company": "TNC Global Ltd",
-  //   "duration": "9 months",
-  //   "type": "Full-time",
-  //   "location": "Dhaka, Bangladesh · On-site",
-  //   "positions": [
-  //     {
-  //       "title": "Front End Lead",
-  //       "duration": "Feb 2024 - Jul 2024",
-  //       "period": "6 months",
-  //     },
-  //     {
-  //       "title": "Software Engineer",
-  //       "duration": "Nov 2023 - Feb 2024",
-  //       "period": "4 months",
-  //     }
-  //   ],
-  //   description: "At TNC Global Limited, I began as a Full Stack Developer and was later promoted to Frontend Lead due to my contributions across multiple challenging projects. My role spanned technical development, team leadership, and stakeholder management, enabling me to make a significant impact on the company's key products.\m\nOne of the flagship projects I worked on was BanBox, a PHP- based e - commerce platform designed for order management, CRM purposes, delivery management, and related workflow control.I contributed to the development of its front - end features and worked on optimizing the platform's overall functionality to ensure seamless operations for both business owners and customers.\n\nAnother major project was a comprehensive ERP management system designed to support multitenant functionality with modules such as HRM, order management, company management, and accounting.This project transitioned from jQuery and HTML prototypes to a more modern stack involving Django and React, ensuring scalability and long - term maintainability.\n\nA pivotal moment in my journey was convincing stakeholders to transition from direct HTML / CSS prototyping to Figma for UI / UX design.Leveraging my prior frontend experience, I developed a Figma prototype to demonstrate its advantages.This decision not only streamlined the design process but also enabled better communication between designers and developers.\n\nI played a key role in laying the foundation for the ERP project alongside a backend developer, initially setting up the Django REST framework.As the project scaled, I led the frontend development team, which grew from two members to a team of 14, ensuring high performance and code quality through React and Redux.My responsibilities included building the architecture, maintaining performance metrics, managing workflows using Trello, and introducing QA processes for the client - facing application.\n\nAdditionally, I contributed to the development of iOS and Android applications for the ERP system, further expanding its reach.My experience at TNC Global taught me the importance of bridging the gap between technical and non - technical perspectives, effectively translating client requirements into functional, user - friendly solutions.",
-  //   keyTechnologies: ['React Js', 'Next js', 'Jotai', 'Django', 'DRF', 'PostgreSQL', 'Django ORM', 'Figma', 'AWS EC2', 'AWS S3', 'Web Socket', 'Multi tenants', 'Micro services', 'Dcoker', 'sslcommerz']
-  // },
-  {
-    "company": "Premium Solutions Limited",
-    "companyLogo": "https://media.licdn.com/dms/image/v2/C4D0BAQHv__l-6HAS9Q/company-logo_100_100/company-logo_100_100/0/1656110075472/premium_solutions_limited_logo?e=1751500800&v=beta&t=branW0SGZj0ClBOQr2oKErsmSnZpdtcqRPGgWQ51xlk",
-    "duration": "1 year 5 months",
-    "type": "Full-time",
-    "location": "Dhaka, Bangladesh · Remote",
-    "description": "Over the years, I've had the chance to work on some exciting projects for clients across the Middle East, Europe, Bangladesh, and China. One of the most interesting projects I worked on was a Node.js application integrated with Shopify. I built this system to make life easier for Shopify store owners by automating tasks like finding suppliers, managing shipping, and tracking orders—all from a single admin dashboard. It connected businesses with verified suppliers worldwide and streamlined the entire process, saving a lot of time and effort.\n\nAnother project I'm proud of is a Flutter mobile app I developed for an online fish store in the Middle East. This app made it easy for users to find the fish they needed by category, use advanced search options, and manage their orders without any hassle. It was all about creating a smooth and user-friendly shopping experience.\n\nI've also been part of teams working on multiple B2B e-commerce platforms, building features like product listings, order tracking, and supplier profiles. These projects focused on making business operations simpler and more efficient for clients.\n\nWhat I've learned through these experiences is the importance of delivering solutions that are not just technically sound but also practical and easy to use. I've always prioritized creating scalable and reliable systems while making sure everything is delivered on time. It's been a great journey, and I'm excited to keep building solutions that make a difference!",
-    "positions": [
-      {
-        "title": "Full-stack Developer",
-        "duration": "Sep 2023 - Jul 2024",
-        "period": "11 months",
-      },
-      {
-        "title": "Frontend Developer",
-        "duration": "Mar 2023 - Aug 2024",
-        "period": "6 months",
-      }
-    ],
-    keyTechnologies: ['React Js', 'Svelte Kit', 'Redux', 'Next js', 'Node JS', 'Flutter', 'React Native', 'MongoDB', 'Shopify', 'Bubble', 'C Panel']
-
-  },
-  {
-    "company": "Prolific Tech Solutions",
-    "duration": "8 months",
-    "type": "Freelance",
-    "location": "Remote",
-    "positions": [
-      {
-        "title": "React Native Developer",
-        "duration": "Nov 2022 - Jun 2023",
-        "period": "8 months",
-      }
-    ],
-    description: `At Prolific Tech Solutions, I embarked on my journey as a Junior Developer, marking my second job in the industry. My primary role was to convert Figma designs into React Native UI components, focusing on delivering a seamless user experience for mobile applications. This was my introduction to mobile development, and I quickly learned how to optimize React Native code for performance, ensuring smooth and efficient mobile applications.\n\n In addition to my core responsibilities, I learned the importance of code organization, modularization, and maintaining a clean architecture for long-term maintainability. I developed an understanding of how to calculate the complexity of systems and algorithms, resolving potential issues through optimized solutions. My exposure to internationalization (i18n) using the I18React library allowed me to build applications that could easily support multiple languages and regions, further enhancing the app's global accessibility.\n\n I was also introduced to Know Your Customer (KYC) processes, which deepened my understanding of authentication, user management, and state management for performance optimization. Working on organizing users, contacts, and managing states helped me build a strong foundation in mobile app development.\n\n Being referred to Prolific Tech Solutions by the CTO of Ishqool, where I started my career, provided me with invaluable learning experiences. The role allowed me to grow as a developer, refining my skills in performance metrics, system complexity, and code readability while gaining hands-on experience with real-world applications.`,
-    keyTechnologies: ['React Native', 'Socket IO', 'Redux', 'Firebase', 'Node JS', 'Express JS', 'Google Maps', 'Internationalization', 'Jest']
-
   },
   {
     "company": "IshQool",
     "companyLogo": "https://media.licdn.com/dms/image/v2/D4D0BAQGdwOuHisFr3g/company-logo_100_100/company-logo_100_100/0/1680240340779?e=1751500800&v=beta&t=frj3w-icnTZhx3i4Mc5RkczDwZzNzTplydMoH9IbMhM",
-    "duration": "1 Years",
+    "duration": "1 yr 6 mos",
     "type": "Full-time",
     "location": "Dhaka, Bangladesh · Remote",
     "positions": [
       {
         "title": "Full-stack Developer",
-        "duration": "Jan 2023 - May 2023",
-        "period": "5 months",
+        "duration": "Jan 2023 - april 2023",
+        "period": "4 months",
       },
       {
         "title": "Web Developer",
-        "duration": "June 2022 - Jan 2023",
-        "period": "8 months",
+        "duration": "Nov 2021 - Jan 2023",
+        "period": "1 yr 3 months",
       }
     ],
     'description': `At Ishqool, I played a core role in developing their Learning Management System (LMS), aimed at providing accessible and engaging digital learning solutions for students and educators. Ishqool, a Bangladeshi edtech startup, is aligned with the growing edtech sector driven by increasing internet penetration and a tech-savvy youth demographic in the country.\n\nI developed key LMS functionalities such as student management (enrollment, attendance, and progress tracking), interactive learning modules, and custom dashboards for real-time insights, tailored to both educators and students.\n\n Using the MERN stack, along with tools like Docker and Redis, I ensured the platform’s robustness, scalability, and efficiency. I built backend solutions that handled data securely, supporting assignments, assessments, and analytics.\n\n I contributed to designing user-friendly interfaces, ensuring the platform was responsive and accessible on mobile devices, an important feature for Bangladesh's digital ecosystem. I focused on the needs of students, educators, and administrators to create an intuitive experience.\n\n I implemented solutions to ensure the LMS could handle a growing user base without compromising on performance. Security was also a key priority, and I followed best practices to protect user data and maintain platform integrity.\n\n I helped position Ishqool as a competitive player in Bangladesh’s edtech market by providing innovative features that addressed local educational needs. Understanding industry trends, such as skills development and exam preparation, allowed me to scale the LMS for both institutional and individual learners.\n\nIshqool operates in a rapidly growing edtech market in Bangladesh, with competitors like 10 Minute School and Shikho making strides. The LMS I developed played a key role in digitizing education and supporting both urban and rural learners. This experience has deepened my expertise in building scalable, impactful educational solutions, and addressing challenges in emerging markets.`,
@@ -223,7 +182,17 @@ const achievements = [
     title: 'Project Leadership',
     description: 'Currently leading two system management projects for USA-based clients,And delivered a project with 95% success ratio, focusing on scalable and efficient solutions.',
     icon: Trophy
-  }
+  },
+  {
+    title: "AI Integration",
+    description: "Successfully integrated AI models into applications, enhancing functionality and user experience.",
+    icon: Brain
+  },
+  {
+    title: "System Management",
+    description: "Led frontend team in developing and designing an ERP management prototype, demonstrating leadership and technical expertise.",
+    icon: Users
+  },
 ];
 const projects = [
   {
@@ -252,7 +221,6 @@ const projects = [
     liveUrl: 'https://gobadi-admin.vercel.app/',
     githubUrl: '#',
     category: 'Web & Mobile Application',
-
   },
   {
     id: 'gsm',
@@ -264,7 +232,20 @@ const projects = [
     githubUrl: '#',
     category: 'Enterprise Application',
     timeline: '3 months'
-  }
+  },
+
+  {
+    id: 'gadgets-heaven',
+    title: "Gadgets Heaven",
+    description: "A comprehensive management software for Grimm Scientific, covering payroll, employee management, logistics, and more. Migrated a legacy VB.NET application to Nuxt.js for scalability while optimizing a massive, unstructured MSSQL database.",
+    image: "/gadgets-heaven.png",
+    technologies: ['Next.js', 'Shadcn UI', 'Tailwind CSS', "framer-motion", "zustand"],
+    liveUrl: 'https://gadgets-heaven-rho.vercel.app/',
+    githubUrl: 'https://github.com/un-earthly/gadgets-heaven-client',
+    category: 'Enterprise Application',
+    timeline: '3 months'
+  },
+
 ];
 const categories = ['All Projects', 'Full Stack', 'Mobile Apps', 'E-Commerce', 'Enterprise'];
 
