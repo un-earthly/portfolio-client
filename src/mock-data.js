@@ -450,7 +450,7 @@ const userStories = [
     as: "A Developer",
     want: "To create scalable and maintainable solutions",
     so: "That I can help businesses grow and succeed",
-    metrics: ["3+ years experience", "20+ successful projects", "2 Lead Roles"]
+    metrics: ["4+ years experience", "25+ successful projects", "2 Lead Roles"]
   },
   {
     as: "A Team Member",
