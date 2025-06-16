@@ -9,7 +9,7 @@ interface SectionHeaderProps {
 export function SectionHeader({ title, href }: SectionHeaderProps) {
     const Header = () => (
         <div className="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-slate-800/50 transition-all duration-300 cursor-pointer group">
-            <h2 className="text-3xl font-bold text-center group-hover:text-cyan-400 transition-colors">
+            <h2 className="text-3xl text-white font-bold text-center group-hover:text-cyan-400 transition-colors">
                 {title}
             </h2>
             {href && (

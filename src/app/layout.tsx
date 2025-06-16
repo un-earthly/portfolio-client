@@ -31,20 +31,20 @@ export default function RootLayout({
   }
 
   return (
-    <html lang="en" className="scroll-smooth">
-      <body className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-gradient-to-b from-black to-gray-900 overflow-x-hidden`}>
+    <html lang="en">
+      <body className={`${geistSans.variable} ${geistMono.variable} bg-gradient-to-b from-black to-gray-900 min-h-screen`}>
         {/* Background Animation Layer */}
         <div className="fixed inset-0 pointer-events-none">
-          <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute inset-0">
             <AnimatedBackground mousePosition={mousePosition} />
           </div>
         </div>
 
         {/* Main Content Layer */}
-        <div className="relative z-10">
+        <div className="relative z-10 min-h-screen">
           <Navbar />
 
-          <main className="container mx-auto px-4 lg:px-8">
+          <main className="mx-auto px-4 lg:px-8 ">
             <div className="grid lg:grid-cols-12 gap-8 pt-20">
               {/* Desktop Sidebar */}
               <aside className="hidden lg:block lg:col-span-5">
@@ -59,8 +59,8 @@ export default function RootLayout({
               </div>
 
               {/* Main Content */}
-              <div className="lg:col-span-7 min-h-[calc(100vh-6rem)]">
-                <div className="pb-16 lg:pb-24">
+              <div className="lg:col-span-7 h-[calc(100vh-10rem)] overflow-y-auto">
+                <div className="pb-16 lg:pb-24 w-full">
                   {children}
                 </div>
               </div>

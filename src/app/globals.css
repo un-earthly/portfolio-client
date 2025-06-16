@@ -7,73 +7,74 @@
 
 @layer base {
   :root {
-    --color-text-base:#ff7700;
-    --color-text-inverted:#444444;
-    --color-text-white:#ffffff;
-    --color-text-muted:#c7d2fe;
-    --color-fill:#ff7700;
-    --color-dark:#000000;
-    --color-bgdark:#111827;
-    --color-button-accent:#ffffff;
-    --color-button-accent-hover:#eef2ff;
-    --color-button-muted:#ff7700;
-    --color-darkmode:#111827;
-    --background:0 0% 100%;
-    --foreground:240 10% 3.9%;
-    --card:0 0% 100%;
-    --card-foreground:240 10% 3.9%;
-    --popover:0 0% 100%;
-    --popover-foreground:240 10% 3.9%;
-    --primary:240 5.9% 10%;
-    --primary-foreground:0 0% 98%;
-    --secondary:240 4.8% 95.9%;
-    --secondary-foreground:240 5.9% 10%;
-    --muted:240 4.8% 95.9%;
-    --muted-foreground:240 3.8% 46.1%;
-    --accent:240 4.8% 95.9%;
-    --accent-foreground:240 5.9% 10%;
-    --destructive:0 84.2% 60.2%;
-    --destructive-foreground:0 0% 98%;
-    --border:240 5.9% 90%;
-    --input:240 5.9% 90%;
-    --ring:240 10% 3.9%;
-    --chart-1:12 76% 61%;
-    --chart-2:173 58% 39%;
-    --chart-3:197 37% 24%;
-    --chart-4:43 74% 66%;
-    --chart-5:27 87% 67%;
-    --radius:0.5rem;
+    --color-text-base: #ff7700;
+    --color-text-inverted: #444444;
+    --color-text-white: #ffffff;
+    --color-text-muted: #c7d2fe;
+    --color-fill: #ff7700;
+    --color-dark: #000000;
+    --color-bgdark: #111827;
+    --color-button-accent: #ffffff;
+    --color-button-accent-hover: #eef2ff;
+    --color-button-muted: #ff7700;
+    --color-darkmode: #111827;
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 10% 3.9%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
   }
+
   .dark {
-    --background:240 10% 3.9%;
-    --foreground:0 0% 98%;
-    --card:240 10% 3.9%;
-    --card-foreground:0 0% 98%;
-    --popover:240 10% 3.9%;
-    --popover-foreground:0 0% 98%;
-    --primary:0 0% 98%;
-    --primary-foreground:240 5.9% 10%;
-    --secondary:240 3.7% 15.9%;
-    --secondary-foreground:0 0% 98%;
-    --muted:240 3.7% 15.9%;
-    --muted-foreground:240 5% 64.9%;
-    --accent:240 3.7% 15.9%;
-    --accent-foreground:0 0% 98%;
-    --destructive:0 62.8% 30.6%;
-    --destructive-foreground:0 0% 98%;
-    --border:240 3.7% 15.9%;
-    --input:240 3.7% 15.9%;
-    --ring:240 4.9% 83.9%;
-    --chart-1:220 70% 50%;
-    --chart-2:160 60% 45%;
-    --chart-3:30 80% 55%;
-    --chart-4:280 65% 60%;
-    --chart-5:340 75% 55%;
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
   }
 }
 
 /* Toggle B */
-input:checked ~ .dot {
+input:checked~.dot {
   transform: translateX(100%);
   background-color: #48bb78;
 }
@@ -83,26 +84,28 @@ input:checked ~ .dot {
 }
 
 
-.text-outline{
+.text-outline {
   transition: .4s;
   -webkit-text-stroke: 2px #ffffff;
   font-size: 2em;
 }
-.text-outline:hover{
+
+.text-outline:hover {
   -webkit-text-stroke: 2px transparent;
 }
 
-.text-outline-cyan{
+.text-outline-cyan {
   -webkit-text-stroke: .5px cyan;
   transition: 3s;
 }
-.text-outline-cyan:hover{
+
+.text-outline-cyan:hover {
   color: cyan;
-  -webkit-text-stroke:transparent;
+  -webkit-text-stroke: transparent;
   transition: 300ms;
 }
 
-button:active{
+button:active {
   transform: scale(.9);
 }
 
@@ -110,7 +113,47 @@ button:active{
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Custom Scrollbar Styles */
+::-webkit-scrollbar {
+  width: 10px;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(6, 182, 212, 0.2);
+  /* cyan-500 with low opacity */
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(6, 182, 212, 0.3);
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(6, 182, 212, 0.2) transparent;
+}
+
+/* Hide scrollbar in specific elements but keep functionality */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari and Opera */
 }
