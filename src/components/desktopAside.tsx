@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { motion } from 'framer-motion'
 import { Card } from "./ui/card";
-import { socialLinks } from "@/mock-data";
+import { experiences, socialLinks, yearsOfExperince } from "@/mock-data";
 import Link from "next/link";
 import { Button } from "./ui/button";
 const DesktopAside = () => <div className="w-full h-screen hidden p-4 lg:p-8 lg:flex items-center justify-center flex-col text-center bg-gradient-to-br from-transparent to-gray-900/5 shadow-[rgba(0,0,0,0.1)_10px_5px_4px_0px] bg-opacity-50 backdrop-filter backdrop-blur-lg rounded-xl">
@@ -47,7 +47,7 @@ const DesktopAside = () => <div className="w-full h-screen hidden p-4 lg:p-8 lg:
         transition={{ duration: 0.8, delay: 0.3 }}
     >
         <Card className="py-4 text-center bg-cyan-950/10 border-cyan-500/80">
-            <h3 className="text-2xl md:text-3xl font-bold text-cyan-300">3+</h3>
+            <h3 className="text-2xl md:text-3xl font-bold text-cyan-300">{yearsOfExperince}+</h3>
             <p className="text-xs md:text-sm text-gray-300">Years Experience</p>
         </Card>
         <Card className="py-4 text-center bg-cyan-950/10 border-cyan-500/80">

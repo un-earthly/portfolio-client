@@ -82,6 +82,7 @@ const skills = {
     'OAuth 2.0'
   ]
 };
+export const yearsOfExperince = 4
 const experiences = [
   {
     "company": "Mediusware",
