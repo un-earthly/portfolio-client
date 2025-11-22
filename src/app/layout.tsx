@@ -13,10 +13,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    setIsMounted(true);
     const updateMousePosition = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
@@ -26,13 +24,9 @@ export default function RootLayout({
     };
   }, []);
 
-  if (!isMounted) {
-    return null;
-  }
-
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} bg-gradient-to-b from-black to-gray-900 min-h-screen`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} bg-linear-to-b from-black to-gray-900 h-screen`}>
         {/* Background Animation Layer */}
         <div className="fixed inset-0 pointer-events-none">
           <div className="absolute inset-0">
@@ -41,7 +35,7 @@ export default function RootLayout({
         </div>
 
         {/* Main Content Layer */}
-        <div className="relative z-10 min-h-screen">
+        <div className="relative z-10 h-screen overflow-hidden">
           <Navbar />
 
           <main className="mx-auto px-4 lg:px-8 ">
@@ -59,7 +53,7 @@ export default function RootLayout({
               </div>
 
               {/* Main Content */}
-              <div className="lg:col-span-7 h-[calc(100vh-10rem)] overflow-y-auto">
+              <div className="lg:col-span-7 lg:h-[calc(100vh-10rem)] h-[calc(100vh-20rem)] overflow-y-auto">
                 <div className="pb-16 lg:pb-24 w-full">
                   {children}
                 </div>

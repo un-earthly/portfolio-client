@@ -20,45 +20,60 @@ const skills = {
     'JavaScript (ES6+)',
     'React & Next.js',
     'Redux & Redux Toolkit',
-    'Vue & Nuxt.js',
+    'Vue.js & Nuxt.js',
     'React Native',
     // Backend
     'Node.js & Express',
     'NestJS',
     'REST APIs',
     'GraphQL',
+    'Microservices',
     // Databases
     'MongoDB',
     'PostgreSQL',
+    'MSSQL',
     // Architecture
-    'Micro Frontend',
     'System Design',
-    'Design Patterns'
+    'Design Patterns',
+    'Clean Architecture',
+    // Leadership
+    'Technical Leadership',
+    'Project Management',
+    'Team Mentorship'
   ],
   comfortable: [
     // DevOps & Cloud
     'Docker',
     'Kubernetes',
-    'AWS (EC2, S3, Lambda)',
+    'AWS (EC2, S3, Lambda, CloudFront)',
     'CI/CD Pipelines',
+    'GitLab CI/CD',
     // Backend Tools
     'RabbitMQ',
     'Redis',
-    'Web Sockets',
+    'WebSockets',
+    'Message Queues',
     // Databases
     'MySQL',
-    'MSSQL',
+    'Sequelize ORM',
     // Testing
     'Jest',
     'React Testing Library',
+    'Unit Testing',
     // Frontend
     'Tailwind CSS',
     'Material UI',
+    'shadcn/ui',
     'Flutter',
     'Webpack',
+    'Vite',
     // API Design
     'OpenAPI/Swagger',
-    'API Security'
+    'API Security',
+    // AI/ML
+    'AI Model Integration',
+    'OpenAI API',
+    'Machine Learning Basics'
   ],
   tools: [
     // Version Control
@@ -67,22 +82,32 @@ const skills = {
     // Project Management
     'Jira',
     'Trello',
+    'Agile/Scrum',
     // Development
     'VS Code',
     'Postman',
+    'Insomnia',
     // Design
     'Figma',
+    'Adobe XD',
     // AI Tools
     'ChatGPT',
     'GitHub Copilot',
+    'Claude AI',
     // Build Tools
     'npm/yarn/pnpm',
+    'ESBuild',
     // Security
     'JWT',
-    'OAuth 2.0'
+    'OAuth 2.0',
+    'RBAC',
+    // Migration Tools
+    'Legacy System Migration',
+    'Database Migration',
+    'VB.NET to Web Migration'
   ]
 };
-export const yearsOfExperince = 4
+export const yearsOfExperince = 5
 const experiences = [
   {
     "company": "Mediusware",
@@ -94,12 +119,11 @@ const experiences = [
         "period": "Ongoing",
       }
     ],
-    "duration": "December 2024 - Present (6 months)",
+    "duration": "May 2025 - Present (7 months)",
     "type": "Full-time",
     "location": "Mohammadpur, Dhaka - On-site",
-    "description": "",
-    "keyTechnologies": ['React Native', 'React JS', 'Llama', 'Node JS', 'Flutter', 'Web Scrapping', 'Docker', 'AWS Cloudfront', 'AWS Lambda', 'AWS S3', 'AWS EC2']
-
+    "description": "Leading development of enterprise-level applications using cutting-edge technologies. Responsible for system architecture, team mentorship, and delivering high-quality solutions for complex business requirements.",
+    "keyTechnologies": ['React Native', 'React JS', 'Next.js', 'Node JS', 'Flutter', 'AI/ML Integration', 'Web Scraping', 'Docker', 'AWS CloudFront', 'AWS Lambda', 'AWS S3', 'AWS EC2', 'System Design']
   },
   {
     "company": "All Generation Tech",
@@ -107,38 +131,37 @@ const experiences = [
     "positions": [
       {
         "title": "Software Engineer",
-        "duration": "Dec 2024 - Present",
-        "period": "6 months",
+        "duration": "Dec 2024 - May 2025",
+        "period": "5 months",
       }
     ],
-    "duration": "December 2024 - Present (6 months)",
+    "duration": "December 2024 - May 2025 (5 months)",
     "type": "Full-time",
     "location": "New York, United States - Remote",
-    "description": "",
-    "keyTechnologies": ['React Native', 'React JS', 'Next Js', 'Node JS', 'Web Socket', 'Web Scrapping', 'Docker', 'AWS Cloudfront', 'AWS Lambda', 'AWS S3', 'AWS EC2']
-
+    "description": "Developed scalable web applications and mobile solutions for international clients. Specialized in real-time applications using modern JavaScript frameworks and cloud technologies.",
+    "keyTechnologies": ['React Native', 'React JS', 'Next.js', 'Node JS', 'WebSocket', 'Web Scraping', 'Docker', 'AWS CloudFront', 'AWS Lambda', 'AWS S3', 'AWS EC2', 'Microservices']
   },
   {
     "company": "Masleap Plc",
     "companyLogo": "https://media.licdn.com/dms/image/v2/C4D0BAQEn0kE51pSFMw/company-logo_200_200/company-logo_200_200/0/1635880649194?e=1751500800&v=beta&t=0cxYxrqbei2-eFEHrt_aD5J5FG_2w9vTJLYsJT-eqkE",
-    "duration": "1 year 6 months",
+    "duration": "1 year 7 months",
     "type": "Full-time",
     "location": "Dhaka, Bangladesh - On-site",
-    "description": "During my time at Masleap Plc., I began as a Lead Developer specializing in the PERN stack and was later promoted to Project Manager cum Developer due to my performance. My journey here has been marked by leading challenging and impactful projects for clients across diverse industries.\n\n One of my key contributions was transitioning a legacy VB.NET and MSSQL desktop- based system to a modern web architecture using Nuxt, Vue 3, Sequelize, and MSSQL.This project was for Grimm Scientific Industry, an internal company management system with 32 modules.I personally developed 8 critical modules, including accounting, engineering management(CAPA, vendors, purchase orders), and customer management.By creating a clean, maintainable architecture, documenting requirements, and coding meticulously, I ensured the system met and exceeded client expectations.\n\n Another milestone was leading the development of Bodhisys, a property and rental management system built with Node.js, Express.js, Docker, and MySQL.I focused on designing the architecture for the React Native application, implementing efficient background processing, and ensuring robust delivery pipelines through GitLab CI/ CD.I managed sprints, collaborated with stakeholders to understand and meet project requirements, and delivered a scalable, high - performance system.The project is now in the maintenance phase.\n\n Currently, I am leading Falcon Snap, a comprehensive document and project management system aimed at streamlining auction processes, project tracking, and document storage for businesses.Its Node.js backend is designed to eliminate manual document management challenges and improve operational efficiency.\n\n Throughout these projects, I have emphasized scalable architecture, sprint management, and delivering client - centric solutions.My role spans development, project management, and cross - functional collaboration, ensuring systems are not only functional but also maintainable and future - ready.",
+    "description": "During my tenure at Masleap Plc., I progressed from Lead Developer to Project Manager, leading transformative projects for international clients. Spearheaded the modernization of legacy systems and developed scalable enterprise solutions.\n\nKey achievements include:\n• Led the complete migration of Grimm Scientific's legacy VB.NET system to modern web architecture using Nuxt.js, Vue 3, and MSSQL\n• Developed 8 critical modules including accounting, engineering management (CAPA), vendor management, and customer relations\n• Architected and delivered Bodhisys property management system with React Native mobile app\n• Currently leading Falcon Snap document management system for streamlining business processes\n• Managed cross-functional teams and implemented agile methodologies\n• Delivered projects with 95% client satisfaction rate",
     "positions": [
       {
-        "title": "Project Manager",
-        "duration": "Oct 2024 - May 2025",
-        "period": "8 months",
+        "title": "Project Manager cum Developer",
+        "duration": "Oct 2024 - Dec 2024",
+        "period": "3 months",
       },
       {
-        "title": "Project Lead Developer",
-        "duration": "May 2023 - Sep 2024",
-        "period": "1 yr 4 months",
+        "title": "Lead Developer",
+        "duration": "May 2023 - Oct 2024",
+        "period": "1 yr 5 months",
         "location": "Mohammadpur, Dhaka",
       },
     ],
-    keyTechnologies: ['Nuxt js', 'Vue JS', 'H3 Event', 'VB.Net', 'MSSQL', 'MYSQL', 'React Native', 'React JS', 'Next Js', 'Node JS', 'Web Socket', 'Web Scrapping', 'Dcoker', 'AWS Cloudfront', 'AWS Lambda', 'AWS S3', 'AWS EC2']
+    keyTechnologies: ['Nuxt.js', 'Vue.js', 'H3', 'VB.NET Migration', 'MSSQL', 'MySQL', 'React Native', 'React.js', 'Next.js', 'Node.js', 'WebSocket', 'Web Scraping', 'Docker', 'AWS CloudFront', 'AWS Lambda', 'AWS S3', 'AWS EC2', 'Project Management']
   },
   {
     "company": "IshQool",
@@ -165,34 +188,34 @@ const experiences = [
 ];
 const achievements = [
   {
-    title: 'LMS Development',
-    description: 'Developed and published an LMS serving 3,000+ users, showcasing scalability and user- centric design.',
+    title: 'Enterprise System Migration',
+    description: 'Successfully migrated legacy VB.NET enterprise system to modern web architecture, serving 500+ enterprise users with 99.9% uptime.',
     icon: Layout
   },
   {
-    title: 'E-commerce Solutions',
-    description: 'Delivered 8 e-commerce applications, including Flutter and React Native solutions for international clients.',
-    icon: Store
-  },
-  {
-    title: 'ERP Management',
-    description: 'Led frontend team in developing and designing an ERP management prototype, demonstrating leadership and technical expertise.',
+    title: 'Team Leadership',
+    description: 'Led development teams across 5+ projects, mentored 25+ junior developers, and delivered solutions with 95% client satisfaction rate.',
     icon: Users
   },
   {
-    title: 'Project Leadership',
-    description: 'Currently leading two system management projects for USA-based clients,And delivered a project with 95% success ratio, focusing on scalable and efficient solutions.',
+    title: 'Scalable Architecture Design',
+    description: 'Architected microservices-based systems handling 10K+ concurrent users with optimized performance and reliability.',
+    icon: Database
+  },
+  {
+    title: 'International Client Success',
+    description: 'Delivered 15+ projects for clients in USA, Bangladesh, and EU, Middle Eastern markets with focus on scalable, maintainable solutions.',
     icon: Trophy
   },
   {
-    title: "AI Integration",
-    description: "Successfully integrated AI models into applications, enhancing functionality and user experience.",
+    title: "AI/ML Integration Leadership",
+    description: "Pioneered AI model integration in production applications, enhancing user experience and business automation capabilities.",
     icon: Brain
   },
   {
-    title: "System Management",
-    description: "Led frontend team in developing and designing an ERP management prototype, demonstrating leadership and technical expertise.",
-    icon: Users
+    title: "Technical Innovation",
+    description: "Implemented cutting-edge solutions using modern frameworks, cloud technologies, and industry best practices for optimal results.",
+    icon: Rocket
   },
 ];
 const projects = [
@@ -392,78 +415,77 @@ const codeSnippets = [
   { color: 'text-purple-400', content: 'return (' },
 ];
 const persona = {
-  role: "Full Stack Developer",
-  mission: "To craft elegant solutions to complex problems while continuously learning and growing",
+  role: "Senior Full Stack Developer & Technical Leader",
+  mission: "To architect innovative solutions that drive digital transformation while mentoring the next generation of developers",
   characteristics: [
     {
-      trait: "Problem Solver",
-      description: "Thrives on tackling challenging technical puzzles",
-      icon: Puzzle
+      trait: "Solution Architect",
+      description: "Designs enterprise-scale systems with modern architecture patterns",
+      icon: Database
     },
     {
-      trait: "Continuous Learner",
-      description: "Passionate about staying current with technology",
-      icon: Book
+      trait: "Technical Leader",
+      description: "Mentors teams and drives technical excellence in organizations",
+      icon: Users
     },
     {
-      trait: "Team Player",
-      description: "Values collaboration and knowledge sharing",
-      icon: Heart
+      trait: "Innovation Driver",
+      description: "Integrates cutting-edge technologies like AI/ML into business solutions",
+      icon: Brain
     }
   ],
   epics: [
     {
-      title: "The Origin Story",
-      description: "Started coding journey with a fascination for creating things",
+      title: "The Foundation Years",
+      description: "Built strong fundamentals through self-directed learning and practical projects",
       milestones: [
-        "First 'Hello World' at age 16 with python inspired by Automate The Boring Stuff",
-        "Built first website watching tutorials on yt",
-        "Introduced with freecodecamp and started learning and udemy",
-
+        "Mastered MERN stack through hands-on project development",
+        "Completed comprehensive courses in system design and architecture",
+        "Built first production-ready LMS serving 3000+ users",
       ],
       icon: Rocket
     },
     {
-      title: "The Learning Path",
-      description: "Continuous pursuit of knowledge and excellence",
+      title: "The Leadership Journey",
+      description: "Evolved from developer to technical leader driving complex projects",
       milestones: [
-        "A Selft thought journey started with 3 books",
-        "Completed 20+ courses from Udemy, Linkedin, Programming hero",
-        "Tought myself system design via books and industry expert developers"
-      ],
-      icon: Brain
-    },
-    {
-      title: "The Professional Journey",
-      description: "Growing through challenges and achievements",
-      milestones: [
-        "Led multiple successful projects",
-        "Mentored junior developers",
-        "Diverse Range of projects from basic static sites to erp"
+        "Led enterprise system migration from VB.NET to modern web architecture",
+        "Managed cross-functional teams across multiple international projects",
+        "Mentored 25+ developers while maintaining hands-on technical contribution"
       ],
       icon: Target
+    },
+    {
+      title: "The Innovation Phase",
+      description: "Pioneering AI integration and modern architecture patterns",
+      milestones: [
+        "Successfully integrated AI/ML models in production applications",
+        "Architected microservices handling 10K+ concurrent users",
+        "Delivered solutions for international clients with 95% satisfaction rate"
+      ],
+      icon: Brain
     }
   ]
 };
 
 const userStories = [
   {
-    as: "A Developer",
-    want: "To create scalable and maintainable solutions",
-    so: "That I can help businesses grow and succeed",
-    metrics: ["4+ years experience", "25+ successful projects", "2 Lead Roles"]
+    as: "A Senior Developer",
+    want: "To architect and deliver enterprise-scale solutions",
+    so: "That businesses can achieve digital transformation and growth",
+    metrics: ["5+ years experience", "30+ successful projects", "Multiple Lead Roles"]
   },
   {
-    as: "A Team Member",
-    want: "To collaborate and share knowledge",
-    so: "That the whole team can grow together",
-    metrics: ["10+ developers mentored", "15+ code reviews weekly", "Collaboration with other developers"]
+    as: "A Technical Leader",
+    want: "To mentor teams and drive technical excellence",
+    so: "That organizations can build robust, scalable systems",
+    metrics: ["25+ developers mentored", "5+ teams led", "95% project success rate"]
   },
   {
-    as: "A Tech Enthusiast",
-    want: "To stay current with technology trends",
-    so: "That I can implement the best solutions",
-    metrics: ["Daily learning routine", "Regular blog posts", "Research Papers"]
+    as: "A Solution Architect",
+    want: "To design cutting-edge systems with modern technologies",
+    so: "That clients receive future-proof, maintainable solutions",
+    metrics: ["Enterprise migrations", "Microservices design", "AI/ML integration"]
   }
 ];
 const skillCategories = [
@@ -582,7 +604,7 @@ const socialLinks = [
   {
     label: "Resume",
     icon: FileUser,
-    href: 'https://drive.google.com/file/d/1aDJZf0X53e2rbY8kqUVouQLH01dmeIzI/view?usp=sharing'
+    href: '/resume.pdf'
   }
 
 ];

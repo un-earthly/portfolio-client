@@ -1,8 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-
+@import "tailwindcss";
 
 
 @layer base {
@@ -107,16 +103,6 @@ input:checked~.dot {
 
 button:active {
   transform: scale(.9);
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-
-  body {
-    @apply bg-background text-foreground;
-  }
 }
 
 /* Custom Scrollbar Styles */

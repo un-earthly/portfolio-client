@@ -1,7 +1,7 @@
 'use client'
 import { codeSnippets } from "@/mock-data";
 import { useEffect, useState } from "react";
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 
 const AnimatedBackground = ({ mousePosition }: any) => {
     const [mounted, setMounted] = useState(false);
