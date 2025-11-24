@@ -441,7 +441,7 @@ const persona = {
       milestones: [
         "Mastered MERN stack through hands-on project development",
         "Completed comprehensive courses in system design and architecture",
-        "Built first production-ready LMS serving 3000+ users",
+        "Built first production-ready LMS serving 5k+ users",
       ],
       icon: Rocket
     },
