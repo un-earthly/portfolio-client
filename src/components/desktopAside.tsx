@@ -5,7 +5,7 @@ import { socialLinks, yearsOfExperince } from "@/mock-data";
 import Link from "next/link";
 import { Button } from "./ui/button";
 
-const DesktopAside = () => <div className="w-full h-screen hidden p-4 lg:p-8 lg:flex items-center justify-center flex-col text-center bg-gradient-to-br from-transparent to-gray-900/5 shadow-[rgba(0,0,0,0.1)_10px_5px_4px_0px] bg-opacity-50 backdrop-filter backdrop-blur-lg rounded-xl">
+const DesktopAside = () => <div className="w-full h-screen hidden p-4 lg:p-8 lg:flex items-center justify-center flex-col text-center bg-linear-to-br from-transparent to-gray-900/5 shadow-[rgba(0,0,0,0.1)_10px_5px_4px_0px] bg-opacity-50 backdrop-filter backdrop-blur-lg rounded-xl">
     <div className="-space-y-4 mt-4">
         <motion.h1
             className="mb-6 text-3xl md:text-4xl lg:text-5xl font-bold text-gray-100"
@@ -60,8 +60,8 @@ const DesktopAside = () => <div className="w-full h-screen hidden p-4 lg:p-8 lg:
                         variant="ghost"
                         size="icon"
                         className="relative h-8 w-8 md:h-10 md:w-10 overflow-hidden border border-cyan-300
-                          before:absolute before:inset-0 before:bg-gradient-to-br before:from-cyan-950 before:to-cyan-800
-                          after:absolute after:inset-0 after:bg-gradient-to-tl after:from-cyan-950 after:to-cyan-800 after:opacity-0
+                          before:absolute before:inset-0 before:bg-linear-to-br before:from-cyan-950 before:to-cyan-800
+                          after:absolute after:inset-0 after:bg-linear-to-tl after:from-cyan-950 after:to-cyan-800 after:opacity-0
                           hover:after:opacity-100 hover:scale-110 before:transition-all after:transition-all before:duration-700 after:duration-700
                           before:ease-in-out after:ease-in-out hover:before:opacity-0 transform transition-transform duration-700 ease-in-out"
                     >

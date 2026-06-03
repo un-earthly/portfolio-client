@@ -12,7 +12,7 @@ const MobileInto = () => {
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-gradient-to-br from-black/40 to-gray-900/60 border border-cyan-500/20 rounded-xl shadow-lg backdrop-filter backdrop-blur-lg p-6"
+                className="bg-linear-to-br from-black/40 to-gray-900/60 border border-cyan-500/20 rounded-xl shadow-lg backdrop-filter backdrop-blur-lg p-6"
             >
                 <div className="flex items-center justify-between mb-4">
                     <div>
@@ -86,8 +86,8 @@ const MobileInto = () => {
                             variant="ghost"
                             size="icon"
                             className="relative h-9 w-9 overflow-hidden border border-cyan-300 
-                                before:absolute before:inset-0 before:bg-gradient-to-br before:from-cyan-950 before:to-cyan-800
-                                after:absolute after:inset-0 after:bg-gradient-to-tl after:from-cyan-950 after:to-cyan-800 after:opacity-0
+                                before:absolute before:inset-0 before:bg-linear-to-br before:from-cyan-950 before:to-cyan-800
+                                after:absolute after:inset-0 after:bg-linear-to-tl after:from-cyan-950 after:to-cyan-800 after:opacity-0
                                 hover:after:opacity-100 hover:scale-110 before:transition-all after:transition-all before:duration-700 after:duration-700
                                 before:ease-in-out after:ease-in-out hover:before:opacity-0 transform transition-transform duration-700 ease-in-out"
                         >
