@@ -83,6 +83,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
+      url: `${BASE_URL}/blogs/figcoms-figma-comment-tracker-architecture`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
       url: `${BASE_URL}/blogs/ble-mesh-offline-event-platform-javascript`,
       lastModified: new Date(),
       changeFrequency: "monthly",

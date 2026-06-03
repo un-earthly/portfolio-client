@@ -1,19 +1,10 @@
-import Image from "next/image";
 import { motion } from "motion/react";
 import { Card } from "./ui/card";
-import { experiences, socialLinks, yearsOfExperince } from "@/mock-data";
+import { socialLinks, yearsOfExperince } from "@/mock-data";
 import Link from "next/link";
 import { Button } from "./ui/button";
+
 const DesktopAside = () => <div className="w-full h-screen hidden p-4 lg:p-8 lg:flex items-center justify-center flex-col text-center bg-gradient-to-br from-transparent to-gray-900/5 shadow-[rgba(0,0,0,0.1)_10px_5px_4px_0px] bg-opacity-50 backdrop-filter backdrop-blur-lg rounded-xl">
-    {/* <div className="flex items-center justify-center">
-        <Image
-            src="/pp.png"
-            height={200}
-            width={200}
-            className='border-cyan-500 border-2 rounded-full border-dashed w-32 h-32 md:w-48 md:h-48 lg:w-[200px] lg:h-[200px]'
-            alt="dp"
-        />
-    </div> */}
     <div className="-space-y-4 mt-4">
         <motion.h1
             className="mb-6 text-3xl md:text-4xl lg:text-5xl font-bold text-gray-100"
@@ -67,7 +58,7 @@ const DesktopAside = () => <div className="w-full h-screen hidden p-4 lg:p-8 lg:
                     <Button
                         variant="ghost"
                         size="icon"
-                        className="relative h-8 w-8 md:h-10 md:w-10 overflow-hidden border border-cyan-300 
+                        className="relative h-8 w-8 md:h-10 md:w-10 overflow-hidden border border-cyan-300
                           before:absolute before:inset-0 before:bg-gradient-to-br before:from-cyan-950 before:to-cyan-800
                           after:absolute after:inset-0 after:bg-gradient-to-tl after:from-cyan-950 after:to-cyan-800 after:opacity-0
                           hover:after:opacity-100 hover:scale-110 before:transition-all after:transition-all before:duration-700 after:duration-700
@@ -79,6 +70,24 @@ const DesktopAside = () => <div className="w-full h-screen hidden p-4 lg:p-8 lg:
                 </Link>
             );
         })}
+    </motion.div>
+
+    <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.8 }}
+    >
+        <Link href="/contact">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 transition-colors cursor-pointer group">
+                <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+                </span>
+                <span className="text-xs text-emerald-400 font-medium group-hover:text-emerald-300 transition-colors">
+                    Available for remote / contract
+                </span>
+            </div>
+        </Link>
     </motion.div>
 </div>
 
