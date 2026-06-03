@@ -403,6 +403,10 @@ const links = [
     label: 'Portfolio'
   },
   {
+    href: '/blogs',
+    label: 'Blog'
+  },
+  {
     href: '/about',
     label: 'About'
   },

@@ -109,15 +109,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} bg-linear-to-b from-black to-gray-900 h-screen`}
+      >
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-      </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} bg-linear-to-b from-black to-gray-900 h-screen`}
-      >
         <MouseTracker />
 
         <div className="relative z-10 h-screen overflow-hidden">
