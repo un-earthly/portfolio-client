@@ -1,5 +1,18 @@
-
+import type { Metadata } from "next";
 import React from 'react';
+
+export const metadata: Metadata = {
+  title: "About",
+  description:
+    "Learn about MD Alamin — Senior Full Stack Developer with 5+ years of experience. Technical leader who has mentored 25+ developers and delivered enterprise solutions for clients in the USA, Bangladesh, and the EU.",
+  alternates: { canonical: "https://alamin-md.xyz/about" },
+  openGraph: {
+    title: "About MD Alamin | Senior Full Stack Developer",
+    description:
+      "5+ years of experience in full-stack development, technical leadership, and enterprise system architecture.",
+    url: "https://alamin-md.xyz/about",
+  },
+};
 import {
   Code2,
   Sparkles,

@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+import { services } from "@/mock-data";
 import React from 'react';
 import {
     Terminal,
@@ -17,6 +19,28 @@ import {
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const service = services.find((s) => s.id === id);
+
+  if (!service) return { title: "Service Not Found" };
+
+  return {
+    title: service.title,
+    description: service.description,
+    alternates: { canonical: `https://alamin-md.xyz/services/${id}` },
+    openGraph: {
+      title: `${service.title} | MD Alamin`,
+      description: service.description,
+      url: `https://alamin-md.xyz/services/${id}`,
+    },
+  };
+}
 
 const ServiceDetail = () => {
     // Example data - In real app, this would come from your data source based on the service ID
