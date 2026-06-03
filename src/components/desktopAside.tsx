@@ -1,3 +1,4 @@
+'use client'
 import { motion } from "motion/react";
 import { Card } from "./ui/card";
 import { socialLinks, yearsOfExperince } from "@/mock-data";

@@ -1,3 +1,4 @@
+'use client'
 import { motion } from 'motion/react'
 import { socialLinks } from "@/mock-data";
 import Link from "next/link";
