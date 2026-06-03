@@ -63,3 +63,6 @@ It's not "launch faster" or "market harder." It's:
 - Look for people actively paying for bad solutions — they've already voted with their wallet
 
 Execution can be improved. You cannot execute your way out of a market that doesn't exist.
+
+
+side-project-failure-reasons-product-market-fit-developer.md

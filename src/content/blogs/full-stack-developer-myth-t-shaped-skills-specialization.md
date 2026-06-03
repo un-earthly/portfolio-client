@@ -64,3 +64,6 @@ Specialists get hired for the hard problems. Generalists fill sprints.
 > The market is not rewarding breadth right now. AI can be the generalist. What AI cannot replicate is genuine depth — the engineer who has seen this specific class of problem fail three times and knows exactly where the landmine is.
 
 Know your depth. Lead with it. Let the full-stack label stay on the job boards where it belongs.
+
+
+full-stack-developer-myth-t-shaped-skills-specialization.md

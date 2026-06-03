@@ -195,3 +195,7 @@ I removed myself as the bottleneck for operational tasks. The agents handle the 
 The architectural lesson: the value of a multi-agent system is not that agents are smart. It's that you've encoded a process — with roles, contracts, and state — that runs without your attention. The intelligence is in the design of the process, not the LLM.
 
 That's the real value proposition of agentic systems — not replacing human judgment, but eliminating the busywork that sits in front of it.
+
+---
+
+I'm currently taking on a small number of contract engagements. If you're building agentic systems, need AI integrated into an existing product, or want to explore what local LLMs can do for your workflow — [get in touch](/contact). I work well with technical founders and engineering leads who want a practitioner, not a consultant who demos ChatGPT.

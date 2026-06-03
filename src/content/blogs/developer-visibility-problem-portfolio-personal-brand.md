@@ -53,3 +53,6 @@ Then keep writing. Build the habit. The compounding is real:
 Recruiters and CTOs don't have time to evaluate skill directly. They use proxies. Writing is the highest-signal proxy available to a developer who hasn't shipped a famous open-source project.
 
 > Your skills got you here. Visibility gets you where you want to go.
+
+
+developer-visibility-problem-portfolio-personal-brand.md

@@ -73,23 +73,6 @@ const DesktopAside = () => <div className="w-full h-screen hidden p-4 lg:p-8 lg:
         })}
     </motion.div>
 
-    <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.8 }}
-    >
-        <Link href="/contact">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 transition-colors cursor-pointer group">
-                <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-                </span>
-                <span className="text-xs text-emerald-400 font-medium group-hover:text-emerald-300 transition-colors">
-                    Available for remote / contract
-                </span>
-            </div>
-        </Link>
-    </motion.div>
 </div>
 
 

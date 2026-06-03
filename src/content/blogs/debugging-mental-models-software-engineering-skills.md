@@ -110,3 +110,6 @@ The debugging session of a low-model engineer:
 The gap between these two profiles is not intelligence. It's accumulated mental model quality from the practices above.
 
 Build the model. Debug from the model. The tools are just confirmation.
+
+
+debugging-mental-models-software-engineering-skills.md

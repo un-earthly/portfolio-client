@@ -66,12 +66,12 @@ export default async function BlogPostPage({
           {post.title}
         </h1>
         <p className="text-gray-400 leading-relaxed mb-5">{post.metaDescription}</p>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex gap-2 overflow-x-auto pb-1 hide-scrollbar">
           {post.tags.map((tag) => (
             <Badge
               key={tag}
               variant="outline"
-              className="border-cyan-500/30 text-gray-500 text-xs"
+              className="border-cyan-500/30 text-gray-500 text-xs shrink-0"
             >
               {tag}
             </Badge>

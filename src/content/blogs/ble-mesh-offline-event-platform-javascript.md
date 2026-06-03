@@ -387,3 +387,9 @@ Encryption overhead       < 5ms     ~1.8ms
 The result: a production platform that works fully offline, handles dense guest crowds, and maintains encrypted communication regardless of network state.
 
 If you're building anything in the offline-first, edge computing, or BLE space — this is the problem set I've lived inside.
+
+---
+
+### Working on something that needs to survive without the internet?
+
+BLE mesh, offline-first mobile, edge computing — these are niche problem sets that most engineers haven't shipped in production. I have. If your product needs to work in RF-hostile environments, handle peer-to-peer communication, or maintain state across unreliable networks, [let's talk](/contact).

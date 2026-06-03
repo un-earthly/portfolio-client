@@ -284,3 +284,6 @@ From an engineering standpoint, Figcoms is an exercise in constraint-driven desi
 The constraint-first approach is transferable. In larger systems, the instinct to add infrastructure "for when we need it" creates maintenance burden before the need is real. Starting from constraints produces leaner systems.
 
 **Live at:** [figcoms.alamin-md.xyz](#) | **Source:** [github.com/un-earthly/figcoms](#)
+
+
+figcoms-figma-comment-tracker-architecture.md

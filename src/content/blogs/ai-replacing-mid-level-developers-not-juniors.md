@@ -64,3 +64,6 @@ Specialize in something AI is structurally bad at:
 Or go senior — not in title, in actual architectural scope. Stop being the person who implements correctly. Become the person who decides what to implement and why.
 
 The market is bifurcating. There's no safe middle.
+
+
+ai-replacing-mid-level-developers-not-juniors.md

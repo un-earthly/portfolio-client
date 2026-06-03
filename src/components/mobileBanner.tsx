@@ -49,28 +49,10 @@ const MobileInto = () => {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
-                    className="text-sm text-gray-400 border-l-2 border-cyan-500/30 pl-3 mb-4"
+                    className="text-sm text-gray-400 border-l-2 border-cyan-500/30 pl-3"
                 >
                     Automating stuff with the magic of code
                 </motion.p>
-
-                <motion.div
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.35 }}
-                >
-                    <Link href="/contact">
-                        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 transition-colors">
-                            <span className="relative flex h-2 w-2">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-                            </span>
-                            <span className="text-xs text-emerald-400 font-medium">
-                                Available for remote / contract
-                            </span>
-                        </div>
-                    </Link>
-                </motion.div>
             </motion.div>
 
             {/* Social Links */}

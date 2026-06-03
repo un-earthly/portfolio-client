@@ -250,3 +250,9 @@ Two mental models that matter here:
 Legacy modernization is 40% technical, 60% trust management.
 
 If you have a system that's too important to break and too outdated to maintain — that's exactly the engagement I specialize in.
+
+---
+
+**Got a system that's too important to break and too outdated to maintain?**
+
+That's the exact problem I've been paid to solve. The strangler fig approach, the query profiling, the zero-downtime migration strategy — I've done this in production, on a live business, with real data. If you're facing a modernisation project and need an engineer who won't burn it down, [reach out](/contact).

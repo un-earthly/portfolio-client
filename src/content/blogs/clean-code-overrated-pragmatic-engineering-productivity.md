@@ -93,3 +93,6 @@ The clean code cultists don't. For them, every function is an opportunity to dem
 > Ship something that works. Refactor when the pain justifies the cost. Not before.
 
 The code review that catches a real bug is worth ten code reviews that debate naming conventions.
+
+
+clean-code-overrated-pragmatic-engineering-productivity.md

@@ -165,3 +165,8 @@ If you're building a mobile app for any environment where connectivity is uncert
 The delta between an online-first and offline-first architecture is not additive. You're not adding a sync layer. You're inverting the data flow, redesigning the state model, and rebuilding the mutation layer. That's 70% of a new app.
 
 The conversation you need to have with your product team before writing a line of code: "Is reliable offline use a requirement?" If yes, that conversation changes the architecture, the timeline, and the tech choices. Have it first.
+
+
+---
+
+> If you are at the "we need offline support" conversation right now — before the architecture is locked — that is the right time to bring me in. Retrofitting costs more than doing it right the first time. [Get in touch](/contact).

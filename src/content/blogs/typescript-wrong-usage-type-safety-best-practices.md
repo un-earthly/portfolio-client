@@ -139,3 +139,6 @@ A type annotation that documents intent is valuable. A type annotation that **en
 The engineers who complain that TypeScript is slow and annoying are the ones using it as spellcheck. The engineers who structure their domain types first and let the implementation follow — they find that TypeScript eliminates an entire class of bugs before QA ever runs.
 
 > Use the type system. Actually use it.
+
+
+typescript-wrong-usage-type-safety-best-practices.md

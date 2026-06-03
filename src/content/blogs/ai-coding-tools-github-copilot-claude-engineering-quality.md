@@ -107,3 +107,8 @@ If you can't explain why the generated code works, you don't actually know how t
 Treat AI output as a first draft from a talented-but-careless colleague. You wouldn't merge code from that colleague without reading it. Don't merge AI output without reading it either.
 
 > Your value is not generating code. It's knowing which generated code to trust.
+
+
+---
+
+Looking for an engineer who treats AI output as a first draft, not ground truth? One who can review generated code the way a senior reviews a junior PR? [I am taking on remote engineering work](/contact) — let us talk about what that looks like on your team.
