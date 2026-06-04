@@ -2,17 +2,17 @@
 title: I Built a Figma Comment Tracker With No Backend Comment Storage. Here's Why.
 date: 2025-11-28
 tags: [Figma API, Cloudflare Functions, Supabase, OAuth, architecture, vanilla JS, developer tools]
-metaDescription: How I built Figcoms — a browser-based Figma comment dashboard with live API fetching, zero backend comment storage, and a single Cloudflare Function handling OAuth securely.
+metaDescription: How I built Comment Tracker — a browser-based Figma comment dashboard with live API fetching, zero backend comment storage, and a single Cloudflare Function handling OAuth securely.
 readTime: 14
 type: technical
-excerpt: The standard approach to a tool like Figcoms would be to fetch comments, store them in a database, and serve from your own API. I made a different call — no backend comment storage at all. Here's the architecture, the tradeoffs, and the interesting implementation details.
+excerpt: The standard approach to a tool like Comment Tracker would be to fetch comments, store them in a database, and serve from your own API. I made a different call — no backend comment storage at all. Here's the architecture, the tradeoffs, and the interesting implementation details.
 ---
 
 Design teams lose hours chasing Figma comments across dozens of files. Comments get missed. Feedback loops break. Handoffs fail.
 
-I built Figcoms to fix that.
+I built Comment Tracker to fix that.
 
-Figcoms is a browser-based dashboard that pulls all comments from any Figma file and makes them filterable, actionable, and trackable. The interesting constraint I imposed from the start: **no backend comment storage**. Comments are fetched live directly from the Figma REST API on demand. Supabase handles auth only. Everything else runs entirely in the browser.
+Comment Tracker is a browser-based dashboard that pulls all comments from any Figma file and makes them filterable, actionable, and trackable. The interesting constraint I imposed from the start: **no backend comment storage**. Comments are fetched live directly from the Figma REST API on demand. Supabase handles auth only. Everything else runs entirely in the browser.
 
 This post is about the architecture decision, the implementation details, and what this class of tool design looks like in practice.
 
@@ -20,7 +20,7 @@ This post is about the architecture decision, the implementation details, and wh
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                    Figcoms Architecture                   │
+│                Comment Tracker Architecture               │
 │                                                         │
 │  Browser (static HTML/CSS/JS)                           │
 │  ┌─────────────────────────────────────────────────┐   │
@@ -90,7 +90,7 @@ This is an example of constraint-driven design working correctly: the constraint
 
 The Figma OAuth flow requires a client secret for the code-for-token exchange. Client secrets cannot be in browser JavaScript — they'd be visible in source.
 
-The entire backend for Figcoms is a single Cloudflare Function:
+The entire backend for Comment Tracker is a single Cloudflare Function:
 
 ```javascript
 // figma-token.js — the only server-side code in the project
@@ -257,7 +257,7 @@ The AND-across-OR-within semantics are the intuitive behaviour for this use case
 
 ## Why No Framework, No Build System
 
-Deliberate. Figcoms is plain HTML, CSS, and Vanilla JS. No webpack, no Vite, no npm install. The Supabase client loads from CDN.
+Deliberate. Comment Tracker is plain HTML, CSS, and Vanilla JS. No webpack, no Vite, no npm install. The Supabase client loads from CDN.
 
 The reasoning: this is a tool project, not a product codebase. The development surface is small enough that a framework adds overhead without adding capability. Local dev is `python3 -m http.server`. Deployment is pushing static files.
 
@@ -274,7 +274,7 @@ When the answer to "do I need React?" is "no, I need to render a list and respon
 
 ## What This Project Demonstrates
 
-From an engineering standpoint, Figcoms is an exercise in constraint-driven design:
+From an engineering standpoint, Comment Tracker is an exercise in constraint-driven design:
 
 - **Third-party API integration at a production level** — OAuth flows, token handling, pagination, rate limiting awareness, data transformation
 - **Architectural tradeoffs with explicit reasoning** — the no-backend-storage decision was deliberate, documented, and defensible
@@ -283,7 +283,7 @@ From an engineering standpoint, Figcoms is an exercise in constraint-driven desi
 
 The constraint-first approach is transferable. In larger systems, the instinct to add infrastructure "for when we need it" creates maintenance burden before the need is real. Starting from constraints produces leaner systems.
 
-**Live at:** [figcoms.alamin-md.xyz](#) | **Source:** [github.com/un-earthly/figcoms](#)
+**Live at:** [comment-tracker.alamin-md.xyz](#) | **Source:** [github.com/un-earthly/comment-tracker](#)
 
 
-figcoms-figma-comment-tracker-architecture.md
+comment-tracker-figma-comment-tracker-architecture.md

@@ -83,7 +83,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
-      url: `${BASE_URL}/blogs/figcoms-figma-comment-tracker-architecture`,
+      url: `${BASE_URL}/blogs/comment-tracker-figma-comment-tracker-architecture`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.8,
