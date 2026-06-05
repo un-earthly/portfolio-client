@@ -119,7 +119,7 @@ const experiences = [
         "period": "Ongoing",
       }
     ],
-    "duration": "May 2025 - Present (7 months)",
+    "duration": "May 2025 - Present (1.1 years)",
     "type": "Full-time",
     "location": "Mohammadpur, Dhaka - On-site",
     "description": "Leading development of enterprise-level applications using cutting-edge technologies. Responsible for system architecture, team mentorship, and delivering high-quality solutions for complex business requirements.",
@@ -132,10 +132,10 @@ const experiences = [
       {
         "title": "Software Engineer",
         "duration": "Dec 2024 - May 2025",
-        "period": "5 months",
+        "period": "6 months",
       }
     ],
-    "duration": "December 2024 - May 2025 (5 months)",
+    "duration": "December 2024 - May 2025 (6 months)",
     "type": "Full-time",
     "location": "New York, United States - Remote",
     "description": "Developed scalable web applications and mobile solutions for international clients. Specialized in real-time applications using modern JavaScript frameworks and cloud technologies.",
@@ -268,6 +268,22 @@ const projects = [
     githubUrl: 'https://github.com/un-earthly/gadgets-heaven-client',
     category: 'Enterprise Application',
     timeline: '3 months'
+  },
+  {
+    id: "comment-flow",
+    title: "CommentFlow — Figma Comment Manager",
+    description: "A full-stack Figma comment management platform for designers and QA teams. Fetches live comments directly from the Figma REST API into a filterable dashboard with replies, local resolve tracking, and deep links. Includes a React admin panel, newsletter subscriber management, and a support ticketing workflow.",
+    image: "/comment-flow.png",
+    technologies: ["Vanilla JS", "React", "Vite", "Supabase", "Figma REST API", "Cloudflare Pages", "Cloudflare Functions"],
+    liveUrl: "https://comment-tracker.xyz",
+    githubUrl: "#",
+    category: "Full Stack Application",
+    timeline: "3 months",
+    metrics: {
+      "Admin Panel": "React + Vite",
+      "Auth Methods": "OAuth + PAT",
+      "Data Source": "100% Live API"
+    }
   },
 
 ];
@@ -1081,6 +1097,197 @@ const projectsDetails = [
       "Horizontal scalability for future growth.",
       "Enhanced database performance for large datasets."
     ]
+  },
+  {
+    id: "comment-flow",
+    title: "CommentFlow — Figma Comment Manager",
+    subtitle: "Full-stack comment management platform with React admin panel, Figma OAuth broker, newsletter engine, and support ticketing",
+    thumbnail: "/comment-flow.png",
+    timeline: "3 months",
+    role: "Full Stack Developer",
+    client: "Personal Project",
+    overview: `CommentFlow is a full-stack web platform that turns Figma file comments into a structured workflow for designers, developers, and QA teams. Instead of hunting through Figma's native sidebar, users get a dedicated dashboard with rich filtering, status tracking, inline replies, and deep links back to the exact canvas node — all pulling live from the Figma REST API on demand.
+
+The frontend is a zero-build vanilla JS app served as a static site on Cloudflare Pages. There is no comment database — every fetch is fresh from Figma, keeping data always accurate. Supabase handles user auth and a single settings table per user. A Cloudflare Function acts as a secure OAuth broker so the Figma client secret never touches the browser.
+
+A separate React + Vite admin panel (deployed at /dashboard) gives the operator full visibility into users, support requests, and newsletter subscribers. Feedback items cycle through an open → in progress → resolved workflow. The admin dashboard surfaces live stats across all four data sources simultaneously.
+
+The platform also includes a newsletter subscription engine built into the landing page, with subscriber management in the admin panel. A planned sending layer (Resend + Cloudflare Worker cron) will power templated email campaigns, marketing blasts, and automated welcome emails — with per-send delivery tracking and Slack/push notification integrations.`,
+    challenges: [
+      {
+        title: "Mapping comments to Figma pages",
+        description: "The Figma comments API returns a node_id per comment but no page name. With large files containing dozens of pages and hundreds of nodes, there was no way to tell which page a comment lived on without additional work.",
+        icon: Code
+      },
+      {
+        title: "Keeping the OAuth client secret out of the browser",
+        description: "Figma's OAuth token exchange requires a client secret, which can never be embedded in a static frontend served to the public.",
+        icon: Shield
+      },
+      {
+        title: "Stateless filter system that survives re-renders",
+        description: "The filter sidebar needed multi-select per category, live search within each section, and combined AND/OR logic — all while preserving focused input state across full re-renders triggered by every filter change.",
+        icon: Puzzle
+      },
+      {
+        title: "Admin panel over Supabase auth.users without service role key",
+        description: "The admin panel needed to list all registered users, but Supabase's auth.users table is not exposed via the public API by default and reading it requires either the service role key or a custom RPC.",
+        icon: AlertCircle
+      }
+    ],
+    solutions: [
+      {
+        title: "File structure fetch to build a node→page map",
+        description: "On every fetch, the app calls GET /v1/files/{key}?depth=4 to traverse the document tree and build a nodePageMap keyed by node ID. Comments are annotated with page names at render time.",
+        icon: Database,
+        details: [
+          "Fetched in parallel with the comments request to avoid sequential latency",
+          "Traverses all document children recursively to map every node.id to its parent page",
+          "Canvas-level comments with no node_id gracefully return null"
+        ]
+      },
+      {
+        title: "Cloudflare Function as OAuth broker",
+        description: "A lightweight Cloudflare Function at /figma-token receives the OAuth code from the browser and performs the token exchange server-side, returning only the access token to the client.",
+        icon: Shield,
+        details: [
+          "Client secret lives exclusively in Cloudflare environment variables",
+          "Function validates state parameter before exchanging the code",
+          "Returns only the access token — the secret is never exposed to the client"
+        ]
+      },
+      {
+        title: "Stateful activeFilters object with selective re-render",
+        description: "An activeFilters object holds current selections for status, pages, authors, and labels. A sidebarState object tracks search strings and sort modes separately, restoring input focus by ID after each render.",
+        icon: Puzzle,
+        details: [
+          "Pages, authors, and labels use Set() for O(1) toggle and membership checks",
+          "Filters combine as OR within a section, AND across sections",
+          "Search input focus is restored after every re-render by element ID targeting"
+        ]
+      },
+      {
+        title: "Security-definer RPC for admin user listing",
+        description: "A get_all_users() Postgres function runs with security definer privileges and checks the caller's JWT email against the hardcoded admin address before returning rows from auth.users.",
+        icon: Laptop,
+        details: [
+          "No service role key needed in the frontend or admin panel",
+          "RLS policies on feedback and newsletter_subscribers restrict all reads to the admin email",
+          "Admin panel uses the same publishable Supabase key as the main app"
+        ]
+      }
+    ],
+    techStack: {
+      frontend: ["HTML5", "CSS3", "Vanilla JavaScript", "React 18", "React Router v6", "Vite"],
+      backend: ["Cloudflare Functions", "Supabase Auth", "Supabase RPC (security definer)"],
+      database: ["Supabase PostgreSQL", "localStorage"],
+      devops: ["Cloudflare Pages", "PostHog Analytics", "Tawk.to Live Chat", "Google OAuth", "Figma OAuth"]
+    },
+    keyFeatures: [
+      "Figma OAuth and Personal Access Token authentication",
+      "Live comment fetch directly from Figma REST API — no comment database",
+      "Filter sidebar: status, pages, authors, auto-detected labels",
+      "Multi-select filters with per-section search and A–Z / count sort",
+      "Inline reply posting back to Figma via API",
+      "Local resolve tracking (localStorage) without modifying the Figma file",
+      "Deep links to exact Figma canvas nodes",
+      "Save and switch between multiple Figma files",
+      "Auto-label detection: Question, Bug, Done, Approved, Mention, Urgent",
+      "React admin panel at /dashboard (users, feedback, newsletter, stats)",
+      "Support ticketing: open → in progress → resolved workflow",
+      "Newsletter subscriber capture and management with active/inactive toggle",
+      "Speed-dial support FAB with live chat (Tawk.to) and feedback modal",
+      "Blog with 6+ SEO-targeted posts on Figma workflows",
+      "PWA manifest and full favicon set"
+    ],
+    metrics: {
+      "Data freshness": "Live from Figma API on every fetch",
+      "Backend tables": "3 (user_settings, feedback, newsletter_subscribers)",
+      "Auth methods": "Email/password, Google OAuth, Figma OAuth, PAT",
+      "Client secret exposure": "Zero — brokered via Cloudflare Function",
+      "Admin access control": "JWT email-gated RLS + security definer RPC"
+    },
+    developmentPhases: [
+      {
+        title: "Auth & API Foundation",
+        duration: "2 weeks",
+        activities: [
+          "Figma OAuth flow with Cloudflare Function broker",
+          "PAT fallback authentication with token verification",
+          "Supabase email/password + Google OAuth integration",
+          "Basic comment fetch and raw table render"
+        ]
+      },
+      {
+        title: "Filter System & Page Mapping",
+        duration: "2 weeks",
+        activities: [
+          "File structure fetch and nodePageMap builder",
+          "Filter sidebar: status radio, pages/authors/labels multi-select",
+          "OR logic within sections, AND logic across sections",
+          "Search and A–Z / count sort controls per filter section"
+        ]
+      },
+      {
+        title: "Interactions & Persistence",
+        duration: "2 weeks",
+        activities: [
+          "Inline reply posting via Figma comments API",
+          "Local resolve layer merged with API resolved_at",
+          "Saved files management synced to Supabase user_settings",
+          "Deep link generation to Figma canvas nodes"
+        ]
+      },
+      {
+        title: "Admin Panel",
+        duration: "2 weeks",
+        activities: [
+          "React + Vite admin SPA deployed at /dashboard",
+          "Admin guard using JWT email check",
+          "Users page via get_all_users() security definer RPC",
+          "Feedback page with status cycling and expandable message rows",
+          "Newsletter page with subscriber list and active toggle",
+          "Dashboard overview with live stats across all data sources"
+        ]
+      },
+      {
+        title: "Growth & Support Infrastructure",
+        duration: "1 week",
+        activities: [
+          "Newsletter subscription form on landing page",
+          "Support modal with feature request, bug, and help tabs",
+          "Speed-dial FAB replacing full-width support bar",
+          "Tawk.to live chat with show/hide lifecycle hooks",
+          "PostHog analytics integration",
+          "Blog with 6 SEO posts, sitemap, robots.txt"
+        ]
+      }
+    ],
+    responsibilities: [
+      {
+        role: "Frontend Developer",
+        icon: Code,
+        tasks: [
+          "Architected the full client-side comment pipeline in vanilla JS",
+          "Built the filter sidebar with stateful multi-select and live search",
+          "Implemented page-name resolution via file structure traversal",
+          "Designed and built all UI in plain HTML/CSS with no framework",
+          "Built the React admin SPA with React Router, Vite, and Supabase JS"
+        ]
+      },
+      {
+        role: "Backend & Integration Developer",
+        icon: Terminal,
+        tasks: [
+          "Built the Cloudflare Function OAuth broker for Figma token exchange",
+          "Designed Supabase schema: user_settings, feedback, newsletter_subscribers",
+          "Wrote RLS policies and security-definer RPC for admin access",
+          "Integrated Figma REST API endpoints: comments, file structure, replies, /me",
+          "Wired PostHog analytics, Tawk.to lifecycle hooks, and Google OAuth"
+        ]
+      }
+    ],
+    href: "https://comment-tracker.xyz"
   }
 
 ];

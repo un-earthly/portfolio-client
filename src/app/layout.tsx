@@ -123,7 +123,7 @@ export default function RootLayout({
 
           <main className="mx-auto px-4 lg:px-8">
             <div className="grid lg:grid-cols-12 gap-8 pt-20">
-              <aside className="hidden lg:block lg:col-span-5">
+              <aside className="hidden lg:block lg:col-span-4">
                 <div className="sticky top-24">
                   <DesktopAside />
                 </div>
@@ -133,7 +133,7 @@ export default function RootLayout({
                 <MobileInto />
               </div>
 
-              <div className="lg:col-span-7 lg:h-[calc(100vh-10rem)] h-[calc(100vh-20rem)] overflow-y-auto">
+              <div className="lg:col-span-8 lg:h-[calc(100vh-10rem)] h-[calc(100vh-20rem)] overflow-y-auto">
                 <div className="pb-16 lg:pb-24 w-full">{children}</div>
               </div>
             </div>
