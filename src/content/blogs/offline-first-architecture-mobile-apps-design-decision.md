@@ -94,9 +94,15 @@ The guest list always renders. The sync indicator tells the user their connectiv
 
 ### 1. Data Layer: Local First
 
-```
-Online-first:  Network → State → UI
-Offline-first: Local DB → UI (Network syncs to Local DB in background)
+```mermaid
+flowchart LR
+    subgraph online["Online-first"]
+        N[Network] --> S[State] --> UI1[UI]
+    end
+    subgraph offline["Offline-first"]
+        L[Local DB] --> UI2[UI]
+        NET[Network] -. "syncs in background" .-> L
+    end
 ```
 
 The local database (Realm, WatermelonDB, SQLite) is the primary source of truth. The server is a sync target, not the source of truth.
@@ -116,14 +122,16 @@ For OurStoryz, we used server-authoritative for core guest status (checked-in/no
 
 Loading states stop making sense when reads are always local and instant. The state machine changes:
 
-```
-Online-first state machine:
-  idle → loading → success
-               └──→ error (network failure = hard error)
-
-Offline-first state machine:
-  local-read → rendered (always succeeds)
-  sync-state: synced | syncing | pending | conflict
+```mermaid
+flowchart LR
+    subgraph onlinefsm["Online-first state machine"]
+        I1[idle] --> L1[loading] --> SUC[success]
+        L1 --> ERR["error\n(network failure = hard error)"]
+    end
+    subgraph offlinefsm["Offline-first state machine"]
+        LR2[local-read] --> REN["rendered\n(always succeeds)"]
+        SYNC["sync-state: synced · syncing · pending · conflict"]
+    end
 ```
 
 Error states shift from "network failed" to "sync conflict detected" — a much rarer and more actionable condition.

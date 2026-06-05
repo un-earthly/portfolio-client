@@ -18,27 +18,13 @@ Grimm had a VB.NET desktop application sitting on top of a 20-year-old MSSQL dat
 
 Before touching a single line, I spent two weeks mapping the actual state:
 
-```
-┌─────────────────────────────────────────────────────┐
-│                 Grimm Legacy Stack                   │
-│                                                     │
-│  VB.NET Forms App (.NET 2.0, Windows-only)          │
-│         │                                           │
-│  ┌──────▼──────┐   ADO.NET direct SQL              │
-│  │  Stored     │◄──────────────────────────────┐   │
-│  │  Procedures │   1,400+ stored procedures    │   │
-│  └──────┬──────┘   40% undocumented            │   │
-│         │                                      │   │
-│  ┌──────▼──────────────────────────────────┐   │   │
-│  │           MSSQL 2008 R2                  │   │   │
-│  │  - 340 tables, ~40% without FK relations │   │   │
-│  │  - 18M rows in core transaction table   │   │   │
-│  │  - Zero composite indexes on joins       │   │   │
-│  │  - Cursor-based loops in hot paths       │   │   │
-│  └─────────────────────────────────────────┘   │   │
-│                                                 │   │
-│  Avg query time on reports: 45–120 seconds     │   │
-└─────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    A["VB.NET Forms App\n(.NET 2.0, Windows-only)"]
+    B["Stored Procedures\n1,400+ · 40% undocumented"]
+    C["MSSQL 2008 R2\n340 tables · ~40% no FK relations\n18M rows in core transaction table\nZero composite indexes · cursor-based loops\nAvg query time: 45–120s"]
+    A -- "ADO.NET direct SQL" --> B
+    B --> C
 ```
 
 The archaeological phase produced three artifacts before any code was written:
@@ -53,22 +39,20 @@ Classification mattered because the migration order followed it: pure retrieval 
 
 The worst mistake in legacy migration is trying to replace everything at once. I went strangler fig — run old and new in parallel, migrate surface by surface, validate against the live system.
 
-```
-Phase 0: API intermediary (NEW)        Phase 1: Migrate surfaces
-─────────────────────────────          ─────────────────────────
-                                       VB.NET ──► Nuxt.js
-VB.NET ──► MSSQL                      (one module at a time)
-              │                                │
-              └──► NestJS API ◄──── Nuxt.js   ▼
-                      │               All modules
-                      └──► MSSQL     migrated
-                                       │
-                      ▲                ▼
-                      │        VB.NET decommissioned
-              Strangler wraps          
-              old DB queries
-              behind clean API
-              contracts
+```mermaid
+flowchart TD
+    subgraph phase0["Phase 0: API Intermediary"]
+        VB0[VB.NET App] --> MSSQL0[(MSSQL)]
+        MSSQL0 --> API[NestJS API\nwraps legacy queries\nbehind clean contracts]
+        API --> MSSQL0
+        NUXT0[Nuxt.js] --> API
+    end
+    subgraph phase1["Phase 1: Migrate Surfaces"]
+        VB1[VB.NET module] -- one module at a time --> NX1[Nuxt.js module]
+        NX1 --> DONE[All modules migrated]
+        DONE --> DECOMM[VB.NET decommissioned]
+    end
+    phase0 --> phase1
 ```
 
 The API intermediary was the architectural cornerstone. By inserting a NestJS layer between the old MSSQL and the new frontend, we could:
@@ -163,18 +147,15 @@ OPTION (MAXDOP 4);
 
 The impact across the 15 critical operations:
 
-```
-Report / Operation              Before      After     Reduction
-─────────────────────────────────────────────────────────────────
-Attendance summary              87s         1.2s      98.6%
-Payroll computation             45s         0.8s      98.2%
-KPI dashboard load              120s        2.1s      98.3%
-Supply chain report             65s         3.4s      94.8%
-Employee record search          8s          0.05s     99.4%
-Vendor payment listing          30s         0.4s      98.7%
-─────────────────────────────────────────────────────────────────
-Overall p95 load time           90s         2.5s      97.2%
-```
+| Report / Operation | Before | After | Reduction |
+|---|---|---|---|
+| Attendance summary | 87s | 1.2s | 98.6% |
+| Payroll computation | 45s | 0.8s | 98.2% |
+| KPI dashboard load | 120s | 2.1s | 98.3% |
+| Supply chain report | 65s | 3.4s | 94.8% |
+| Employee record search | 8s | 0.05s | 99.4% |
+| Vendor payment listing | 30s | 0.4s | 98.7% |
+| **Overall p95 load time** | **90s** | **2.5s** | **97.2%** |
 
 Three techniques drove most of the improvement:
 
@@ -224,18 +205,14 @@ Any discrepancy rate above 0.1% blocked the corresponding module from promotion 
 
 ## The Numbers
 
-```
-Metric                        Result
-──────────────────────────────────────────────────────
-P95 load time reduction       97.2% (90s → 2.5s)
-Development velocity gain     30% faster post-migration
-Data loss                     0 records
-Business downtime             0 minutes
-Migration duration            9 months (phased)
-Modules migrated              8 (payroll, CAPA, vendor,
-                               customer, logistics,
-                               attendance, KPI, HR)
-```
+| Metric | Result |
+|---|---|
+| P95 load time reduction | 97.2% (90s → 2.5s) |
+| Development velocity gain | 30% faster post-migration |
+| Data loss | 0 records |
+| Business downtime | 0 minutes |
+| Migration duration | 9 months (phased) |
+| Modules migrated | 8 (payroll, CAPA, vendor, customer, logistics, attendance, KPI, HR) |
 
 ## What Most Devs Get Wrong About Legacy Work
 

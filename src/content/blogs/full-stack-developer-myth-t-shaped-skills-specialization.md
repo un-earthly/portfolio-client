@@ -20,19 +20,15 @@ But here's the structural problem: expertise is depth. You cannot have senior-le
 
 The honest version of what "full-stack" describes:
 
-```
-What companies mean by "full-stack":
-─────────────────────────────────────────────────────────────
-Database design and query optimization (DBA-level skill)
-REST and GraphQL API design (backend engineer skill)
-React/Vue/Angular frontend (frontend engineer skill)
-Mobile apps (mobile engineer skill)
-CI/CD pipeline and cloud infra (DevOps engineer skill)
-Security review (security engineer skill)
-
-What they pay: one mid-level salary
-What they expect: five roles
-```
+| Role expected | Actual discipline |
+|---|---|
+| Database design and query optimization | DBA-level skill |
+| REST and GraphQL API design | Backend engineer skill |
+| React/Vue/Angular frontend | Frontend engineer skill |
+| Mobile apps | Mobile engineer skill |
+| CI/CD pipeline and cloud infra | DevOps engineer skill |
+| Security review | Security engineer skill |
+| **What they pay** | One mid-level salary |
 
 ## What Actually Exists: T-Shaped Engineers
 
@@ -44,13 +40,19 @@ I'm a good example. My depth is in full-stack application architecture, React/No
 
 The T-shape:
 
-```
-                  React/Next.js architecture
-                  Node.js API design
-                  System migration strategy
-                  AI integration
-─────────────────────────────────────────────── (depth axis)
-Docker │ AWS │ PostgreSQL │ React Native │ CI/CD (breadth axis)
+```mermaid
+flowchart TD
+    subgraph depth["Deep expertise (vertical bar of the T)"]
+        D1[React/Next.js architecture]
+        D2[Node.js API design]
+        D3[System migration strategy]
+        D4[AI integration]
+    end
+    subgraph breadth["Functional literacy (horizontal bar of the T)"]
+        direction LR
+        B1[Docker] --- B2[AWS] --- B3[PostgreSQL] --- B4[React Native] --- B5[CI/CD]
+    end
+    depth --> breadth
 ```
 
 ## The Practical Career Implication

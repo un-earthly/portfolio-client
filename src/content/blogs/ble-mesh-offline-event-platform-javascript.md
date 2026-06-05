@@ -18,21 +18,21 @@ The answer was BLE mesh.
 
 ## The Architecture
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                    OurStoryz Mesh Network                │
-│                                                         │
-│  Device A ──── BLE ────► Device B ──── BLE ────► Device C
-│     │                      │  │                      │  │
-│  Wi-Fi Direct          BLE │  Wi-Fi Direct        BLE │  │
-│     │                      │  │                      │  │
-│  Device D ◄─── BLE ─────── E  F ──── Multipeer ──────► G │
-│                                                         │
-│  ┌─────────────┐    Every node: Dual Central/Peripheral  │
-│  │  Realm DB   │    No central server in the signal path │
-│  │  (local)    │    Messages hop peer-to-peer             │
-│  └─────────────┘                                        │
-└─────────────────────────────────────────────────────────┘
+```mermaid
+flowchart LR
+    A[Device A] -- BLE --> B[Device B]
+    B -- BLE --> C[Device C]
+    A -- Wi-Fi Direct --> D[Device D]
+    B -- BLE --> E[Device E]
+    B -- Wi-Fi Direct --> F[Device F]
+    C -- BLE --> G[Device G]
+    F -- Multipeer --> G
+    E -- BLE --> D
+    subgraph local["Every Node"]
+        direction TB
+        R[(Realm DB\nlocal)]
+    end
+    B --- local
 ```
 
 Each device runs in a dual Central/Peripheral BLE role simultaneously. It broadcasts its own presence while scanning for nearby peers. There's no central server in the loop — devices discover each other directly and form a mesh where messages can hop peer-to-peer across the network.
@@ -202,15 +202,13 @@ In practice, event venues are 2D enough that this converges in 2–3 iterations.
 
 BLE alone isn't enough. I built a hybrid transport system that routes communication across three channels depending on what's available:
 
-```
-Transport Priority Stack
-─────────────────────────
-Priority 1: BLE (always available, low energy, short range)
-Priority 2: Wi-Fi Direct (when negotiated, 250 Mbps, 200m range)
-Priority 3: Apple Multipeer Connectivity (iOS fallback, ~100m)
+| Priority | Transport | Characteristics |
+|---|---|---|
+| 1 | BLE | Always available, low energy, short range |
+| 2 | Wi-Fi Direct | When negotiated, 250 Mbps, 200m range |
+| 3 | Apple Multipeer Connectivity | iOS fallback, ~100m |
 
 Selection logic: capability negotiation during BLE handshake
-```
 
 ```typescript
 type Transport = "ble" | "wifi-direct" | "multipeer";
@@ -374,15 +372,13 @@ Most engineers don't touch this layer of the stack. BLE mesh isn't in any bootca
 
 The performance results in a 300-person closed-venue test:
 
-```
-Metric                    Target    Achieved
-──────────────────────────────────────────────
-Message delivery latency  < 500ms   ~180ms avg
-Position update rate      2 Hz      2.1 Hz
-Queue drain after outage  < 10s     6.8s avg
-Battery overhead          < 8%      ~5.5%
-Encryption overhead       < 5ms     ~1.8ms
-```
+| Metric | Target | Achieved |
+|---|---|---|
+| Message delivery latency | < 500ms | ~180ms avg |
+| Position update rate | 2 Hz | 2.1 Hz |
+| Queue drain after outage | < 10s | 6.8s avg |
+| Battery overhead | < 8% | ~5.5% |
+| Encryption overhead | < 5ms | ~1.8ms |
 
 The result: a production platform that works fully offline, handles dense guest crowds, and maintains encrypted communication regardless of network state.
 

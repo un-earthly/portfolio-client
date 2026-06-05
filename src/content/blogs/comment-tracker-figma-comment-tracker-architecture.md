@@ -18,35 +18,26 @@ This post is about the architecture decision, the implementation details, and wh
 
 ## The Architecture
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                Comment Tracker Architecture               │
-│                                                         │
-│  Browser (static HTML/CSS/JS)                           │
-│  ┌─────────────────────────────────────────────────┐   │
-│  │  Comment Dashboard                               │   │
-│  │  ┌────────────┐  ┌──────────────────────────┐   │   │
-│  │  │ Filter     │  │  Comment List             │   │   │
-│  │  │ Sidebar    │  │  (rendered in-memory)     │   │   │
-│  │  │ - Status   │  │                           │   │   │
-│  │  │ - Pages    │  │  Deep links → Figma nodes │   │   │
-│  │  │ - Authors  │  │  Reply from dashboard     │   │   │
-│  │  │ - Labels   │  └──────────────────────────┘   │   │
-│  │  └────────────┘                                  │   │
-│  └──────────────┬──────────────────────────────────┘   │
-│                 │  fetch() with Bearer token             │
-│                 ▼                                        │
-│         Figma REST API                                   │
-│         /v1/files/:key/comments                         │
-│         /v1/files/:key?depth=4  (for page resolution)  │
-│                                                         │
-│  Auth path only:                                        │
-│  Browser → Cloudflare Function → Figma OAuth           │
-│                │                                        │
-│                ▼                                        │
-│         Supabase (auth + user_settings row only)        │
-│         No comment data ever stored                     │
-└─────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    subgraph Browser["Browser — static HTML/CSS/JS"]
+        Dashboard["Comment Dashboard"]
+        Sidebar["Filter Sidebar\nStatus · Pages · Authors · Labels"]
+        List["Comment List\nrendered in-memory\ndeep links → Figma nodes"]
+        Dashboard --> Sidebar
+        Dashboard --> List
+    end
+
+    Browser -->|"fetch() with Bearer token"| FigmaAPI
+
+    subgraph FigmaAPI["Figma REST API"]
+        Comments["/v1/files/:key/comments"]
+        FileTree["/v1/files/:key?depth=4\npage resolution"]
+    end
+
+    Browser -->|"auth path only"| CF["Cloudflare Function\nOAuth exchange"]
+    CF -->|"code → token"| FigmaOAuth["Figma OAuth"]
+    CF -->|"store token"| Supabase["Supabase\nauth + user_settings only\nno comment data stored"]
 ```
 
 ## The Core Architectural Decision
@@ -59,30 +50,17 @@ Every comment fetch is a direct browser → Figma API call. Supabase exists only
 
 The reasoning was constraint-driven:
 
-```
-Option A: Store comments in DB
-──────────────────────────────────────────────────────────
-+ Comment history, cross-file analytics, push notifications
-- Sync pipeline to maintain
-- Stale data when comments update in Figma between syncs
-- Storage cost scales with usage
-- Comment content on my servers (privacy concern for teams)
-- Webhook infrastructure for near-real-time
+| | Option A — Store comments in DB | Option B — Live fetch, no storage |
+|---|---|---|
+| **Data freshness** | Stale between syncs | Always current — matches Figma exactly |
+| **History / analytics** | Full history, cross-file analytics | None |
+| **Notifications** | Push notifications possible | No server-side listener |
+| **Infrastructure** | Sync pipeline + webhooks + storage | 1 Cloudflare Function + 1 Supabase project |
+| **Storage cost** | Scales with usage | Zero |
+| **Privacy** | Comment content on my servers | Content never leaves Figma's servers |
+| **Complexity** | High — sync logic, stale data edge cases | Low — stateless reads |
 
-Option B: Live fetch, no storage
-──────────────────────────────────────────────────────────
-+ Always current — what you see is what Figma has
-+ Zero sync logic
-+ Minimal infrastructure (1 Cloudflare Function, 1 Supabase project)
-+ Comment content never leaves Figma's servers
-- No comment history
-- No cross-file analytics
-- No notifications (no server-side listener)
-
-For the use case — triage during active design sprint, handoff review —
-Option B is the right call. The missing features are nice-to-have, not
-core to the workflow problem being solved.
-```
+For the use case — triage during an active design sprint, handoff review — Option B is the right call. The missing features are nice-to-have, not core to the workflow problem being solved.
 
 This is an example of constraint-driven design working correctly: the constraint (no backend comment storage) forced simpler architecture that happens to be better for the primary use case.
 

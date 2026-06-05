@@ -18,22 +18,17 @@ This isn't a tutorial about GPT wrappers. This is about building a real multi-ag
 
 **Infrastructure:**
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                   Agent Orchestration                    │
-│                                                         │
-│  Telegram ──► CEO Agent ──► PM Agent ──► Planka (board) │
-│                                  │                      │
-│                          ┌───────┴────────┐             │
-│                     Marketing          Content          │
-│                      Agent              Agent           │
-│                          │                │             │
-│                    Planka cards    Planka cards          │
-│                    (marketing)     (content)             │
-│                                                         │
-│  All agents read/write Planka as shared state           │
-│  No shared context windows — state flows through cards  │
-└─────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    T[Telegram\nhuman interface] --> CEO[CEO Agent\ngoal interpretation]
+    CEO --> PM[PM Agent\ntask planning]
+    PM --> Planka[(Planka Board\nshared state)]
+    PM --> MA[Marketing Agent]
+    PM --> CA[Content Agent]
+    MA --> Planka
+    CA --> Planka
+    Planka --> MA
+    Planka --> CA
 ```
 
 - **OpenClaw** — multi-agent orchestration framework handling agent lifecycle and routing

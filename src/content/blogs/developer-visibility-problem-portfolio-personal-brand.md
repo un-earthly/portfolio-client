@@ -26,14 +26,16 @@ Nobody cares what's on your local machine. Nobody cares about the impressive sys
 
 The visibility stack, ordered by ROI:
 
-```
-Visibility ROI Stack (for engineers seeking remote work)
-──────────────────────────────────────────────────────────
-Highest  │  One deep technical case study (public)
-         │  GitHub with real, documented projects
-         │  LinkedIn with specific, quantified achievements
-         │  Blog posts on problems you've actually solved
-Lowest   │  Resume with generic bullet points
+```mermaid
+flowchart TD
+    A["One deep technical case study (public)"]
+    B["GitHub with real, documented projects"]
+    C["LinkedIn with specific, quantified achievements"]
+    D["Blog posts on problems you've actually solved"]
+    E["Resume with generic bullet points"]
+    A --> B --> C --> D --> E
+    style A fill:#166534,color:#fff
+    style E fill:#7f1d1d,color:#fff
 ```
 
 A single case study — "here is the system I built, the problem it solved, the architecture I chose, what I'd do differently" — is worth more than ten resume lines. It proves you can think, communicate, and build. Resumes claim all three. Case studies demonstrate them.

@@ -5,6 +5,7 @@ import { ArrowLeft, Clock, Calendar } from "lucide-react";
 import { getBlogBySlug, getAllBlogSlugs } from "@/lib/blogs";
 import { parseMarkdown } from "@/lib/markdown";
 import { Badge } from "@/components/ui/badge";
+import MermaidRenderer from "@/components/MermaidRenderer";
 
 export async function generateStaticParams() {
   return getAllBlogSlugs().map((slug) => ({ slug }));
@@ -79,10 +80,7 @@ export default async function BlogPostPage({
         </div>
       </header>
 
-      <div
-        className="blog-content"
-        dangerouslySetInnerHTML={{ __html: html }}
-      />
+      <MermaidRenderer html={html} />
     </article>
   );
 }

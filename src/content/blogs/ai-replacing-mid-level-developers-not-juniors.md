@@ -22,23 +22,13 @@ Mid-level developers — the ones who've mastered the standard patterns, know th
 
 Consider what "mid-level" typically means:
 
-```
-Mid-Level Developer Value Proposition (Pre-AI)
-────────────────────────────────────────────────
-✓ Implement a feature from a spec without supervision
-✓ Estimate story points accurately
-✓ Write readable, testable code
-✓ Debug integration issues
-✓ Choose between two known library options
-
-Mid-Level Developer Value Proposition (Post-AI)
-────────────────────────────────────────────────
-✓ Implement a feature from a spec without supervision  ← AI does this
-✓ Estimate story points accurately                     ← AI does this (better)
-✓ Write readable, testable code                        ← AI does this
-✓ Debug integration issues                             ← AI does this faster
-✓ Choose between two known library options             ← AI does this with citations
-```
+| Skill | Pre-AI | Post-AI |
+|---|---|---|
+| Implement a feature from a spec | Mid-level core skill | AI does this |
+| Estimate story points accurately | Mid-level core skill | AI does this (better) |
+| Write readable, testable code | Mid-level core skill | AI does this |
+| Debug integration issues | Mid-level core skill | AI does this faster |
+| Choose between two known library options | Mid-level core skill | AI does this with citations |
 
 The overlap is not partial. It's near-total.
 

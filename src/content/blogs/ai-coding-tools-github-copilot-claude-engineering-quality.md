@@ -80,21 +80,10 @@ Your job is no longer to write code. It's to be a rigorous reviewer of code — 
 
 The skills that matter in the AI-augmented workflow:
 
-```
-Pre-AI critical skills:
-├── Write syntactically correct code
-├── Know library APIs
-├── Implement standard patterns
-└── Translate specs into code
-
-Post-AI critical skills (unchanged or more important):
-├── Identify subtle security vulnerabilities
-├── Evaluate architectural trade-offs
-├── Understand failure modes under load and edge cases
-├── Know when generated code is plausible-but-wrong
-├── Own accountability for production behaviour
-└── Debug systems you didn't write
-```
+| Category | Skills |
+|---|---|
+| Pre-AI critical (now largely automated) | Write syntactically correct code · Know library APIs · Implement standard patterns · Translate specs into code |
+| Post-AI critical (unchanged or more important) | Identify subtle security vulnerabilities · Evaluate architectural trade-offs · Understand failure modes under load and edge cases · Know when generated code is plausible-but-wrong · Own accountability for production behaviour · Debug systems you didn't write |
 
 The first category — AI has largely automated. The second category — AI is structurally bad at because it requires accountability, production experience, and the knowledge of what failure looks like.
 

@@ -20,24 +20,13 @@ But that's not the freelance market. That's one undifferentiated tier of it.
 
 They look the same from the outside. They're completely different in practice.
 
-```
-Market A: Commodity Development
-────────────────────────────────────────────────────────────
-Client: "We need a React developer to implement these Figma designs"
-Competition: Global, price-sensitive, hundreds of bids
-Differentiator: Price, speed, reviews
-Rate ceiling: $30–60/hr in 2025
-AI exposure: High — generalist work is exactly what AI does well
-
-Market B: Specialist Consulting
-────────────────────────────────────────────────────────────
-Client: "We have a 15-year-old system we can't maintain and can't afford
-         to break. We need someone who has done this before."
-Competition: Few people with this specific track record
-Differentiator: Demonstrated experience, trust signals, specific outcomes
-Rate ceiling: $100–200/hr, sometimes project-based at multiples
-AI exposure: Low — requires domain context and accountability
-```
+| | Market A: Commodity Development | Market B: Specialist Consulting |
+|---|---|---|
+| Client need | "We need a React developer to implement these Figma designs" | "We have a 15-year-old system we can't maintain and can't afford to break. We need someone who has done this before." |
+| Competition | Global, price-sensitive, hundreds of bids | Few people with this specific track record |
+| Differentiator | Price, speed, reviews | Demonstrated experience, trust signals, specific outcomes |
+| Rate ceiling | $30–60/hr in 2025 | $100–200/hr, sometimes project-based at multiples |
+| AI exposure | High — generalist work is exactly what AI does well | Low — requires domain context and accountability |
 
 The clients in Market B are not comparing you to the lowest bidder. They're comparing you to the cost of the problem continuing to exist. A business running on a broken legacy system is losing money every day. That framing changes the entire price conversation.
 
@@ -51,21 +40,13 @@ That case study is not a portfolio piece. It's a trust signal for a very specifi
 
 The positioning stack:
 
-```
-Step 1: Identify your actual depth (not "I'm a full-stack dev")
-        What problem have you solved that most devs haven't?
-
-Step 2: Write one public artifact documenting it
-        Case study, technical post-mortem, or annotated GitHub project
-        Include: the problem, your approach, the outcome, what you'd do differently
-
-Step 3: Build signal around the specific niche
-        LinkedIn headline: not "Senior Developer" but "Enterprise legacy system
-        modernisation — VB.NET → modern web, 0 downtime"
-
-Step 4: Let inbound find you
-        The case study is searchable. Clients with exactly that problem find it.
-        They arrive pre-qualified.
+```mermaid
+flowchart TD
+    S1["Step 1: Identify your actual depth\nWhat problem have you solved that most devs haven't?"]
+    S2["Step 2: Write one public artifact\nCase study, post-mortem, or annotated GitHub project\n(problem · approach · outcome · lessons)"]
+    S3["Step 3: Build signal around the niche\nLinkedIn headline: specific outcome, not 'Senior Developer'"]
+    S4["Step 4: Let inbound find you\nCase study is searchable — clients arrive pre-qualified"]
+    S1 --> S2 --> S3 --> S4
 ```
 
 ## What Changes When You Specialise

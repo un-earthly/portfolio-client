@@ -73,16 +73,11 @@ Pragmatic engineering means asking: **what is the actual cost of this decision?*
 
 The costs that actually matter:
 
-```
-Decision: add abstraction layer
-────────────────────────────────────────────────────────
-Real cost: +2 files, +40 lines, 1 more indirection hop
-           future readers need to trace through
-Actual benefit: reduces duplication IF this is called
-                from 3+ places (which it isn't yet)
-Verdict: skip it. If the duplication actually appears,
-         refactor then with real information.
-```
+| | Decision: add abstraction layer |
+|---|---|
+| Real cost | +2 files, +40 lines, 1 more indirection hop future readers need to trace through |
+| Actual benefit | Reduces duplication IF this is called from 3+ places (which it isn't yet) |
+| Verdict | Skip it. If the duplication actually appears, refactor then with real information. |
 
 ## The Engineers I Respect
 
