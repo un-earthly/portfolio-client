@@ -3,7 +3,7 @@ import React from 'react';
 import {
     ArrowLeft,
     ExternalLink,
-    Github,
+    GitBranch as Github,
     CheckCircle,
     MessageSquare,
     Eye,
@@ -55,7 +55,7 @@ const CaseStudyPage = () => {
     return (
         <div>
             <div className="relative h-[500px] overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-slate-950" />
+                <div className="absolute inset-0 bg-linear-to-b from-transparent to-slate-950" />
                 {thumbnail && <img src={thumbnail} alt={title} className="w-full h-full object-cover" />}
                 <div className="absolute inset-0 bg-slate-950/70" />
 
@@ -87,8 +87,8 @@ const CaseStudyPage = () => {
             <div className="container mx-auto px-4 py-16">
                 <div className="max-w-4xl mx-auto">
                     {Object.keys(metrics).length > 0 && (
-                        <Card className="relative overflow-hidden bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 mb-16 transform hover:scale-[1.01] transition-transform">
-                            <div className="absolute inset-0 bg-gradient-to-r from-cyan-950/30 via-slate-900/30 to-blue-950/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        <Card className="relative overflow-hidden bg-linear-to-br from-slate-950 to-slate-900 border-slate-800 mb-16 transform hover:scale-[1.01] transition-transform">
+                            <div className="absolute inset-0 bg-linear-to-r from-cyan-950/30 via-slate-900/30 to-blue-950/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                             <CardContent className="p-6 grid grid-cols-2 md:grid-cols-4 gap-6">
                                 {Object.entries(metrics).map(([key, value]: any) => (
                                     <div key={key} className="text-center">
@@ -116,7 +116,7 @@ const CaseStudyPage = () => {
                                     <h2 className="text-2xl font-bold text-gray-100 mb-6">Key Challenges</h2>
                                     <div className="grid gap-6 mb-12">
                                         {challenges.map((challenge: any, index: any) => (
-                                            <Card key={index} className="bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300">
+                                            <Card key={index} className="bg-linear-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300">
                                                 <CardContent className="p-6">
                                                     <div className="flex items-start gap-4">
                                                         <div className="p-2 bg-cyan-500/10 rounded-lg">
@@ -139,7 +139,7 @@ const CaseStudyPage = () => {
                                     <h2 className="text-2xl font-bold text-gray-100 mb-6">Solutions Implemented</h2>
                                     <div className="grid gap-6">
                                         {solutions.map((solution: any, index: any) => (
-                                            <Card key={index} className="group bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300">
+                                            <Card key={index} className="group bg-linear-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300">
                                                 <CardContent className="p-6">
                                                     <div className="flex items-start gap-4">
                                                         <div className="p-2 bg-cyan-500/10 rounded-lg group-hover:bg-cyan-500/20 transition-colors">
@@ -174,7 +174,7 @@ const CaseStudyPage = () => {
                             <h2 className="text-2xl font-bold text-gray-100 mb-6">Technology Stack</h2>
                             <div className="grid md:grid-cols-2 gap-8">
                                 {Object.entries(techStack).map(([category, technologies]: any) => (
-                                    <Card key={category} className="bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800">
+                                    <Card key={category} className="bg-linear-to-br from-slate-950 to-slate-900 border-slate-800">
                                         <CardContent className="p-6">
                                             <h3 className="text-lg font-semibold text-gray-100 mb-4 capitalize">{category}</h3>
                                             <div className="flex flex-wrap gap-2">
@@ -198,14 +198,14 @@ const CaseStudyPage = () => {
                         <section className="mb-16">
                             <h2 className="text-2xl font-bold text-gray-100 mb-6">Development Process</h2>
                             <div className="relative">
-                                <div className="absolute left-8 top-0 bottom-0 w-px bg-gradient-to-b from-cyan-500/50 via-blue-500/50 to-cyan-500/50 hidden md:block" />
+                                <div className="absolute left-8 top-0 bottom-0 w-px bg-linear-to-b from-cyan-500/50 via-blue-500/50 to-cyan-500/50 hidden md:block" />
 
                                 <div className="space-y-8">
                                     {developmentPhases.map((phase: any, index: any) => (
                                         <div key={index} className="relative ml-0 md:ml-16">
-                                            <div className="absolute left-[-2rem] top-6 w-4 h-4 rounded-full bg-cyan-400 hidden md:block" />
+                                            <div className="absolute -left-8 top-6 w-4 h-4 rounded-full bg-cyan-400 hidden md:block" />
 
-                                            <Card className="bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300">
+                                            <Card className="bg-linear-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300">
                                                 <CardContent className="p-6">
                                                     <div className="flex items-center justify-between mb-4">
                                                         <h3 className="text-lg font-semibold text-gray-100">{phase.title}</h3>
@@ -237,7 +237,7 @@ const CaseStudyPage = () => {
                                 {responsibilities.map((position: any, index: any) => (
                                     <Card
                                         key={index}
-                                        className="bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300"
+                                        className="bg-linear-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300"
                                     >
                                         <CardContent className="p-6">
                                             <div className="flex items-start gap-4">
@@ -275,7 +275,7 @@ const CaseStudyPage = () => {
                             <h2 className="text-2xl font-bold text-gray-100 mb-6">Results & Impact</h2>
                             <div className="grid md:grid-cols-3 gap-6 mb-8">
                                 {results.map((result: any, index: any) => (
-                                    <Card key={index} className="bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300">
+                                    <Card key={index} className="bg-linear-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300">
                                         <CardContent className="p-6 text-center">
                                             <div className="text-3xl font-bold text-cyan-400 mb-2">
                                                 {result.value}
@@ -310,7 +310,7 @@ const CaseStudyPage = () => {
                     )}
 
                     <section>
-                        <Card className="bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300">
+                        <Card className="bg-linear-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300">
                             <CardContent className="p-8">
                                 <div className="max-w-3xl mx-auto text-center">
                                     <h2 className="text-2xl font-bold text-gray-100 mb-4">Let's Build Something Great Together</h2>

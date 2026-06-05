@@ -1,5 +1,5 @@
 import {
-  Book, Brain, Code2, Users, Laptop, Database, Shield, Zap, Coffee, FileUser, Github, Globe, Heart, Layout, Linkedin, Mail, Microscope, Music, Palette, PenTool, Puzzle, Repeat, Rocket, Search, Store, Target, Trophy,
+  Book, Brain, Code2, Users, Laptop, Database, Shield, Zap, Coffee, FileUser, GitBranch as Github, Globe, Heart, Layout, Link2 as Linkedin, Mail, Microscope, Music, Palette, PenTool, Puzzle, Repeat, Rocket, Search, Store, Target, Trophy,
   Code,
   AlertCircle,
   Smartphone,
@@ -8,7 +8,7 @@ import {
   Gamepad,
   PencilRuler,
   Microchip,
-  BrainCircuit,
+  BrainCog as BrainCircuit,
   Clock
 } from "lucide-react";
 import localFont from "next/font/local";

@@ -202,6 +202,43 @@ button:active {
   background: transparent;
 }
 
+/* ─── Blog Tables ─────────────────────────────────────────────────────────── */
+.blog-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.875rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  border: 1px solid rgba(6,182,212,0.15);
+}
+.blog-content th {
+  background: rgba(6,182,212,0.08);
+  color: #e2e8f0;
+  font-weight: 600;
+  padding: 0.65rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(6,182,212,0.2);
+}
+.blog-content td {
+  padding: 0.6rem 1rem;
+  color: #cbd5e1;
+  border-bottom: 1px solid rgba(100,116,139,0.15);
+}
+.blog-content tr:last-child td { border-bottom: none; }
+.blog-content tr:hover td { background: rgba(6,182,212,0.03); }
+
+/* ─── Mermaid diagrams ────────────────────────────────────────────────────── */
+.blog-content .mermaid {
+  margin: 1.75rem 0;
+  background: rgba(15,23,42,0.6);
+  border: 1px solid rgba(6,182,212,0.15);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  overflow-x: auto;
+}
+.blog-content .mermaid svg { max-width: 100%; height: auto; }
+
 /* Hide scrollbar in specific elements but keep functionality */
 .hide-scrollbar {
   -ms-overflow-style: none;
