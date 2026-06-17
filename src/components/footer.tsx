@@ -98,10 +98,10 @@ export default function Footer() {
             <div>
               <p className="text-[10px] text-gray-700 tracking-widest uppercase mb-1">Email</p>
               <a
-                href="mailto:vijayalamin@gmail.com"
+                href="mailto:md.c.alamin00@gmail.com"
                 className="text-sm text-gray-300 hover:text-cyan-400 transition-colors duration-150"
               >
-                vijayalamin@gmail.com
+                md.c.alamin00@gmail.com
               </a>
             </div>
             <div>

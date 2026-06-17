@@ -533,17 +533,19 @@ export function HowIWork() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
       />
 
-      {/* Section header */}
-      <div className="max-w-7xl mx-auto px-6 lg:px-16 pt-12 pb-4 text-center">
-        <h2
-          id="how-i-work-heading"
-          className="text-3xl font-bold text-white mb-3"
-        >
-          How I Work
-        </h2>
-        <p className="text-gray-500 text-sm tracking-wide max-w-sm mx-auto">
-          Four phases. Transparent milestones. Working software every two weeks.
-        </p>
+      {/* Section header — stays pinned while scrolling through the phases */}
+      <div className="sticky top-0 z-20 bg-black/80 backdrop-blur-sm border-b border-white/5">
+        <div className="max-w-7xl mx-auto px-6 lg:px-16 pt-12 pb-4 text-center">
+          <h2
+            id="how-i-work-heading"
+            className="text-3xl font-bold text-white mb-3"
+          >
+            How I Work
+          </h2>
+          <p className="text-gray-500 text-sm tracking-wide max-w-sm mx-auto">
+            Four phases. Transparent milestones. Working software every two weeks.
+          </p>
+        </div>
       </div>
 
       {/* ── Desktop: three-column sticky-scroll ─────────────────────────── */}

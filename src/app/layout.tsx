@@ -89,7 +89,7 @@ const jsonLd = {
     "https://github.com/un-earthly",
     "https://www.linkedin.com/in/alamin-md/",
   ],
-  email: "vijayalamin@gmail.com",
+  email: "md.c.alamin00@gmail.com",
   knowsAbout: [
     "React",
     "Next.js",

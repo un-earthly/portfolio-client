@@ -619,7 +619,7 @@ const socialLinks = [
   {
     label: "Email",
     icon: Mail,
-    href: 'mailto:vijayalamin@gmail.com'
+    href: 'mailto:md.c.alamin00@gmail.com'
   },
   {
     label: "Resume",

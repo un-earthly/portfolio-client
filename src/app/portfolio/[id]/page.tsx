@@ -318,7 +318,7 @@ const CaseStudyPage = () => {
                                         Passionate about creating efficient, scalable, and user-centric web solutions using modern technologies
                                     </p>
                                     <div className="flex flex-wrap justify-center gap-4">
-                                        <Link href="mailto:vijayalamin@gmail.com">
+                                        <Link href="mailto:md.c.alamin00@gmail.com">
                                             <Button className="bg-cyan-500 hover:bg-cyan-600 text-white transition-colors">
                                                 <MessageSquare className="h-4 w-4 mr-2" />
                                                 Start a Conversation
