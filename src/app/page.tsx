@@ -3,11 +3,195 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { SectionHeader } from "@/components/ui/section-header";
 import React, { memo } from 'react'
-import { ArrowUpRight, CheckCircle, Cpu, Wrench, Rocket, Star } from 'lucide-react'
+import { ArrowUpRight, Cpu, Wrench, Rocket, Star } from 'lucide-react'
 import Link from "next/link";
-import { achievements, developmentProcess, experiences, projects, skills } from '@/mock-data'
+import { achievements, experiences, projects, skills, socialLinks, yearsOfExperince } from '@/mock-data'
 import ExperienceCard from "@/components/ExperinceCard";
-import ProjectCard from "@/components/ProjectCard";
+import { HowIWork } from "@/components/HowIWork";
+
+/* ── Hero node graph ────────────────────────────────────────── */
+const _hn = [
+  { x: 120, y: 100 }, { x: 300, y: 55 },  { x: 480, y: 155 },
+  { x: 650, y: 75 },  { x: 820, y: 165 }, { x: 980, y: 88 },
+  { x: 1120, y: 148 },{ x: 195, y: 285 }, { x: 395, y: 350 },
+  { x: 575, y: 288 }, { x: 748, y: 378 }, { x: 900, y: 282 },
+  { x: 1052, y: 352 },
+]
+const _he = [
+  [0,1],[1,2],[2,3],[3,4],[4,5],[5,6],
+  [0,7],[7,8],[8,9],[9,10],[10,11],[11,12],
+  [1,7],[2,9],[3,9],[4,11],[5,12],[2,8],[4,10],[6,12],
+]
+function HeroNodeGraph() {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 1200 460"
+      className="absolute inset-0 w-full h-full text-white"
+      style={{ opacity: 0.08 }}
+      preserveAspectRatio="xMidYMid slice"
+    >
+      {_he.map((edge, i) => (
+        <line
+          key={i}
+          x1={_hn[edge[0]].x} y1={_hn[edge[0]].y}
+          x2={_hn[edge[1]].x} y2={_hn[edge[1]].y}
+          stroke="currentColor" strokeWidth="0.8" strokeOpacity="0.7"
+        />
+      ))}
+      {_hn.map((n, i) => (
+        <circle
+          key={i}
+          cx={n.x} cy={n.y} r="4"
+          fill="none" stroke="currentColor" strokeWidth="1.2"
+          className="hero-node"
+          style={{ animationDelay: `${((i * 0.28) % 3).toFixed(2)}s` }}
+        />
+      ))}
+      {/* Accent nodes — cyan highlight on two key junctions */}
+      <circle cx={480} cy={155} r="7" fill="none" stroke="#22d3ee" strokeWidth="1"
+        strokeOpacity="0.55" className="hero-node" style={{ animationDelay: '0.5s' }} />
+      <circle cx={820} cy={165} r="5.5" fill="none" stroke="#22d3ee" strokeWidth="1"
+        strokeOpacity="0.4" className="hero-node" style={{ animationDelay: '1.2s' }} />
+    </svg>
+  )
+}
+
+/* ── Hero ───────────────────────────────────────────────────── */
+function Hero() {
+  return (
+    <section className="relative min-h-[92vh] flex flex-col justify-center overflow-hidden border-b border-white/5">
+      {/* Subtle grid background */}
+      <div
+        className="absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage: 'linear-gradient(rgba(6,182,212,1) 1px, transparent 1px), linear-gradient(90deg, rgba(6,182,212,1) 1px, transparent 1px)',
+          backgroundSize: '80px 80px',
+        }}
+      />
+      {/* Cyan glow */}
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-150 h-150 bg-cyan-500/5 rounded-full blur-[120px] pointer-events-none" />
+      {/* Node graph */}
+      <HeroNodeGraph />
+
+      <div className="relative max-w-7xl mx-auto px-6 lg:px-16 py-24">
+
+        {/* Eyebrow label */}
+        <p
+          className="font-mono tracking-[0.2em] uppercase text-gray-500 mb-8"
+          style={{ fontSize: 'clamp(0.6rem, 1vw, 0.75rem)' }}
+        >
+          Full Stack Engineer — Legacy Modernization
+        </p>
+
+        {/* Massive display heading */}
+        <h1
+          className="font-black uppercase tracking-tight mb-10"
+          style={{ lineHeight: 0.88 }}
+        >
+          <span
+            className="block text-white"
+            style={{ fontSize: 'clamp(4rem, 10vw, 9rem)' }}
+          >
+            I FIX
+          </span>
+          {/* "BROKEN" — outline-only with cyan stroke; the visual anchor of the page */}
+          <span
+            className="block"
+            style={{
+              fontSize: 'clamp(4rem, 10vw, 9rem)',
+              color: 'transparent',
+              WebkitTextStroke: '2px #22d3ee',
+            }}
+          >
+            BROKEN
+          </span>
+          <span
+            className="block text-white"
+            style={{ fontSize: 'clamp(4rem, 10vw, 9rem)' }}
+          >
+            SYSTEMS.
+          </span>
+        </h1>
+
+        {/* Punchy single-sentence body */}
+        <p
+          className="text-gray-400 max-w-105 leading-relaxed mb-10"
+          style={{ fontSize: 'clamp(1rem, 1.6vw, 1.2rem)' }}
+        >
+          Product companies hire me to modernize slow legacy stacks — without
+          downtime, without big rewrites.
+        </p>
+
+        {/* CTA row */}
+        <div className="flex flex-wrap items-center gap-4 mb-20">
+          <Link
+            href="/contact"
+            className="flex items-center gap-2 bg-cyan-500 hover:bg-cyan-400 text-black text-sm font-bold tracking-widest uppercase px-7 py-3.5 rounded-full transition-colors duration-200"
+          >
+            Let&apos;s Talk
+            <ArrowUpRight className="w-4 h-4" />
+          </Link>
+          <Link
+            href="/portfolio"
+            className="flex items-center gap-2 border border-white/10 hover:border-cyan-500/40 text-gray-300 hover:text-white text-sm font-medium tracking-wide px-7 py-3.5 rounded-full transition-colors duration-200"
+          >
+            See Work
+          </Link>
+          <div className="flex items-center gap-3 ml-2">
+            {socialLinks.map(({ href, label, icon: Icon }) => (
+              <Link
+                key={href}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 border border-white/10 rounded-full flex items-center justify-center text-gray-500 hover:text-cyan-400 hover:border-cyan-400/40 transition-colors"
+                aria-label={label}
+              >
+                <Icon className="w-4 h-4" />
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* Stats row */}
+        <div className="flex flex-wrap gap-x-10 gap-y-5 border-t border-white/5 pt-8">
+          {[
+            { value: `${yearsOfExperince}+`, label: 'Years Experience', pct: 0.65 },
+            { value: '20+', label: 'Projects Delivered', pct: 0.50 },
+            { value: '95%', label: 'Client Satisfaction', pct: 0.95 },
+            { value: '10K+', label: 'Concurrent Users Handled', pct: 0.75 },
+          ].map(({ value, label, pct }) => {
+            const r = 14
+            const circ = 2 * Math.PI * r
+            return (
+              <div key={label} className="flex items-center gap-3">
+                <svg
+                  width="36" height="36" viewBox="0 0 36 36"
+                  aria-hidden="true"
+                  className="shrink-0 -rotate-90"
+                >
+                  <circle cx="18" cy="18" r={r} fill="none" stroke="currentColor" strokeWidth="1" strokeOpacity="0.1" />
+                  <circle
+                    cx="18" cy="18" r={r} fill="none"
+                    stroke="#22d3ee" strokeWidth="1.5"
+                    strokeDasharray={`${(pct * circ).toFixed(1)} ${circ.toFixed(1)}`}
+                    strokeLinecap="round" strokeOpacity="0.55"
+                  />
+                </svg>
+                <div>
+                  <div className="text-3xl font-black text-white tracking-tight">{value}</div>
+                  <div className="text-xs text-gray-500 tracking-widest uppercase mt-1">{label}</div>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+
+      </div>
+    </section>
+  )
+}
 
 /* ── small helpers ─────────────────────────────────────────── */
 const SkillBadge = memo(({ skill, accent }: { skill: string; accent?: boolean }) => (
@@ -26,7 +210,7 @@ SkillBadge.displayName = 'SkillBadge'
 function HeroCard() {
   const top = achievements[0]
   return (
-    <div className="rounded-2xl overflow-hidden border border-slate-800 mb-10 grid md:grid-cols-2 min-h-[200px]">
+    <div className="rounded-2xl overflow-hidden border border-slate-800 mb-10 grid md:grid-cols-2 min-h-50">
       {/* Left — dark, text */}
       <div className="bg-linear-to-br from-slate-900 to-slate-950 p-8 flex flex-col justify-between">
         <div>
@@ -84,35 +268,69 @@ const SkillGroup = memo(({ title, icon: Icon, items, accent }: {
 ))
 SkillGroup.displayName = 'SkillGroup'
 
-/* ── Process step ───────────────────────────────────────────── */
-const ProcessStep = memo(({ step, index }: { step: typeof developmentProcess[0]; index: number }) => (
-  <div className="relative pl-10">
-    <div className="absolute left-0 top-0 flex h-7 w-7 items-center justify-center rounded-full bg-cyan-500/15 border border-cyan-500/30 text-cyan-400 text-xs font-bold">
-      {index + 1}
-    </div>
-    <div className="rounded-xl border border-slate-800 bg-slate-900/30 p-5 hover:border-slate-700 transition-colors">
-      <div className="flex items-center gap-2 mb-2">
-        <step.icon className="h-4 w-4 text-cyan-400" />
-        <h3 className="text-sm font-bold text-gray-100">{step.title}</h3>
+/* ── Featured project card ──────────────────────────────────── */
+function FeaturedProjectCard({
+  project,
+  tall,
+}: {
+  project: { id: string; title: string; image: string; category: string; technologies: string[] }
+  tall?: boolean
+}) {
+  return (
+    <Link
+      href={`/portfolio/${project.id}`}
+      className={[
+        'group relative overflow-hidden rounded-xl block border border-white/5',
+        tall ? 'h-72' : 'h-52',
+      ].join(' ')}
+    >
+      <img
+        src={project.image}
+        alt={project.title}
+        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+      />
+      <div className="absolute inset-0 bg-black/45 group-hover:bg-black/25 transition-colors duration-500" />
+      <div className="absolute inset-x-0 bottom-0 h-3/4 bg-linear-to-t from-black/90 via-black/40 to-transparent" />
+
+      <div className="absolute inset-0 flex flex-col justify-end p-5">
+        <span className="text-[9px] tracking-[0.18em] uppercase text-cyan-400/60 font-mono mb-1.5">
+          {project.category}
+        </span>
+        <h3
+          className="text-white font-bold tracking-tight leading-tight mb-2.5"
+          style={{ fontSize: 'clamp(0.9rem, 2vw, 1.1rem)' }}
+        >
+          {project.title}
+        </h3>
+        <div className="flex flex-wrap gap-1.5">
+          {project.technologies.slice(0, 3).map((t) => (
+            <span
+              key={t}
+              className="text-[9px] px-2 py-0.5 rounded-full bg-white/10 text-white/60 font-mono border border-white/10"
+            >
+              {t}
+            </span>
+          ))}
+        </div>
       </div>
-      <p className="text-gray-500 text-xs mb-3 leading-relaxed">{step.description}</p>
-      <ul className="grid sm:grid-cols-2 gap-1.5">
-        {step.details.map((d, i) => (
-          <li key={i} className="flex items-start gap-1.5 text-gray-400 text-xs">
-            <CheckCircle className="h-3.5 w-3.5 text-cyan-500/60 shrink-0 mt-0.5" />
-            {d}
-          </li>
-        ))}
-      </ul>
-    </div>
-  </div>
-))
-ProcessStep.displayName = 'ProcessStep'
+
+      <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <span className="flex items-center gap-1.5 bg-black/50 backdrop-blur-sm border border-white/15 text-white/80 text-[9px] tracking-widest uppercase px-2.5 py-1.5 rounded-sm">
+          <ArrowUpRight className="w-3 h-3" />
+          Case Study
+        </span>
+      </div>
+    </Link>
+  )
+}
 
 /* ── Page ───────────────────────────────────────────────────── */
 export default function Home() {
   return (
-    <div className="max-w-4xl mx-auto space-y-10">
+    <div>
+      <Hero />
+
+      <div className="max-w-4xl mx-auto px-6 lg:px-8 py-8 space-y-8">
 
       {/* Hero split card */}
       <HeroCard />
@@ -142,22 +360,19 @@ export default function Home() {
       {/* Projects */}
       <section>
         <SectionHeader title="Featured Projects" href="/portfolio" />
-        <div className="grid gap-6">
-          {projects.slice(0, 2).map((project, i) => (
-            <ProjectCard key={i} project={project} />
-          ))}
+        <div className="grid grid-cols-2 gap-3">
+          <div className="col-span-2">
+            <FeaturedProjectCard project={projects[0]} tall />
+          </div>
+          <FeaturedProjectCard project={projects[1]} />
+          <FeaturedProjectCard project={projects[2]} />
         </div>
       </section>
 
-      {/* Process */}
-      <section>
-        <SectionHeader title="How I Work" />
-        <div className="space-y-4">
-          {developmentProcess.map((step, i) => (
-            <ProcessStep key={i} step={step} index={i} />
-          ))}
-        </div>
-      </section>
+
+      </div>
+
+      <HowIWork />
     </div>
   );
 }

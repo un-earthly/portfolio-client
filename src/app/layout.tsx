@@ -1,10 +1,9 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { geistMono, geistSans } from "@/mock-data";
-import DesktopAside from "@/components/desktopAside";
-import MobileInto from "@/components/mobileBanner";
 import MouseTracker from "@/components/MouseTracker";
 import Navbar from "@/components/drawer";
+import Footer from "@/components/footer";
 
 const BASE_URL = "https://alamin-md.xyz";
 
@@ -109,36 +108,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} bg-linear-to-b from-black to-gray-900 h-screen`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} bg-black text-white antialiased`}>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         <MouseTracker />
-
-        <div className="relative z-10 h-screen overflow-hidden">
-          <Navbar />
-
-          <main className="mx-auto px-4 lg:px-8">
-            <div className="grid lg:grid-cols-12 gap-8 pt-20">
-              <aside className="hidden lg:block lg:col-span-4">
-                <div className="sticky top-24">
-                  <DesktopAside />
-                </div>
-              </aside>
-
-              <div className="lg:hidden">
-                <MobileInto />
-              </div>
-
-              <div className="lg:col-span-8 lg:h-[calc(100vh-10rem)] h-[calc(100vh-20rem)] overflow-y-auto">
-                <div className="pb-16 lg:pb-24 w-full">{children}</div>
-              </div>
-            </div>
-          </main>
-        </div>
+        <Navbar />
+        <main className="min-h-screen">
+          {children}
+        </main>
+        <Footer />
       </body>
     </html>
   );
