@@ -2,15 +2,26 @@ import { marked, Renderer } from "marked";
 
 const renderer = new Renderer();
 
+// Escape HTML-significant characters so code containing angle brackets or
+// ampersands (e.g. Rust generics like Arc<Mutex<T>> or `&str`) renders as
+// literal text instead of being parsed as markup by the browser.
+function escapeHtml(text: string): string {
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
 const originalCode = renderer.code.bind(renderer);
 renderer.code = function ({ text, lang }) {
   if (lang === "mermaid") {
+    // Mermaid parses its own source (arrows like `-->`); keep it raw.
     return `<div class="mermaid">${text}</div>`;
   }
   const langLabel = lang
     ? `<span class="code-lang-label">${lang}</span>`
     : "";
-  return `<div class="code-block-wrapper">${langLabel}<pre class="code-pre"><code class="language-${lang || "text"}">${text}</code></pre></div>`;
+  return `<div class="code-block-wrapper">${langLabel}<pre class="code-pre"><code class="language-${lang || "text"}">${escapeHtml(text)}</code></pre></div>`;
 };
 
 renderer.blockquote = function ({ text }) {
@@ -40,11 +51,15 @@ renderer.hr = function () {
 
 renderer.link = function ({ href, title, text }) {
   const t = title ? ` title="${title}"` : "";
-  return `<a href="${href}"${t} target="_blank" rel="noopener noreferrer" class="blog-link">${text}</a>`;
+  // Internal links (site-relative paths or in-page anchors) navigate in the
+  // same tab; only external links open in a new tab.
+  const isInternal = /^(\/|#)/.test(href);
+  const target = isInternal ? "" : ` target="_blank" rel="noopener noreferrer"`;
+  return `<a href="${href}"${t}${target} class="blog-link">${text}</a>`;
 };
 
 renderer.codespan = function ({ text }) {
-  return `<code class="inline-code">${text}</code>`;
+  return `<code class="inline-code">${escapeHtml(text)}</code>`;
 };
 
 marked.use({ renderer });
