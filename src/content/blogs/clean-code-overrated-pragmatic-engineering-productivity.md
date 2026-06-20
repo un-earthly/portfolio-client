@@ -2,10 +2,11 @@
 title: "Clean Code" Is Killing Your Productivity and Your Team Doesn't Know It
 date: 2025-10-15
 tags: [clean code, software engineering, pragmatism, developer productivity, technical debt, code quality]
-metaDescription: Clean Code is treated as sacred in software engineering. But the cult of clean code is quietly destroying team velocity — here's the case for pragmatic engineering instead.
+metaDescription: Clean Code is treated as sacred in software engineering. But the cult of clean code is quietly destroying team velocity, here's the case for pragmatic engineering instead.
 readTime: 9
 type: hot-take
 excerpt: Clean Code by Robert Martin has sold millions of copies. It's also responsible for some of the most over-engineered, slow-to-ship codebases I've ever seen. Here's the case for pragmatic engineering over clean code orthodoxy.
+cover: '/blog-covers/laptop-code.jpg'
 ---
 
 Clean Code by Robert Martin has sold millions of copies. It's assigned reading at bootcamps. It's the reference engineers cite in code reviews when they reject a PR.
@@ -81,7 +82,7 @@ The costs that actually matter:
 
 ## The Engineers I Respect
 
-The engineers I respect most can write beautiful, clean code — and also write fast, ugly, working code when the situation calls for it. They know the difference.
+The engineers I respect most can write beautiful, clean code, and also write fast, ugly, working code when the situation calls for it. They know the difference.
 
 The clean code cultists don't. For them, every function is an opportunity to demonstrate adherence to the doctrine. That's not engineering. It's performance.
 

@@ -2,17 +2,18 @@
 title: I Modernized a 20-Year-Old VB.NET System Without Burning the Business Down
 date: 2025-10-20
 tags: [legacy modernization, VB.NET, Nuxt.js, MSSQL, migration, software engineering, case study]
-metaDescription: A technical case study on migrating a 20-year-old VB.NET monolith with millions of MSSQL records to a modern Nuxt.js stack — including strategy, pitfalls, and measurable results.
+metaDescription: A technical case study on migrating a 20-year-old VB.NET monolith with millions of MSSQL records to a modern Nuxt.js stack, including strategy, pitfalls, and measurable results.
 readTime: 20
 type: technical
-excerpt: Legacy modernization is the most underrated skill in software engineering. This is the Grimm Scientific case study — migrating a VB.NET monolith to Nuxt.js while the business ran uninterrupted, with 95% load time reduction.
+excerpt: Legacy modernization is the most underrated skill in software engineering. This is the Grimm Scientific case study, migrating a VB.NET monolith to Nuxt.js while the business ran uninterrupted, with 95% load time reduction.
+cover: '/blog-covers/server-room.jpg'
 ---
 
 Legacy modernization is the most underrated skill in software engineering.
 
 Everyone wants to build greenfield. Almost no one wants to touch the system that's been running since 2003, has no documentation, and directly controls the revenue of a real business. That's exactly what I signed up for at Masleap when I led the Grimm Scientific Industries migration.
 
-Grimm had a VB.NET desktop application sitting on top of a 20-year-old MSSQL database. Millions of records. Business logic embedded in stored procedures nobody fully understood. Queries that ran in nested loops written before JOIN optimization was a concern. The system worked — barely — and replacing it wrong would've taken the business down.
+Grimm had a VB.NET desktop application sitting on top of a 20-year-old MSSQL database. Millions of records. Business logic embedded in stored procedures nobody fully understood. Queries that ran in nested loops written before JOIN optimization was a concern. The system worked, barely, and replacing it wrong would've taken the business down.
 
 ## The System We Inherited
 
@@ -37,7 +38,7 @@ Classification mattered because the migration order followed it: pure retrieval 
 
 ## The Approach: Strangler Fig, Not Big Bang
 
-The worst mistake in legacy migration is trying to replace everything at once. I went strangler fig — run old and new in parallel, migrate surface by surface, validate against the live system.
+The worst mistake in legacy migration is trying to replace everything at once. I went strangler fig, run old and new in parallel, migrate surface by surface, validate against the live system.
 
 ```mermaid
 flowchart TD
@@ -96,7 +97,7 @@ class PayrollService {
 
 This was the most technically interesting phase. The original system had queries doing full table scans on tables with 18 million rows.
 
-A representative example — the attendance summary report, which previously took 87 seconds:
+A representative example, the attendance summary report, which previously took 87 seconds:
 
 ```sql
 -- BEFORE: cursor loop over 18M rows
@@ -226,10 +227,10 @@ Two mental models that matter here:
 
 Legacy modernization is 40% technical, 60% trust management.
 
-If you have a system that's too important to break and too outdated to maintain — that's exactly the engagement I specialize in.
+If you have a system that's too important to break and too outdated to maintain, that's exactly the engagement I specialize in.
 
 ---
 
 **Got a system that's too important to break and too outdated to maintain?**
 
-That's the exact problem I've been paid to solve. The strangler fig approach, the query profiling, the zero-downtime migration strategy — I've done this in production, on a live business, with real data. If you're facing a modernisation project and need an engineer who won't burn it down, [reach out](/contact).
+That's the exact problem I've been paid to solve. The strangler fig approach, the query profiling, the zero-downtime migration strategy, I've done this in production, on a live business, with real data. If you're facing a modernisation project and need an engineer who won't burn it down, [reach out](/contact).

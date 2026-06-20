@@ -2,17 +2,18 @@
 title: Your Side Project Is Not Failing Because of Execution. It's Failing Because Nobody Wants It.
 date: 2025-08-10
 tags: [side projects, product market fit, indie hacking, micro-SaaS, developer entrepreneurship, product development]
-metaDescription: Most developers blame execution for their failed side projects. The real reason is simpler and harder to hear — the market didn't want what you built.
+metaDescription: Most developers blame execution for their failed side projects. The real reason is simpler and harder to hear, the market didn't want what you built.
 readTime: 7
 type: hot-take
-excerpt: Every failed side project has the same autopsy — "I just didn't have time to market it." That's almost never true. Here's what's actually happening and how to build something the market actually wants.
+excerpt: Every failed side project has the same autopsy, "I just didn't have time to market it." That's almost never true. Here's what's actually happening and how to build something the market actually wants.
+cover: '/blog-covers/laptop-code.jpg'
 ---
 
 Every failed side project has the same autopsy: "I just didn't have time to market it."
 
 That's almost never true.
 
-What's true is that marketing revealed the actual answer — nobody wanted it badly enough to pay for it — and "I ran out of time" is a story that protects the ego from that conclusion.
+What's true is that marketing revealed the actual answer, nobody wanted it badly enough to pay for it, and "I ran out of time" is a story that protects the ego from that conclusion.
 
 ## The Developer Side Project Failure Pattern
 
@@ -50,9 +51,9 @@ Most developers skip this conversation entirely:
 
 Not "would you use this?" (people say yes to everything). Not "is this a problem?" (people say yes to avoid conflict). The full process walkthrough.
 
-If someone's current process is: open spreadsheet → copy from email → manually reformat → paste into another tool → send → wait for reply, and they do this 10 times a day and hate it — that's a market.
+If someone's current process is: open spreadsheet → copy from email → manually reformat → paste into another tool → send → wait for reply, and they do this 10 times a day and hate it, that's a market.
 
-If someone's current process is "we kind of deal with it" — that's not a market.
+If someone's current process is "we kind of deal with it", that's not a market.
 
 ## The Fix
 
@@ -60,7 +61,7 @@ It's not "launch faster" or "market harder." It's:
 
 - Talk to potential users **before** you write a line of code
 - Find the complaint first, build the complaint-solver second
-- Look for people actively paying for bad solutions — they've already voted with their wallet
+- Look for people actively paying for bad solutions, they've already voted with their wallet
 
 Execution can be improved. You cannot execute your way out of a market that doesn't exist.
 

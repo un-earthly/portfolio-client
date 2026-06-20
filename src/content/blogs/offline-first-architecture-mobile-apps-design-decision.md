@@ -2,10 +2,11 @@
 title: Offline-First Is Not a Feature. It's an Architecture Decision You Can't Bolt On Later.
 date: 2025-09-15
 tags: [offline-first, mobile development, software architecture, React Native, local-first, app development]
-metaDescription: Developers treat offline support as a feature to add before launch. It's not — offline-first is a foundational architectural decision that shapes every layer of your app.
+metaDescription: Developers treat offline support as a feature to add before launch. It's not, offline-first is a foundational architectural decision that shapes every layer of your app.
 readTime: 10
 type: hot-take
 excerpt: "We'll add offline support before launch" is the engineering equivalent of "we'll add tests after it's working." It reveals a misunderstanding of what offline-first actually is. Here's what it costs to get this wrong.
+cover: '/blog-covers/mobile-app.jpg'
 ---
 
 "We'll add offline support before launch" is the engineering equivalent of "we'll add tests after it's working." It reveals a misunderstanding of what offline-first actually is.
@@ -14,7 +15,7 @@ Offline support is not a feature. It's an architectural commitment that determin
 
 ## What "Online-First" Architecture Looks Like
 
-I've seen this pattern many times — and I inherited it on OurStoryz:
+I've seen this pattern many times, and I inherited it on OurStoryz:
 
 ```typescript
 // Online-first data fetching — the default pattern
@@ -109,7 +110,7 @@ The local database (Realm, WatermelonDB, SQLite) is the primary source of truth.
 
 ### 2. Conflict Resolution Policy
 
-When two devices modify the same record while disconnected and both sync — who wins? You need a policy before you write sync code:
+When two devices modify the same record while disconnected and both sync, who wins? You need a policy before you write sync code:
 
 - **Last-write-wins (LWW)**: simplest, loses concurrent updates
 - **Server-authoritative**: server always wins, predictable, limits offline functionality
@@ -134,7 +135,7 @@ flowchart LR
     end
 ```
 
-Error states shift from "network failed" to "sync conflict detected" — a much rarer and more actionable condition.
+Error states shift from "network failed" to "sync conflict detected", a much rarer and more actionable condition.
 
 ### 4. Transport Layer: Queues, Not Requests
 
@@ -168,7 +169,7 @@ The UI updates instantly. The server eventually gets the mutation. If the device
 
 ## The Refactor Cost Is Not Worth It
 
-If you're building a mobile app for any environment where connectivity is uncertain — field work, events, industrial settings, travel — don't add offline support. Start offline-first.
+If you're building a mobile app for any environment where connectivity is uncertain, field work, events, industrial settings, travel, don't add offline support. Start offline-first.
 
 The delta between an online-first and offline-first architecture is not additive. You're not adding a sync layer. You're inverting the data flow, redesigning the state model, and rebuilding the mutation layer. That's 70% of a new app.
 
@@ -177,4 +178,4 @@ The conversation you need to have with your product team before writing a line o
 
 ---
 
-> If you are at the "we need offline support" conversation right now — before the architecture is locked — that is the right time to bring me in. Retrofitting costs more than doing it right the first time. [Get in touch](/contact).
+> If you are at the "we need offline support" conversation right now, before the architecture is locked, that is the right time to bring me in. Retrofitting costs more than doing it right the first time. [Get in touch](/contact).

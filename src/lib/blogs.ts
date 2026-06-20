@@ -10,6 +10,7 @@ export interface BlogMeta {
   readTime: number;
   excerpt: string;
   type: "technical" | "hot-take";
+  cover: string;
 }
 
 export interface BlogPost extends BlogMeta {
@@ -60,6 +61,7 @@ export function getAllBlogs(): BlogMeta[] {
       readTime: Number(meta.readTime) || 5,
       excerpt: (meta.excerpt as string) || "",
       type: ((meta.type as "technical" | "hot-take") || "technical"),
+      cover: (meta.cover as string) || "/blog-covers/laptop-code.jpg",
     };
   });
   return blogs.sort(
@@ -81,6 +83,7 @@ export function getBlogBySlug(slug: string): BlogPost | null {
     readTime: Number(meta.readTime) || 5,
     excerpt: (meta.excerpt as string) || "",
     type: (meta.type as "technical" | "hot-take") || "technical",
+    cover: (meta.cover as string) || "/blog-covers/laptop-code.jpg",
     content: body,
   };
 }

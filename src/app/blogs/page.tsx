@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { getAllBlogs } from "@/lib/blogs";
-import { ArrowRight, Clock, ArrowUpRight } from "lucide-react";
+import { ArrowRight, Clock } from "lucide-react";
 import BlogGrid from "@/components/BlogGrid";
 
 export const metadata: Metadata = {
@@ -20,10 +21,21 @@ export const metadata: Metadata = {
 function FeaturedPost({ blog }: { blog: ReturnType<typeof getAllBlogs>[number] }) {
   return (
     <Link href={`/blogs/${blog.slug}`} className="group block mb-8">
-      <div className="relative rounded-2xl overflow-hidden border border-slate-800 bg-linear-to-br from-slate-900 via-slate-900 to-slate-800 hover:border-cyan-500/40 transition-all duration-300">
-        {/* Decorative glows */}
-        <div className="absolute top-0 right-0 w-72 h-72 rounded-full bg-cyan-500/5 blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-48 h-48 rounded-full bg-blue-500/5 blur-3xl pointer-events-none" />
+      <div className="relative rounded-2xl overflow-hidden border border-slate-800 hover:border-cyan-500/40 transition-all duration-300">
+        {/* Cover image */}
+        {blog.cover && (
+          <div className="relative w-full h-64 lg:h-80">
+            <Image
+              src={blog.cover}
+              alt={blog.title}
+              fill
+              className="object-cover group-hover:scale-105 transition-transform duration-500"
+              sizes="(max-width: 1024px) 100vw, 896px"
+              priority
+            />
+            <div className="absolute inset-0 bg-linear-to-t from-slate-900 via-slate-900/60 to-transparent" />
+          </div>
+        )}
 
         <div className="relative p-8 lg:p-10">
           {/* Meta row */}
@@ -76,7 +88,7 @@ export default function BlogsPage() {
   const [featured, ...rest] = blogs;
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="max-w-4xl mx-auto pt-16">
       {/* Page header */}
       <div className="flex items-end justify-between mb-8">
         <div>

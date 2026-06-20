@@ -2,15 +2,16 @@
 title: I Built a Multi-Agent AI System That Runs My Business While I Sleep
 date: 2025-10-05
 tags: [AI agents, multi-agent systems, LLM, automation, local AI, Ollama, Telegram, software engineering]
-metaDescription: How I built a four-agent AI system using local LLMs (Ollama), Telegram, and a kanban board to automate business operations — without spending a dollar on API calls.
+metaDescription: How I built a four-agent AI system using local LLMs (Ollama), Telegram, and a kanban board to automate business operations, without spending a dollar on API calls.
 readTime: 16
 type: technical
-excerpt: I run a small incense brand alongside my engineering work. I don't have time to be the operator. So I built agents to do it — a four-agent system on local LLMs with zero cloud AI cost, running on my own hardware.
+excerpt: I run a small incense brand alongside my engineering work. I don't have time to be the operator. So I built agents to do it, a four-agent system on local LLMs with zero cloud AI cost, running on my own hardware.
+cover: '/blog-covers/ai-brain.jpg'
 ---
 
 I run a small incense brand called Insencetic alongside my engineering work. I don't have time to be the operator. So I built agents to do it.
 
-This isn't a tutorial about GPT wrappers. This is about building a real multi-agent system with local LLMs, persistent state, and actual task delegation — running on my own hardware, zero cloud AI costs.
+This isn't a tutorial about GPT wrappers. This is about building a real multi-agent system with local LLMs, persistent state, and actual task delegation, running on my own hardware, zero cloud AI costs.
 
 ## The Stack
 
@@ -31,15 +32,15 @@ flowchart TD
     Planka --> CA
 ```
 
-- **OpenClaw** — multi-agent orchestration framework handling agent lifecycle and routing
-- **Planka** — self-hosted kanban (open-source Trello equivalent) as the shared state layer
-- **Telegram** — the human interface (I send goals, receive qualified updates)
-- **Ollama** — local LLM inference, no API keys, no data leaving the server
-- **SearXNG** — self-hosted meta-search for real-time data access
+- **OpenClaw**: multi-agent orchestration framework handling agent lifecycle and routing
+- **Planka**: self-hosted kanban (open-source Trello equivalent) as the shared state layer
+- **Telegram**: the human interface (I send goals, receive qualified updates)
+- **Ollama**: local LLM inference, no API keys, no data leaving the server
+- **SearXNG**: self-hosted meta-search for real-time data access
 
 ## The Agent Architecture
 
-Four agents. Strict role separation. Role leakage — where one agent starts doing another's job — is the primary failure mode in multi-agent systems.
+Four agents. Strict role separation. Role leakage, where one agent starts doing another's job, is the primary failure mode in multi-agent systems.
 
 ### CEO Agent
 
@@ -81,7 +82,7 @@ class CEOAgent:
 
 ### PM Agent
 
-Owns all card creation on Planka. Takes CEO delegation, breaks every objective into three or more concrete tasks, assigns to the right agent, sets due dates. The PM agent is the most heavily prompted — it must enforce the rule that vague goals produce concrete, atomic, assignable cards.
+Owns all card creation on Planka. Takes CEO delegation, breaks every objective into three or more concrete tasks, assigns to the right agent, sets due dates. The PM agent is the most heavily prompted, it must enforce the rule that vague goals produce concrete, atomic, assignable cards.
 
 ```python
 CARD_SCHEMA = {
@@ -187,10 +188,10 @@ Still rough:
 
 I removed myself as the bottleneck for operational tasks. The agents handle the pipeline from goal to reviewable output. I do final review, not first draft. For a side business running alongside a full-time engineering role, that's the difference between active and dormant.
 
-The architectural lesson: the value of a multi-agent system is not that agents are smart. It's that you've encoded a process — with roles, contracts, and state — that runs without your attention. The intelligence is in the design of the process, not the LLM.
+The architectural lesson: the value of a multi-agent system is not that agents are smart. It's that you've encoded a process, with roles, contracts, and state, that runs without your attention. The intelligence is in the design of the process, not the LLM.
 
-That's the real value proposition of agentic systems — not replacing human judgment, but eliminating the busywork that sits in front of it.
+That's the real value proposition of agentic systems, not replacing human judgment, but eliminating the busywork that sits in front of it.
 
 ---
 
-I'm currently taking on a small number of contract engagements. If you're building agentic systems, need AI integrated into an existing product, or want to explore what local LLMs can do for your workflow — [get in touch](/contact). I work well with technical founders and engineering leads who want a practitioner, not a consultant who demos ChatGPT.
+I'm currently taking on a small number of contract engagements. If you're building agentic systems, need AI integrated into an existing product, or want to explore what local LLMs can do for your workflow, [get in touch](/contact). I work well with technical founders and engineering leads who want a practitioner, not a consultant who demos ChatGPT.

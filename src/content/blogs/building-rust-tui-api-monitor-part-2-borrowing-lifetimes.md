@@ -2,10 +2,11 @@
 title: "Borrowed Value Does Not Live Long Enough: Building a Terminal API Monitor, Part 2"
 date: 2026-06-12
 tags: [Rust, borrowing, lifetimes, references, serde, zero-copy deserialization, slices, borrow checker, JSON, TUI series]
-metaDescription: Part 2 of building a terminal API monitor in Rust. We parse JSON health responses with serde and walk straight into lifetimes — shared vs mutable borrows, the aliasing rule, zero-copy deserialization, and the dreaded "does not live long enough" error.
+metaDescription: Part 2 of building a terminal API monitor in Rust. We parse JSON health responses with serde and walk straight into lifetimes, shared vs mutable borrows, the aliasing rule, zero-copy deserialization, and the dreaded "does not live long enough" error.
 readTime: 14
 type: technical
-excerpt: Ownership was the warm-up. The error that actually broke my brain was "borrowed value does not live long enough." This is the part where serde, borrowing rules, and lifetimes collide while parsing an API response — and where Rust's reputation for difficulty is earned and then justified. Part 2 of 5.
+excerpt: Ownership was the warm-up. The error that actually broke my brain was "borrowed value does not live long enough." This is the part where serde, borrowing rules, and lifetimes collide while parsing an API response, and where Rust's reputation for difficulty is earned and then justified. Part 2 of 5.
+cover: '/blog-covers/rust-code.jpg'
 ---
 
 In [Part 1](/blogs/building-rust-tui-api-monitor-part-1-ownership) I learned that a value has one owner and that using it after a move is a compile error. That rule is strict but, honestly, easy. You move things, you stop touching the old name, you move on.
@@ -23,19 +24,19 @@ error[E0515]: cannot return value referencing local variable `body`
    |     returns a value referencing data owned by the current function
 ```
 
-This one took me a day. Not because the fix is hard — the fix is two characters — but because to understand *why* it's an error you have to hold the entire borrowing-and-lifetimes model in your head at once. This is the post where that model gets built, on top of a real task: turning a JSON health response into Rust data we can hold onto.
+This one took me a day. Not because the fix is hard, the fix is two characters, but because to understand *why* it's an error you have to hold the entire borrowing-and-lifetimes model in your head at once. This is the post where that model gets built, on top of a real task: turning a JSON health response into Rust data we can hold onto.
 
-> **TL;DR** — A reference (`&T`) borrows a value without owning it. The rules: you may have *either* any number of shared borrows (`&T`) *or* exactly one exclusive borrow (`&mut T`), never both at once. Every reference has a *lifetime* — a region of code for which it is valid — and the compiler refuses to let a reference outlive the value it points to. That single guarantee eliminates dangling pointers and iterator invalidation at compile time. serde's zero-copy deserialization is the most useful place to feel all of this at once.
+> **TL;DR**: A reference (`&T`) borrows a value without owning it. The rules: you may have *either* any number of shared borrows (`&T`) *or* exactly one exclusive borrow (`&mut T`), never both at once. Every reference has a *lifetime*, a region of code for which it is valid, and the compiler refuses to let a reference outlive the value it points to. That single guarantee eliminates dangling pointers and iterator invalidation at compile time. serde's zero-copy deserialization is the most useful place to feel all of this at once.
 
 ---
 
 ## The Series
 
-1. [Part 1 — Ownership and the borrow checker](/blogs/building-rust-tui-api-monitor-part-1-ownership)
-2. **Part 2 — Borrowing, lifetimes, and serde** *(you are here)*
-3. [Part 3 — Async, Tokio, and sharing state across tasks](/blogs/building-rust-tui-api-monitor-part-3-async-tokio-concurrency)
-4. [Part 4 — The TUI with ratatui, error handling, and RAII cleanup](/blogs/building-rust-tui-api-monitor-part-4-ratatui-error-handling)
-5. [Part 5 — Traits, iterators, zero-cost abstractions, and the release build](/blogs/building-rust-tui-api-monitor-part-5-traits-performance-release)
+1. [Part 1, Ownership and the borrow checker](/blogs/building-rust-tui-api-monitor-part-1-ownership)
+2. **Part 2, Borrowing, lifetimes, and serde** *(you are here)*
+3. [Part 3, Async, Tokio, and sharing state across tasks](/blogs/building-rust-tui-api-monitor-part-3-async-tokio-concurrency)
+4. [Part 4, The TUI with ratatui, error handling, and RAII cleanup](/blogs/building-rust-tui-api-monitor-part-4-ratatui-error-handling)
+5. [Part 5, Traits, iterators, zero-cost abstractions, and the release build](/blogs/building-rust-tui-api-monitor-part-5-traits-performance-release)
 
 ---
 
@@ -77,7 +78,7 @@ fn main() {
 }
 ```
 
-`#[derive(Deserialize)]` is a macro that writes the field-by-field parsing code for you at compile time. There is no reflection, no runtime schema walking — by the time the program runs, `from_str` is monomorphized machine code that knows exactly how to fill a `Health`. This works and it owns its data: each `String` field is a fresh heap allocation copied out of `body`. Fine for three fields. But it copies every string, and that nagged at me, because the bytes are *right there* in `body` already.
+`#[derive(Deserialize)]` is a macro that writes the field-by-field parsing code for you at compile time. There is no reflection, no runtime schema walking, by the time the program runs, `from_str` is monomorphized machine code that knows exactly how to fill a `Health`. This works and it owns its data: each `String` field is a fresh heap allocation copied out of `body`. Fine for three fields. But it copies every string, and that nagged at me, because the bytes are *right there* in `body` already.
 
 ---
 
@@ -87,8 +88,8 @@ A reference lets you access a value without owning it. You write `&value` to cre
 
 There are two kinds, and the distinction is the whole game:
 
-- `&T` — a **shared** (immutable) borrow. Read-only. You can have as many as you want at the same time.
-- `&mut T` — an **exclusive** (mutable) borrow. Read-write. You can have exactly one, and no shared borrows may coexist with it.
+- `&T`, a **shared** (immutable) borrow. Read-only. You can have as many as you want at the same time.
+- `&mut T`, an **exclusive** (mutable) borrow. Read-write. You can have exactly one, and no shared borrows may coexist with it.
 
 This is the borrowing rule, and it is worth stating as a slogan: **shared XOR mutable**. Many readers, or one writer, never both. The compiler enforces it everywhere, always.
 
@@ -107,7 +108,7 @@ This is the borrowing rule, and it is worth stating as a slogan: **shared XOR mu
       <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
     </marker>
   </defs>
-  <text class="lbl" x="20" y="26">Allowed — any number of shared (&amp;T) borrows</text>
+  <text class="lbl" x="20" y="26">Allowed, any number of shared (&amp;T) borrows</text>
   <rect x="120" y="44" width="120" height="38" rx="6" fill="#EAF3DE" stroke="#639922" stroke-width="1.2"/>
   <text class="mono" x="180" y="68" text-anchor="middle">data: Health</text>
   <rect x="20"  y="120" width="80" height="30" rx="6" fill="#E6F1FB" stroke="#378ADD" stroke-width="1"/>
@@ -121,7 +122,7 @@ This is the borrowing rule, and it is worth stating as a slogan: **shared XOR mu
   <line x1="190" y1="82" x2="300" y2="118" stroke="#378ADD" stroke-width="1.3" marker-end="url(#b1)"/>
   <text class="ok" x="120" y="172">✓ readers can't trip over each other</text>
   <line x1="360" y1="20" x2="360" y2="280" stroke="#D3D1C7" stroke-width="1"/>
-  <text class="lbl" x="380" y="26">Allowed — exactly one exclusive (&amp;mut T) borrow</text>
+  <text class="lbl" x="380" y="26">Allowed, exactly one exclusive (&amp;mut T) borrow</text>
   <rect x="470" y="44" width="120" height="38" rx="6" fill="#EAF3DE" stroke="#639922" stroke-width="1.2"/>
   <text class="mono" x="530" y="68" text-anchor="middle">data: Health</text>
   <rect x="470" y="120" width="120" height="30" rx="6" fill="#FAEEDA" stroke="#BA7517" stroke-width="1.2"/>
@@ -153,13 +154,13 @@ error[E0502]: cannot borrow `targets` as mutable because it is also
               borrowed as immutable
 ```
 
-In C++ this compiles and is a landmine. `push` may need a bigger backing buffer; if it reallocates, every existing reference into the vector — including `first` — now points at freed memory. Reading `first` afterward is undefined behavior. In Python or Java you don't get the dangling pointer, but mutating a collection while iterating it throws at runtime if you're lucky and silently corrupts your logic if you're not. Rust turns the entire family of "mutate-while-aliased" bugs into a compile error. You reorganize the code; you never ship the crash.
+In C++ this compiles and is a landmine. `push` may need a bigger backing buffer; if it reallocates, every existing reference into the vector, including `first`, now points at freed memory. Reading `first` afterward is undefined behavior. In Python or Java you don't get the dangling pointer, but mutating a collection while iterating it throws at runtime if you're lucky and silently corrupts your logic if you're not. Rust turns the entire family of "mutate-while-aliased" bugs into a compile error. You reorganize the code; you never ship the crash.
 
 ---
 
 ## Slices: Borrowing a Window
 
-A reference doesn't have to point at a whole value. A **slice** borrows a contiguous run of one. `&str` is a slice into a `String`'s bytes; `&[T]` is a slice into a `Vec<T>`'s elements. They're just a pointer and a length — no allocation, no copy.
+A reference doesn't have to point at a whole value. A **slice** borrows a contiguous run of one. `&str` is a slice into a `String`'s bytes; `&[T]` is a slice into a `Vec<T>`'s elements. They're just a pointer and a length, no allocation, no copy.
 
 ```rust
 let url = String::from("https://example.test/health");
@@ -172,7 +173,7 @@ let scheme: &str = &url[0..5];   // borrows "https" — points into url's buffer
 
 ## Lifetimes: How Long a Borrow Is Valid
 
-A lifetime is the span of code during which a reference is guaranteed to point at something alive. Most of the time the compiler infers it and you never write a thing. It surfaces when you write references whose validity it can't figure out on its own — most commonly, returning a reference from a function.
+A lifetime is the span of code during which a reference is guaranteed to point at something alive. Most of the time the compiler infers it and you never write a thing. It surfaces when you write references whose validity it can't figure out on its own, most commonly, returning a reference from a function.
 
 Here is the error from the top of the post, in full. I wanted a helper that fetches and parses in one step, returning a borrowed view:
 
@@ -190,7 +191,7 @@ fn fetch_health() -> HealthRef {       // returns a borrow... of what?
 } // <- `body` is dropped here
 ```
 
-`HealthRef` doesn't copy strings; its `&'a str` fields *borrow* slices out of the JSON text. The `<'a>` is a lifetime parameter — it says "this struct holds references that live for some region `'a`, and the struct must not outlive it." So `fetch_health` is trying to return a value that borrows from `body`, and then drops `body` on the way out. The returned reference would point at freed memory. That's a dangling pointer, and it's the single most exploited bug class in systems software. The compiler refuses:
+`HealthRef` doesn't copy strings; its `&'a str` fields *borrow* slices out of the JSON text. The `<'a>` is a lifetime parameter, it says "this struct holds references that live for some region `'a`, and the struct must not outlive it." So `fetch_health` is trying to return a value that borrows from `body`, and then drops `body` on the way out. The returned reference would point at freed memory. That's a dangling pointer, and it's the single most exploited bug class in systems software. The compiler refuses:
 
 ```text
 error[E0515]: cannot return value referencing local variable `body`
@@ -198,7 +199,7 @@ error[E0515]: cannot return value referencing local variable `body`
 
 <svg width="100%" viewBox="0 0 680 280" role="img" xmlns="http://www.w3.org/2000/svg">
   <title>Dangling reference: a returned borrow outliving the local buffer it points into</title>
-  <desc>Timeline showing a local String buffer being created, a reference borrowing into it, the buffer dropping at function exit, and the reference left dangling — rejected by the compiler</desc>
+  <desc>Timeline showing a local String buffer being created, a reference borrowing into it, the buffer dropping at function exit, and the reference left dangling, rejected by the compiler</desc>
   <style>
     .lbl  { font-family: -apple-system, system-ui, sans-serif; font-size: 13px; fill: #444441; font-weight: 600; }
     .sub  { font-family: -apple-system, system-ui, sans-serif; font-size: 11px; fill: #5F5E5A; }
@@ -223,7 +224,7 @@ error[E0515]: cannot return value referencing local variable `body`
 
 There are two honest fixes, and choosing between them is the same trade-off from Part 1 wearing a new outfit.
 
-**Fix A — own the data.** Use the `Health` struct with `String` fields. It copies the bytes out, so it depends on nothing once parsed and can be returned freely. Costs allocations.
+**Fix A, own the data.** Use the `Health` struct with `String` fields. It copies the bytes out, so it depends on nothing once parsed and can be returned freely. Costs allocations.
 
 ```rust
 fn fetch_health() -> Health {                 // owns everything
@@ -232,7 +233,7 @@ fn fetch_health() -> Health {                 // owns everything
 } // body drops, but Health doesn't point into it — fine
 ```
 
-**Fix B — let the caller own the buffer.** Keep the zero-copy `HealthRef`, but take the buffer as a borrowed argument so its lifetime is the caller's problem, not ours. The `'a` ties the output to the input: the result lives as long as the buffer does.
+**Fix B, let the caller own the buffer.** Keep the zero-copy `HealthRef`, but take the buffer as a borrowed argument so its lifetime is the caller's problem, not ours. The `'a` ties the output to the input: the result lives as long as the buffer does.
 
 ```rust
 fn parse_health<'a>(body: &'a str) -> HealthRef<'a> {
@@ -252,18 +253,18 @@ That `<'a>` is the entire lifetime syntax most people ever need. It's not descri
 
 ## Owned vs Borrowed: The Decision You'll Make Constantly
 
-Zero-copy parsing is genuinely faster — serde can deserialize a `HealthRef` borrowing straight out of the network buffer with zero string allocations. But the borrow chains you to the buffer's lifetime. Owned parsing costs allocations but the result is self-contained. This is one of the most common design decisions in Rust, and there is no universal right answer:
+Zero-copy parsing is genuinely faster, serde can deserialize a `HealthRef` borrowing straight out of the network buffer with zero string allocations. But the borrow chains you to the buffer's lifetime. Owned parsing costs allocations but the result is self-contained. This is one of the most common design decisions in Rust, and there is no universal right answer:
 
 | | Borrowed (`&'a str` fields) | Owned (`String` fields) |
 |---|---|---|
 | Allocations on parse | Zero | One per string field |
-| Can outlive the source buffer | No — tied to its lifetime | Yes — fully independent |
+| Can outlive the source buffer | No, tied to its lifetime | Yes, fully independent |
 | Can be stored in a long-lived struct | Awkward (lifetime spreads everywhere) | Easy |
 | Best for | Parse, read, discard in one scope | Keep, move between threads, store |
 
-For `pulse`, the parsed health data needs to survive across refresh cycles and — spoiler for Part 3 — get sent between threads. That makes the answer easy: **own it.** The `Health` struct with `String` fields is what we keep. The zero-copy version was worth building only to understand why we're *not* using it, and to feel where lifetimes come from.
+For `pulse`, the parsed health data needs to survive across refresh cycles and, spoiler for Part 3, get sent between threads. That makes the answer easy: **own it.** The `Health` struct with `String` fields is what we keep. The zero-copy version was worth building only to understand why we're *not* using it, and to feel where lifetimes come from.
 
-This is a recurring rhythm in Rust. You reach for the clever borrowed version, the lifetime requirements infect everything that touches it, and you back off to owned data because the ergonomics are worth a few allocations. Knowing *when* the clever version pays off — hot parse loops, huge payloads — is most of the skill.
+This is a recurring rhythm in Rust. You reach for the clever borrowed version, the lifetime requirements infect everything that touches it, and you back off to owned data because the ergonomics are worth a few allocations. Knowing *when* the clever version pays off, hot parse loops, huge payloads, is most of the skill.
 
 ---
 
@@ -277,6 +278,6 @@ This is a recurring rhythm in Rust. You reach for the clever borrowed version, t
 - Every reference has a **lifetime**; the compiler forbids a reference from outliving its referent, which is why returning a borrow of a local fails.
 - **Owned vs borrowed** is a constant, deliberate trade-off. For data that must travel and persist, own it.
 
-We've been making one request at a time and blocking the whole program while the network does its thing. A monitor watching a dozen services that way would spend most of its life asleep waiting on sockets, one at a time. The fix is concurrency — poll everything at once — and concurrency is where Rust's ownership rules go from helpful to genuinely magic. The compiler can prove your threads don't race.
+We've been making one request at a time and blocking the whole program while the network does its thing. A monitor watching a dozen services that way would spend most of its life asleep waiting on sockets, one at a time. The fix is concurrency, poll everything at once, and concurrency is where Rust's ownership rules go from helpful to genuinely magic. The compiler can prove your threads don't race.
 
-**Next:** [Part 3 — Async, Tokio, and sharing state across tasks](/blogs/building-rust-tui-api-monitor-part-3-async-tokio-concurrency), where `Send`, `Sync`, and `Arc<Mutex<T>>` turn "fearless concurrency" from a slogan into something you can feel.
+**Next:** [Part 3, Async, Tokio, and sharing state across tasks](/blogs/building-rust-tui-api-monitor-part-3-async-tokio-concurrency), where `Send`, `Sync`, and `Arc<Mutex<T>>` turn "fearless concurrency" from a slogan into something you can feel.

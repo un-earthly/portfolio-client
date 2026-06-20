@@ -6,6 +6,7 @@ metaDescription: A complete technical breakdown of consistent hashing: the hash 
 readTime: 14
 type: technical
 excerpt: When you add one server and your app goes down, the culprit is almost always naive load distribution. Consistent hashing solves this by moving only K/N keys instead of nearly all of them. Here's the mechanism, the implementation, and benchmarks that show the real difference.
+cover: '/blog-covers/circuit-algorithms.jpg'
 ---
 
 Your app just hit a million monthly users. Then you added one server. Then everything went down.
@@ -14,13 +15,13 @@ This happens more than people admit, and the cause is almost always the same: na
 
 When you have millions of users, you cannot store everything on one machine. You spread the data across many servers. The question is: when a request comes in, which server holds the answer?
 
-The obvious approach is to take the user ID, divide by the number of servers, and use the remainder. User 1001 with 10 servers goes to server 1. Simple. It works — until you add an eleventh server.
+The obvious approach is to take the user ID, divide by the number of servers, and use the remainder. User 1001 with 10 servers goes to server 1. Simple. It works, until you add an eleventh server.
 
 Now you divide by 11 instead of 10, and almost every user maps to a different server than before. Your cache is suddenly useless. Every request misses. Your database gets hit by the full force of a million users at once. The site goes down at the exact moment you were trying to scale it up.
 
 This is the cruel irony of naive distribution: **the moment you grow is the moment you break.**
 
-> **TL;DR** — Consistent hashing maps both keys and nodes onto a fixed circular keyspace so that adding or removing a node relocates only `K/N` keys instead of nearly all of them. Virtual nodes fix the uneven-distribution problem. This post covers the mechanism, the implementation, and benchmarks showing the real difference under node churn.
+> **TL;DR**: Consistent hashing maps both keys and nodes onto a fixed circular keyspace so that adding or removing a node relocates only `K/N` keys instead of nearly all of them. Virtual nodes fix the uneven-distribution problem. This post covers the mechanism, the implementation, and benchmarks showing the real difference under node churn.
 
 ---
 
@@ -85,7 +86,7 @@ The diagram below shows the catastrophe visually. Each key is colored by which n
     <rect x="570" y="215" width="50" height="40" rx="6" fill="#CECBF6"/><text class="keytxt" x="580" y="239">k10→0</text>
     <rect x="625" y="215" width="50" height="40" rx="6" fill="#9FE1CB"/><text class="keytxt" x="634" y="239">k11→1</text>
   </g>
-  <text class="sub" x="20" y="295">Keys that changed node: k4 through k11 — 8 of 12 (67%). At realistic scale (N=10→11) this is ~90%.</text>
+  <text class="sub" x="20" y="295">Keys that changed node: k4 through k11, 8 of 12 (67%). At realistic scale (N=10→11) this is ~90%.</text>
   <text class="sub" x="20" y="315">Every changed key is a cache miss. A million of them at once is a backend outage.</text>
 </svg>
 
@@ -138,7 +139,7 @@ This is the entire idea. The redistribution is bounded by the size of one arc, n
   <text class="key-t" x="80" y="178">k4 → A</text>
   <circle cx="240" cy="95" r="7" fill="#B5D4F4"/>
   <text class="key-t" x="150" y="92">k5 → A</text>
-  <text class="lbl" x="20" y="455">Each key is owned by the first node clockwise. Remove Node B and only k1, k2 move — to C. A and its keys never move.</text>
+  <text class="lbl" x="20" y="455">Each key is owned by the first node clockwise. Remove Node B and only k1, k2 move, to C. A and its keys never move.</text>
 </svg>
 
 ---
@@ -255,7 +256,7 @@ The following numbers come from a simulation distributing 1,000,000 keys across 
 | 20 → 21 | ~952,000 (95.2%) | ~46,000 (4.6%)  | 20.7× |
 | 50 → 51 | ~980,000 (98.0%) | ~19,000 (1.9%)  | 51.6× |
 
-The pattern is exact and predictable: consistent hashing moves approximately `K/(N+1)` keys, while modulo hashing moves approximately `K · N/(N+1)`. The larger your cluster, the more dramatic the advantage — which is precisely the direction every growing system moves in.
+The pattern is exact and predictable: consistent hashing moves approximately `K/(N+1)` keys, while modulo hashing moves approximately `K · N/(N+1)`. The larger your cluster, the more dramatic the advantage, which is precisely the direction every growing system moves in.
 
 <svg width="100%" viewBox="0 0 680 380" role="img" xmlns="http://www.w3.org/2000/svg">
   <title>Key redistribution comparison bar chart</title>
@@ -318,4 +319,4 @@ For anyone building or funding software: scaling is not about adding more machin
 
 With naive hashing, adding one server to a cluster of ten reshuffles roughly 90 percent of your data. With consistent hashing, it moves about 9 percent. That difference is the line between a smooth scaling event and a 3 AM outage.
 
-If your engineering team cannot explain how their system behaves when a server is added or removed under load, that is a risk worth asking about before your next growth phase — not after.
+If your engineering team cannot explain how their system behaves when a server is added or removed under load, that is a risk worth asking about before your next growth phase, not after.

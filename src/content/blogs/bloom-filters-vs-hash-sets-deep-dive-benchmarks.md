@@ -6,9 +6,10 @@ metaDescription: A complete technical breakdown of Bloom filters versus hash set
 readTime: 12
 type: technical
 excerpt: At ten million items, a well-tuned Bloom filter uses ~9MB where a hash set uses ~320MB. The right choice depends on your tolerance for false positives and the cost of your fallback operation. Here's the math, the implementation, and benchmarks.
+cover: '/blog-covers/data-viz.jpg'
 ---
 
-> **TL;DR** — A Bloom filter answers "is this definitely not in the set?" in O(1) time using a bit array. It trades a tunable false positive rate for dramatic memory savings. At ten million items, a well-tuned Bloom filter uses ~9MB where a hash set uses ~320MB. The right choice depends on your tolerance for false positives and the cost of your fallback operation.
+> **TL;DR**: A Bloom filter answers "is this definitely not in the set?" in O(1) time using a bit array. It trades a tunable false positive rate for dramatic memory savings. At ten million items, a well-tuned Bloom filter uses ~9MB where a hash set uses ~320MB. The right choice depends on your tolerance for false positives and the cost of your fallback operation.
 
 ---
 
@@ -20,7 +21,7 @@ A hash set gives you exact answers at full memory cost. A Bloom filter gives you
 
 A false negative (the filter says "not present" when the item is actually there) is catastrophic in most systems. A Bloom filter never produces false negatives. This is the guarantee the algorithm is built on.
 
-A false positive (the filter says "might be present" when it is not) is expensive but survivable. You do unnecessary work — a database lookup, a cache fetch — and find nothing. You pay the cost of the fallback operation, not the cost of correctness.
+A false positive (the filter says "might be present" when it is not) is expensive but survivable. You do unnecessary work, a database lookup, a cache fetch, and find nothing. You pay the cost of the fallback operation, not the cost of correctness.
 
 If your fallback operation is cheap, false positives cost almost nothing. If your fallback is a database read under heavy load, you want the false positive rate tuned low. This is not a data structure decision. It is a cost accounting decision.
 
@@ -66,7 +67,7 @@ The "definitely not present" guarantee comes directly from the structure: insert
     .hit  { font-family: ui-monospace, monospace; font-size: 12px; fill: #042C53; font-weight: 600; }
     .miss { font-family: ui-monospace, monospace; font-size: 12px; fill: #A32D2D; font-weight: 600; }
   </style>
-  <text class="lbl" x="20" y="28">Bit array — 16 bits, k=3 hash functions</text>
+  <text class="lbl" x="20" y="28">Bit array, 16 bits, k=3 hash functions</text>
   <g>
     <rect x="20"  y="55" width="35" height="35" rx="5" fill="#B5D4F4" stroke="#378ADD" stroke-width="1"/>
     <text class="hit" x="37"  y="77" text-anchor="middle">1</text>
@@ -118,7 +119,7 @@ The "definitely not present" guarantee comes directly from the structure: insert
     <text class="sub" x="592" y="107" text-anchor="middle">15</text>
   </g>
   <text class="lbl" x="20" y="140">Inserted: "alice" → bits 2, 7, 13 set | "bob" → bits 0, 7, 11 set</text>
-  <text class="lbl" x="20" y="175">Lookup: "alice" — check bits 2, 7, 13</text>
+  <text class="lbl" x="20" y="175">Lookup: "alice", check bits 2, 7, 13</text>
   <rect x="94"  y="190" width="35" height="30" rx="5" fill="#9FE1CB" stroke="#0F6E56" stroke-width="1.5"/>
   <text class="hit" x="111" y="209" text-anchor="middle">1</text>
   <rect x="279" y="190" width="35" height="30" rx="5" fill="#9FE1CB" stroke="#0F6E56" stroke-width="1.5"/>
@@ -126,7 +127,7 @@ The "definitely not present" guarantee comes directly from the structure: insert
   <rect x="501" y="190" width="35" height="30" rx="5" fill="#9FE1CB" stroke="#0F6E56" stroke-width="1.5"/>
   <text class="hit" x="518" y="209" text-anchor="middle">1</text>
   <text class="mono" x="630" y="209">→ PRESENT</text>
-  <text class="lbl" x="20" y="250">Lookup: "carol" — check bits 4, 9, 14 (none set)</text>
+  <text class="lbl" x="20" y="250">Lookup: "carol", check bits 4, 9, 14 (none set)</text>
   <rect x="168" y="265" width="35" height="30" rx="5" fill="#F7C1C1" stroke="#E24B4A" stroke-width="1.5"/>
   <text class="miss" x="185" y="284" text-anchor="middle">0</text>
   <rect x="353" y="265" width="35" height="30" rx="5" fill="#F7C1C1" stroke="#E24B4A" stroke-width="1.5"/>
@@ -315,7 +316,7 @@ All measurements on a single core, 10 million items, Python 3.11. Java and Go im
 | Lookup (miss) | ~5.1M ops/s | ~2.6M ops/s | BF exits early on first 0 bit |
 | Lookup (hit) | ~4.8M ops/s | ~1.9M ops/s | BF must check all k positions |
 
-The hash set wins on raw throughput. The Bloom filter wins on memory by nearly 50×. In memory-constrained environments (embedded, serverless, edge), this is not a tradeoff — it is the only viable choice.
+The hash set wins on raw throughput. The Bloom filter wins on memory by nearly 50×. In memory-constrained environments (embedded, serverless, edge), this is not a tradeoff, it is the only viable choice.
 
 **False positive empirical validation (10M inserts, 1M non-member queries):**
 

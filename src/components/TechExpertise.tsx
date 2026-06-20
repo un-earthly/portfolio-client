@@ -1,5 +1,4 @@
 'use client'
-import { motion } from 'motion/react'
 import {
   TypeScript, JavaScript, React as ReactIcon, Redux, VueJs, NuxtJs, NextJs,
   NodeJs, NestJS, GraphQL, MongoDB, PostgreSQL, MySQL, MicrosoftSQLServer,
@@ -67,7 +66,7 @@ const TECH_ITEMS: TechItem[] = [
   { label: 'ChatGPT',       Icon: ChatGPT },
   { label: 'Copilot',       Icon: GitHubCopilot,   invert: true },
   { label: 'JWT',           img: '/jwt.svg' },
-  { label: 'OAuth 2.0' },
+  { label: 'OAuth 2.0',     img: '/oauth.svg',     invert: true },
   { label: 'RBAC' },
   { label: 'System Design' },
   { label: 'Clean Arch.' },
@@ -106,17 +105,21 @@ function TechCell({ label, Icon, img, invert }: TechItem) {
 }
 
 function MarqueeRow({ items, duration, reverse }: { items: TechItem[]; duration: number; reverse: boolean }) {
-  /* duplicate for seamless loop; -50% of doubled width = one full set */
-  const doubled = [...items, ...items]
+  /* 4× duplication: animating -25% = exactly one set, starts fully visible */
+  const quad = [...items, ...items, ...items, ...items]
   return (
-    <div className="overflow-hidden">
-      <motion.div
-        className="flex gap-2 w-max"
-        animate={{ x: reverse ? ['-50%', '0%'] : ['0%', '-50%'] }}
-        transition={{ duration, repeat: Infinity, ease: 'linear' }}
+    <div style={{ overflow: 'hidden' }}>
+      <div
+        style={{
+          display: 'flex',
+          gap: '8px',
+          width: 'max-content',
+          willChange: 'transform',
+          animation: `${reverse ? 'mq-right' : 'mq-left'} ${duration}s linear infinite`,
+        }}
       >
-        {doubled.map((item, i) => <TechCell key={i} {...item} />)}
-      </motion.div>
+        {quad.map((item, i) => <TechCell key={i} {...item} />)}
+      </div>
     </div>
   )
 }

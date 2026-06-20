@@ -6,6 +6,7 @@ metaDescription: AI coding assistants are accelerators, not equalizers. In the h
 readTime: 9
 type: hot-take
 excerpt: GitHub Copilot and Claude do not make all engineers equally capable. They make the gap between good and bad engineers wider and faster to observe. Here's the pattern I've watched play out.
+cover: '/blog-covers/ai-brain.jpg'
 ---
 
 GitHub Copilot and Claude do not make all engineers equally capable. They make the gap between good and bad engineers wider and faster to observe.
@@ -43,7 +44,7 @@ export async function authMiddleware(req: Request, res: Response, next: NextFunc
 }
 ```
 
-The problem: `process.env.JWT_SECRET!` uses the non-null assertion operator. If `JWT_SECRET` is undefined at runtime (misconfigured environment, secret rotation in progress, different env from development), `jwt.verify` throws a `secretOrPublicKey must have a value` error — which the `catch` block swallows and returns as "Invalid token." Every authenticated request silently fails. No log, no alert, no indication the secret is missing.
+The problem: `process.env.JWT_SECRET!` uses the non-null assertion operator. If `JWT_SECRET` is undefined at runtime (misconfigured environment, secret rotation in progress, different env from development), `jwt.verify` throws a `secretOrPublicKey must have a value` error, which the `catch` block swallows and returns as "Invalid token." Every authenticated request silently fails. No log, no alert, no indication the secret is missing.
 
 A strong engineer catches this instantly because they've seen it fail before. They know `jwt.verify` has a specific error for missing secrets. The fix is trivial:
 
@@ -76,7 +77,7 @@ The developer who generated the original code didn't understand JWT secret handl
 
 ## The New Job Description
 
-Your job is no longer to write code. It's to be a rigorous reviewer of code — yours, your colleagues', and now your AI's. That requires better engineering judgment than ever, not less.
+Your job is no longer to write code. It's to be a rigorous reviewer of code, yours, your colleagues', and now your AI's. That requires better engineering judgment than ever, not less.
 
 The skills that matter in the AI-augmented workflow:
 
@@ -85,7 +86,7 @@ The skills that matter in the AI-augmented workflow:
 | Pre-AI critical (now largely automated) | Write syntactically correct code · Know library APIs · Implement standard patterns · Translate specs into code |
 | Post-AI critical (unchanged or more important) | Identify subtle security vulnerabilities · Evaluate architectural trade-offs · Understand failure modes under load and edge cases · Know when generated code is plausible-but-wrong · Own accountability for production behaviour · Debug systems you didn't write |
 
-The first category — AI has largely automated. The second category — AI is structurally bad at because it requires accountability, production experience, and the knowledge of what failure looks like.
+The first category, AI has largely automated. The second category, AI is structurally bad at because it requires accountability, production experience, and the knowledge of what failure looks like.
 
 ## The Practical Implication
 
@@ -100,4 +101,4 @@ Treat AI output as a first draft from a talented-but-careless colleague. You wou
 
 ---
 
-Looking for an engineer who treats AI output as a first draft, not ground truth? One who can review generated code the way a senior reviews a junior PR? [I am taking on remote engineering work](/contact) — let us talk about what that looks like on your team.
+Looking for an engineer who treats AI output as a first draft, not ground truth? One who can review generated code the way a senior reviews a junior PR? [I am taking on remote engineering work](/contact), let us talk about what that looks like on your team.

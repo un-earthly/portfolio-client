@@ -6,9 +6,10 @@ metaDescription: A complete technical breakdown of HyperLogLog: the probabilisti
 readTime: 13
 type: technical
 excerpt: HyperLogLog estimates the count of distinct elements in a stream using O(log log N) memory. In practice, 12KB and ~1.3% error across cardinalities from 1 to 10 billion. Here's the mechanism, implementation, merge property, and benchmarks.
+cover: '/blog-covers/data-viz.jpg'
 ---
 
-> **TL;DR** — HyperLogLog estimates the count of distinct elements in a stream using `O(log log N)` memory. In practice, a standard implementation uses 12KB and achieves ~1.3% error across cardinalities from 1 to 10 billion. It works by observing the maximum number of leading zeros in the hashes of seen elements.
+> **TL;DR**: HyperLogLog estimates the count of distinct elements in a stream using `O(log log N)` memory. In practice, a standard implementation uses 12KB and achieves ~1.3% error across cardinalities from 1 to 10 billion. It works by observing the maximum number of leading zeros in the hashes of seen elements.
 
 ---
 
@@ -32,7 +33,7 @@ This is correct. It is also `O(N)` memory where `N` is the number of distinct el
 | 100 million | ~4 GB | ~13 GB |
 | 1 billion | ~40 GB | ~130 GB |
 
-If you track 100 distinct metrics simultaneously, multiply those numbers by 100. The memory cost of exact counting is a direct function of the data size. It does not matter how efficient your hash set implementation is — you cannot escape linear space without changing the problem.
+If you track 100 distinct metrics simultaneously, multiply those numbers by 100. The memory cost of exact counting is a direct function of the data size. It does not matter how efficient your hash set implementation is, you cannot escape linear space without changing the problem.
 
 HyperLogLog changes the problem. It trades a bounded, tunable approximation error for sub-linear space.
 
@@ -72,7 +73,7 @@ The "run 1,000 sequences simultaneously" step is called register splitting: inst
       <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
     </marker>
   </defs>
-  <text class="lbl" x="20" y="28">Step 1 — Hash the element to 64 bits</text>
+  <text class="lbl" x="20" y="28">Step 1, Hash the element to 64 bits</text>
   <rect x="20" y="40" width="140" height="44" rx="8" fill="#F1EFE8" stroke="#888780" stroke-width="0.8"/>
   <text class="mono" x="90" y="66" text-anchor="middle">user:alice_42</text>
   <line x1="160" y1="62" x2="210" y2="62" stroke="#888780" stroke-width="1.5" marker-end="url(#arr3)"/>
@@ -86,7 +87,7 @@ The "run 1,000 sequences simultaneously" step is called register splitting: inst
   <text class="sub" x="232" y="108">selector</text>
   <text class="sub" x="300" y="96">leading zeros = 3</text>
   <text class="sub" x="300" y="108">(0001... starts with 3 zeros)</text>
-  <text class="lbl" x="20" y="150">Step 2 — Route to register, update max leading zeros</text>
+  <text class="lbl" x="20" y="150">Step 2, Route to register, update max leading zeros</text>
   <g>
     <rect x="20"  y="165" width="60" height="40" rx="6" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
     <text class="mono" x="50" y="189" text-anchor="middle" font-size="11">R[0]=2</text>
@@ -109,7 +110,7 @@ The "run 1,000 sequences simultaneously" step is called register splitting: inst
   </g>
   <text class="sub" x="20" y="240">Only 8 registers shown. Production uses m=16384 (2^14). Each register stores a value 0-63 in 6 bits.</text>
   <text class="sub" x="20" y="255">Total memory: 16384 registers × 6 bits = 98304 bits = 12 KB.</text>
-  <text class="lbl" x="20" y="295">Step 3 — Estimate cardinality from register values</text>
+  <text class="lbl" x="20" y="295">Step 3, Estimate cardinality from register values</text>
   <rect x="20" y="310" width="640" height="90" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
   <text class="mono" x="40" y="336" font-size="11">harmonic_mean = m / sum(2^(-R[i]) for i in range(m))</text>
   <text class="mono" x="40" y="356" font-size="11">raw_estimate  = alpha_m * m^2 * harmonic_mean</text>
@@ -238,7 +239,7 @@ The HLL memory is constant. It does not move. Counting 10 thousand distinct item
     .sub  { font-family: -apple-system, system-ui, sans-serif; font-size: 11px; fill: #5F5E5A; }
     .axis { font-family: ui-monospace, monospace; font-size: 10px; fill: #5F5E5A; }
   </style>
-  <text class="lbl" x="20" y="25">Memory usage (log scale) — exact vs HyperLogLog</text>
+  <text class="lbl" x="20" y="25">Memory usage (log scale), exact vs HyperLogLog</text>
   <line x1="80" y1="45" x2="80" y2="265" stroke="#B4B2A9" stroke-width="1"/>
   <line x1="80" y1="265" x2="640" y2="265" stroke="#B4B2A9" stroke-width="1"/>
   <text class="axis" x="72" y="50"  text-anchor="end">1 TB</text>

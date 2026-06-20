@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform } from 'motion/react'
 import { SectionHeader } from "@/components/ui/section-header";
 import { ArrowUpRight } from 'lucide-react'
 import Link from "next/link";
+import Image from "next/image";
 import { experiences, projects, socialLinks, yearsOfExperince } from '@/mock-data'
 import ExperienceCard from "@/components/ExperinceCard";
 import { HowIWork } from "@/components/HowIWork";
@@ -270,110 +271,135 @@ function FeaturedProjectCard({
 }
 
 /* ── Blog section ───────────────────────────────────────────── */
-type BlogCardData = { slug: string; title: string; excerpt: string; readTime: number; type: 'technical' | 'hot-take'; tags: string[] }
+type BlogCardData = { slug: string; title: string; excerpt: string; readTime: number; type: 'technical' | 'hot-take'; tags: string[]; cover: string }
 
 const FEATURED_BLOGS: BlogCardData[] = [
   {
     slug: 'legacy-system-modernization-vbnet-nuxtjs-case-study',
     title: 'I Modernized a 20-Year-Old VB.NET System Without Burning the Business Down',
-    excerpt: 'Migrating a VB.NET monolith to Nuxt.js while the business ran uninterrupted — 95% load time reduction.',
+    excerpt: 'Migrating a VB.NET monolith to Nuxt.js while the business ran uninterrupted, 95% load time reduction.',
     readTime: 20, type: 'technical', tags: ['legacy modernization', 'VB.NET'],
+    cover: '/blog-covers/server-room.jpg',
   },
   {
     slug: 'ai-replacing-mid-level-developers-not-juniors',
     title: 'Junior Devs Are Not Losing Jobs to AI. Mid-Level Devs Are.',
     excerpt: "AI is compressing the mid-level skill premium out of existence. Here's what's actually happening on engineering teams.",
     readTime: 8, type: 'hot-take', tags: ['AI', 'career'],
+    cover: '/blog-covers/robot-ai.jpg',
   },
   {
     slug: 'building-rust-tui-api-monitor-part-1-ownership',
     title: 'I Tried to Print a Variable Twice and Rust Refused',
-    excerpt: 'Building a terminal API monitor in Rust — stopped cold on day one by the borrow checker.',
+    excerpt: 'Building a terminal API monitor in Rust, stopped cold on day one by the borrow checker.',
     readTime: 13, type: 'technical', tags: ['Rust', 'ownership'],
+    cover: '/blog-covers/rust-code.jpg',
   },
   {
     slug: 'bloom-filters-vs-hash-sets-deep-dive-benchmarks',
     title: 'Bloom Filters vs Hash Sets: Why the Wrong Choice Costs You Millions of DB Calls',
     excerpt: 'At ten million items, a Bloom filter uses 9 MB where a hash set uses 320 MB.',
     readTime: 12, type: 'technical', tags: ['bloom filter', 'system design'],
+    cover: '/blog-covers/data-viz.jpg',
   },
   {
     slug: 'typescript-wrong-usage-type-safety-best-practices',
     title: "Stop Using TypeScript Like It's JavaScript With Spellcheck",
     excerpt: "The `any` type is a lie you tell TypeScript so it stops asking questions.",
     readTime: 11, type: 'hot-take', tags: ['TypeScript', 'best practices'],
+    cover: '/blog-covers/laptop-code.jpg',
   },
   {
     slug: 'consistent-hashing-deep-dive-implementation-benchmarks',
     title: 'Consistent Hashing: The Algorithm That Keeps Million-User Apps From Falling Over',
     excerpt: 'When you add one server and your app goes down, the culprit is almost always naive load distribution.',
     readTime: 14, type: 'technical', tags: ['consistent hashing', 'distributed systems'],
+    cover: '/blog-covers/circuit-algorithms.jpg',
   },
   {
     slug: 'hyperloglog-deep-dive-implementation-benchmarks',
     title: 'HyperLogLog: How Spotify Counts 600 Million Users With 12 Kilobytes of Memory',
-    excerpt: 'HyperLogLog estimates distinct element counts in O(log log N) memory — 12 KB and ~1.3% error across cardinalities up to 10 billion.',
+    excerpt: 'HyperLogLog estimates distinct element counts in O(log log N) memory, 12 KB and ~1.3% error across cardinalities up to 10 billion.',
     readTime: 13, type: 'technical', tags: ['HyperLogLog', 'probabilistic data structures'],
+    cover: '/blog-covers/data-viz.jpg',
   },
   {
     slug: 'multi-agent-ai-system-openai-local-llm-business-automation',
     title: 'I Built a Multi-Agent AI System That Runs My Business While I Sleep',
-    excerpt: 'A four-agent system on local LLMs with zero cloud AI cost — automating operations end-to-end.',
+    excerpt: 'A four-agent system on local LLMs with zero cloud AI cost, automating operations end-to-end.',
     readTime: 16, type: 'technical', tags: ['AI agents', 'automation'],
+    cover: '/blog-covers/ai-brain.jpg',
   },
   {
     slug: 'ai-coding-tools-github-copilot-claude-engineering-quality',
     title: "AI Coding Tools Don't Make You a Better Engineer. They Make Visible Whether You Already Were One.",
     excerpt: 'GitHub Copilot and Claude do not make all engineers equally capable. They make the gap wider and faster to observe.',
     readTime: 9, type: 'hot-take', tags: ['AI coding tools', 'engineering quality'],
+    cover: '/blog-covers/ai-brain.jpg',
   },
   {
     slug: 'debugging-mental-models-software-engineering-skills',
     title: "The Best Debugging Skill Is Not Reading Stack Traces. It's Building Mental Models.",
-    excerpt: 'Two engineers face the same bug. One resolves it in 20 minutes, the other in three hours. Same logs, same debugger — different mental models.',
+    excerpt: 'Two engineers face the same bug. One resolves it in 20 minutes, the other in three hours. Same logs, same debugger, different mental models.',
     readTime: 9, type: 'hot-take', tags: ['debugging', 'mental models'],
+    cover: '/blog-covers/circuit-algorithms.jpg',
   },
   {
     slug: 'ble-mesh-offline-event-platform-javascript',
     title: 'How I Built an Offline-First Event Platform Using BLE Mesh Networking',
-    excerpt: 'Most apps assume the internet exists. I built one that does not — BLE mesh, Kalman-filtered positioning, and hybrid transport.',
+    excerpt: 'Most apps assume the internet exists. I built one that does not: BLE mesh, Kalman-filtered positioning, and hybrid transport.',
     readTime: 22, type: 'technical', tags: ['BLE mesh', 'offline-first'],
+    cover: '/blog-covers/mobile-app.jpg',
   },
   {
     slug: 'clean-code-overrated-pragmatic-engineering-productivity',
     title: '"Clean Code" Is Killing Your Productivity and Your Team Doesn\'t Know It',
     excerpt: 'Clean Code has sold millions of copies. It\'s also responsible for some of the most over-engineered, slow-to-ship codebases I\'ve seen.',
     readTime: 9, type: 'hot-take', tags: ['clean code', 'pragmatism'],
+    cover: '/blog-covers/laptop-code.jpg',
   },
 ]
 
-function BlogCard({ slug, title, excerpt, readTime, type, tags }: BlogCardData) {
+function BlogCard({ slug, title, excerpt, readTime, type, tags, cover }: BlogCardData) {
   return (
     <Link
       href={`/blogs/${slug}`}
-      className="group flex flex-col justify-between h-full rounded-2xl border border-white/8 bg-white/2 hover:border-cyan-500/30 hover:bg-white/4 transition-all duration-300 p-5"
+      className="group flex flex-col h-full rounded-2xl border border-white/8 bg-white/2 hover:border-cyan-500/30 hover:bg-white/4 transition-all duration-300 overflow-hidden"
     >
-      <div>
-        <div className="flex items-center gap-2 mb-3">
-          <span className={`text-[9px] font-mono font-bold uppercase tracking-widest px-2 py-0.5 rounded-full border ${type === 'hot-take'
-            ? 'text-orange-400 border-orange-500/30 bg-orange-500/10'
-            : 'text-cyan-400 border-cyan-500/30 bg-cyan-500/10'
-            }`}>
-            {type === 'hot-take' ? 'Hot Take' : 'Technical'}
-          </span>
-          <span className="text-[9px] text-gray-600 font-mono">{readTime} min</span>
-        </div>
-        <h3 className="text-sm font-bold text-gray-100 leading-snug mb-2 group-hover:text-white transition-colors line-clamp-3">
-          {title}
-        </h3>
-        <p className="text-[11px] text-gray-500 leading-relaxed line-clamp-2">{excerpt}</p>
+      {/* Cover image — 75% of card height */}
+      <div className="relative w-full flex-3 min-h-0">
+        <Image
+          src={cover}
+          alt={title}
+          fill
+          className="object-cover group-hover:scale-105 transition-transform duration-300"
+          sizes="500px"
+        />
       </div>
-      <div className="flex flex-wrap gap-1 mt-2">
-        {tags.slice(0, 2).map(tag => (
-          <span key={tag} className="text-[9px] font-mono text-gray-600 bg-white/4 border border-white/8 rounded-full px-2 py-0.5">
-            {tag}
-          </span>
-        ))}
+      {/* Card body — 25% of card height */}
+      <div className="flex flex-col justify-between flex-1 p-5">
+        <div>
+          <div className="flex items-center gap-2 mb-3">
+            <span className={`text-[9px] font-mono font-bold uppercase tracking-widest px-2 py-0.5 rounded-full border ${type === 'hot-take'
+              ? 'text-orange-400 border-orange-500/30 bg-orange-500/10'
+              : 'text-cyan-400 border-cyan-500/30 bg-cyan-500/10'
+              }`}>
+              {type === 'hot-take' ? 'Hot Take' : 'Technical'}
+            </span>
+            <span className="text-[9px] text-gray-600 font-mono">{readTime} min</span>
+          </div>
+          <h3 className="text-sm font-bold text-gray-100 leading-snug mb-2 group-hover:text-white transition-colors line-clamp-3">
+            {title}
+          </h3>
+          <p className="text-[11px] text-gray-500 leading-relaxed line-clamp-2">{excerpt}</p>
+        </div>
+        <div className="flex flex-wrap gap-1 mt-2">
+          {tags.slice(0, 2).map(tag => (
+            <span key={tag} className="text-[9px] font-mono text-gray-600 bg-white/4 border border-white/8 rounded-full px-2 py-0.5">
+              {tag}
+            </span>
+          ))}
+        </div>
       </div>
     </Link>
   )

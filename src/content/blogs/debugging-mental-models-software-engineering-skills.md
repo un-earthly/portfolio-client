@@ -2,10 +2,11 @@
 title: The Best Debugging Skill Is Not Reading Stack Traces. It's Building Mental Models.
 date: 2025-08-01
 tags: [debugging, software engineering, mental models, problem solving, developer skills, programming]
-metaDescription: The actual skill that separates fast debuggers from slow ones is mental model quality — here's what that means and how to build it.
+metaDescription: The actual skill that separates fast debuggers from slow ones is mental model quality, here's what that means and how to build it.
 readTime: 9
 type: hot-take
-excerpt: Two engineers face the same bug. One resolves it in 20 minutes, the other in three hours. Same logs, same debugger, same codebase. The difference is not tooling — it's mental model quality.
+excerpt: Two engineers face the same bug. One resolves it in 20 minutes, the other in three hours. Same logs, same debugger, same codebase. The difference is not tooling, it's mental model quality.
+cover: '/blog-covers/circuit-algorithms.jpg'
 ---
 
 Two engineers face the same bug. One resolves it in 20 minutes. The other spends three hours.
@@ -14,11 +15,11 @@ They have access to the same logs, the same debugger, the same codebase. The dif
 
 ## What a Mental Model Is
 
-A mental model is your internal simulation of how the system behaves — what state exists where, how data flows between layers, what each component assumes about its inputs and guarantees about its outputs.
+A mental model is your internal simulation of how the system behaves, what state exists where, how data flows between layers, what each component assumes about its inputs and guarantees about its outputs.
 
 A high-quality mental model lets you form a precise hypothesis before you touch a debugger:
 
-> "This can only be failing in one of three places. The most likely one is the middleware that processes auth tokens — it strips the `Authorization` header before forwarding to the service, and if the token has expired the error won't be the 401 we'd expect, it'll be the empty-string check failing silently. Let me confirm."
+> "This can only be failing in one of three places. The most likely one is the middleware that processes auth tokens, it strips the `Authorization` header before forwarding to the service, and if the token has expired the error won't be the 401 we'd expect, it'll be the empty-string check failing silently. Let me confirm."
 
 A low-quality mental model leads to random log insertion, rerunning tests hoping for different results, and asking for help because you genuinely can't reason about where the failure could be.
 
@@ -30,13 +31,13 @@ Reading stack traces is a mechanical skill. Any competent engineer can do it. Bu
 
 Not to understand every line. To understand the invariants: what does this module guarantee? What does it assume?
 
-The documentation lies over time. The code doesn't. When you read a dependency's source and find `// assumes non-null input` — that's the mental model update that saves you three hours of debugging a `null` issue later.
+The documentation lies over time. The code doesn't. When you read a dependency's source and find `// assumes non-null input`, that's the mental model update that saves you three hours of debugging a `null` issue later.
 
 ### 2. Predict Before You Verify
 
 Before you add a log line, write down (literally) what you expect to see. Then run it and compare.
 
-This is uncomfortable because it forces accountability on your mental model. If you're wrong, you can't pretend you "kind of knew" — you wrote down the wrong prediction and the gap is explicit.
+This is uncomfortable because it forces accountability on your mental model. If you're wrong, you can't pretend you "kind of knew", you wrote down the wrong prediction and the gap is explicit.
 
 The prediction-verification loop:
 
@@ -76,7 +77,7 @@ The bug is in the data transformation, not the component logic. You find it by f
 
 ### 4. Teach the System
 
-If you can explain how a system works to someone who doesn't know it, your mental model is solid. If you get three sentences in and realise you don't know what happens next — that's exactly where the bug is.
+If you can explain how a system works to someone who doesn't know it, your mental model is solid. If you get three sentences in and realise you don't know what happens next, that's exactly where the bug is.
 
 This is not a metaphor. When I'm stuck on a bug, I open a blank document and start explaining the system from scratch. The explanation always breaks down at the same point the code breaks down.
 

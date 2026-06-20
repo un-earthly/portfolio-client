@@ -5,26 +5,27 @@ tags: [Rust, ratatui, crossterm, TUI, error handling, Result, Option, pattern ma
 metaDescription: Part 4 of building a terminal API monitor in Rust. We build the live dashboard with ratatui, handle errors with Result and the ? operator instead of exceptions, model status with enums and pattern matching, and use RAII and the Drop trait to guarantee the terminal is restored even on panic.
 readTime: 14
 type: technical
-excerpt: I ran the TUI, it panicked mid-render, and left my terminal in raw mode — no echo, no newlines, a wreck. The fix turned out to be the same RAII mechanism that frees memory in Rust. This is the part about error handling without exceptions, pattern matching, and the Drop trait. Part 4 of 5.
+excerpt: I ran the TUI, it panicked mid-render, and left my terminal in raw mode, no echo, no newlines, a wreck. The fix turned out to be the same RAII mechanism that frees memory in Rust. This is the part about error handling without exceptions, pattern matching, and the Drop trait. Part 4 of 5.
+cover: '/blog-covers/laptop-code.jpg'
 ---
 
 The engine worked. [Part 3](/blogs/building-rust-tui-api-monitor-part-3-async-tokio-concurrency) left `pulse` able to sweep a fleet of endpoints concurrently and stream results back. Now it needed a face: a live, bordered dashboard that refreshes on a loop, green for healthy, red for down, and quits when I press `q`.
 
-I wired up ratatui, switched the terminal into raw mode, drew the first frame — and then an `.unwrap()` deep in my render code hit a `None` and panicked. The program died. And my terminal *stayed broken*: no echo when I typed, no line breaks, the cursor hidden, the prompt mangled. I had to blind-type `reset` to get it back.
+I wired up ratatui, switched the terminal into raw mode, drew the first frame, and then an `.unwrap()` deep in my render code hit a `None` and panicked. The program died. And my terminal *stayed broken*: no echo when I typed, no line breaks, the cursor hidden, the prompt mangled. I had to blind-type `reset` to get it back.
 
 That failure taught me the single most useful pattern in Rust, and it's the same one that's been quietly freeing memory since Part 1: RAII. This post is about making `pulse` look good, but really it's about handling errors and cleaning up without exceptions, `try/finally`, or trusting yourself to remember.
 
-> **TL;DR** — Rust has no exceptions. Fallible operations return `Result<T, E>`, absence is `Option<T>`, and the `?` operator propagates errors up the call stack concisely. `match` forces you to handle every case of an enum, so "I forgot a state" is a compile error. And the `Drop` trait — RAII — guarantees cleanup code runs when a value goes out of scope, *including during a panic unwind*, which is how you restore a terminal you put into raw mode no matter how the program ends.
+> **TL;DR**: Rust has no exceptions. Fallible operations return `Result<T, E>`, absence is `Option<T>`, and the `?` operator propagates errors up the call stack concisely. `match` forces you to handle every case of an enum, so "I forgot a state" is a compile error. And the `Drop` trait, RAII, guarantees cleanup code runs when a value goes out of scope, *including during a panic unwind*, which is how you restore a terminal you put into raw mode no matter how the program ends.
 
 ---
 
 ## The Series
 
-1. [Part 1 — Ownership and the borrow checker](/blogs/building-rust-tui-api-monitor-part-1-ownership)
-2. [Part 2 — Borrowing, lifetimes, and serde](/blogs/building-rust-tui-api-monitor-part-2-borrowing-lifetimes)
-3. [Part 3 — Async, Tokio, and sharing state across tasks](/blogs/building-rust-tui-api-monitor-part-3-async-tokio-concurrency)
-4. **Part 4 — The TUI, error handling, and RAII cleanup** *(you are here)*
-5. [Part 5 — Traits, iterators, zero-cost abstractions, and the release build](/blogs/building-rust-tui-api-monitor-part-5-traits-performance-release)
+1. [Part 1, Ownership and the borrow checker](/blogs/building-rust-tui-api-monitor-part-1-ownership)
+2. [Part 2, Borrowing, lifetimes, and serde](/blogs/building-rust-tui-api-monitor-part-2-borrowing-lifetimes)
+3. [Part 3, Async, Tokio, and sharing state across tasks](/blogs/building-rust-tui-api-monitor-part-3-async-tokio-concurrency)
+4. **Part 4, The TUI, error handling, and RAII cleanup** *(you are here)*
+5. [Part 5, Traits, iterators, zero-cost abstractions, and the release build](/blogs/building-rust-tui-api-monitor-part-5-traits-performance-release)
 
 ---
 
@@ -39,7 +40,7 @@ enum Result<T, E> {
 }
 ```
 
-This is just an enum in the standard library — nothing magic. A function that reads from the network returns `Result<Response, reqwest::Error>`, and you can't get at the `Response` without acknowledging the `Err` case. There's no invisible exception that unwinds three stack frames to a handler you forgot to write. The failure is right there in the type signature, and the compiler makes you deal with it.
+This is just an enum in the standard library, nothing magic. A function that reads from the network returns `Result<Response, reqwest::Error>`, and you can't get at the `Response` without acknowledging the `Err` case. There's no invisible exception that unwinds three stack frames to a handler you forgot to write. The failure is right there in the type signature, and the compiler makes you deal with it.
 
 Its sibling handles absence. Instead of `null`, Rust has:
 
@@ -66,8 +67,8 @@ fn fetch_config() -> Result<Config, std::io::Error> {
 
 For the application's own errors I use two crates the whole ecosystem reaches for:
 
-- **`anyhow`** — for application code. `anyhow::Result<T>` accepts any error type, so `?` works across reqwest errors, IO errors, and parse errors without ceremony. Great for `main` and top-level glue.
-- **`thiserror`** — for library code, where callers need to *match* on specific error variants. It derives clean custom error enums.
+- **`anyhow`**: for application code. `anyhow::Result<T>` accepts any error type, so `?` works across reqwest errors, IO errors, and parse errors without ceremony. Great for `main` and top-level glue.
+- **`thiserror`**: for library code, where callers need to *match* on specific error variants. It derives clean custom error enums.
 
 ```rust
 // library-style: callers can match on the variant
@@ -165,7 +166,7 @@ fn draw(frame: &mut Frame, probes: &[Probe]) {
   </style>
   <rect x="20" y="20" width="640" height="220" rx="8" fill="#F1EFE8" stroke="#2C2C2A" stroke-width="1.5"/>
   <rect x="20" y="20" width="640" height="26" rx="8" fill="#E6F1FB" stroke="#2C2C2A" stroke-width="1.5"/>
-  <text class="hd" x="40" y="38">┌ pulse — q to quit ─────────────────────────────────────────┐</text>
+  <text class="hd" x="40" y="38">┌ pulse, q to quit ─────────────────────────────────────────┐</text>
   <text class="hd" x="40"  y="74">ENDPOINT</text>
   <text class="hd" x="430" y="74">STATUS</text>
   <text class="hd" x="560" y="74">LATENCY</text>
@@ -185,12 +186,12 @@ fn draw(frame: &mut Frame, probes: &[Probe]) {
   <text class="term" x="40"  y="186">https://api.example.com/payments</text>
   <circle cx="436" cy="182" r="5" fill="#E24B4A"/>
   <text class="term" x="448" y="186" fill="#A32D2D">DOWN</text>
-  <text class="term" x="560" y="186">— —</text>
+  <text class="term" x="560" y="186">- -</text>
   <text class="term" x="40"  y="212">https://api.example.com/notify</text>
   <circle cx="436" cy="208" r="5" fill="#1D9E75"/>
   <text class="term" x="448" y="212" fill="#0F6E56">UP</text>
   <text class="term" x="560" y="212">55 ms</text>
-  <text class="sub" x="20" y="262">Each row's color comes straight from a `match` on the `Status` enum — the compiler guarantees every variant maps to something.</text>
+  <text class="sub" x="20" y="262">Each row's color comes straight from a `match` on the `Status` enum, the compiler guarantees every variant maps to something.</text>
 </svg>
 
 ---
@@ -220,7 +221,7 @@ fn run_ui(mut terminal: Terminal<impl Backend>, probes: &[Probe]) -> anyhow::Res
 }
 ```
 
-`if let Event::Key(key) = ...` is pattern matching again — bind `key` only when the event is a key press, ignore mouse and resize events. Every `?` in that loop quietly forwards an IO error up to the caller instead of panicking. So when something goes wrong, we *leave the loop normally* rather than dying inside raw mode. Which brings us to the actual lesson.
+`if let Event::Key(key) = ...` is pattern matching again, bind `key` only when the event is a key press, ignore mouse and resize events. Every `?` in that loop quietly forwards an IO error up to the caller instead of panicking. So when something goes wrong, we *leave the loop normally* rather than dying inside raw mode. Which brings us to the actual lesson.
 
 ---
 
@@ -238,7 +239,7 @@ disable_raw_mode()?;
 execute!(stdout(), LeaveAlternateScreen)?;
 ```
 
-When `run_ui` panicked, control jumped straight past the teardown lines. Terminal left in raw mode. This is the exact problem `try/finally` exists to solve in other languages — and Rust's answer is better, because it ties cleanup to a *value* instead of a *block*. You make a guard type and implement `Drop` for it:
+When `run_ui` panicked, control jumped straight past the teardown lines. Terminal left in raw mode. This is the exact problem `try/finally` exists to solve in other languages, and Rust's answer is better, because it ties cleanup to a *value* instead of a *block*. You make a guard type and implement `Drop` for it:
 
 ```rust
 use crossterm::terminal::{
@@ -280,11 +281,11 @@ fn main() -> anyhow::Result<()> {
 }                                           // ..._guard drops here, restoring the terminal
 ```
 
-The key fact: when a Rust program panics, by default it *unwinds* the stack — walking back up through every frame and running the `Drop` for every live value on the way out, exactly as if each had gone out of scope normally. So whether `run_ui` returns `Ok`, returns an `Err` via `?`, or panics outright, `_guard` is dropped on the way out and the terminal is restored. There is no code path that skips it. I deleted the manual teardown lines and the bug became structurally impossible.
+The key fact: when a Rust program panics, by default it *unwinds* the stack, walking back up through every frame and running the `Drop` for every live value on the way out, exactly as if each had gone out of scope normally. So whether `run_ui` returns `Ok`, returns an `Err` via `?`, or panics outright, `_guard` is dropped on the way out and the terminal is restored. There is no code path that skips it. I deleted the manual teardown lines and the bug became structurally impossible.
 
 <svg width="100%" viewBox="0 0 680 320" role="img" xmlns="http://www.w3.org/2000/svg">
   <title>RAII guarantees terminal restore on every exit path including panic</title>
-  <desc>Three exit paths from the run function — normal return, error via question mark, and panic — all converge on the guard's Drop running and the terminal being restored</desc>
+  <desc>Three exit paths from the run function, normal return, error via question mark, and panic, all converge on the guard's Drop running and the terminal being restored</desc>
   <style>
     .lbl  { font-family: -apple-system, system-ui, sans-serif; font-size: 13px; fill: #444441; font-weight: 600; }
     .sub  { font-family: -apple-system, system-ui, sans-serif; font-size: 11px; fill: #5F5E5A; }
@@ -304,7 +305,7 @@ The key fact: when a Rust program panics, by default it *unwinds* the stack — 
   <text class="sub" x="340" y="129" text-anchor="middle">early return via `?`</text>
   <text class="sub" x="340" y="143" text-anchor="middle">(an Err)</text>
   <rect x="480" y="110" width="160" height="40" rx="8" fill="#FCEBEB" stroke="#E24B4A" stroke-width="1"/>
-  <text class="sub" x="560" y="135" text-anchor="middle">panic! — stack unwinds</text>
+  <text class="sub" x="560" y="135" text-anchor="middle">panic!, stack unwinds</text>
   <line x1="340" y1="56" x2="120" y2="108" stroke="#B4B2A9" stroke-width="1" marker-end="url(#d1)"/>
   <line x1="340" y1="56" x2="340" y2="108" stroke="#B4B2A9" stroke-width="1" marker-end="url(#d1)"/>
   <line x1="340" y1="56" x2="560" y2="108" stroke="#B4B2A9" stroke-width="1" marker-end="url(#d1)"/>
@@ -319,20 +320,20 @@ The key fact: when a Rust program panics, by default it *unwinds* the stack — 
   <line x1="340" y1="244" x2="340" y2="274" stroke="#B4B2A9" stroke-width="1" marker-end="url(#d1)"/>
 </svg>
 
-This is the same mechanism from Part 1, generalized. There, `Drop` freed a `String`'s heap buffer at end of scope. Here, `Drop` restores the terminal. A file handle's `Drop` closes the file; a `MutexGuard`'s `Drop` (Part 3) releases the lock. **Rust has exactly one cleanup model, and it works for memory, locks, files, sockets, and terminals identically.** Learn it once for `String` and you've learned it for everything. Compare that to languages where memory is the GC's job, files want `try-with-resources` or `with`, and locks want a `finally` — three different mechanisms for the same idea.
+This is the same mechanism from Part 1, generalized. There, `Drop` freed a `String`'s heap buffer at end of scope. Here, `Drop` restores the terminal. A file handle's `Drop` closes the file; a `MutexGuard`'s `Drop` (Part 3) releases the lock. **Rust has exactly one cleanup model, and it works for memory, locks, files, sockets, and terminals identically.** Learn it once for `String` and you've learned it for everything. Compare that to languages where memory is the GC's job, files want `try-with-resources` or `with`, and locks want a `finally`, three different mechanisms for the same idea.
 
-> One caveat: this relies on the default unwinding panic behavior. If you configure `panic = "abort"` in release for smaller binaries, destructors don't run on panic — so for a TUI you'd also install a panic hook that restores the terminal. Worth knowing the edge exists; the default profile unwinds.
+> One caveat: this relies on the default unwinding panic behavior. If you configure `panic = "abort"` in release for smaller binaries, destructors don't run on panic, so for a TUI you'd also install a panic hook that restores the terminal. Worth knowing the edge exists; the default profile unwinds.
 
 ---
 
 ## Where We Are
 
-`pulse` is now a real, usable tool: a live dashboard that polls concurrently, colors each service by status, refreshes a few times a second, quits cleanly on `q` — and never, under any failure, leaves your terminal in a bad state.
+`pulse` is now a real, usable tool: a live dashboard that polls concurrently, colors each service by status, refreshes a few times a second, quits cleanly on `q`, and never, under any failure, leaves your terminal in a bad state.
 
 - Errors are **values** (`Result<T, E>`), absence is `Option<T>`, and **`?`** propagates failures without exceptions.
 - **`match`** is exhaustive: forgetting an enum variant is a compile error, so your state machine can't drift.
 - **RAII via `Drop`** ties cleanup to a value's lifetime and runs it on *every* exit path, including panic unwind. One model for memory, locks, files, and terminals.
 
-There's one promise from the very first post left to cash in. I claimed all this safety — no GC, no data races, deterministic cleanup — comes at *no runtime cost*. That's the "zero-cost abstractions" claim, and it's a big one. The final part builds the release binary, measures it, and shows where the cost actually went (compile time, and your patience with the borrow checker) versus where it didn't (the machine code).
+There's one promise from the very first post left to cash in. I claimed all this safety, no GC, no data races, deterministic cleanup, comes at *no runtime cost*. That's the "zero-cost abstractions" claim, and it's a big one. The final part builds the release binary, measures it, and shows where the cost actually went (compile time, and your patience with the borrow checker) versus where it didn't (the machine code).
 
-**Next:** [Part 5 — Traits, iterators, zero-cost abstractions, and the release build](/blogs/building-rust-tui-api-monitor-part-5-traits-performance-release).
+**Next:** [Part 5, Traits, iterators, zero-cost abstractions, and the release build](/blogs/building-rust-tui-api-monitor-part-5-traits-performance-release).

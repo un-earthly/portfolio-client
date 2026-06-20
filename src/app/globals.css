@@ -267,3 +267,16 @@ button:active {
 @media (prefers-reduced-motion: reduce) {
   .hero-node { animation: none; }
 }
+
+@keyframes mq-left {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-25%); }
+}
+@keyframes mq-right {
+  from { transform: translateX(-25%); }
+  to   { transform: translateX(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [style*="mq-left"], [style*="mq-right"] { animation: none !important; }
+}

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Clock, ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { getAllBlogs } from "@/lib/blogs";
@@ -18,7 +19,21 @@ function BlogCard({ blog }: { blog: Blog }) {
   const isHotTake = blog.type === "hot-take";
   return (
     <Link href={`/blogs/${blog.slug}`} className="group block h-full">
-      <div className="h-full rounded-xl border border-slate-800 bg-slate-900/40 hover:border-slate-700 hover:bg-slate-900/70 transition-all duration-200 p-5 flex flex-col">
+      <div className="h-full rounded-xl border border-slate-800 bg-slate-900/40 hover:border-slate-700 hover:bg-slate-900/70 transition-all duration-200 flex flex-col overflow-hidden">
+        {/* Cover image */}
+        {blog.cover && (
+          <div className="relative w-full h-40 shrink-0">
+            <Image
+              src={blog.cover}
+              alt={blog.title}
+              fill
+              className="object-cover group-hover:scale-105 transition-transform duration-300"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            />
+          </div>
+        )}
+        {/* Card body */}
+        <div className="flex flex-col flex-1 p-5">
         {/* Top meta */}
         <div className="flex items-center gap-2 mb-3">
           <span
@@ -51,6 +66,7 @@ function BlogCard({ blog }: { blog: Blog }) {
             {blog.readTime} min
           </span>
           <ArrowUpRight className="h-4 w-4 text-gray-700 group-hover:text-cyan-400 transition-colors" />
+        </div>
         </div>
       </div>
     </Link>

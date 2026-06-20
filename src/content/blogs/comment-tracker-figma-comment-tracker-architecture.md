@@ -6,6 +6,7 @@ metaDescription: How I built Comment Tracker, a browser-based Figma comment dash
 readTime: 12
 type: technical
 excerpt: The standard approach to a tool like this would be to fetch comments, store them in a database, and serve from your own API. I made a different call. No backend comment storage at all. Here is the architecture, the tradeoffs, and the one thing that bit me.
+cover: '/blog-covers/design-tools.jpg'
 ---
 
 I built a Figma comment dashboard and made one decision that surprised every dev I showed it to: no backend comment storage at all.

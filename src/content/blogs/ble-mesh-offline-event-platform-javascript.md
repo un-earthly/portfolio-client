@@ -2,15 +2,16 @@
 title: How I Built an Offline-First Event Platform Using BLE Mesh Networking
 date: 2025-11-15
 tags: [BLE mesh, React Native, offline-first, JavaScript, mobile engineering, Bluetooth networking]
-metaDescription: How I designed a production-grade offline-first event management app using BLE mesh networking, Kalman filtering, and hybrid transport layers — without any internet dependency.
+metaDescription: How I designed a production-grade offline-first event management app using BLE mesh networking, Kalman filtering, and hybrid transport layers, without any internet dependency.
 readTime: 22
 type: technical
-excerpt: Most apps assume the internet exists. I built one that doesn't. This is how I architected OurStoryz — a production event platform that works fully offline using BLE mesh networking, Kalman filtering for RSSI-based positioning, and hybrid transport layers.
+excerpt: Most apps assume the internet exists. I built one that doesn't. This is how I architected OurStoryz, a production event platform that works fully offline using BLE mesh networking, Kalman filtering for RSSI-based positioning, and hybrid transport layers.
+cover: '/blog-covers/mobile-app.jpg'
 ---
 
 Most apps assume the internet exists. I built one that doesn't.
 
-At Mediusware, I'm leading development of OurStoryz — an event guest management platform designed to work in environments where Wi-Fi is unreliable, cellular is congested, and every device in the room is fighting for bandwidth. Think large weddings, festival grounds, closed-campus events. Exactly the environments where every other app breaks down.
+At Mediusware, I'm leading development of OurStoryz, an event guest management platform designed to work in environments where Wi-Fi is unreliable, cellular is congested, and every device in the room is fighting for bandwidth. Think large weddings, festival grounds, closed-campus events. Exactly the environments where every other app breaks down.
 
 The core problem: how do you enable real-time communication and location tracking between hundreds of guests using only the devices already in their pockets?
 
@@ -35,7 +36,7 @@ flowchart LR
     B --- local
 ```
 
-Each device runs in a dual Central/Peripheral BLE role simultaneously. It broadcasts its own presence while scanning for nearby peers. There's no central server in the loop — devices discover each other directly and form a mesh where messages can hop peer-to-peer across the network.
+Each device runs in a dual Central/Peripheral BLE role simultaneously. It broadcasts its own presence while scanning for nearby peers. There's no central server in the loop, devices discover each other directly and form a mesh where messages can hop peer-to-peer across the network.
 
 ### Dual-Role BLE: The Implementation
 
@@ -265,7 +266,7 @@ If a guest's device loses one channel, the system silently promotes the next ava
 
 ## Offline Queue: Realm DB
 
-Every outgoing message — regardless of transport — goes through a persistent queue:
+Every outgoing message, regardless of transport, goes through a persistent queue:
 
 ```typescript
 class MessageSchema extends Realm.Object {
@@ -319,7 +320,7 @@ The queue survives app restarts. Messages with `attempts >= maxAttempts` are mar
 
 This platform handles guest identity and private communications. The encryption stack:
 
-- **AES-256-GCM** for message encryption (authenticated encryption — tampering is detectable)
+- **AES-256-GCM** for message encryption (authenticated encryption, tampering is detectable)
 - **ECDH on P-256** for peer-to-peer key exchange (no preshared secrets)
 - Keys are device-ephemeral and rotated per session
 
@@ -382,10 +383,10 @@ The performance results in a 300-person closed-venue test:
 
 The result: a production platform that works fully offline, handles dense guest crowds, and maintains encrypted communication regardless of network state.
 
-If you're building anything in the offline-first, edge computing, or BLE space — this is the problem set I've lived inside.
+If you're building anything in the offline-first, edge computing, or BLE space, this is the problem set I've lived inside.
 
 ---
 
 ### Working on something that needs to survive without the internet?
 
-BLE mesh, offline-first mobile, edge computing — these are niche problem sets that most engineers haven't shipped in production. I have. If your product needs to work in RF-hostile environments, handle peer-to-peer communication, or maintain state across unreliable networks, [let's talk](/contact).
+BLE mesh, offline-first mobile, edge computing, these are niche problem sets that most engineers haven't shipped in production. I have. If your product needs to work in RF-hostile environments, handle peer-to-peer communication, or maintain state across unreliable networks, [let's talk](/contact).

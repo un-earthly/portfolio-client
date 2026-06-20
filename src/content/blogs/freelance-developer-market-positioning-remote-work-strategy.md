@@ -5,14 +5,15 @@ tags: [freelance development, remote work, developer positioning, Upwork, client
 metaDescription: Developers say the freelance market is saturated and rates are falling. That's only true in the undifferentiated middle. Specialists with clear positioning are commanding higher rates than ever.
 readTime: 8
 type: hot-take
-excerpt: "Freelance dev is dead. Upwork is a race to the bottom." This is partially true and mostly wrong. The race-to-the-bottom market is real — for generic web development. The market for specialists is undersupplied. Here's the difference.
+excerpt: "Freelance dev is dead. Upwork is a race to the bottom." This is partially true and mostly wrong. The race-to-the-bottom market is real, for generic web development. The market for specialists is undersupplied. Here's the difference.
+cover: '/blog-covers/career-office.jpg'
 ---
 
 "Freelance dev is dead. Upwork is a race to the bottom. The market is saturated."
 
 I hear this constantly. It's partially true and mostly wrong.
 
-The race-to-the-bottom market is real — for generic web development. "I build React apps and REST APIs" is a commodity in 2025. There are tens of thousands of engineers globally who can do that at lower rates than you. Competing in that market is a losing game.
+The race-to-the-bottom market is real, for generic web development. "I build React apps and REST APIs" is a commodity in 2025. There are tens of thousands of engineers globally who can do that at lower rates than you. Competing in that market is a losing game.
 
 But that's not the freelance market. That's one undifferentiated tier of it.
 
@@ -26,7 +27,7 @@ They look the same from the outside. They're completely different in practice.
 | Competition | Global, price-sensitive, hundreds of bids | Few people with this specific track record |
 | Differentiator | Price, speed, reviews | Demonstrated experience, trust signals, specific outcomes |
 | Rate ceiling | $30–60/hr in 2025 | $100–200/hr, sometimes project-based at multiples |
-| AI exposure | High — generalist work is exactly what AI does well | Low — requires domain context and accountability |
+| AI exposure | High, generalist work is exactly what AI does well | Low, requires domain context and accountability |
 
 The clients in Market B are not comparing you to the lowest bidder. They're comparing you to the cost of the problem continuing to exist. A business running on a broken legacy system is losing money every day. That framing changes the entire price conversation.
 

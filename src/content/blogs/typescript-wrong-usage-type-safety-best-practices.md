@@ -2,10 +2,11 @@
 title: Stop Using TypeScript Like It's JavaScript With Spellcheck
 date: 2025-08-25
 tags: [TypeScript, JavaScript, type safety, software engineering, web development, developer tools, best practices]
-metaDescription: Most developers are using TypeScript wrong — treating it as optional documentation rather than a structural tool. Here's what real TypeScript usage looks like and why it matters.
+metaDescription: Most developers are using TypeScript wrong, treating it as optional documentation rather than a structural tool. Here's what real TypeScript usage looks like and why it matters.
 readTime: 11
 type: hot-take
 excerpt: The 'any' type is a lie you tell TypeScript so it stops asking questions. Every codebase I've walked into that claimed to be "written in TypeScript" has had the same anti-patterns. Here's what TypeScript looks like when used as an architecture tool.
+cover: '/blog-covers/laptop-code.jpg'
 ---
 
 The `any` type is a lie you tell TypeScript so it stops asking questions.
@@ -18,7 +19,7 @@ That's not TypeScript. That's JavaScript with extra steps and a false sense of s
 
 TypeScript's value is not catching typos. It's **making impossible states unrepresentable**.
 
-Design your data model so that a whole class of bugs cannot exist by construction — not because you tested for them, not because you remembered to check, but because the compiler will not build a program that makes them possible.
+Design your data model so that a whole class of bugs cannot exist by construction, not because you tested for them, not because you remembered to check, but because the compiler will not build a program that makes them possible.
 
 The difference between TypeScript as spellcheck and TypeScript as architecture tool:
 
@@ -136,7 +137,7 @@ When a new engineer touches the payment flow six months from now, the types are 
 
 A type annotation that documents intent is valuable. A type annotation that **enforces** intent structurally is irreplaceable.
 
-The engineers who complain that TypeScript is slow and annoying are the ones using it as spellcheck. The engineers who structure their domain types first and let the implementation follow — they find that TypeScript eliminates an entire class of bugs before QA ever runs.
+The engineers who complain that TypeScript is slow and annoying are the ones using it as spellcheck. The engineers who structure their domain types first and let the implementation follow, they find that TypeScript eliminates an entire class of bugs before QA ever runs.
 
 > Use the type system. Actually use it.
 

@@ -2,10 +2,11 @@
 title: You Don't Have a Skill Problem. You Have a Visibility Problem.
 date: 2025-09-20
 tags: [developer career, personal branding, portfolio, LinkedIn, software engineering career, developer marketing]
-metaDescription: Most skilled developers are invisible to the clients and companies they want to work with. The problem isn't skill — it's that nobody knows you exist.
+metaDescription: Most skilled developers are invisible to the clients and companies they want to work with. The problem isn't skill, it's that nobody knows you exist.
 readTime: 7
 type: hot-take
 excerpt: I've talked to developers with five years of production experience who can't land a remote contract. And I've seen two-year developers charging $150/hour. The difference is not skill. It's visibility.
+cover: '/blog-covers/career-office.jpg'
 ---
 
 I've talked to developers with five years of production experience who can't land a $3,000/month remote contract. And I've seen developers with two years of experience charging $150/hour because three thousand people follow their build-in-public thread.
@@ -38,7 +39,7 @@ flowchart TD
     style E fill:#7f1d1d,color:#fff
 ```
 
-A single case study — "here is the system I built, the problem it solved, the architecture I chose, what I'd do differently" — is worth more than ten resume lines. It proves you can think, communicate, and build. Resumes claim all three. Case studies demonstrate them.
+A single case study, "here is the system I built, the problem it solved, the architecture I chose, what I'd do differently", is worth more than ten resume lines. It proves you can think, communicate, and build. Resumes claim all three. Case studies demonstrate them.
 
 ## The Fix
 
