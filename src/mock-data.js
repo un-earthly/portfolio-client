@@ -35,7 +35,6 @@ const skills = {
     // Architecture
     'System Design',
     'Design Patterns',
-    'Clean Architecture',
     // Leadership
     'Technical Leadership',
     'Project Management',

@@ -581,8 +581,8 @@ export function HowIWork() {
                           isActive
                             ? 'text-cyan-400'
                             : isDone
-                            ? 'text-cyan-600/70'
-                            : 'text-gray-600',
+                              ? 'text-cyan-600/70'
+                              : 'text-gray-600',
                         ].join(' ')}
                       >
                         {isDone ? '✓' : phase.number}
@@ -610,7 +610,7 @@ export function HowIWork() {
                 id={`process-${phase.id}`}
                 ref={(el) => { sectionRefs.current[i] = el }}
                 aria-label={`Phase ${phase.number}: ${phase.title}`}
-                className="relative overflow-hidden min-h-[65vh] flex flex-col justify-center py-16 border-t border-white/5 first:border-t-0"
+                className="relative overflow-hidden flex flex-col justify-center py-16 border-t border-white/5 first:border-t-0"
               >
                 {i === 0 && <DiscoverPattern />}
                 {i === 1 && <PlanPattern />}
@@ -677,8 +677,8 @@ export function HowIWork() {
                         transform: reducedMotion
                           ? undefined
                           : isActive
-                          ? 'translateY(0px)'
-                          : 'translateY(12px)',
+                            ? 'translateY(0px)'
+                            : 'translateY(12px)',
                         transition: reducedMotion
                           ? 'opacity 0ms'
                           : 'opacity 300ms ease, transform 300ms ease',
