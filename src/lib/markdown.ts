@@ -28,8 +28,34 @@ renderer.blockquote = function ({ text }) {
   return `<blockquote class="blog-blockquote">${text}</blockquote>`;
 };
 
+export type TocItem = { id: string; text: string; depth: number };
+
+/** Extract h2/h3 headings from raw markdown for a table of contents. */
+export function extractToc(markdown: string): TocItem[] {
+  const out: TocItem[] = [];
+  let inFence = false;
+  for (const line of markdown.split("\n")) {
+    if (/^```/.test(line.trim())) { inFence = !inFence; continue; }
+    if (inFence) continue;
+    const m = line.match(/^(#{2,3})\s+(.+?)\s*#*$/);
+    if (m) out.push({ depth: m[1].length, text: m[2].trim(), id: slugifyHeading(m[2]) });
+  }
+  return out;
+}
+
+export function slugifyHeading(text: string): string {
+  return text
+    .replace(/<[^>]+>/g, "")          // strip inline tags
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-")
+    .slice(0, 60);
+}
+
 renderer.heading = function ({ text, depth }) {
-  return `<h${depth} class="blog-h${depth}">${text}</h${depth}>`;
+  const id = slugifyHeading(text);
+  return `<h${depth} id="${id}" class="blog-h${depth}">${text}</h${depth}>`;
 };
 
 renderer.paragraph = function ({ text }) {

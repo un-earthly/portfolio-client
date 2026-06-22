@@ -11,6 +11,18 @@ export interface BlogMeta {
   excerpt: string;
   type: "technical" | "hot-take";
   cover: string;
+  tldr?: string;
+  faqs?: { q: string; a: string }[];
+}
+
+/** Parse a `faqs` frontmatter value: "Q1::A1 | Q2::A2" → structured list. */
+function parseFaqs(raw?: string): { q: string; a: string }[] {
+  if (!raw) return [];
+  return raw
+    .split("|")
+    .map((pair) => pair.split("::"))
+    .filter((p) => p.length === 2)
+    .map(([q, a]) => ({ q: q.trim(), a: a.trim() }));
 }
 
 export interface BlogPost extends BlogMeta {
@@ -83,9 +95,22 @@ export function getBlogBySlug(slug: string): BlogPost | null {
     readTime: Number(meta.readTime) || 5,
     excerpt: (meta.excerpt as string) || "",
     type: (meta.type as "technical" | "hot-take") || "technical",
-    cover: (meta.cover as string) || "/blog-covers/laptop-code.jpg",
+    cover: (meta.cover as string) || `/blog-covers/${slug}.svg`,
+    tldr: (meta.tldr as string) || "",
+    faqs: parseFaqs(meta.faqs as string),
     content: body,
   };
+}
+
+/** Related posts ranked by shared tags (falls back to newest). */
+export function getRelatedBlogs(slug: string, tags: string[], limit = 3): BlogMeta[] {
+  const all = getAllBlogs().filter((b) => b.slug !== slug);
+  const tagSet = new Set(tags.map((t) => t.toLowerCase()));
+  return all
+    .map((b) => ({ b, score: b.tags.filter((t) => tagSet.has(t.toLowerCase())).length }))
+    .sort((a, z) => z.score - a.score)
+    .slice(0, limit)
+    .map((x) => x.b);
 }
 
 export function getAllBlogSlugs(): string[] {
