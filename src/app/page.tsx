@@ -273,92 +273,7 @@ function FeaturedProjectCard({
 /* ── Blog section ───────────────────────────────────────────── */
 type BlogCardData = { slug: string; title: string; excerpt: string; readTime: number; type: 'technical' | 'hot-take'; tags: string[]; cover: string }
 
-const FEATURED_BLOGS: BlogCardData[] = [
-  {
-    slug: 'legacy-system-modernization-vbnet-nuxtjs-case-study',
-    title: 'I Modernized a 20-Year-Old VB.NET System Without Burning the Business Down',
-    excerpt: 'Migrating a VB.NET monolith to Nuxt.js while the business ran uninterrupted, 95% load time reduction.',
-    readTime: 20, type: 'technical', tags: ['legacy modernization', 'VB.NET'],
-    cover: '/blog-covers/legacy-system-modernization-vbnet-nuxtjs-case-study.svg',
-  },
-  {
-    slug: 'ai-replacing-mid-level-developers-not-juniors',
-    title: 'Junior Devs Are Not Losing Jobs to AI. Mid-Level Devs Are.',
-    excerpt: "AI is compressing the mid-level skill premium out of existence. Here's what's actually happening on engineering teams.",
-    readTime: 8, type: 'hot-take', tags: ['AI', 'career'],
-    cover: '/blog-covers/ai-replacing-mid-level-developers-not-juniors.svg',
-  },
-  {
-    slug: 'building-rust-tui-api-monitor-part-1-ownership',
-    title: 'I Tried to Print a Variable Twice and Rust Refused',
-    excerpt: 'Building a terminal API monitor in Rust, stopped cold on day one by the borrow checker.',
-    readTime: 13, type: 'technical', tags: ['Rust', 'ownership'],
-    cover: '/blog-covers/building-rust-tui-api-monitor-part-1-ownership.svg',
-  },
-  {
-    slug: 'bloom-filters-vs-hash-sets-deep-dive-benchmarks',
-    title: 'Bloom Filters vs Hash Sets: Why the Wrong Choice Costs You Millions of DB Calls',
-    excerpt: 'At ten million items, a Bloom filter uses 9 MB where a hash set uses 320 MB.',
-    readTime: 12, type: 'technical', tags: ['bloom filter', 'system design'],
-    cover: '/blog-covers/bloom-filters-vs-hash-sets-deep-dive-benchmarks.svg',
-  },
-  {
-    slug: 'typescript-wrong-usage-type-safety-best-practices',
-    title: "Stop Using TypeScript Like It's JavaScript With Spellcheck",
-    excerpt: "The `any` type is a lie you tell TypeScript so it stops asking questions.",
-    readTime: 11, type: 'hot-take', tags: ['TypeScript', 'best practices'],
-    cover: '/blog-covers/typescript-wrong-usage-type-safety-best-practices.svg',
-  },
-  {
-    slug: 'consistent-hashing-deep-dive-implementation-benchmarks',
-    title: 'Consistent Hashing: The Algorithm That Keeps Million-User Apps From Falling Over',
-    excerpt: 'When you add one server and your app goes down, the culprit is almost always naive load distribution.',
-    readTime: 14, type: 'technical', tags: ['consistent hashing', 'distributed systems'],
-    cover: '/blog-covers/consistent-hashing-deep-dive-implementation-benchmarks.svg',
-  },
-  {
-    slug: 'hyperloglog-deep-dive-implementation-benchmarks',
-    title: 'HyperLogLog: How Spotify Counts 600 Million Users With 12 Kilobytes of Memory',
-    excerpt: 'HyperLogLog estimates distinct element counts in O(log log N) memory, 12 KB and ~1.3% error across cardinalities up to 10 billion.',
-    readTime: 13, type: 'technical', tags: ['HyperLogLog', 'probabilistic data structures'],
-    cover: '/blog-covers/hyperloglog-deep-dive-implementation-benchmarks.svg',
-  },
-  {
-    slug: 'multi-agent-ai-system-openai-local-llm-business-automation',
-    title: 'I Built a Multi-Agent AI System That Runs My Business While I Sleep',
-    excerpt: 'A four-agent system on local LLMs with zero cloud AI cost, automating operations end-to-end.',
-    readTime: 16, type: 'technical', tags: ['AI agents', 'automation'],
-    cover: '/blog-covers/multi-agent-ai-system-openai-local-llm-business-automation.svg',
-  },
-  {
-    slug: 'ai-coding-tools-github-copilot-claude-engineering-quality',
-    title: "AI Coding Tools Don't Make You a Better Engineer. They Make Visible Whether You Already Were One.",
-    excerpt: 'GitHub Copilot and Claude do not make all engineers equally capable. They make the gap wider and faster to observe.',
-    readTime: 9, type: 'hot-take', tags: ['AI coding tools', 'engineering quality'],
-    cover: '/blog-covers/ai-coding-tools-github-copilot-claude-engineering-quality.svg',
-  },
-  {
-    slug: 'debugging-mental-models-software-engineering-skills',
-    title: "The Best Debugging Skill Is Not Reading Stack Traces. It's Building Mental Models.",
-    excerpt: 'Two engineers face the same bug. One resolves it in 20 minutes, the other in three hours. Same logs, same debugger, different mental models.',
-    readTime: 9, type: 'hot-take', tags: ['debugging', 'mental models'],
-    cover: '/blog-covers/debugging-mental-models-software-engineering-skills.svg',
-  },
-  {
-    slug: 'ble-mesh-offline-event-platform-javascript',
-    title: 'How I Built an Offline-First Event Platform Using BLE Mesh Networking',
-    excerpt: 'Most apps assume the internet exists. I built one that does not: BLE mesh, Kalman-filtered positioning, and hybrid transport.',
-    readTime: 22, type: 'technical', tags: ['BLE mesh', 'offline-first'],
-    cover: '/blog-covers/ble-mesh-offline-event-platform-javascript.svg',
-  },
-  {
-    slug: 'clean-code-overrated-pragmatic-engineering-productivity',
-    title: '"Clean Code" Is Killing Your Productivity and Your Team Doesn\'t Know It',
-    excerpt: 'Clean Code has sold millions of copies. It\'s also responsible for some of the most over-engineered, slow-to-ship codebases I\'ve seen.',
-    readTime: 9, type: 'hot-take', tags: ['clean code', 'pragmatism'],
-    cover: '/blog-covers/clean-code-overrated-pragmatic-engineering-productivity.svg',
-  },
-]
+// Featured posts are fetched at runtime from /api/blogs (auto-includes new posts).
 
 function BlogCard({ slug, title, excerpt, readTime, type, tags, cover }: BlogCardData) {
   return (
@@ -410,13 +325,24 @@ function BlogScrollSection() {
   const outerRef = useRef<HTMLDivElement>(null)
   const innerRef = useRef<HTMLDivElement>(null)   // measures real content width
   const [scrollDist, setScrollDist] = React.useState(0)
+  const [featured, setFeatured] = React.useState<BlogCardData[]>([])
+
+  // Fetch posts at runtime so new markdown blogs appear automatically.
+  React.useEffect(() => {
+    let alive = true
+    fetch('/api/blogs')
+      .then((r) => r.json())
+      .then((d) => { if (alive) setFeatured(d.blogs ?? []) })
+      .catch(() => {})
+    return () => { alive = false }
+  }, [])
 
   React.useEffect(() => {
     const CARD_W = 500
     const GAP = 12
     const PL = 32
     const PR = 64
-    const remainingCards = FEATURED_BLOGS.length - 1
+    const remainingCards = Math.max(0, featured.length - 1)
     const cols = Math.ceil(remainingCards / 2)
 
     const measure = () => {
@@ -429,7 +355,7 @@ function BlogScrollSection() {
     measure()
     window.addEventListener('resize', measure)
     return () => window.removeEventListener('resize', measure)
-  }, [])
+  }, [featured.length])
 
   const { scrollYProgress } = useScroll({
     target: outerRef,
@@ -463,7 +389,7 @@ function BlogScrollSection() {
           justifyContent: 'space-between',
         }}>
           <p className="text-[10px] font-mono tracking-[0.25em] uppercase text-cyan-500/50">Latest Writing</p>
-          <p className="text-[10px] font-mono text-gray-700">{FEATURED_BLOGS.length} articles &amp; essays</p>
+          <p className="text-[10px] font-mono text-gray-700">{featured.length} articles &amp; essays</p>
         </div>
 
         {/* heading */}
@@ -504,9 +430,11 @@ function BlogScrollSection() {
               gap: '12px',
             }}>
               {/* hero card — 50vw */}
-              <div style={{ flexShrink: 0, width: '50vw', height: '100%' }}>
-                <BlogCard {...FEATURED_BLOGS[0]} />
-              </div>
+              {featured[0] && (
+                <div style={{ flexShrink: 0, width: '50vw', height: '100%' }}>
+                  <BlogCard {...featured[0]} />
+                </div>
+              )}
 
               {/* remaining cards — 2-row grid, auto columns at 240px */}
               <div style={{
@@ -518,7 +446,7 @@ function BlogScrollSection() {
                 gridAutoColumns: '500px',
                 gap: '12px',
               }}>
-                {FEATURED_BLOGS.slice(1).map(post => (
+                {featured.slice(1).map(post => (
                   <div key={post.slug} style={{ minHeight: 0 }}>
                     <BlogCard {...post} />
                   </div>

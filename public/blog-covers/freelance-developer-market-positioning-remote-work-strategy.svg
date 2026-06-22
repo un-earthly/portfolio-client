@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="THE FREELANCE DEVELOPER MARKET IS…">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="THE FREELANCE DEVELOPER MARKET IS NOT SATURATED">
 <defs>
   <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b1120"/><stop offset="1" stop-color="#020617"/></linearGradient>
   <radialGradient id="glow" cx="0.78" cy="0.5" r="0.6"><stop offset="0" stop-color="#fb7185" stop-opacity="0.28"/><stop offset="1" stop-color="#fb7185" stop-opacity="0"/></radialGradient>
@@ -17,7 +17,7 @@
   <rect x="80" y="190" width="10" height="34" rx="3" fill="#fb7185"/>
   <text x="106" y="216" font-size="22" font-weight="700" letter-spacing="4" fill="#fb7185">REMOTE WORK</text>
 </g>
-<text x="80" y="300" font-family="Arial, Helvetica, sans-serif" font-size="62" font-weight="900" letter-spacing="-1" fill="#f8fafc">THE FREELANCE DEVELOPER MARKET IS…</text>
-<rect x="82" y="350" width="120" height="5" rx="2.5" fill="#fb7185"/>
-<text x="82" y="430" font-size="24" fill="#94a3b8" font-family="Arial, Helvetica, sans-serif">Freelance dev is dead.</text>
+<text x="80" y="280" font-family="Arial, Helvetica, sans-serif" font-size="58" font-weight="900" letter-spacing="-1" fill="#f8fafc">THE FREELANCE</text><text x="80" y="340" font-family="Arial, Helvetica, sans-serif" font-size="58" font-weight="900" letter-spacing="-1" fill="#f8fafc">DEVELOPER MARKET</text><text x="80" y="400" font-family="Arial, Helvetica, sans-serif" font-size="58" font-weight="900" letter-spacing="-1" fill="#f8fafc">IS NOT SATURATED</text>
+<rect x="82" y="426" width="120" height="5" rx="2.5" fill="#fb7185"/>
+<text x="82" y="466" font-size="24" fill="#94a3b8" font-family="Arial, Helvetica, sans-serif">Freelance dev is dead.</text>
 </svg>

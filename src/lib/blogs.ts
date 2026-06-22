@@ -61,7 +61,7 @@ export function getAllBlogs(): BlogMeta[] {
       readTime: Number(meta.readTime) || 5,
       excerpt: (meta.excerpt as string) || "",
       type: ((meta.type as "technical" | "hot-take") || "technical"),
-      cover: (meta.cover as string) || "/blog-covers/laptop-code.jpg",
+      cover: (meta.cover as string) || `/blog-covers/${slug}.svg`,
     };
   });
   return blogs.sort(
