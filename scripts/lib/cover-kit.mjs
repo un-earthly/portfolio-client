@@ -35,7 +35,17 @@ const hash = (s) => { let h = 0; for (const c of String(s)) h = (Math.imul(h, 31
 const bigrams = (s) => { s = s.toLowerCase().replace(/[^a-z0-9]/g, ''); const o = new Set(); for (let i = 0; i < s.length - 1; i++) o.add(s.slice(i, i + 2)); return o }
 export const dice = (a, b) => { const A = bigrams(a), B = bigrams(b); if (!A.size || !B.size) return 0; let inter = 0; for (const g of A) if (B.has(g)) inter++; return (2 * inter) / (A.size + B.size) }
 
-const STOP = new Set(['the', 'a', 'an', 'and', 'or', 'of', 'to', 'is', 'are', 'you', 'your', 'it', 'its', 'for', 'with', 'how', 'why', 'not', 'in', 'on', 'i'])
+const STOP = new Set([
+  // common English
+  'the', 'a', 'an', 'and', 'or', 'of', 'to', 'is', 'are', 'was', 'were', 'be', 'been',
+  'you', 'your', 'it', 'its', 'for', 'with', 'how', 'why', 'what', 'who', 'when', 'not',
+  'in', 'on', 'at', 'by', 'as', 'i', 'we', 'they', 'this', 'that', 'these', 'those',
+  'then', 'than', 'but', 'so', 'if', 'can', 'will', 'just', 'from', 'all', 'one', 'out',
+  'get', 'got', 'has', 'have', 'had', 'do', 'does', 'did', 'about', 'into', 'over', 'more',
+  // markdown / inline-SVG leakage
+  'amp', 'lt', 'gt', 'quot', 'font', 'svg', 'rect', 'span', 'fill', 'stroke', 'href',
+  'https', 'http', 'www', 'com', 'width', 'height', 'text', 'div', 'class', 'style',
+])
 export const tokenize = (s) => String(s).toLowerCase().split(/[^a-z0-9]+/).filter(t => t.length > 2 && !STOP.has(t))
 
 // keyword → preferred monochrome (recolorable) Iconify id
@@ -60,18 +70,76 @@ const ICON_DICT = [
   ['security', 'tabler:shield-lock'], ['junior', 'tabler:users'],
 ]
 
-// pick best icon id from blog text via fuzzy match; falls back to a hashed default
-export function pickIcon(text) {
-  const toks = tokenize(text)
-  let best = null, bestScore = 0
-  for (const [kw, id] of ICON_DICT) {
-    for (const t of toks) {
-      const s = t === kw ? 1 : dice(t, kw)
-      if (s > bestScore) { bestScore = s; best = id }
-    }
+// ── keyword extraction (TF-IDF over the actual markdown) ───────────────────
+// Strip frontmatter, code, links, markup so we score prose, not syntax.
+export function stripMarkdown(md) {
+  return String(md)
+    .replace(/^---\n[\s\S]*?\n---/, '')        // frontmatter
+    .replace(/```[\s\S]*?```/g, ' ')           // fenced code
+    .replace(/`[^`]*`/g, ' ')                  // inline code
+    .replace(/!?\[([^\]]*)\]\([^)]*\)/g, '$1') // links/images → text
+    .replace(/<[^>]+>/g, ' ')                  // html/svg tags
+    .replace(/[#>*_~|=-]+/g, ' ')              // md symbols
+}
+
+/** Build document-frequency stats across all docs (array of token arrays). */
+export function buildIdf(docTokenArrays) {
+  const df = new Map()
+  for (const toks of docTokenArrays) {
+    for (const t of new Set(toks)) df.set(t, (df.get(t) || 0) + 1)
   }
-  if (bestScore >= 0.5) return best
-  return ICON_DICT[hash(text) % ICON_DICT.length][1] // graceful fallback
+  return { N: docTokenArrays.length, df }
+}
+
+/** Top-n distinctive terms for a text given corpus idf (title/tags pre-weighted by caller). */
+export function extractKeywords(text, idf, n = 6) {
+  const toks = tokenize(text)
+  const tf = new Map()
+  for (const t of toks) tf.set(t, (tf.get(t) || 0) + 1)
+  const scored = [...tf].map(([t, f]) => {
+    const dfreq = idf?.df?.get(t) ?? 1
+    const inv = Math.log((idf?.N ?? 1) + 1) / Math.log(dfreq + 1) // ↑ for rarer terms
+    return [t, f * inv]
+  })
+  scored.sort((a, b) => b[1] - a[1])
+  return scored.slice(0, n).map(([t]) => t)
+}
+
+// ── icon resolution: curated override → Iconify search → fallback ──────────
+const MONO_PREFIXES = ['tabler', 'ph', 'lucide', 'solar', 'mdi', 'carbon', 'material-symbols', 'ri']
+
+/** Curated dict as a high-confidence override (handles coined/brand terms). */
+function curatedIcon(token) {
+  let best = null, score = 0
+  for (const [kw, id] of ICON_DICT) {
+    const s = token === kw ? 1 : dice(token, kw)
+    if (s > score) { score = s; best = id }
+  }
+  return score >= 0.62 ? best : null
+}
+
+/** Live Iconify search for a keyword → first monochrome match (disk-cached). */
+async function searchIcon(keyword) {
+  mkdirSync(join(CACHE, 'search'), { recursive: true })
+  const file = join(CACHE, 'search', `${keyword.replace(/[^a-z0-9]/gi, '_')}.txt`)
+  if (existsSync(file)) { const v = readFileSync(file, 'utf8').trim(); return v || null }
+  try {
+    const res = await fetch(`https://api.iconify.design/search?query=${encodeURIComponent(keyword)}&limit=64`,
+      { signal: AbortSignal.timeout(8000) })
+    if (!res.ok) { writeFileSync(file, ''); return null }
+    const icons = (await res.json())?.icons ?? []
+    const hit = icons.find((id) => MONO_PREFIXES.includes(id.split(':')[0])) || icons[0] || ''
+    writeFileSync(file, hit)
+    return hit || null
+  } catch { return null }
+}
+
+/** Resolve the best icon id from ranked keywords. */
+export async function resolveIcon(keywords) {
+  const kws = (keywords || []).filter(Boolean)
+  for (const kw of kws) { const c = curatedIcon(kw); if (c) return c }
+  for (const kw of kws) { const s = await searchIcon(kw); if (s) return s }
+  return ICON_DICT[hash(kws.join('') || 'x') % ICON_DICT.length][1]
 }
 
 // fetch (disk-cached) an Iconify icon, recolored + sized; returns inner <svg> markup or null
@@ -116,17 +184,47 @@ function glyphField(seed, color) {
 }
 
 // ── text helpers ───────────────────────────────────────────────────────────
+// Word-aware wrap: never splits a word across lines unless that single word is
+// itself longer than `max` (then it's hard-broken so it can't overflow).
 function wrap(str, max) {
-  const words = str.split(/\s+/), lines = []; let cur = ''
-  for (const w of words) { if ((cur + ' ' + w).trim().length > max) { if (cur) lines.push(cur); cur = w } else cur = (cur + ' ' + w).trim() }
-  if (cur) lines.push(cur); return lines
+  const words = String(str).split(/\s+/).filter(Boolean)
+  const lines = []
+  let cur = ''
+  for (let w of words) {
+    // hard-break a word that can't fit on a line on its own
+    while (w.length > max) {
+      if (cur) { lines.push(cur); cur = '' }
+      lines.push(w.slice(0, max - 1) + '-')
+      w = w.slice(max - 1)
+    }
+    if (!cur) cur = w
+    else if ((cur + ' ' + w).length <= max) cur += ' ' + w
+    else { lines.push(cur); cur = w }
+  }
+  if (cur) lines.push(cur)
+  return lines
 }
+
 const firstSentence = (s) => { const m = String(s).match(/^[^.!?]*[.!?]/); return (m ? m[0] : String(s)).trim() }
-const headlineFrom = (title) => {
-  // take the punchy first clause, strip "Part N" tails, uppercase
-  let h = String(title).split(/[:.?]/)[0].replace(/,?\s*Part\s*\d+.*$/i, '').trim()
-  if (h.length > 34) h = h.slice(0, 34).replace(/\s+\S*$/, '') + '…'
-  return h.toUpperCase()
+
+const headlineFrom = (title) =>
+  String(title).split(/[:.?]/)[0].replace(/,?\s*Part\s*\d+.*$/i, '').trim().toUpperCase()
+
+// Fit the headline into the left text column: pick the largest font size whose
+// word-wrapped lines fit in `maxLines`, wrapping on word boundaries.
+function layoutHeadline(text, { maxWidthPx = 600, maxLines = 3 } = {}) {
+  for (const fs of [64, 58, 52, 46, 40]) {
+    const cpl = Math.max(6, Math.floor(maxWidthPx / (fs * 0.62))) // ~char width for heavy sans
+    const lines = wrap(text, cpl)
+    if (lines.length <= maxLines) return { fs, lines }
+  }
+  // still too long → wrap at the smallest size and ellipsize the overflow
+  const fs = 40
+  const cpl = Math.max(6, Math.floor(maxWidthPx / (fs * 0.62)))
+  const all = wrap(text, cpl)
+  const lines = all.slice(0, maxLines)
+  lines[maxLines - 1] = lines[maxLines - 1].replace(/\s*\S*$/, '') + '…'
+  return { fs, lines }
 }
 
 const TYPE_LABEL = { technical: 'TECHNICAL DEEP DIVE', 'hot-take': 'ENGINEERING HOT TAKE' }
@@ -141,11 +239,13 @@ const banner = (k1, k2) => `<g font-family="Arial, Helvetica, sans-serif">
 // blog: { slug, title, tags:[], excerpt, type }
 export async function composeCover(blog) {
   const accent = PALETTES[PAL_KEYS[hash(blog.slug) % PAL_KEYS.length]]
-  const matchText = [blog.title, ...(blog.tags || [])].join(' ')
-  const iconId = pickIcon(matchText)
+  const keywords = (blog.keywords && blog.keywords.length)
+    ? blog.keywords
+    : tokenize([blog.title, ...(blog.tags || [])].join(' '))
+  const iconId = await resolveIcon(keywords)
   const iconSvg = await fetchIcon(iconId, accent[0])
 
-  const headline = headlineFrom(blog.title)
+  const headline = layoutHeadline(headlineFrom(blog.title))
   const descriptor = wrap(firstSentence(blog.excerpt || blog.title), 52).slice(0, 2)
   const k1 = (blog.tags?.[0] || 'ENGINEERING').toUpperCase()
   const k2 = TYPE_LABEL[blog.type] || 'ENGINEERING'
@@ -155,10 +255,19 @@ export async function composeCover(blog) {
     ? `<g>${placeIcon(iconSvg, 950, 320, 360, 0.9)}</g>`
     : `<circle cx="950" cy="320" r="150" fill="none" stroke="${accent[0]}" stroke-width="3" opacity="0.5"/>`
 
-  let dy = 0
-  const descLines = descriptor.map(l => `<text x="82" y="${430 + (dy++) * 34}" font-size="24" fill="#94a3b8" font-family="Arial, Helvetica, sans-serif">${esc(l)}</text>`).join('')
+  // ── vertical layout (left column), computed so blocks never overlap ──
+  const headTop = 280                       // baseline of first headline line
+  const lineH = Math.round(headline.fs * 1.04)
+  const headLines = headline.lines
+    .map((l, i) => `<text x="80" y="${headTop + i * lineH}" font-family="Arial, Helvetica, sans-serif" font-size="${headline.fs}" font-weight="900" letter-spacing="-1" fill="#f8fafc">${esc(l)}</text>`)
+    .join('')
+  const underlineY = headTop + (headLines ? (headline.lines.length - 1) * lineH : 0) + 26
+  const descStart = underlineY + 40
+  const descLines = descriptor
+    .map((l, i) => `<text x="82" y="${descStart + i * 32}" font-size="24" fill="#94a3b8" font-family="Arial, Helvetica, sans-serif">${esc(l)}</text>`)
+    .join('')
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${esc(headline)}">
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${esc(headline.lines.join(' '))}">
 <defs>
   <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b1120"/><stop offset="1" stop-color="#020617"/></linearGradient>
   <radialGradient id="glow" cx="0.78" cy="0.5" r="0.6"><stop offset="0" stop-color="${accent[0]}" stop-opacity="0.28"/><stop offset="1" stop-color="${accent[0]}" stop-opacity="0"/></radialGradient>
@@ -173,8 +282,8 @@ ${banner(k1, k2)}
   <rect x="80" y="190" width="10" height="34" rx="3" fill="${accent[0]}"/>
   <text x="106" y="216" font-size="22" font-weight="700" letter-spacing="4" fill="${accent[0]}">${esc(chip)}</text>
 </g>
-<text x="80" y="300" font-family="Arial, Helvetica, sans-serif" font-size="62" font-weight="900" letter-spacing="-1" fill="#f8fafc">${esc(headline)}</text>
-<rect x="82" y="350" width="120" height="5" rx="2.5" fill="${accent[0]}"/>
+${headLines}
+<rect x="82" y="${underlineY}" width="120" height="5" rx="2.5" fill="${accent[0]}"/>
 ${descLines}
 </svg>`
 }
@@ -186,5 +295,11 @@ export function readFrontmatter(path) {
   const get = (k) => { const m = fm.match(new RegExp(`^${k}:\\s*(.*)$`, 'm')); return m ? m[1].trim().replace(/^['"]|['"]$/g, '') : '' }
   const tagsRaw = get('tags')
   const tags = tagsRaw.replace(/^\[|\]$/g, '').split(',').map(t => t.trim().replace(/^['"]|['"]$/g, '')).filter(Boolean)
-  return { title: get('title'), excerpt: get('excerpt') || get('metaDescription'), type: get('type') || 'technical', tags }
+  return {
+    title: get('title'),
+    excerpt: get('excerpt') || get('metaDescription'),
+    type: get('type') || 'technical',
+    tags,
+    body: stripMarkdown(raw),
+  }
 }

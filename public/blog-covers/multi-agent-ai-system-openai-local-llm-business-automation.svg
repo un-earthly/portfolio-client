@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="I BUILT A MULTI-AGENT AI SYSTEM…">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="I BUILT A MULTI-AGENT AI SYSTEM THAT RUNS MY BUSINESS WHILE I SLEEP">
 <defs>
   <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b1120"/><stop offset="1" stop-color="#020617"/></linearGradient>
   <radialGradient id="glow" cx="0.78" cy="0.5" r="0.6"><stop offset="0" stop-color="#a78bfa" stop-opacity="0.28"/><stop offset="1" stop-color="#a78bfa" stop-opacity="0"/></radialGradient>
@@ -17,7 +17,7 @@
   <rect x="80" y="190" width="10" height="34" rx="3" fill="#a78bfa"/>
   <text x="106" y="216" font-size="22" font-weight="700" letter-spacing="4" fill="#a78bfa">MULTI-AGENT SYSTEMS</text>
 </g>
-<text x="80" y="300" font-family="Arial, Helvetica, sans-serif" font-size="62" font-weight="900" letter-spacing="-1" fill="#f8fafc">I BUILT A MULTI-AGENT AI SYSTEM…</text>
-<rect x="82" y="350" width="120" height="5" rx="2.5" fill="#a78bfa"/>
-<text x="82" y="430" font-size="24" fill="#94a3b8" font-family="Arial, Helvetica, sans-serif">I run a small incense brand alongside my engineering</text><text x="82" y="464" font-size="24" fill="#94a3b8" font-family="Arial, Helvetica, sans-serif">work.</text>
+<text x="80" y="280" font-family="Arial, Helvetica, sans-serif" font-size="40" font-weight="900" letter-spacing="-1" fill="#f8fafc">I BUILT A MULTI-AGENT AI</text><text x="80" y="322" font-family="Arial, Helvetica, sans-serif" font-size="40" font-weight="900" letter-spacing="-1" fill="#f8fafc">SYSTEM THAT RUNS MY</text><text x="80" y="364" font-family="Arial, Helvetica, sans-serif" font-size="40" font-weight="900" letter-spacing="-1" fill="#f8fafc">BUSINESS WHILE I SLEEP</text>
+<rect x="82" y="390" width="120" height="5" rx="2.5" fill="#a78bfa"/>
+<text x="82" y="430" font-size="24" fill="#94a3b8" font-family="Arial, Helvetica, sans-serif">I run a small incense brand alongside my engineering</text><text x="82" y="462" font-size="24" fill="#94a3b8" font-family="Arial, Helvetica, sans-serif">work.</text>
 </svg>

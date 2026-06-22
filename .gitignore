@@ -42,3 +42,4 @@ next-env.d.ts
 # cover-kit fetched icon cache
 scripts/lib/.cache/
 secret.json
+next-env.d.ts

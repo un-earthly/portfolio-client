@@ -53,6 +53,16 @@ export default async function BlogPostPage({
         All posts
       </Link>
 
+      {post.cover && (
+        <div className="mb-8 overflow-hidden rounded-2xl border border-slate-800">
+          <img
+            src={post.cover}
+            alt={post.title}
+            className="w-full aspect-1200/630 object-cover"
+          />
+        </div>
+      )}
+
       <header className="mb-10 pb-8 border-b border-slate-800">
         <div className="flex items-center gap-3 text-xs text-gray-500 mb-4">
           <Calendar className="h-3.5 w-3.5" />
