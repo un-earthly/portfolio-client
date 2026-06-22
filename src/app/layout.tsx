@@ -5,6 +5,7 @@ import MouseTracker from "@/components/MouseTracker";
 import Navbar from "@/components/drawer";
 import Footer from "@/components/footer";
 import { MotionProvider } from "@/components/MotionProvider";
+import { Analytics } from "@vercel/analytics/next";
 
 const BASE_URL = "https://alamin-md.xyz";
 
@@ -137,6 +138,7 @@ export default function RootLayout({
           </main>
           <Footer />
         </MotionProvider>
+        <Analytics />
       </body>
     </html>
   );
