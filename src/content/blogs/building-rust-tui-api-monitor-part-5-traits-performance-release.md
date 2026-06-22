@@ -6,7 +6,7 @@ metaDescription: The finale of building a terminal API monitor in Rust. Traits a
 readTime: 15
 type: technical
 excerpt: For four parts I claimed Rust gives you memory safety and fearless concurrency at no runtime cost. This is where I prove it, traits, iterators that vanish into loops, zero-cost abstractions, and a release binary measured against Node and Python. The cost was real; it was just paid at compile time. Part 5 of 5.
-cover: '/blog-covers/rust-code.jpg'
+cover: '/blog-covers/building-rust-tui-api-monitor-part-5-traits-performance-release.svg'
 ---
 
 For four parts I've been making a promise and asking you to take it on credit. In [Part 1](/blogs/building-rust-tui-api-monitor-part-1-ownership) I said ownership gives you memory safety with no garbage collector. In [Part 3](/blogs/building-rust-tui-api-monitor-part-3-async-tokio-concurrency) I said the same rules prevent data races at compile time, for free. The recurring claim was *zero-cost*: all this safety, none of the runtime overhead.

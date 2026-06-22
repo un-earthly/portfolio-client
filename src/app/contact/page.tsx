@@ -1,6 +1,7 @@
 'use client'
 import { motion, useReducedMotion } from 'motion/react'
 import { Mail, FileUser } from 'lucide-react'
+import { Scheduler } from '@/components/Scheduler'
 
 /* ── Inline SVG icons ───────────────────────────────────────── */
 function WhatsAppIcon({ className }: { className?: string }) {
@@ -75,61 +76,83 @@ export default function ContactPage() {
   const reduced = useReducedMotion() ?? false
 
   return (
-    <div className="min-h-[93vh] flex flex-col items-center justify-center px-6 py-24">
-      <motion.div
-        initial={reduced ? false : { opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className="w-full max-w-xl"
-      >
+    <div className="relative min-h-screen overflow-hidden px-6 py-24">
+      {/* ── Background to match site sections ── */}
+      <div
+        className="absolute inset-0 opacity-[0.025] pointer-events-none"
+        style={{
+          backgroundImage:
+            'linear-gradient(rgba(6,182,212,1) 1px, transparent 1px), linear-gradient(90deg, rgba(6,182,212,1) 1px, transparent 1px)',
+          backgroundSize: '80px 80px',
+        }}
+      />
+      <div className="absolute top-0 left-1/4 w-160 h-160 bg-cyan-500/5 rounded-full blur-[120px] pointer-events-none" />
+
+      <div className="relative mx-auto max-w-2xl">
         {/* Heading */}
-        <div className="mb-10 text-center">
+        <motion.div
+          initial={reduced ? false : { opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="mb-10 text-center"
+        >
           <p className="font-mono text-[10px] tracking-[0.22em] uppercase text-cyan-500/60 mb-3">
             Let&apos;s work together
           </p>
-          <h1 className="text-4xl font-black tracking-tight text-white mb-3">
+          <h1 className="text-4xl md:text-5xl font-black tracking-tight text-white mb-3">
             Start a conversation
           </h1>
-          <p className="text-gray-500 text-sm leading-relaxed max-w-sm mx-auto">
-            Pick whichever app you already have open — I&apos;ll reply fast.
+          <p className="text-gray-500 text-sm leading-relaxed max-w-md mx-auto">
+            Book a call straight into my calendar, or ping me on whatever app you already have open.
           </p>
-        </div>
+        </motion.div>
 
-        {/* Primary CTAs */}
-        <div className="space-y-3 mb-8">
-          {PRIMARY.map(({ id, label, handle, description, href, Icon, color, border, iconColor, badge }, i) => (
-            <motion.a
+        {/* Scheduler */}
+        <motion.div
+          initial={reduced ? false : { opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: 0.05 }}
+        >
+          <div className="mb-4 flex items-center gap-2">
+            <span className="font-mono text-[10px] tracking-[0.22em] uppercase text-cyan-500/60">Book a call</span>
+            <span className="text-[11px] text-gray-600">— instant Google Meet link</span>
+          </div>
+          <Scheduler />
+        </motion.div>
+
+        {/* WhatsApp + Telegram — single row under the scheduler */}
+        <motion.div
+          initial={reduced ? false : { opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: 0.12 }}
+          className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-6"
+        >
+          {PRIMARY.map(({ id, label, handle, href, Icon, color, border, iconColor, badge }) => (
+            <a
               key={id}
               href={href}
               target="_blank"
               rel="noopener noreferrer"
-              initial={reduced ? false : { opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: i * 0.08 }}
-              className={`group flex items-center gap-5 rounded-2xl border bg-linear-to-br ${color} ${border} p-5 transition-all duration-200 hover:scale-[1.01] active:scale-[0.99]`}
+              className={`group flex items-center gap-4 rounded-2xl border bg-linear-to-br ${color} ${border} p-4 transition-all duration-200 hover:scale-[1.01] active:scale-[0.99]`}
             >
-              <div className={`shrink-0 rounded-xl bg-white/5 p-3 ${iconColor}`}>
-                <Icon className="h-7 w-7" />
+              <div className={`shrink-0 rounded-xl bg-white/5 p-2.5 ${iconColor}`}>
+                <Icon className="h-6 w-6" />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-0.5">
-                  <span className="font-bold text-white text-base">{label}</span>
-                  <span className={`text-[9px] font-mono uppercase tracking-widest border rounded-full px-2 py-0.5 ${badge}`}>
+                  <span className="font-bold text-white text-sm">{label}</span>
+                  <span className={`text-[8px] font-mono uppercase tracking-widest border rounded-full px-1.5 py-0.5 ${badge}`}>
                     instant
                   </span>
                 </div>
-                <p className="text-xs text-gray-400 font-mono">{handle}</p>
-                <p className="text-[11px] text-gray-600 mt-0.5">{description}</p>
+                <p className="text-[11px] text-gray-400 font-mono truncate">{handle}</p>
               </div>
-              <svg className="h-4 w-4 text-gray-600 group-hover:text-gray-400 shrink-0 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-              </svg>
-            </motion.a>
+            </a>
           ))}
-        </div>
+        </motion.div>
 
         {/* Divider */}
-        <div className="flex items-center gap-3 mb-6">
+        <div className="flex items-center gap-3 my-6">
           <div className="flex-1 border-t border-white/5" />
           <span className="text-[10px] font-mono uppercase tracking-widest text-gray-600">or reach me via</span>
           <div className="flex-1 border-t border-white/5" />
@@ -137,15 +160,12 @@ export default function ContactPage() {
 
         {/* Secondary links */}
         <div className="grid grid-cols-2 gap-2">
-          {SECONDARY.map(({ label, value, href, Icon }, i) => (
-            <motion.a
+          {SECONDARY.map(({ label, value, href, Icon }) => (
+            <a
               key={label}
               href={href}
               target={href.startsWith('http') ? '_blank' : undefined}
               rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
-              initial={reduced ? false : { opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1], delay: 0.2 + i * 0.05 }}
               className="group flex items-center gap-3 rounded-xl border border-white/6 bg-white/2 p-3.5 hover:border-cyan-500/30 hover:bg-cyan-500/5 transition-colors"
             >
               <Icon className="h-4 w-4 text-gray-500 group-hover:text-cyan-400 shrink-0 transition-colors" />
@@ -153,10 +173,10 @@ export default function ContactPage() {
                 <p className="text-[9px] font-mono uppercase tracking-wider text-gray-600">{label}</p>
                 <p className="text-xs text-gray-400 group-hover:text-gray-200 truncate transition-colors">{value}</p>
               </div>
-            </motion.a>
+            </a>
           ))}
         </div>
-      </motion.div>
+      </div>
     </div>
   )
 }

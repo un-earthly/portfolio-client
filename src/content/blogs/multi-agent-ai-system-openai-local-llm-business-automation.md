@@ -6,7 +6,7 @@ metaDescription: How I built a four-agent AI system using local LLMs (Ollama), T
 readTime: 16
 type: technical
 excerpt: I run a small incense brand alongside my engineering work. I don't have time to be the operator. So I built agents to do it, a four-agent system on local LLMs with zero cloud AI cost, running on my own hardware.
-cover: '/blog-covers/ai-brain.jpg'
+cover: '/blog-covers/multi-agent-ai-system-openai-local-llm-business-automation.svg'
 ---
 
 I run a small incense brand called Insencetic alongside my engineering work. I don't have time to be the operator. So I built agents to do it.

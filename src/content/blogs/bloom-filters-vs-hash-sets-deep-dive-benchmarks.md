@@ -6,7 +6,7 @@ metaDescription: A complete technical breakdown of Bloom filters versus hash set
 readTime: 12
 type: technical
 excerpt: At ten million items, a well-tuned Bloom filter uses ~9MB where a hash set uses ~320MB. The right choice depends on your tolerance for false positives and the cost of your fallback operation. Here's the math, the implementation, and benchmarks.
-cover: '/blog-covers/data-viz.jpg'
+cover: '/blog-covers/bloom-filters-vs-hash-sets-deep-dive-benchmarks.svg'
 ---
 
 > **TL;DR**: A Bloom filter answers "is this definitely not in the set?" in O(1) time using a bit array. It trades a tunable false positive rate for dramatic memory savings. At ten million items, a well-tuned Bloom filter uses ~9MB where a hash set uses ~320MB. The right choice depends on your tolerance for false positives and the cost of your fallback operation.

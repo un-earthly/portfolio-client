@@ -6,7 +6,7 @@ metaDescription: A technical case study on migrating a 20-year-old VB.NET monoli
 readTime: 20
 type: technical
 excerpt: Legacy modernization is the most underrated skill in software engineering. This is the Grimm Scientific case study, migrating a VB.NET monolith to Nuxt.js while the business ran uninterrupted, with 95% load time reduction.
-cover: '/blog-covers/server-room.jpg'
+cover: '/blog-covers/legacy-system-modernization-vbnet-nuxtjs-case-study.svg'
 ---
 
 Legacy modernization is the most underrated skill in software engineering.

@@ -6,7 +6,7 @@ metaDescription: Part 1 of a 5-part series building a terminal API monitor in Ru
 readTime: 13
 type: technical
 excerpt: I came to Rust from garbage-collected languages and got stopped cold on day one, by trying to use a variable twice. This is the story of building `pulse`, a terminal API monitor, and the afternoon ownership rewired how I think about memory. Part 1 of 5.
-cover: '/blog-covers/rust-code.jpg'
+cover: '/blog-covers/building-rust-tui-api-monitor-part-1-ownership.svg'
 ---
 
 I wrote three lines of Rust and the compiler told me no.

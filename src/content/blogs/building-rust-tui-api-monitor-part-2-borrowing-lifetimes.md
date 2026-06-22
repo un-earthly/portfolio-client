@@ -6,7 +6,7 @@ metaDescription: Part 2 of building a terminal API monitor in Rust. We parse JSO
 readTime: 14
 type: technical
 excerpt: Ownership was the warm-up. The error that actually broke my brain was "borrowed value does not live long enough." This is the part where serde, borrowing rules, and lifetimes collide while parsing an API response, and where Rust's reputation for difficulty is earned and then justified. Part 2 of 5.
-cover: '/blog-covers/rust-code.jpg'
+cover: '/blog-covers/building-rust-tui-api-monitor-part-2-borrowing-lifetimes.svg'
 ---
 
 In [Part 1](/blogs/building-rust-tui-api-monitor-part-1-ownership) I learned that a value has one owner and that using it after a move is a compile error. That rule is strict but, honestly, easy. You move things, you stop touching the old name, you move on.

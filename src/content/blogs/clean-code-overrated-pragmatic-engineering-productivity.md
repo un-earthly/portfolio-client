@@ -6,7 +6,7 @@ metaDescription: Clean Code is treated as sacred in software engineering. But th
 readTime: 9
 type: hot-take
 excerpt: Clean Code by Robert Martin has sold millions of copies. It's also responsible for some of the most over-engineered, slow-to-ship codebases I've ever seen. Here's the case for pragmatic engineering over clean code orthodoxy.
-cover: '/blog-covers/laptop-code.jpg'
+cover: '/blog-covers/clean-code-overrated-pragmatic-engineering-productivity.svg'
 ---
 
 Clean Code by Robert Martin has sold millions of copies. It's assigned reading at bootcamps. It's the reference engineers cite in code reviews when they reject a PR.

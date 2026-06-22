@@ -6,7 +6,7 @@ metaDescription: The actual skill that separates fast debuggers from slow ones i
 readTime: 9
 type: hot-take
 excerpt: Two engineers face the same bug. One resolves it in 20 minutes, the other in three hours. Same logs, same debugger, same codebase. The difference is not tooling, it's mental model quality.
-cover: '/blog-covers/circuit-algorithms.jpg'
+cover: '/blog-covers/debugging-mental-models-software-engineering-skills.svg'
 ---
 
 Two engineers face the same bug. One resolves it in 20 minutes. The other spends three hours.
