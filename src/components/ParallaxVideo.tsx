@@ -1,5 +1,5 @@
 'use client'
-import { useRef } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import { motion, useScroll, useTransform } from 'motion/react'
 import Link from 'next/link'
 import { ArrowUpRight, Star } from 'lucide-react'
@@ -7,6 +7,24 @@ import { achievements } from '@/mock-data'
 
 export function ParallaxVideo() {
   const sectionRef = useRef<HTMLElement>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const [videoSrc, setVideoSrc] = useState<string | undefined>(undefined)
+
+  useEffect(() => {
+    const el = sectionRef.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVideoSrc('/showreel.mp4')
+          observer.disconnect()
+        }
+      },
+      { rootMargin: '200px' }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
 
   /*
    * Track scroll relative to this section.
@@ -41,11 +59,13 @@ export function ParallaxVideo() {
         }}
       >
         <video
-          src="/showreel.mp4"
+          ref={videoRef}
+          src={videoSrc}
           autoPlay
           muted
           loop
           playsInline
+          preload="none"
           style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
         />
       </motion.div>
