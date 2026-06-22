@@ -6,7 +6,7 @@ metaDescription: Most developers are using TypeScript wrong, treating it as opti
 readTime: 11
 type: hot-take
 excerpt: The 'any' type is a lie you tell TypeScript so it stops asking questions. Every codebase I've walked into that claimed to be "written in TypeScript" has had the same anti-patterns. Here's what TypeScript looks like when used as an architecture tool.
-cover: '/blog-covers/laptop-code.jpg'
+cover: '/blog-covers/typescript-wrong-usage-type-safety-best-practices.svg'
 ---
 
 The `any` type is a lie you tell TypeScript so it stops asking questions.

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-label="MD.">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0f172a"/>
+      <stop offset="1" stop-color="#020617"/>
+    </linearGradient>
+  </defs>
+  <rect width="256" height="256" rx="56" fill="url(#bg)"/>
+  <!-- node-graph accent -->
+  <g stroke="#22d3ee" stroke-opacity="0.22" stroke-width="2">
+    <line x1="44" y1="52" x2="92" y2="40"/>
+    <line x1="92" y1="40" x2="208" y2="58"/>
+    <line x1="160" y1="206" x2="212" y2="196"/>
+  </g>
+  <g fill="#22d3ee" fill-opacity="0.5">
+    <circle cx="44" cy="52" r="4"/>
+    <circle cx="208" cy="58" r="4"/>
+    <circle cx="212" cy="196" r="4"/>
+    <circle cx="48" cy="200" r="3"/>
+  </g>
+  <!-- wordmark -->
+  <text x="50%" y="50%" dy="0.34em" text-anchor="middle"
+    font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="120" letter-spacing="-4"
+    fill="#f8fafc">MD<tspan fill="#22d3ee">.</tspan></text>
+</svg>

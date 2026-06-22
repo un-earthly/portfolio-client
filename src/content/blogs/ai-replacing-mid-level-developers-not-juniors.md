@@ -6,7 +6,7 @@ metaDescription: Everyone says AI will replace junior developers first. They're 
 readTime: 8
 type: hot-take
 excerpt: The conventional wisdom is wrong. AI is not eating junior developer roles first, it's compressing the mid-level skill premium out of existence. Here's what's actually happening on engineering teams right now.
-cover: '/blog-covers/robot-ai.jpg'
+cover: '/blog-covers/ai-replacing-mid-level-developers-not-juniors.svg'
 ---
 
 The conventional wisdom is that AI will wipe out junior developers. Entry-level coding is the most automatable, right? The boilerplate, the CRUD, the tutorial-level tasks.

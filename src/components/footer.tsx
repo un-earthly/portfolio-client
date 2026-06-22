@@ -1,9 +1,22 @@
 import Link from 'next/link'
 import { links, socialLinks } from '@/mock-data'
-import { ArrowUpRight } from 'lucide-react'
+import {
+  ArrowUpRight, Mail, MessageCircle, Send, CalendarClock,
+  GitBranch as Github, Link2 as Linkedin,
+} from 'lucide-react'
 
 type NavLink = { href: string; label: string }
 type SocialLink = { href: string; label: string; icon: React.ElementType }
+
+// Clickable platform icons — each navigates to its platform.
+const CONTACT_ICONS: { href: string; label: string; icon: React.ElementType; external: boolean }[] = [
+  { href: 'mailto:md.c.alamin00@gmail.com', label: 'Email', icon: Mail, external: false },
+  { href: 'https://wa.me/8801844287772', label: 'WhatsApp', icon: MessageCircle, external: true },
+  { href: 'https://t.me/alamin_c_md', label: 'Telegram', icon: Send, external: true },
+  { href: 'https://github.com/un-earthly', label: 'GitHub', icon: Github, external: true },
+  { href: 'https://www.linkedin.com/in/alamin-md/', label: 'LinkedIn', icon: Linkedin, external: true },
+  { href: '/contact', label: 'Book a call', icon: CalendarClock, external: false },
+]
 
 const _cn = [
   { x: 60,   y: 80 }, { x: 200,  y: 40 }, { x: 360,  y: 100 }, { x: 520,  y: 45 },
@@ -94,21 +107,26 @@ export default function Footer() {
           <p className="text-[10px] font-mono text-gray-700 tracking-[0.22em] uppercase mb-7">
             Contact
           </p>
-          <div className="space-y-4">
-            <div>
-              <p className="text-[10px] text-gray-700 tracking-widest uppercase mb-1">Email</p>
+          {/* Platform icons — click to open each platform */}
+          <div className="flex flex-wrap gap-2.5 mb-6">
+            {CONTACT_ICONS.map(({ href, label, icon: Icon, external }) => (
               <a
-                href="mailto:md.c.alamin00@gmail.com"
-                className="text-sm text-gray-300 hover:text-cyan-400 transition-colors duration-150"
+                key={label}
+                href={href}
+                aria-label={label}
+                title={label}
+                target={external ? '_blank' : undefined}
+                rel={external ? 'noopener noreferrer' : undefined}
+                className="group flex items-center justify-center w-10 h-10 rounded-xl border border-white/8 bg-white/2 text-gray-400 hover:text-cyan-400 hover:border-cyan-400/40 hover:bg-cyan-400/5 transition-colors duration-150"
               >
-                md.c.alamin00@gmail.com
+                <Icon className="w-4 h-4" />
               </a>
-            </div>
-            <div>
-              <p className="text-[10px] text-gray-700 tracking-widest uppercase mb-1">Location</p>
-              <p className="text-sm text-gray-500">Dhaka, Bangladesh</p>
-              <p className="text-xs text-gray-700 mt-0.5">Available for remote work</p>
-            </div>
+            ))}
+          </div>
+          <div>
+            <p className="text-[10px] text-gray-700 tracking-widest uppercase mb-1">Location</p>
+            <p className="text-sm text-gray-500">Dhaka, Bangladesh</p>
+            <p className="text-xs text-gray-700 mt-0.5">Available for remote work</p>
           </div>
         </div>
 

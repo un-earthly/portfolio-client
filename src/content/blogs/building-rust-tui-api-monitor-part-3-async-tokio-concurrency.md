@@ -6,7 +6,7 @@ metaDescription: Part 3 of building a terminal API monitor in Rust. We go async 
 readTime: 15
 type: technical
 excerpt: Polling one endpoint at a time is slow. Polling them concurrently means sharing state between tasks, and that is exactly where every other language hands you a data race at 3 a.m. This is the part where Rust's ownership rules stop feeling like bureaucracy and start feeling like a superpower. Part 3 of 5.
-cover: '/blog-covers/circuit-algorithms.jpg'
+cover: '/blog-covers/building-rust-tui-api-monitor-part-3-async-tokio-concurrency.svg'
 ---
 
 Up to now `pulse` has been polite and slow. It checks one endpoint, waits for the whole round trip, prints the result, then checks the next. With one service that's fine. With a dozen services each taking 80ms, a full sweep takes nearly a second, and the program spends 99% of that time doing nothing but waiting on sockets.

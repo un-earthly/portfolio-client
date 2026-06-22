@@ -277,6 +277,37 @@ button:active {
   to   { transform: translateX(0); }
 }
 
+/* Marquee row clips the overflowing track and fades both edges */
+.mq-row {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+          mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+}
+/* pause the marquee while hovering a row */
+.mq-row:hover .mq-track { animation-play-state: paused; }
+
+/* Marquee track — driven by --mq-duration var, direction via .mq-reverse */
+.mq-track {
+  display: flex;
+  gap: 8px;
+  width: max-content;
+  will-change: transform;
+  animation: mq-left var(--mq-duration, 30s) linear infinite;
+}
+.mq-track.mq-reverse {
+  animation-name: mq-right;
+}
+
+@keyframes mq-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* icons sit still, then spin when their cell is hovered */
+.mq-icon { transition: transform 0.4s ease; }
+.group:hover .mq-icon { animation: mq-spin 1.6s linear infinite; }
+
 @media (prefers-reduced-motion: reduce) {
-  [style*="mq-left"], [style*="mq-right"] { animation: none !important; }
+  .mq-track { animation: none; }
+  .group:hover .mq-icon { animation: none; }
 }

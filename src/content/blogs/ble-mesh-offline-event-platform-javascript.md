@@ -6,7 +6,7 @@ metaDescription: How I designed a production-grade offline-first event managemen
 readTime: 22
 type: technical
 excerpt: Most apps assume the internet exists. I built one that doesn't. This is how I architected OurStoryz, a production event platform that works fully offline using BLE mesh networking, Kalman filtering for RSSI-based positioning, and hybrid transport layers.
-cover: '/blog-covers/mobile-app.jpg'
+cover: '/blog-covers/ble-mesh-offline-event-platform-javascript.svg'
 ---
 
 Most apps assume the internet exists. I built one that doesn't.

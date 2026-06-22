@@ -6,7 +6,7 @@ metaDescription: The "full-stack developer" title is a hiring fiction that benef
 readTime: 8
 type: hot-take
 excerpt: Every startup wants a full-stack developer. Someone who can do the database, the API, the frontend, the CI/CD pipeline, the cloud infrastructure, and review the security audit on weekends. This is not a job description. It's a budget problem.
-cover: '/blog-covers/career-office.jpg'
+cover: '/blog-covers/full-stack-developer-myth-t-shaped-skills-specialization.svg'
 ---
 
 Every startup wants a full-stack developer. Someone who can do the database, the API, the frontend, the CI/CD pipeline, the cloud infrastructure, the mobile app, and review the security audit on weekends.

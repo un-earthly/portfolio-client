@@ -6,7 +6,7 @@ metaDescription: Most developers blame execution for their failed side projects.
 readTime: 7
 type: hot-take
 excerpt: Every failed side project has the same autopsy, "I just didn't have time to market it." That's almost never true. Here's what's actually happening and how to build something the market actually wants.
-cover: '/blog-covers/laptop-code.jpg'
+cover: '/blog-covers/side-project-failure-reasons-product-market-fit-developer.svg'
 ---
 
 Every failed side project has the same autopsy: "I just didn't have time to market it."

@@ -6,7 +6,7 @@ metaDescription: Developers say the freelance market is saturated and rates are 
 readTime: 8
 type: hot-take
 excerpt: "Freelance dev is dead. Upwork is a race to the bottom." This is partially true and mostly wrong. The race-to-the-bottom market is real, for generic web development. The market for specialists is undersupplied. Here's the difference.
-cover: '/blog-covers/career-office.jpg'
+cover: '/blog-covers/freelance-developer-market-positioning-remote-work-strategy.svg'
 ---
 
 "Freelance dev is dead. Upwork is a race to the bottom. The market is saturated."

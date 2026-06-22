@@ -6,7 +6,7 @@ metaDescription: Most skilled developers are invisible to the clients and compan
 readTime: 7
 type: hot-take
 excerpt: I've talked to developers with five years of production experience who can't land a remote contract. And I've seen two-year developers charging $150/hour. The difference is not skill. It's visibility.
-cover: '/blog-covers/career-office.jpg'
+cover: '/blog-covers/developer-visibility-problem-portfolio-personal-brand.svg'
 ---
 
 I've talked to developers with five years of production experience who can't land a $3,000/month remote contract. And I've seen developers with two years of experience charging $150/hour because three thousand people follow their build-in-public thread.

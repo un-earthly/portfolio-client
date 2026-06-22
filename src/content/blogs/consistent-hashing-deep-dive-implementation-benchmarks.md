@@ -6,7 +6,7 @@ metaDescription: A complete technical breakdown of consistent hashing: the hash 
 readTime: 14
 type: technical
 excerpt: When you add one server and your app goes down, the culprit is almost always naive load distribution. Consistent hashing solves this by moving only K/N keys instead of nearly all of them. Here's the mechanism, the implementation, and benchmarks that show the real difference.
-cover: '/blog-covers/circuit-algorithms.jpg'
+cover: '/blog-covers/consistent-hashing-deep-dive-implementation-benchmarks.svg'
 ---
 
 Your app just hit a million monthly users. Then you added one server. Then everything went down.

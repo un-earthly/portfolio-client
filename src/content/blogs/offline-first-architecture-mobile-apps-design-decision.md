@@ -6,7 +6,7 @@ metaDescription: Developers treat offline support as a feature to add before lau
 readTime: 10
 type: hot-take
 excerpt: "We'll add offline support before launch" is the engineering equivalent of "we'll add tests after it's working." It reveals a misunderstanding of what offline-first actually is. Here's what it costs to get this wrong.
-cover: '/blog-covers/mobile-app.jpg'
+cover: '/blog-covers/offline-first-architecture-mobile-apps-design-decision.svg'
 ---
 
 "We'll add offline support before launch" is the engineering equivalent of "we'll add tests after it's working." It reveals a misunderstanding of what offline-first actually is.

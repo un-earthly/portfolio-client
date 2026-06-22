@@ -6,7 +6,7 @@ metaDescription: Part 4 of building a terminal API monitor in Rust. We build the
 readTime: 14
 type: technical
 excerpt: I ran the TUI, it panicked mid-render, and left my terminal in raw mode, no echo, no newlines, a wreck. The fix turned out to be the same RAII mechanism that frees memory in Rust. This is the part about error handling without exceptions, pattern matching, and the Drop trait. Part 4 of 5.
-cover: '/blog-covers/laptop-code.jpg'
+cover: '/blog-covers/building-rust-tui-api-monitor-part-4-ratatui-error-handling.svg'
 ---
 
 The engine worked. [Part 3](/blogs/building-rust-tui-api-monitor-part-3-async-tokio-concurrency) left `pulse` able to sweep a fleet of endpoints concurrently and stream results back. Now it needed a face: a live, bordered dashboard that refreshes on a loop, green for healthy, red for down, and quits when I press `q`.

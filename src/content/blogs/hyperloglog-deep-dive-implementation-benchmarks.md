@@ -6,7 +6,7 @@ metaDescription: A complete technical breakdown of HyperLogLog: the probabilisti
 readTime: 13
 type: technical
 excerpt: HyperLogLog estimates the count of distinct elements in a stream using O(log log N) memory. In practice, 12KB and ~1.3% error across cardinalities from 1 to 10 billion. Here's the mechanism, implementation, merge property, and benchmarks.
-cover: '/blog-covers/data-viz.jpg'
+cover: '/blog-covers/hyperloglog-deep-dive-implementation-benchmarks.svg'
 ---
 
 > **TL;DR**: HyperLogLog estimates the count of distinct elements in a stream using `O(log log N)` memory. In practice, a standard implementation uses 12KB and achieves ~1.3% error across cardinalities from 1 to 10 billion. It works by observing the maximum number of leading zeros in the hashes of seen elements.

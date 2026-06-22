@@ -6,7 +6,7 @@ metaDescription: AI coding assistants are accelerators, not equalizers. In the h
 readTime: 9
 type: hot-take
 excerpt: GitHub Copilot and Claude do not make all engineers equally capable. They make the gap between good and bad engineers wider and faster to observe. Here's the pattern I've watched play out.
-cover: '/blog-covers/ai-brain.jpg'
+cover: '/blog-covers/ai-coding-tools-github-copilot-claude-engineering-quality.svg'
 ---
 
 GitHub Copilot and Claude do not make all engineers equally capable. They make the gap between good and bad engineers wider and faster to observe.
