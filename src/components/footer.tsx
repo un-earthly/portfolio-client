@@ -1,5 +1,8 @@
+'use client'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { links, socialLinks } from '@/mock-data'
+import { Newsletter } from '@/components/Newsletter'
 import {
   ArrowUpRight, Mail, MessageCircle, Send, CalendarClock,
   GitBranch as Github, Link2 as Linkedin,
@@ -56,11 +59,17 @@ function CTANodes() {
 
 export default function Footer() {
   const year = new Date().getFullYear()
+  const pathname = usePathname()
+  const showCta = pathname !== '/contact' // contact page already is the CTA
 
   return (
     <footer className="border-t border-white/5">
 
+      {/* ── Newsletter (scroll-reveal) ─────────────────────────────── */}
+      <Newsletter />
+
       {/* ── CTA strip ──────────────────────────────────────────────── */}
+      {showCta && (
       <div className="border-b border-white/5 py-20 px-6 text-center relative overflow-hidden">
         {/* Subtle grid bg */}
         <div
@@ -98,6 +107,7 @@ export default function Footer() {
           </p>
         </div>
       </div>
+      )}
 
       {/* ── Main grid ──────────────────────────────────────────────── */}
       <div className="grid grid-cols-1 md:grid-cols-3">

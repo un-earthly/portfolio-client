@@ -492,11 +492,20 @@ export default function Home() {
       {/* Marquee tech stack — full bleed */}
       <TechExpertise />
 
-      <div className="mx-auto px-6 lg:px-8 py-8 space-y-8">
+      {/* Experience + Projects — shared subtle grid background */}
+      <div className="relative overflow-hidden">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.02]"
+          style={{
+            backgroundImage:
+              'linear-gradient(rgba(6,182,212,1) 1px, transparent 1px), linear-gradient(90deg, rgba(6,182,212,1) 1px, transparent 1px)',
+            backgroundSize: '80px 80px',
+          }}
+        />
 
-        {/* Experience */}
-        <section>
-          <SectionHeader title="Professional Experience" href="/experience" />
+        {/* Experience — constrained reading width */}
+        <section className="relative mx-auto max-w-4xl px-6 py-14">
+          <SectionHeader title="Professional Experience" eyebrow="Where I've shipped" href="/experience" />
           <div className="grid gap-6">
             {experiences.slice(0, 2).map((company, i) => (
               <ExperienceCard company={company} key={i} />
@@ -504,15 +513,16 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Projects */}
-        <section>
-          <SectionHeader title="Featured Projects" href="/portfolio" />
-          <div className="grid grid-cols-2 gap-3">
-            <div className="col-span-2">
+        {/* Projects — full width, like the portfolio grid */}
+        <section className="relative mx-auto max-w-7xl px-6 py-14">
+          <SectionHeader title="Featured Projects" eyebrow="Selected work" href="/portfolio" />
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+            <div className="md:col-span-3">
               <FeaturedProjectCard project={projects[0]} tall />
             </div>
-            <FeaturedProjectCard project={projects[1]} />
-            <FeaturedProjectCard project={projects[2]} />
+            {projects.slice(1, 4).map((project, i) => (
+              <FeaturedProjectCard project={project} key={i} />
+            ))}
           </div>
         </section>
 

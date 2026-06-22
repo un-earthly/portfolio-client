@@ -115,7 +115,7 @@ export default function ContactPage() {
         >
           <div className="mb-4 flex items-center gap-2">
             <span className="font-mono text-[10px] tracking-[0.22em] uppercase text-cyan-500/60">Book a call</span>
-            <span className="text-[11px] text-gray-600">— instant Google Meet link</span>
+            <span className="text-[11px] text-gray-600">instant Google Meet link</span>
           </div>
           <Scheduler />
         </motion.div>
