@@ -7,8 +7,8 @@ readTime: 20
 type: technical
 excerpt: Legacy modernization is the most underrated skill in software engineering. This is the Grimm Scientific case study, migrating a VB.NET monolith to Nuxt.js while the business ran uninterrupted, with 95% load time reduction.
 cover: '/blog-covers/legacy-system-modernization-vbnet-nuxtjs-case-study.svg'
-tldr: Migrated a 20-year-old VB.NET monolith on millions of MSSQL records to a Nuxt.js stack using the strangler-fig pattern — zero downtime, 95% faster page loads, and the business never stopped running.
-faqs: How long did the migration take?::Roughly nine months end-to-end, shipping incrementally behind the strangler-fig proxy rather than a big-bang cutover. | Did users experience downtime?::No — old and new ran side by side, traffic shifted route by route, with instant rollback per slice. | What was the hardest part?::Untangling business logic buried in stored procedures nobody fully understood; we characterized behavior with tests before moving it. | Can you do this for my legacy system?::Yes — this is core work I take on. Book a call and we'll scope a safe path.
+tldr: Migrated a 20-year-old VB.NET monolith on millions of MSSQL records to a Nuxt.js stack using the strangler-fig pattern. Zero downtime, 95% faster page loads, and the business never stopped running.
+faqs: How long did the migration take?::Roughly nine months end to end, shipping incrementally behind the strangler-fig proxy rather than a big-bang cutover. | Did users experience downtime?::No. Old and new ran side by side, traffic shifted route by route, with instant rollback per slice. | What was the hardest part?::Untangling business logic buried in stored procedures nobody fully understood. We characterized behavior with tests before moving it. | Can you do this for my legacy system?::Yes, this is core work I take on. Book a call and we will scope a safe path.
 ---
 
 Legacy modernization is the most underrated skill in software engineering.

@@ -143,7 +143,7 @@ export default async function BlogPostPage({
               </p>
               <h2 className="text-2xl font-black text-white mb-2">Let&apos;s build something that holds.</h2>
               <p className="text-sm text-gray-400 mb-5 max-w-md">
-                Full-stack engineering, system design, and legacy modernization — available for
+                Full-stack engineering, system design, and legacy modernization. Available for
                 freelance, contract, and full-time roles.
               </p>
               <div className="flex flex-wrap gap-3">

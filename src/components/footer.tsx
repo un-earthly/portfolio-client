@@ -2,6 +2,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { links, socialLinks } from '@/mock-data'
+import { Newsletter } from '@/components/Newsletter'
 import {
   ArrowUpRight, Mail, MessageCircle, Send, CalendarClock,
   GitBranch as Github, Link2 as Linkedin,
@@ -63,6 +64,9 @@ export default function Footer() {
 
   return (
     <footer className="border-t border-white/5">
+
+      {/* ── Newsletter (scroll-reveal) ─────────────────────────────── */}
+      <Newsletter />
 
       {/* ── CTA strip ──────────────────────────────────────────────── */}
       {showCta && (
