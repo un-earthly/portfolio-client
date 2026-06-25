@@ -1,3 +1,11 @@
+---
+title: "Scripts as System Coordination: Managing a Monorepo with Node.js Scripts"
+date: 2026-06-24
+tags: [scripts, monorepo, system coordination, Node.js, Qabiile, type generation, deploy, automation]
+metaDescription: How three Node.js scripts in the Qabiile monorepo replace fragile multi-step manual processes — keeping the type chain in sync, orchestrating deploys, and seeding databases — with single commands.
+type: technical
+---
+
 # Scripts as System Coordination: Managing a Monorepo with Node.js Scripts
 
 **Series: The Qabiile Scripts Deep-Dive — Part 3 of 3**

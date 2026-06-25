@@ -1,3 +1,11 @@
+---
+title: "Scripts as Quality Gates: How the Qabiile Pre-Commit Hook Works"
+date: 2026-06-22
+tags: [scripts, quality gates, pre-commit, Husky, lint-staged, monorepo, Qabiile, CI, developer tooling]
+metaDescription: How six pre-commit checks in the Qabiile monorepo enforce code quality at commit time using Husky and lint-staged — and why speed is what makes developers trust a gate instead of bypassing it.
+type: technical
+---
+
 # Scripts as Quality Gates: How the Qabiile Pre-Commit Hook Works
 
 **Series: The Qabiile Scripts Deep-Dive — Part 2 of 3**

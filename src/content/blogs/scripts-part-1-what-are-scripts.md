@@ -1,3 +1,11 @@
+---
+title: "Scripts Are Not Shortcuts. They Are Architecture."
+date: 2026-06-20
+tags: [scripts, monorepo, developer tooling, Node.js, automation, Qabiile, architecture, package.json]
+metaDescription: Why npm scripts are a form of architecture, not just aliases — a deep dive into how the Qabiile monorepo uses scripts to encode decisions about how a project is run, validated, and shipped.
+type: technical
+---
+
 # Scripts Are Not Shortcuts. They Are Architecture.
 
 **Series: The Qabiile Scripts Deep-Dive — Part 1 of 3**
