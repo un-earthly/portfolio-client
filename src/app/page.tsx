@@ -342,8 +342,8 @@ function BlogScrollSection() {
     const GAP = 12
     const PL = 32
     const PR = 64
-    const remainingCards = Math.max(0, featured.length - 1)
-    const cols = Math.ceil(remainingCards / 2)
+    const remainingCards = Math.min(Math.max(0, featured.length - 1), 12)
+    const cols = Math.ceil(remainingCards / 2) + 1 // +1 for the CTA card column
 
     const measure = () => {
       // hero(50vw) + gap + grid(cols*500 + (cols-1)*gap) + paddings - viewport
@@ -436,7 +436,7 @@ function BlogScrollSection() {
                 </div>
               )}
 
-              {/* remaining cards — 2-row grid, auto columns at 240px */}
+              {/* remaining cards — 2-row grid, auto columns at 500px */}
               <div style={{
                 flexShrink: 0,
                 height: '100%',
@@ -446,35 +446,50 @@ function BlogScrollSection() {
                 gridAutoColumns: '500px',
                 gap: '12px',
               }}>
-                {featured.slice(1).map(post => (
+                {featured.slice(1, 13).map(post => (
                   <div key={post.slug} style={{ minHeight: 0 }}>
                     <BlogCard {...post} />
                   </div>
                 ))}
+
+                {/* End-of-track CTA — spans both rows */}
+                <div style={{ gridRow: '1 / -1', minHeight: 0 }}>
+                  <Link
+                    href="/blogs"
+                    style={{ height: '100%' }}
+                    className="flex flex-col items-center justify-center gap-5 rounded-2xl border border-white/8 bg-white/2 hover:border-cyan-500/30 hover:bg-cyan-500/5 transition-all duration-300 group px-12"
+                  >
+                    <span className="flex h-14 w-14 items-center justify-center rounded-full border border-white/10 bg-white/5 group-hover:border-cyan-500/40 group-hover:bg-cyan-500/10 transition-all duration-300">
+                      <ArrowUpRight className="h-6 w-6 text-gray-400 group-hover:text-cyan-400 transition-colors" />
+                    </span>
+                    <div className="text-center">
+                      <p className="text-xl font-black text-white tracking-tight group-hover:text-cyan-50 transition-colors">
+                        Read all posts
+                      </p>
+                      <p className="mt-1 text-xs font-mono text-gray-600 tracking-widest uppercase">
+                        {featured.length} articles &amp; essays
+                      </p>
+                    </div>
+                  </Link>
+                </div>
               </div>
             </div>
           </motion.div>
         </div>
 
-        {/* bottom bar */}
+        {/* bottom bar — progress only */}
         <div style={{
           flexShrink: 0,
           padding: '16px 32px',
           borderTop: '1px solid rgba(255,255,255,0.05)',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'space-between',
+          gap: '24px',
         }}>
-          <Link
-            href="/blogs"
-            className="flex items-center gap-2 px-5 py-2 rounded-full bg-white/4 border border-white/10 hover:border-cyan-500/40 hover:bg-cyan-500/8 text-xs font-mono text-gray-300 hover:text-white transition-all"
-          >
-            Read more <ArrowUpRight size={11} />
-          </Link>
-          <div style={{ flex: 1, margin: '0 24px', height: '1px', background: 'rgba(255,255,255,0.05)', position: 'relative', overflow: 'hidden' }}>
+          <p className="text-[9px] font-mono text-gray-700 tracking-widest uppercase shrink-0">scroll →</p>
+          <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.05)', position: 'relative', overflow: 'hidden' }}>
             <motion.div style={{ width: barWidth, position: 'absolute', inset: 0, background: 'rgba(34,211,238,0.5)' }} />
           </div>
-          <p className="text-[9px] font-mono text-gray-700 tracking-widest uppercase">scroll →</p>
         </div>
 
       </div>
@@ -492,7 +507,7 @@ export default function Home() {
       {/* Marquee tech stack — full bleed */}
       <TechExpertise />
 
-      {/* Experience + Projects — shared subtle grid background */}
+{/* Experience + Projects — shared subtle grid background */}
       <div className="relative overflow-hidden">
         <div
           className="pointer-events-none absolute inset-0 opacity-[0.02]"
