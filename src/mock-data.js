@@ -110,7 +110,7 @@ export const yearsOfExperince = 5
 const experiences = [
   {
     "company": "Mediusware",
-    "companyLogo": "https://media.licdn.com/dms/image/v2/D560BAQF2PifV7yh-oQ/company-logo_200_200/B56ZU23g_LGQAI-/0/1740382278023/mediusware_ltd_logo?e=1755734400&v=beta&t=25cZvVjpSbGc1BbrNdgfds1PbDgaufvUBql66gae5qo",
+    "companyLogo": "/mediusware-logo.jpeg",
     "positions": [
       {
         "title": "Senior Software Engineer",
@@ -126,7 +126,7 @@ const experiences = [
   },
   {
     "company": "All Generation Tech",
-    "companyLogo": "https://media.licdn.com/dms/image/v2/D4D0BAQHoOVFxddbjLg/company-logo_200_200/company-logo_200_200/0/1727288301001/all_generation_tech_logo?e=1751500800&v=beta&t=MsVnceDiYQkwvKlLtw4gUmXAMLFSs_BnKAqVai3c2-M",
+    "companyLogo": "/agt-logo.jpeg",
     "positions": [
       {
         "title": "Software Engineer",
@@ -142,7 +142,7 @@ const experiences = [
   },
   {
     "company": "Masleap Plc",
-    "companyLogo": "https://media.licdn.com/dms/image/v2/C4D0BAQEn0kE51pSFMw/company-logo_200_200/company-logo_200_200/0/1635880649194?e=1751500800&v=beta&t=0cxYxrqbei2-eFEHrt_aD5J5FG_2w9vTJLYsJT-eqkE",
+    "companyLogo": "/masleap-logo.jpeg",
     "duration": "1 year 7 months",
     "type": "Full-time",
     "location": "Dhaka, Bangladesh - On-site",
@@ -164,7 +164,7 @@ const experiences = [
   },
   {
     "company": "IshQool",
-    "companyLogo": "https://media.licdn.com/dms/image/v2/D4D0BAQGdwOuHisFr3g/company-logo_100_100/company-logo_100_100/0/1680240340779?e=1751500800&v=beta&t=frj3w-icnTZhx3i4Mc5RkczDwZzNzTplydMoH9IbMhM",
+    "companyLogo": "/ishqool.jpeg",
     "duration": "1 yr 6 mos",
     "type": "Full-time",
     "location": "Dhaka, Bangladesh · Remote",
@@ -424,6 +424,10 @@ const links = [
   {
     href: '/about',
     label: 'About'
+  },
+  {
+    href: '/experience-map',
+    label: 'World Map'
   },
 ];
 const codeSnippets = [
