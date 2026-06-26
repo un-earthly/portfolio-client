@@ -1,14 +1,14 @@
 ---
-title: "Scripts as Quality Gates: How the Qabiile Pre-Commit Hook Works"
+title: "Scripts as Quality Gates: How the Pre-Commit Hook Works"
 date: 2026-06-22
-tags: [scripts, quality gates, pre-commit, Husky, lint-staged, monorepo, Qabiile, CI, developer tooling]
-metaDescription: How six pre-commit checks in the Qabiile monorepo enforce code quality at commit time using Husky and lint-staged — and why speed is what makes developers trust a gate instead of bypassing it.
+tags: [scripts, quality gates, pre-commit, Husky, lint-staged, monorepo, CI, developer tooling]
+metaDescription: How six pre-commit checks in a production monorepo enforce code quality at commit time using Husky and lint-staged — and why speed is what makes developers trust a gate instead of bypassing it.
 type: technical
 ---
 
-# Scripts as Quality Gates: How the Qabiile Pre-Commit Hook Works
+# Scripts as Quality Gates: How the Pre-Commit Hook Works
 
-**Series: The Qabiile Scripts Deep-Dive — Part 2 of 3**
+**Series: The Scripts Deep-Dive — Part 2 of 4**
 
 ---
 
@@ -16,7 +16,7 @@ In [Part 1](#), I argued that scripts are architecture, not shortcuts — the la
 
 A quality gate is a script that runs automatically and refuses to let bad work proceed. The most valuable place to put one is the moment a developer commits — before the code ever reaches a branch, a pull request, or CI. This is the principle of shifting left: the earlier a problem is caught, the cheaper it is to fix. A typo caught by a pre-commit hook costs five seconds. The same typo caught by a CI run twelve minutes later, or by a reviewer the next morning, costs orders of magnitude more in context-switching and round trips.
 
-The Qabiile monorepo runs six distinct checks at commit time, all wired through Husky git hooks and `lint-staged`. The interesting part is not that these checks exist — every mature project has linting. The interesting part is the design decisions that make developers trust the gate instead of bypassing it with `--no-verify`.
+This monorepo runs six distinct checks at commit time, all wired through Husky git hooks and `lint-staged`. The interesting part is not that these checks exist — every mature project has linting. The interesting part is the design decisions that make developers trust the gate instead of bypassing it with `--no-verify`.
 
 ---
 
@@ -43,7 +43,7 @@ The second design choice that protects speed is ordering checks from cheapest to
 
 ## The Six Checks, and What Each One Defends
 
-The Qabiile pre-commit pipeline defends six different properties of the codebase. Each check exists because a specific class of problem was worth preventing at the door rather than discovering later.
+The pre-commit pipeline defends six different properties of the codebase. Each check exists because a specific class of problem was worth preventing at the door rather than discovering later.
 
 ### 1. Prettier — formatting consistency
 
@@ -83,7 +83,7 @@ This is the check that justifies the entire hook system on its own. `secretlint`
 pnpm audit --audit-level=moderate
 ```
 
-This scans the dependency tree for known CVEs at moderate severity or higher. In Qabiile it is configured to warn rather than block at commit time, because a new CVE disclosure is not the committing developer's fault and should not stop unrelated work. The signal still surfaces at the moment of commit, which is when someone is paying attention, rather than being buried in a weekly report nobody reads.
+This scans the dependency tree for known CVEs at moderate severity or higher. It is configured to warn rather than block at commit time, because a new CVE disclosure is not the committing developer's fault and should not stop unrelated work. The signal still surfaces at the moment of commit, which is when someone is paying attention, rather than being buried in a weekly report nobody reads.
 
 ### 6. The custom OpenAPI annotation checker — contract integrity
 
@@ -99,7 +99,7 @@ The reason this check exists connects directly to the architecture covered in Pa
 
 ## Two More Gates Beyond the Pre-Commit Hook
 
-The commit-time checks are the most visible, but Qabiile runs two further git hooks that defend different properties.
+The commit-time checks are the most visible, but the project runs two further git hooks that defend different properties.
 
 ### commit-msg — enforcing conventional commits
 
@@ -129,18 +129,16 @@ Reviewers do not reliably catch typos, missing decorators, formatting drift, or 
 
 A good quality gate does not slow a team down. It speeds the team up, by moving an entire category of friction off the critical path and onto a script that runs in under three seconds and never gets tired.
 
-The trade-off to respect is that every check you add costs time, and time is the budget that determines whether the gate survives. Qabiile keeps the gate fast by running on staged files only, auto-fixing instead of complaining where it can, and reserving the hard block for the one check that truly cannot be allowed through — committed secrets. Everything else either fixes itself or warns. That balance is why developers leave the hook enabled.
+The trade-off to respect is that every check you add costs time, and time is the budget that determines whether the gate survives. The gate stays fast by running on staged files only, auto-fixing instead of complaining where it can, and reserving the hard block for the one check that truly cannot be allowed through — committed secrets. Everything else either fixes itself or warns. That balance is why developers leave the hook enabled.
 
 ---
 
 ## What's Next
 
-Part 3 takes the lens all the way up to the system level. A monorepo with four submodules, a shared contracts package, and a generated type chain has coordination problems that no individual repository has. The Qabiile scripts solve them: a single command that keeps four submodule remotes and a shared lockfile in sync, a contract-generation chain that propagates a single API change through to fully-typed frontend code, and a cross-repo PR tooling layer that standardises workflow across five repositories.
+Part 3 takes the lens all the way up to the system level. A monorepo with four submodules, a shared contracts package, and a generated type chain has coordination problems that no individual repository has. The scripts solve them: a single command that keeps four submodule remotes and a shared lockfile in sync, a contract-generation chain that propagates a single API change through to fully-typed frontend code, and a cross-repo PR tooling layer that standardises workflow across five repositories.
 
 **Part 1: [Scripts Are Not Shortcuts. They Are Architecture.](#)**
 
 **Part 3: [Scripts as System Coordination — Managing a Monorepo with Node.js Scripts](#)**
 
----
-
-*Qabiile is a clan-based social and reward platform currently in active development. The monorepo runs NestJS, Next.js, Supabase, BullMQ, and TypeORM across four submodules with a shared contracts package.*
+**Part 4: [Broadening the Horizon — What Scripts Can Build Beyond the Toolchain](#)**
