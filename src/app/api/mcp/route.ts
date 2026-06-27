@@ -15,7 +15,6 @@ const OWNER = process.env.GITHUB_REPO_OWNER ?? "un-earthly";
 const REPO = process.env.GITHUB_REPO_NAME ?? "portfolio-client";
 const BLOGS_PATH = process.env.GITHUB_BLOGS_PATH ?? "src/content/blogs";
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN ?? "";
-const MCP_SECRET = process.env.MCP_SECRET ?? "";
 
 // ── GitHub API helpers ───────────────────────────────────────────────────────
 
@@ -564,18 +563,6 @@ function createMcpServer(): Server {
 // ── Route handler ─────────────────────────────────────────────────────────────
 
 async function handleMcp(req: Request): Promise<Response> {
-  // Auth check
-  if (MCP_SECRET) {
-    const auth = req.headers.get("authorization") ?? "";
-    const token = auth.startsWith("Bearer ") ? auth.slice(7) : null;
-    if (token !== MCP_SECRET) {
-      return new Response(JSON.stringify({ error: "Unauthorized" }), {
-        status: 401,
-        headers: { "Content-Type": "application/json" },
-      });
-    }
-  }
-
   if (!GITHUB_TOKEN) {
     return new Response(JSON.stringify({ error: "GITHUB_TOKEN not configured" }), {
       status: 500,
