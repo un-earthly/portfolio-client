@@ -28,9 +28,10 @@ const blogSlugs = [
   'debugging-mental-models-software-engineering-skills',
   'ai-coding-tools-github-copilot-claude-engineering-quality',
   'freelance-developer-market-positioning-remote-work-strategy',
+  'self-hosted-mcp-server-nextjs-portfolio',
 ]
 
-const BASE_URL = 'https://www.alamin-md.xyz'
+const BASE_URL = 'https://alamin-md.xyz'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages: MetadataRoute.Sitemap = [
