@@ -703,9 +703,9 @@ async function handleMcp(req: Request): Promise<Response> {
   const server = createMcpServer();
   await server.connect(transport);
 
-  const response = await transport.handleRequest(req);
-  await server.close();
-  return response;
+  // Do not call server.close() in stateless mode — handleRequest returns
+  // a Promise that may not have resolved yet. Cleanup is handled by GC.
+  return transport.handleRequest(req);
 }
 
 export async function POST(req: Request): Promise<Response> {
