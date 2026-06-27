@@ -3,7 +3,10 @@ title: "Scripts as System Coordination: Managing a Monorepo with Node.js Scripts
 date: 2026-06-24
 tags: [scripts, monorepo, system coordination, Node.js, type generation, deploy, automation]
 metaDescription: How three Node.js scripts in a production monorepo replace fragile multi-step manual processes — keeping the type chain in sync, orchestrating deploys, and seeding databases — with single commands.
+readTime: 5
 type: technical
+excerpt: A monorepo with four submodules, a shared contracts package, and a generated type chain has coordination problems no single repo has. Here are three scripts that solve them with one command each.
+cover: '/blog-covers/scripts-part-3-system-coordination.svg'
 ---
 
 # Scripts as System Coordination: Managing a Monorepo with Node.js Scripts
