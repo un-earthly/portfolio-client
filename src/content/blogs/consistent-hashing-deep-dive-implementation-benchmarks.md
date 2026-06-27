@@ -5,7 +5,7 @@ tags: [consistent hashing, distributed systems, hash ring, virtual nodes, system
 metaDescription: A complete technical breakdown of consistent hashing: the hash ring, virtual nodes, the math behind key redistribution, and benchmarks comparing it to modulo hashing under node churn.
 readTime: 14
 type: technical
-excerpt: When you add one server and your app goes down, the culprit is almost always naive load distribution. Consistent hashing solves this by moving only K/N keys instead of nearly all of them. Here's the mechanism, the implementation, and benchmarks that show the real difference.
+excerpt: When you add one server and your app goes down, the culprit is almost always naive load distribution. Consistent hashing solves this by moving only K/N keys instead of nearly all of them. Here's the mechanism, the implementation, and benchmarks under real node churn.
 cover: '/blog-covers/consistent-hashing-deep-dive-implementation-benchmarks.svg'
 ---
 
