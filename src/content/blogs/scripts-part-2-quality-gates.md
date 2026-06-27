@@ -3,7 +3,10 @@ title: "Scripts as Quality Gates: How the Pre-Commit Hook Works"
 date: 2026-06-22
 tags: [scripts, quality gates, pre-commit, Husky, lint-staged, monorepo, CI, developer tooling]
 metaDescription: How six pre-commit checks in a production monorepo enforce code quality at commit time using Husky and lint-staged — and why speed is what makes developers trust a gate instead of bypassing it.
+readTime: 5
 type: technical
+excerpt: Six pre-commit checks, all running on staged files only, completing in under three seconds. Here's the design behind a quality gate that developers leave enabled instead of bypassing with --no-verify.
+cover: '/blog-covers/scripts-part-2-quality-gates.svg'
 ---
 
 # Scripts as Quality Gates: How the Pre-Commit Hook Works
