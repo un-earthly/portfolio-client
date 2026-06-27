@@ -1,5 +1,5 @@
 ---
-title: Stop Using TypeScript Like It's JavaScript With Spellcheck
+title: "Stop Using TypeScript Like It's JavaScript With Spellcheck"
 date: 2025-08-25
 tags: [TypeScript, JavaScript, type safety, software engineering, web development, developer tools, best practices]
 metaDescription: Most developers are using TypeScript wrong, treating it as optional documentation rather than a structural tool. Here's what real TypeScript usage looks like and why it matters.
@@ -141,5 +141,8 @@ The engineers who complain that TypeScript is slow and annoying are the ones usi
 
 > Use the type system. Actually use it.
 
+---
 
-typescript-wrong-usage-type-safety-best-practices.md
+**Walking into a TypeScript codebase that's essentially typed JavaScript?**
+
+This is one of the most common issues I find on product teams — a TS config that doesn't enforce anything and an `any` count that climbs every sprint. If you're inheriting a codebase like this and need a realistic plan to tighten it without a rewrite, [get in touch](/contact).
