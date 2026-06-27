@@ -1,5 +1,5 @@
 ---
-title: You Don't Have a Skill Problem. You Have a Visibility Problem.
+title: "You Don't Have a Skill Problem. You Have a Visibility Problem."
 date: 2025-09-20
 tags: [developer career, personal branding, portfolio, LinkedIn, software engineering career, developer marketing]
 metaDescription: Most skilled developers are invisible to the clients and companies they want to work with. The problem isn't skill, it's that nobody knows you exist.
@@ -57,5 +57,8 @@ Recruiters and CTOs don't have time to evaluate skill directly. They use proxies
 
 > Your skills got you here. Visibility gets you where you want to go.
 
+---
 
-developer-visibility-problem-portfolio-personal-brand.md
+**Not sure where to start?**
+
+The hardest part is picking which project to write about first. If you have the work but not the artifact, the [Grimms case study](/blog/legacy-system-modernization-vbnet-nuxtjs-case-study) is a template for the format. Pick your most interesting production system and write the same story. That one document is the beginning of inbound.
