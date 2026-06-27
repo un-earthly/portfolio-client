@@ -7,23 +7,16 @@ const nextConfig: NextConfig = {
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
 
-  // 301 redirect non-www → www to consolidate canonical for Google
-  async redirects() {
-    return [
-      {
-        source: "/:path*",
-        has: [{ type: "host", value: "alamin-md.xyz" }],
-        destination: "https://www.alamin-md.xyz/:path*",
-        permanent: true,
-      },
-    ];
-  },
+  // www redirect is handled at Vercel edge level (Domains settings)
+  // No need to duplicate it here — removed to prevent double-redirect issues
 
   // Security + SEO headers
   async headers() {
     return [
       {
-        source: "/(.*)",
+        // Apply security headers to all routes EXCEPT sitemap and robots
+        // Google's fetcher can reject responses with X-Frame-Options set
+        source: "/((?!sitemap.xml|robots.txt).*)",
         headers: [
           { key: "X-Frame-Options", value: "SAMEORIGIN" },
           { key: "X-Content-Type-Options", value: "nosniff" },
@@ -49,4 +42,3 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
-
