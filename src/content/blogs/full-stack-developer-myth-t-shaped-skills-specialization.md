@@ -1,5 +1,5 @@
 ---
-title: Full-Stack Is a Lie. Here's What Actually Matters.
+title: "Full-Stack Is a Lie. Here's What Actually Matters."
 date: 2025-09-05
 tags: [full-stack developer, software engineering, specialization, T-shaped skills, web development, career advice]
 metaDescription: The "full-stack developer" title is a hiring fiction that benefits companies, not engineers. Here's what the label hides and what actually matters for your career.
@@ -68,5 +68,8 @@ Specialists get hired for the hard problems. Generalists fill sprints.
 
 Know your depth. Lead with it. Let the full-stack label stay on the job boards where it belongs.
 
+---
 
-full-stack-developer-myth-t-shaped-skills-specialization.md
+**Know your depth but not sure how to lead with it?**
+
+The [positioning post](/blog/freelance-developer-market-positioning-remote-work-strategy) maps exactly how to take a specific area of depth and turn it into inbound interest. It starts with one public artifact, not a rebrand.
