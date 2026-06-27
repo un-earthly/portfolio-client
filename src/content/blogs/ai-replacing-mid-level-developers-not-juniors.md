@@ -7,6 +7,7 @@ readTime: 8
 type: hot-take
 excerpt: The conventional wisdom is wrong. AI is not eating junior developer roles first, it's compressing the mid-level skill premium out of existence. Here's what's actually happening on engineering teams right now.
 cover: '/blog-covers/ai-replacing-mid-level-developers-not-juniors.svg'
+faqs: Are juniors actually safe? Or is this more nuanced?::Not entirely. Juniors at risk are the ones who treat AI as a search engine rather than a tool they critically evaluate. A junior who understands why generated code works, catches the subtle type errors, and pushes back on bad output is more valuable than a mid-level coasting on pattern recognition. | How do you define 'going senior' beyond just job title?::Senior is not a title, it's an architectural scope. The clearest signal: are you the person who implements what others spec, or the person who determines what gets built and why? If it's the former, you're still in mid-level territory regardless of your years or pay grade. | What are the safest niches to specialise in right now?::Legacy systems with no AI training data, hardware-adjacent work where latency and device APIs matter, high-accountability systems where a human has to own the decision, and domain-specific architecture that requires organisational context. These are the niches AI is structurally bad at.
 ---
 
 The conventional wisdom is that AI will wipe out junior developers. Entry-level coding is the most automatable, right? The boilerplate, the CRUD, the tutorial-level tasks.
