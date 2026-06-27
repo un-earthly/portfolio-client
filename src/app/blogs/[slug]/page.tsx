@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import MermaidRenderer from "@/components/MermaidRenderer";
 import { BlogToc } from "@/components/BlogToc";
 
-const BASE_URL = "https://www.alamin-md.xyz";
+const BASE_URL = "https://alamin-md.xyz";
 
 export async function generateStaticParams() {
   return getAllBlogSlugs().map((slug) => ({ slug }));
