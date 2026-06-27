@@ -1,5 +1,5 @@
 ---
-title: "Clean Code" Is Killing Your Productivity and Your Team Doesn't Know It
+title: "Clean Code" Is Killing Your Productivity and Your Team Doesn't Know It"
 date: 2025-10-15
 tags: [clean code, software engineering, pragmatism, developer productivity, technical debt, code quality]
 metaDescription: Clean Code is treated as sacred in software engineering. But the cult of clean code is quietly destroying team velocity, here's the case for pragmatic engineering instead.
@@ -90,5 +90,8 @@ The clean code cultists don't. For them, every function is an opportunity to dem
 
 The code review that catches a real bug is worth ten code reviews that debate naming conventions.
 
+---
 
-clean-code-overrated-pragmatic-engineering-productivity.md
+**Is your team spending more time on code aesthetics than on shipping?**
+
+This is one of the most common velocity killers I see on engineering teams. If you're leading a product that's slow to ship and you're not sure why, [let's talk](/contact). Sometimes the problem is architecture. Sometimes it's this.
