@@ -39,7 +39,7 @@
     "three": "^0.184.0"
   },
   "devDependencies": {
-    "@types/howler": "^2.22.13",
+    "@types/howler": "^2.2.13",
     "@types/marked": "^6.0.0",
     "@types/node": "^25",
     "@types/nodemailer": "^8.0.1",
