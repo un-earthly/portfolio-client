@@ -5,7 +5,7 @@ tags: [bloom filter, hash set, false positive rate, membership testing, bit arra
 metaDescription: A complete technical breakdown of Bloom filters versus hash sets for membership testing at scale: the math, the implementation, false positive tuning, and benchmarks across one million, ten million, and one billion items.
 readTime: 12
 type: technical
-excerpt: At ten million items, a well-tuned Bloom filter uses ~9MB where a hash set uses ~320MB. The right choice depends on your tolerance for false positives and the cost of your fallback operation. Here's the math, the implementation, and benchmarks.
+excerpt: At ten million items, a well-tuned Bloom filter uses ~9MB where a hash set uses ~320MB. Here's the math, the implementation, false positive tuning, and benchmarks across one million, ten million, and one billion items.
 cover: '/blog-covers/bloom-filters-vs-hash-sets-deep-dive-benchmarks.svg'
 ---
 
