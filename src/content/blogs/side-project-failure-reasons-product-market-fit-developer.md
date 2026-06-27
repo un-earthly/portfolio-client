@@ -1,5 +1,5 @@
 ---
-title: Your Side Project Is Not Failing Because of Execution. It's Failing Because Nobody Wants It.
+title: "Your Side Project Is Not Failing Because of Execution. It's Failing Because Nobody Wants It."
 date: 2025-08-10
 tags: [side projects, product market fit, indie hacking, micro-SaaS, developer entrepreneurship, product development]
 metaDescription: Most developers blame execution for their failed side projects. The real reason is simpler and harder to hear, the market didn't want what you built.
@@ -65,5 +65,8 @@ It's not "launch faster" or "market harder." It's:
 
 Execution can be improved. You cannot execute your way out of a market that doesn't exist.
 
+---
 
-side-project-failure-reasons-product-market-fit-developer.md
+**Building something right now and not sure if the market exists?**
+
+Run the process walkthrough conversation with five potential users before you write another line. If none of them can describe a painful current workaround in detail, that's the answer. If they can, you have something worth building. The [visibility post](/blog/developer-visibility-problem-portfolio-personal-brand) covers what to do with a validated idea once you've shipped it.
