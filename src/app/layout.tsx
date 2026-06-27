@@ -4,7 +4,7 @@ import { geistMono, geistSans } from "@/mock-data";
 import SiteShell from "@/components/SiteShell";
 import { Analytics } from "@vercel/analytics/next"
 
-const BASE_URL = "https://www.alamin-md.xyz";
+const BASE_URL = "https://alamin-md.xyz";
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
@@ -133,4 +133,3 @@ export default function RootLayout({
     </html>
   );
 }
-
