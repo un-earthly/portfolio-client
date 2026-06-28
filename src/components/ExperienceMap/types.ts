@@ -33,7 +33,7 @@ export interface Project {
   meetings: string[];
 }
 
-export type VehicleType = "jeep" | "harley";
+export type VehicleType = "car" | "bike";
 
 export interface VehicleState {
   type: VehicleType;

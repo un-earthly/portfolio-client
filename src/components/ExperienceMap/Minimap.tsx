@@ -5,7 +5,7 @@ import projects from "@/data/projects.json";
 import type { Project } from "./types";
 
 const MAP_SIZE = 160;
-const WORLD_RANGE = 700;
+const WORLD_RANGE = 800;
 
 interface MinimapProps {
   vehiclePosition: React.MutableRefObject<{ x: number; z: number }>;
