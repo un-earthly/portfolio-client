@@ -712,10 +712,16 @@ export async function POST(req: Request): Promise<Response> {
   return handleMcp(req);
 }
 
-export async function GET(req: Request): Promise<Response> {
-  return handleMcp(req);
+export async function GET(): Promise<Response> {
+  return new Response(JSON.stringify({ error: "Use POST for MCP requests" }), {
+    status: 405,
+    headers: { "Content-Type": "application/json", Allow: "POST" },
+  });
 }
 
-export async function DELETE(req: Request): Promise<Response> {
-  return handleMcp(req);
+export async function DELETE(): Promise<Response> {
+  return new Response(JSON.stringify({ error: "Use POST for MCP requests" }), {
+    status: 405,
+    headers: { "Content-Type": "application/json", Allow: "POST" },
+  });
 }
