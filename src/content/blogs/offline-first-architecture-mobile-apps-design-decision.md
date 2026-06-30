@@ -1,12 +1,13 @@
 ---
-title: Offline-First Is Not a Feature. It's an Architecture Decision You Can't Bolt On Later.
+title: "Offline-First Is Not a Feature. It's an Architecture Decision You Can't Bolt On Later."
 date: 2025-09-15
 tags: [offline-first, mobile development, software architecture, React Native, local-first, app development]
 metaDescription: Developers treat offline support as a feature to add before launch. It's not, offline-first is a foundational architectural decision that shapes every layer of your app.
 readTime: 10
 type: hot-take
-excerpt: "We'll add offline support before launch" is the engineering equivalent of "we'll add tests after it's working." It reveals a misunderstanding of what offline-first actually is. Here's what it costs to get this wrong.
+excerpt: We'll add offline support before launch" is the engineering equivalent of "we'll add tests after it's working." It reveals a misunderstanding of what offline-first actually is. Here's what it costs to get this wrong.
 cover: '/blog-covers/offline-first-architecture-mobile-apps-design-decision.svg'
+faqs: Which conflict resolution strategy is right for my app?::Last-write-wins is simplest and works when concurrent offline edits to the same record are rare and recoverable. Server-authoritative is safer for high-stakes state (check-ins, payments). CRDTs are the right answer when you need true concurrent merges but they add significant implementation complexity. Pick based on what a conflict actually costs. | What's the best local database for offline-first React Native?::Realm and WatermelonDB are the two serious options for React Native. Realm has better out-of-the-box sync if you're using Atlas Device Sync. WatermelonDB is lighter and more flexible for custom sync layers. For pure SQLite control, op-sqlite is worth evaluating. The choice matters less than committing to it early. | Does offline-first apply to web apps too, or just mobile?::The architecture is the same. Local DB as source of truth, background sync, queued mutations, conflict resolution policy. The implementation layers differ (IndexedDB instead of Realm, Service Workers for background sync), but the data flow inversion is identical. Progressive Web Apps with offline-first architecture follow the same principles.
 ---
 
 "We'll add offline support before launch" is the engineering equivalent of "we'll add tests after it's working." It reveals a misunderstanding of what offline-first actually is.

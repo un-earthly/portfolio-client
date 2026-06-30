@@ -8,6 +8,8 @@ import { Badge } from "@/components/ui/badge";
 import MermaidRenderer from "@/components/MermaidRenderer";
 import { BlogToc } from "@/components/BlogToc";
 
+const BASE_URL = "https://alamin-md.xyz";
+
 export async function generateStaticParams() {
   return getAllBlogSlugs().map((slug) => ({ slug }));
 }
@@ -20,15 +22,35 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = getBlogBySlug(slug);
   if (!post) return { title: "Post Not Found" };
+
+  const coverImage = `${BASE_URL}/blog-covers/${slug}.svg`;
+
   return {
     title: post.title,
     description: post.metaDescription,
-    alternates: { canonical: `https://alamin-md.xyz/blogs/${slug}` },
+    alternates: { canonical: `${BASE_URL}/blogs/${slug}` },
     openGraph: {
       title: post.title,
       description: post.metaDescription,
-      url: `https://alamin-md.xyz/blogs/${slug}`,
+      url: `${BASE_URL}/blogs/${slug}`,
       type: "article",
+      publishedTime: post.date,
+      authors: ["MD Alamin"],
+      tags: post.tags,
+      images: [
+        {
+          url: coverImage,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.metaDescription,
+      images: [coverImage],
     },
   };
 }
@@ -47,8 +69,59 @@ export default async function BlogPostPage({
   const related = getRelatedBlogs(slug, post.tags);
   const tldr = post.tldr || post.excerpt || post.metaDescription;
 
+  const blogJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.metaDescription,
+    datePublished: post.date,
+    dateModified: post.date,
+    url: `${BASE_URL}/blogs/${slug}`,
+    image: `${BASE_URL}/blog-covers/${slug}.svg`,
+    author: {
+      "@type": "Person",
+      name: "MD Alamin",
+      url: BASE_URL,
+    },
+    publisher: {
+      "@type": "Person",
+      name: "MD Alamin",
+      url: BASE_URL,
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${BASE_URL}/blogs/${slug}`,
+    },
+    keywords: post.tags?.join(", ") ?? "",
+    inLanguage: "en-US",
+    isPartOf: {
+      "@type": "Blog",
+      name: "MD Alamin — Engineering Blog",
+      url: `${BASE_URL}/blogs`,
+    },
+  };
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: BASE_URL },
+      { "@type": "ListItem", position: 2, name: "Blog", item: `${BASE_URL}/blogs` },
+      { "@type": "ListItem", position: 3, name: post.title, item: `${BASE_URL}/blogs/${slug}` },
+    ],
+  };
+
   return (
     <div className="relative">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+
       {/* subtle section background, matching the site */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.02]"
@@ -192,3 +265,4 @@ export default async function BlogPostPage({
     </div>
   );
 }
+

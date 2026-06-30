@@ -17,14 +17,22 @@ const AMBIENCES: Record<AudioAmbienceId, string> = {
   digital: "/audio/ambience-digital.mp3",
 };
 
+// Projects sorted chronologically — the order you travel through them.
+const NAV_PROJECTS = [...(projects as Project[])].sort(
+  (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+);
+
 export default function HUD() {
-  const [vehicleType, setVehicleType] = useState<VehicleType>("jeep");
+  const [vehicleType, setVehicleType] = useState<VehicleType>("car");
   const [speed, setSpeed] = useState(0);
   const [activeProjectId, setActiveProjectId] = useState<string | null>(null);
   const [popupProjectId, setPopupProjectId] = useState<string | null>(null);
   const [audioEnabled, setAudioEnabled] = useState(false);
+  const [navTarget, setNavTarget] = useState<{ id: string; seq: number } | null>(null);
+  const [navOpen, setNavOpen] = useState(false);
 
   const vehiclePositionRef = useRef({ x: 0, z: 0 });
+  const navSeqRef = useRef(0);
   const joystickRef = useRef<{ forward: number; turn: number } | null>(null);
   const joystickContainerRef = useRef<HTMLDivElement>(null);
   const currentHowlRef = useRef<Howl | null>(null);
@@ -34,7 +42,13 @@ export default function HUD() {
   useEffect(() => {
     if (typeof window === "undefined") return;
     const saved = localStorage.getItem("xmap-vehicle") as VehicleType | null;
-    if (saved === "jeep" || saved === "harley") setVehicleType(saved);
+    if (saved === "car" || saved === "bike") setVehicleType(saved);
+  }, []);
+
+  const navigateTo = useCallback((id: string) => {
+    navSeqRef.current += 1;
+    setNavTarget({ id, seq: navSeqRef.current });
+    setNavOpen(false);
   }, []);
 
   const handleVehicleChange = useCallback((type: VehicleType) => {
@@ -110,9 +124,9 @@ export default function HUD() {
     (projects as Project[]).find((p) => p.id === popupProjectId) ?? null;
 
   const handleEnterRegion = useCallback((projectId: string) => {
-    setActiveProjectId(projectId);
     setPopupProjectId(null);
-  }, []);
+    navigateTo(projectId);
+  }, [navigateTo]);
 
   return (
     <>
@@ -123,6 +137,8 @@ export default function HUD() {
         onSpeedChange={setSpeed}
         vehicleType={vehicleType}
         externalJoystick={joystickRef.current}
+        navTarget={navTarget}
+        positionRef={vehiclePositionRef}
       />
 
       {/* Popup */}
@@ -173,6 +189,83 @@ export default function HUD() {
         </div>
       )}
 
+      {/* Fast-travel NAV selector — top left (below "Exit map") */}
+      <div
+        style={{
+          position: "fixed",
+          top: 44,
+          left: 16,
+          zIndex: 35,
+          fontFamily: "monospace",
+          width: 220,
+        }}
+      >
+        <button
+          onClick={() => setNavOpen((v) => !v)}
+          style={{
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            background: navOpen ? "rgba(0,255,204,0.12)" : "rgba(5,13,20,0.7)",
+            border: `1px solid ${navOpen ? "#00ffcc" : "rgba(0,255,204,0.3)"}`,
+            color: "#00ffcc",
+            fontSize: 10,
+            letterSpacing: "0.2em",
+            textTransform: "uppercase",
+            padding: "8px 12px",
+            borderRadius: 2,
+            cursor: "pointer",
+            backdropFilter: "blur(6px)",
+          }}
+        >
+          <span>⊹ Navigate to</span>
+          <span style={{ opacity: 0.6 }}>{navOpen ? "▲" : "▼"}</span>
+        </button>
+        {navOpen && (
+          <div
+            style={{
+              marginTop: 4,
+              background: "rgba(5,13,20,0.92)",
+              border: "1px solid rgba(0,255,204,0.25)",
+              borderRadius: 2,
+              overflow: "hidden",
+              backdropFilter: "blur(6px)",
+            }}
+          >
+            {NAV_PROJECTS.map((p, i) => (
+              <button
+                key={p.id}
+                onClick={() => navigateTo(p.id)}
+                style={{
+                  width: "100%",
+                  textAlign: "left",
+                  background: activeProjectId === p.id ? "rgba(0,255,204,0.1)" : "transparent",
+                  border: "none",
+                  borderTop: i === 0 ? "none" : "1px solid rgba(0,255,204,0.08)",
+                  color: activeProjectId === p.id ? "#00ffcc" : "#8aabb8",
+                  fontSize: 10,
+                  padding: "8px 12px",
+                  cursor: "pointer",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 2,
+                }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "rgba(0,255,204,0.08)"; }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = activeProjectId === p.id ? "rgba(0,255,204,0.1)" : "transparent"; }}
+              >
+                <span style={{ letterSpacing: "0.05em" }}>
+                  {String(i + 1).padStart(2, "0")} · {p.name}
+                </span>
+                <span style={{ fontSize: 8, opacity: 0.5, letterSpacing: "0.15em" }}>
+                  {p.date} · {p.status}
+                </span>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
       {/* Vehicle switcher — top right */}
       <div
         style={{
@@ -184,7 +277,7 @@ export default function HUD() {
           zIndex: 30,
         }}
       >
-        {(["jeep", "harley"] as VehicleType[]).map((type) => (
+        {(["car", "bike"] as VehicleType[]).map((type) => (
           <button
             key={type}
             onClick={() => handleVehicleChange(type)}
@@ -257,8 +350,9 @@ export default function HUD() {
           zIndex: 30,
         }}
       >
-        <div>WASD / ARROWS — move</div>
-        <div>Drive to POI — open log</div>
+        <div>WASD / ARROWS — drive</div>
+        <div>SPACE — brake</div>
+        <div>NAV ▼ — fast-travel</div>
       </div>
 
       {/* Mobile joystick zone */}

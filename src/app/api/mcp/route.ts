@@ -23,7 +23,7 @@ interface GHFile {
   path: string;
   sha: string;
   type: "file" | "dir";
-  content?: string; // base64 when type=file
+  content?: string;
   encoding?: string;
 }
 
@@ -50,6 +50,45 @@ async function ghRequest(
   return res.json();
 }
 
+// ── Repo file helpers (generic) ──────────────────────────────────────────────
+
+async function repoGetFile(path: string): Promise<{ content: string; sha: string } | null> {
+  try {
+    const file = (await ghRequest(
+      "GET",
+      `/repos/${OWNER}/${REPO}/contents/${path}`
+    )) as GHFile;
+    const content = Buffer.from(file.content ?? "", "base64").toString("utf-8");
+    return { content, sha: file.sha };
+  } catch {
+    return null;
+  }
+}
+
+async function repoPutFile(
+  path: string,
+  content: string,
+  message: string,
+  sha?: string
+): Promise<void> {
+  const encoded = Buffer.from(content, "utf-8").toString("base64");
+  await ghRequest("PUT", `/repos/${OWNER}/${REPO}/contents/${path}`, {
+    message,
+    content: encoded,
+    ...(sha ? { sha } : {}),
+  });
+}
+
+async function repoListDir(path: string): Promise<{ name: string; path: string; type: string }[]> {
+  const items = (await ghRequest(
+    "GET",
+    `/repos/${OWNER}/${REPO}/contents/${path}`
+  )) as GHFile[];
+  return items.map((i) => ({ name: i.name, path: i.path, type: i.type }));
+}
+
+// ── Blog file helpers ────────────────────────────────────────────────────────
+
 async function listBlogFiles(): Promise<GHFile[]> {
   const files = (await ghRequest(
     "GET",
@@ -59,16 +98,7 @@ async function listBlogFiles(): Promise<GHFile[]> {
 }
 
 async function getFile(slug: string): Promise<{ content: string; sha: string } | null> {
-  try {
-    const file = (await ghRequest(
-      "GET",
-      `/repos/${OWNER}/${REPO}/contents/${BLOGS_PATH}/${slug}.md`
-    )) as GHFile;
-    const content = Buffer.from(file.content ?? "", "base64").toString("utf-8");
-    return { content, sha: file.sha };
-  } catch {
-    return null;
-  }
+  return repoGetFile(`${BLOGS_PATH}/${slug}.md`);
 }
 
 async function putFile(
@@ -77,12 +107,7 @@ async function putFile(
   message: string,
   sha?: string
 ): Promise<void> {
-  const encoded = Buffer.from(content, "utf-8").toString("base64");
-  await ghRequest("PUT", `/repos/${OWNER}/${REPO}/contents/${BLOGS_PATH}/${slug}.md`, {
-    message,
-    content: encoded,
-    ...(sha ? { sha } : {}),
-  });
+  return repoPutFile(`${BLOGS_PATH}/${slug}.md`, content, message, sha);
 }
 
 async function deleteFile(slug: string, sha: string, message: string): Promise<void> {
@@ -186,6 +211,7 @@ function rawToPost(slug: string, raw: string): BlogPost {
 // ── MCP Tools ────────────────────────────────────────────────────────────────
 
 const TOOLS: Tool[] = [
+  // ── Blog tools ──────────────────────────────────────────────────────────
   {
     name: "list_blogs",
     description: "List all blog posts with metadata, newest first. Optionally filter by tag or type.",
@@ -271,9 +297,7 @@ const TOOLS: Tool[] = [
     description: "Delete a blog post from the GitHub repo.",
     inputSchema: {
       type: "object",
-      properties: {
-        slug: { type: "string" },
-      },
+      properties: { slug: { type: "string" } },
       required: ["slug"],
     },
   },
@@ -307,13 +331,68 @@ const TOOLS: Tool[] = [
     description: "Aggregate stats: total count, breakdown by type, avg read time, top 10 tags.",
     inputSchema: { type: "object", properties: {} },
   },
+
+  // ── GitHub repo file tools ───────────────────────────────────────────────
+  {
+    name: "repo_read_file",
+    description:
+      "Read any file in the portfolio repo by its path (e.g. src/app/layout.tsx, next.config.ts). Returns the file content as a string.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        path: {
+          type: "string",
+          description: "File path relative to repo root, e.g. src/app/layout.tsx",
+        },
+      },
+      required: ["path"],
+    },
+  },
+  {
+    name: "repo_write_file",
+    description:
+      "Write (create or update) any file in the portfolio repo. Provide the full file content — this replaces the file entirely. Commits directly to main.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        path: {
+          type: "string",
+          description: "File path relative to repo root, e.g. src/app/robots.ts",
+        },
+        content: {
+          type: "string",
+          description: "Full file content to write",
+        },
+        message: {
+          type: "string",
+          description: "Git commit message",
+        },
+      },
+      required: ["path", "content", "message"],
+    },
+  },
+  {
+    name: "repo_list_dir",
+    description:
+      "List files and directories at a given path in the portfolio repo.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        path: {
+          type: "string",
+          description: "Directory path relative to repo root, e.g. src/app or src/components",
+        },
+      },
+      required: ["path"],
+    },
+  },
 ];
 
 // ── Build MCP Server ─────────────────────────────────────────────────────────
 
 function createMcpServer(): Server {
   const server = new Server(
-    { name: "portfolio-blog-manager", version: "1.0.0" },
+    { name: "portfolio-manager", version: "2.0.0" },
     { capabilities: { tools: {} } }
   );
 
@@ -324,7 +403,7 @@ function createMcpServer(): Server {
 
     try {
       switch (name) {
-        // ── list_blogs ────────────────────────────────────────────────────
+        // ── list_blogs ──────────────────────────────────────────────────
         case "list_blogs": {
           const files = await listBlogFiles();
           const posts = await Promise.all(
@@ -353,7 +432,7 @@ function createMcpServer(): Server {
           };
         }
 
-        // ── read_blog ─────────────────────────────────────────────────────
+        // ── read_blog ───────────────────────────────────────────────────
         case "read_blog": {
           const data = await getFile(args.slug as string);
           if (!data) {
@@ -366,7 +445,7 @@ function createMcpServer(): Server {
           return { content: [{ type: "text", text: JSON.stringify(post, null, 2) }] };
         }
 
-        // ── create_blog ───────────────────────────────────────────────────
+        // ── create_blog ─────────────────────────────────────────────────
         case "create_blog": {
           const slug = args.slug as string;
           const existing = await getFile(slug);
@@ -393,7 +472,7 @@ function createMcpServer(): Server {
           return { content: [{ type: "text", text: `Created and committed: ${slug}.md` }] };
         }
 
-        // ── update_blog ───────────────────────────────────────────────────
+        // ── update_blog ─────────────────────────────────────────────────
         case "update_blog": {
           const slug = args.slug as string;
           const data = await getFile(slug);
@@ -420,7 +499,7 @@ function createMcpServer(): Server {
           return { content: [{ type: "text", text: `Updated and committed: ${slug}.md` }] };
         }
 
-        // ── delete_blog ───────────────────────────────────────────────────
+        // ── delete_blog ─────────────────────────────────────────────────
         case "delete_blog": {
           const slug = args.slug as string;
           const data = await getFile(slug);
@@ -434,7 +513,7 @@ function createMcpServer(): Server {
           return { content: [{ type: "text", text: `Deleted: ${slug}.md` }] };
         }
 
-        // ── rename_blog ───────────────────────────────────────────────────
+        // ── rename_blog ─────────────────────────────────────────────────
         case "rename_blog": {
           const oldSlug = args.old_slug as string;
           const newSlug = args.new_slug as string;
@@ -461,7 +540,7 @@ function createMcpServer(): Server {
           return { content: [{ type: "text", text: `Renamed: ${oldSlug} → ${newSlug}` }] };
         }
 
-        // ── search_blogs ──────────────────────────────────────────────────
+        // ── search_blogs ────────────────────────────────────────────────
         case "search_blogs": {
           const query = (args.query as string).toLowerCase();
           const searchContent = (args.search_content as boolean) ?? false;
@@ -500,7 +579,7 @@ function createMcpServer(): Server {
           };
         }
 
-        // ── get_blog_stats ────────────────────────────────────────────────
+        // ── get_blog_stats ──────────────────────────────────────────────
         case "get_blog_stats": {
           const files = await listBlogFiles();
           const posts = await Promise.all(
@@ -546,6 +625,52 @@ function createMcpServer(): Server {
           };
         }
 
+        // ── repo_read_file ──────────────────────────────────────────────
+        case "repo_read_file": {
+          const filePath = args.path as string;
+          const data = await repoGetFile(filePath);
+          if (!data) {
+            return {
+              content: [{ type: "text", text: `File not found: ${filePath}` }],
+              isError: true,
+            };
+          }
+          return {
+            content: [{ type: "text", text: data.content }],
+          };
+        }
+
+        // ── repo_write_file ─────────────────────────────────────────────
+        case "repo_write_file": {
+          const filePath = args.path as string;
+          const content = args.content as string;
+          const message = args.message as string;
+
+          // Get existing SHA if file exists (required for updates)
+          const existing = await repoGetFile(filePath);
+          await repoPutFile(filePath, content, message, existing?.sha);
+
+          return {
+            content: [
+              {
+                type: "text",
+                text: existing
+                  ? `Updated and committed: ${filePath}`
+                  : `Created and committed: ${filePath}`,
+              },
+            ],
+          };
+        }
+
+        // ── repo_list_dir ───────────────────────────────────────────────
+        case "repo_list_dir": {
+          const dirPath = args.path as string;
+          const items = await repoListDir(dirPath);
+          return {
+            content: [{ type: "text", text: JSON.stringify(items, null, 2) }],
+          };
+        }
+
         default:
           return { content: [{ type: "text", text: `Unknown tool: ${name}` }], isError: true };
       }
@@ -571,26 +696,32 @@ async function handleMcp(req: Request): Promise<Response> {
   }
 
   const transport = new WebStandardStreamableHTTPServerTransport({
-    sessionIdGenerator: undefined, // stateless — required for serverless
+    sessionIdGenerator: undefined,
     enableJsonResponse: true,
   });
 
   const server = createMcpServer();
   await server.connect(transport);
 
-  const response = await transport.handleRequest(req);
-  await server.close();
-  return response;
+  // Do not call server.close() in stateless mode — handleRequest returns
+  // a Promise that may not have resolved yet. Cleanup is handled by GC.
+  return transport.handleRequest(req);
 }
 
 export async function POST(req: Request): Promise<Response> {
   return handleMcp(req);
 }
 
-export async function GET(req: Request): Promise<Response> {
-  return handleMcp(req);
+export async function GET(): Promise<Response> {
+  return new Response(JSON.stringify({ error: "Use POST for MCP requests" }), {
+    status: 405,
+    headers: { "Content-Type": "application/json", Allow: "POST" },
+  });
 }
 
-export async function DELETE(req: Request): Promise<Response> {
-  return handleMcp(req);
+export async function DELETE(): Promise<Response> {
+  return new Response(JSON.stringify({ error: "Use POST for MCP requests" }), {
+    status: 405,
+    headers: { "Content-Type": "application/json", Allow: "POST" },
+  });
 }

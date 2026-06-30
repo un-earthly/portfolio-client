@@ -3,7 +3,10 @@ title: "Scripts Are Not Shortcuts. They Are Architecture."
 date: 2026-06-20
 tags: [scripts, monorepo, developer tooling, Node.js, automation, architecture, package.json]
 metaDescription: Why npm scripts are a form of architecture, not just aliases — a deep dive into how a real monorepo uses scripts to encode decisions about how a project is run, validated, and shipped.
+readTime: 5
 type: technical
+excerpt: npm scripts are not aliases. They are the interface between a developer's intent and a system's behaviour. Here's how a real production monorepo uses over fifty scripts to encode decisions about how it runs, validates itself, and ships.
+cover: '/blog-covers/scripts-part-1-what-are-scripts.svg'
 ---
 
 # Scripts Are Not Shortcuts. They Are Architecture.

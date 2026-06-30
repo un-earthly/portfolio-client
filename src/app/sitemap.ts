@@ -1,146 +1,84 @@
-import type { MetadataRoute } from "next";
+import type { MetadataRoute } from 'next'
 
-const BASE_URL = "https://alamin-md.xyz";
+// All current blog slugs -- update this list whenever a new post is published
+const blogSlugs = [
+  'scripts-part-4-beyond-the-toolchain',
+  'scripts-part-3-system-coordination',
+  'scripts-part-2-quality-gates',
+  'scripts-part-1-what-are-scripts',
+  'building-rust-tui-api-monitor-part-5-traits-performance-release',
+  'building-rust-tui-api-monitor-part-4-ratatui-error-handling',
+  'building-rust-tui-api-monitor-part-3-async-tokio-concurrency',
+  'building-rust-tui-api-monitor-part-2-borrowing-lifetimes',
+  'building-rust-tui-api-monitor-part-1-ownership',
+  'bloom-filters-vs-hash-sets-deep-dive-benchmarks',
+  'consistent-hashing-deep-dive-implementation-benchmarks',
+  'hyperloglog-deep-dive-implementation-benchmarks',
+  'comment-tracker-figma-comment-tracker-architecture',
+  'ble-mesh-offline-event-platform-javascript',
+  'ai-replacing-mid-level-developers-not-juniors',
+  'legacy-system-modernization-vbnet-nuxtjs-case-study',
+  'clean-code-overrated-pragmatic-engineering-productivity',
+  'multi-agent-ai-system-openai-local-llm-business-automation',
+  'developer-visibility-problem-portfolio-personal-brand',
+  'offline-first-architecture-mobile-apps-design-decision',
+  'full-stack-developer-myth-t-shaped-skills-specialization',
+  'typescript-wrong-usage-type-safety-best-practices',
+  'side-project-failure-reasons-product-market-fit-developer',
+  'debugging-mental-models-software-engineering-skills',
+  'ai-coding-tools-github-copilot-claude-engineering-quality',
+  'freelance-developer-market-positioning-remote-work-strategy',
+  'self-hosted-mcp-server-nextjs-portfolio',
+]
+
+const BASE_URL = 'https://alamin-md.xyz'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
+  const staticPages: MetadataRoute.Sitemap = [
     {
       url: BASE_URL,
       lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 1,
+      changeFrequency: 'monthly',
+      priority: 1.0,
     },
     {
-      url: `${BASE_URL}/about`,
+      url: `${BASE_URL}/blogs`,
       lastModified: new Date(),
-      changeFrequency: "monthly",
+      changeFrequency: 'weekly',
       priority: 0.9,
     },
     {
       url: `${BASE_URL}/portfolio`,
       lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.9,
+      changeFrequency: 'monthly',
+      priority: 0.8,
     },
     {
-      url: `${BASE_URL}/portfolio/ishqool`,
+      url: `${BASE_URL}/about`,
       lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/portfolio/gobadi`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/portfolio/gsm`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/portfolio/gadgets-heaven`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
+      changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
       url: `${BASE_URL}/experience`,
       lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/services`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/services/full-stack-dev`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/services/ui-ux-design`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/services/tech-consulting`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/blogs`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
-    {
-      url: `${BASE_URL}/blogs/comment-tracker-figma-comment-tracker-architecture`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/blogs/ble-mesh-offline-event-platform-javascript`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/blogs/legacy-system-modernization-vbnet-nuxtjs-case-study`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/blogs/multi-agent-ai-system-openai-local-llm-business-automation`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/blogs/ai-replacing-mid-level-developers-not-juniors`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/blogs/typescript-wrong-usage-type-safety-best-practices`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/blogs/offline-first-architecture-mobile-apps-design-decision`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/blogs/debugging-mental-models-software-engineering-skills`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/blogs/ai-coding-tools-github-copilot-claude-engineering-quality`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
+      changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
       url: `${BASE_URL}/contact`,
       lastModified: new Date(),
-      changeFrequency: "yearly",
+      changeFrequency: 'yearly',
       priority: 0.6,
     },
-  ];
+  ]
+
+  const blogPages: MetadataRoute.Sitemap = blogSlugs.map((slug) => ({
+    url: `${BASE_URL}/blogs/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: 0.8,
+  }))
+
+  return [...staticPages, ...blogPages]
 }

@@ -1,11 +1,11 @@
 ---
-title: The Freelance Developer Market Is Not Saturated. It's Mis-Positioned.
+title: "The Freelance Developer Market Is Not Saturated. It's Mis-Positioned."
 date: 2025-07-05
 tags: [freelance development, remote work, developer positioning, Upwork, client acquisition, software engineering career]
 metaDescription: Developers say the freelance market is saturated and rates are falling. That's only true in the undifferentiated middle. Specialists with clear positioning are commanding higher rates than ever.
 readTime: 8
 type: hot-take
-excerpt: "Freelance dev is dead. Upwork is a race to the bottom." This is partially true and mostly wrong. The race-to-the-bottom market is real, for generic web development. The market for specialists is undersupplied. Here's the difference.
+excerpt: Freelance dev is dead. Upwork is a race to the bottom." This is partially true and mostly wrong. The race-to-the-bottom market is real, for generic web development. The market for specialists is undersupplied. Here's the difference.
 cover: '/blog-covers/freelance-developer-market-positioning-remote-work-strategy.svg'
 ---
 
@@ -60,5 +60,8 @@ The client who finds your legacy migration case study and contacts you is not as
 
 Your niche doesn't need to be obscure. It needs to be specific and credibly demonstrated. That's the entire positioning game.
 
+---
 
-freelance-developer-market-positioning-remote-work-strategy.md
+**Not sure what your niche actually is?**
+
+The test: what is the hardest problem you've shipped in production that most developers haven't touched? If you can answer that in one sentence, you have the beginning of a positioning statement. If you can't, the [visibility post](/blog/developer-visibility-problem-portfolio-personal-brand) is the place to start, because the niche usually becomes obvious once you start writing about your actual work.

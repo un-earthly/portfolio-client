@@ -425,10 +425,6 @@ const links = [
     href: '/about',
     label: 'About'
   },
-  {
-    href: '/experience-map',
-    label: 'World Map'
-  },
 ];
 const codeSnippets = [
   { color: 'text-green-400', content: '<div>' },

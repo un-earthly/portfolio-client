@@ -1,5 +1,5 @@
 ---
-title: Junior Devs Are Not Losing Jobs to AI. Mid-Level Devs Are.
+title: "Junior Devs Are Not Losing Jobs to AI. Mid-Level Devs Are."
 date: 2025-11-01
 tags: [AI, software engineering, career, developer jobs, LLM coding tools, future of programming]
 metaDescription: Everyone says AI will replace junior developers first. They're wrong. The developers actually at risk are mid-level engineers, here's why.
@@ -7,6 +7,7 @@ readTime: 8
 type: hot-take
 excerpt: The conventional wisdom is wrong. AI is not eating junior developer roles first, it's compressing the mid-level skill premium out of existence. Here's what's actually happening on engineering teams right now.
 cover: '/blog-covers/ai-replacing-mid-level-developers-not-juniors.svg'
+faqs: Are juniors actually safe? Or is this more nuanced?::Not entirely. Juniors at risk are the ones who treat AI as a search engine rather than a tool they critically evaluate. A junior who understands why generated code works, catches the subtle type errors, and pushes back on bad output is more valuable than a mid-level coasting on pattern recognition. | How do you define 'going senior' beyond just job title?::Senior is not a title, it's an architectural scope. The clearest signal: are you the person who implements what others spec, or the person who determines what gets built and why? If it's the former, you're still in mid-level territory regardless of your years or pay grade. | What are the safest niches to specialise in right now?::Legacy systems with no AI training data, hardware-adjacent work where latency and device APIs matter, high-accountability systems where a human has to own the decision, and domain-specific architecture that requires organisational context. These are the niches AI is structurally bad at.
 ---
 
 The conventional wisdom is that AI will wipe out junior developers. Entry-level coding is the most automatable, right? The boilerplate, the CRUD, the tutorial-level tasks.
@@ -45,16 +46,19 @@ The engineers who are safe are at the extremes.
 
 ## The Survival Move
 
-Specialize in something AI is structurally bad at:
+Specialise in something AI is structurally bad at:
 
 - **Legacy systems** AI has no training data for (custom proprietary stacks, migration-in-progress codebases)
 - **Hardware-adjacent domains** where latency, signal processing, and device APIs matter
 - **High-stakes systems** where the cost of a wrong answer is catastrophic and a human has to own accountability
-- **Organizational systems**: the politics, the stakeholders, the context that lives in someone's head
+- **Organisational systems**: the politics, the stakeholders, the context that lives in someone's head
 
 Or go senior, not in title, in actual architectural scope. Stop being the person who implements correctly. Become the person who decides what to implement and why.
 
 The market is bifurcating. There's no safe middle.
 
+---
 
-ai-replacing-mid-level-developers-not-juniors.md
+**Are you in the middle, and can feel it?**
+
+The move is to own a niche that AI can't commoditise. If you're a mid-level working on something genuinely complex, the [freelance positioning post](/blog/freelance-developer-market-positioning-remote-work-strategy) maps the path from "I can build anything" to a position worth defending. The earlier you make the shift, the less painful it is.

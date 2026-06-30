@@ -1,5 +1,5 @@
 ---
-title: The Best Debugging Skill Is Not Reading Stack Traces. It's Building Mental Models.
+title: "The Best Debugging Skill Is Not Reading Stack Traces. It's Building Mental Models."
 date: 2025-08-01
 tags: [debugging, software engineering, mental models, problem solving, developer skills, programming]
 metaDescription: The actual skill that separates fast debuggers from slow ones is mental model quality, here's what that means and how to build it.
@@ -112,5 +112,8 @@ The gap between these two profiles is not intelligence. It's accumulated mental 
 
 Build the model. Debug from the model. The tools are just confirmation.
 
+---
 
-debugging-mental-models-software-engineering-skills.md
+**Want to go deeper on the engineering fundamentals that AI can't replace?**
+
+Mental model quality is exactly the kind of skill that separates engineers who use AI effectively from engineers who produce confident garbage with it. The [AI coding tools post](/blog/ai-coding-tools-github-copilot-claude-engineering-quality) maps what that distinction looks like in a real PR review.
