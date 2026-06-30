@@ -111,6 +111,9 @@ importers:
       '@types/three':
         specifier: ^0.184.1
         version: 0.184.1
+      kovr:
+        specifier: file:../kovr
+        version: file:../kovr
       postcss:
         specifier: ^8.5.15
         version: 8.5.15
@@ -1312,6 +1315,11 @@ packages:
 
   khroma@2.1.0:
     resolution: {integrity: sha512-Ls993zuzfayK269Svk9hzpeGUKob/sIgZzyHYdjQoAdQetRKpOLj+k/QQQ/6Qi0Yz65mlROrfd+Ev+1+7dz9Kw==}
+
+  kovr@file:../kovr:
+    resolution: {directory: ../kovr, type: directory}
+    engines: {node: '>=18.0.0'}
+    hasBin: true
 
   layout-base@1.0.2:
     resolution: {integrity: sha512-8h2oVEZNktL4BH2JCOI90iD1yXwL6iNW7KcCKT2QZgQJR2vbqDsldCTPRU9NifTCqHZci57XvQQ15YTu+sTYPg==}
@@ -2871,6 +2879,8 @@ snapshots:
       commander: 8.3.0
 
   khroma@2.1.0: {}
+
+  kovr@file:../kovr: {}
 
   layout-base@1.0.2: {}
 

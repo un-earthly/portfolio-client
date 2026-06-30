@@ -45,6 +45,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/three": "^0.184.1",
+    "kovr": "file:../kovr",
     "postcss": "^8.5.15",
     "tailwindcss": "^4.3.0",
     "typescript": "^6"
