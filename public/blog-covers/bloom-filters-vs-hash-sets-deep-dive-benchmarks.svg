@@ -9,8 +9,8 @@
 <g><g transform="translate(770.0 140.0) scale(15.000)" opacity="0.9"><path fill="none" stroke="#fb923c" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4h16v2.172a2 2 0 0 1-.586 1.414L15 12v7l-6 2v-8.5L4.52 7.572A2 2 0 0 1 4 6.227z"/></g></g>
 <rect width="1200" height="630" fill="#020617" opacity="0.18"/>
 <g font-family="Arial, Helvetica, sans-serif">
-  <text x="1140" y="54" text-anchor="end" font-size="20" font-weight="700" letter-spacing="2" fill="#94a3b8">BLOOM FILTER</text>
-  <text x="1140" y="80" text-anchor="end" font-size="20" font-weight="700" letter-spacing="2" fill="#64748b">TECHNICAL DEEP DIVE</text>
+  <text x="1140" y="54"  text-anchor="end" font-size="20" font-weight="700" letter-spacing="2" fill="#94a3b8">BLOOM FILTER</text>
+  <text x="1140" y="80"  text-anchor="end" font-size="20" font-weight="700" letter-spacing="2" fill="#64748b">TECHNICAL DEEP DIVE</text>
   <text x="1140" y="142" text-anchor="end" font-size="54" font-weight="900" letter-spacing="-1" fill="#f8fafc">MD<tspan fill="#22d3ee">.</tspan></text>
 </g>
 <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace">

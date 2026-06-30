@@ -111,9 +111,6 @@ importers:
       '@types/three':
         specifier: ^0.184.1
         version: 0.184.1
-      '@un-earthly/kovr':
-        specifier: file:../kovr
-        version: file:../kovr
       postcss:
         specifier: ^8.5.15
         version: 8.5.15
@@ -752,11 +749,6 @@ packages:
 
   '@types/webxr@0.5.24':
     resolution: {integrity: sha512-h8fgEd/DpoS9CBrjEQXR+dIDraopAEfu4wYVNY2tEPwk60stPWhvZMf4Foo5FakuQ7HFZoa8WceaWFervK2Ovg==}
-
-  '@un-earthly/kovr@file:../kovr':
-    resolution: {directory: ../kovr, type: directory}
-    engines: {node: '>=18.0.0'}
-    hasBin: true
 
   '@upsetjs/venn.js@2.0.0':
     resolution: {integrity: sha512-WbBhLrooyePuQ1VZxrJjtLvTc4NVfpOyKx0sKqioq9bX1C1m7Jgykkn8gLrtwumBioXIqam8DLxp88Adbue6Hw==}
@@ -2318,8 +2310,6 @@ snapshots:
     optional: true
 
   '@types/webxr@0.5.24': {}
-
-  '@un-earthly/kovr@file:../kovr': {}
 
   '@upsetjs/venn.js@2.0.0':
     optionalDependencies:
