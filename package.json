@@ -46,7 +46,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/three": "^0.184.1",
-    "postcss": "^8.5.15",
+    "postcss": "^8.5.16",
     "tailwindcss": "^4.3.0",
     "typescript": "^6"
   }
