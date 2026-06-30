@@ -284,6 +284,22 @@ const projects = [
       "Data Source": "100% Live API"
     }
   },
+  {
+    id: 'kovr',
+    title: "kovr — SVG Blog Cover Generator",
+    description: "A zero-dependency Node.js library and CLI that generates branded SVG cover images for blog posts. Extracts distinctive keywords via TF-IDF, fuzzy-matches them to Iconify icons, and composes a 1200×630 cover with seeded accent palettes and deterministic glyph-field textures. Published on npm as @un-earthly/kovr.",
+    image: "/kovr.svg",
+    technologies: ["Node.js", "SVG", "TF-IDF", "Iconify", "CLI", "npm"],
+    liveUrl: "https://www.npmjs.com/package/@un-earthly/kovr",
+    githubUrl: "https://github.com/un-earthly/kovr",
+    category: "Full Stack Application",
+    timeline: "1 week",
+    metrics: {
+      "Dependencies": "Zero",
+      "Covers": "26 generated",
+      "Output": "1200×630 SVG"
+    }
+  },
 
 ];
 const categories = ['All Projects', 'Full Stack', 'Mobile Apps', 'E-Commerce', 'Enterprise'];
