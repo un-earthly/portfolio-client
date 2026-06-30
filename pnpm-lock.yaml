@@ -111,7 +111,7 @@ importers:
       '@types/three':
         specifier: ^0.184.1
         version: 0.184.1
-      kovr:
+      '@un-earthly/kovr':
         specifier: file:../kovr
         version: file:../kovr
       postcss:
@@ -753,6 +753,11 @@ packages:
   '@types/webxr@0.5.24':
     resolution: {integrity: sha512-h8fgEd/DpoS9CBrjEQXR+dIDraopAEfu4wYVNY2tEPwk60stPWhvZMf4Foo5FakuQ7HFZoa8WceaWFervK2Ovg==}
 
+  '@un-earthly/kovr@file:../kovr':
+    resolution: {directory: ../kovr, type: directory}
+    engines: {node: '>=18.0.0'}
+    hasBin: true
+
   '@upsetjs/venn.js@2.0.0':
     resolution: {integrity: sha512-WbBhLrooyePuQ1VZxrJjtLvTc4NVfpOyKx0sKqioq9bX1C1m7Jgykkn8gLrtwumBioXIqam8DLxp88Adbue6Hw==}
 
@@ -1315,11 +1320,6 @@ packages:
 
   khroma@2.1.0:
     resolution: {integrity: sha512-Ls993zuzfayK269Svk9hzpeGUKob/sIgZzyHYdjQoAdQetRKpOLj+k/QQQ/6Qi0Yz65mlROrfd+Ev+1+7dz9Kw==}
-
-  kovr@file:../kovr:
-    resolution: {directory: ../kovr, type: directory}
-    engines: {node: '>=18.0.0'}
-    hasBin: true
 
   layout-base@1.0.2:
     resolution: {integrity: sha512-8h2oVEZNktL4BH2JCOI90iD1yXwL6iNW7KcCKT2QZgQJR2vbqDsldCTPRU9NifTCqHZci57XvQQ15YTu+sTYPg==}
@@ -2319,6 +2319,8 @@ snapshots:
 
   '@types/webxr@0.5.24': {}
 
+  '@un-earthly/kovr@file:../kovr': {}
+
   '@upsetjs/venn.js@2.0.0':
     optionalDependencies:
       d3-selection: 3.0.0
@@ -2879,8 +2881,6 @@ snapshots:
       commander: 8.3.0
 
   khroma@2.1.0: {}
-
-  kovr@file:../kovr: {}
 
   layout-base@1.0.2: {}
 

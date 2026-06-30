@@ -1,3 +1,2 @@
-// Thin re-export — all logic lives in the kovr package.
-// Update the package (../../../kovr) and run `pnpm install` to pick up changes.
-export * from 'kovr'
+// Thin re-export — all logic lives in the @un-earthly/kovr package.
+export * from '@un-earthly/kovr'
