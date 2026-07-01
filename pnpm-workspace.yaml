@@ -1,3 +1,7 @@
+packages:
+  - '.'
+  - 'mcp-server'
+
 allowBuilds:
   '@parcel/watcher': true
   sharp: true
