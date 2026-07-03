@@ -22,44 +22,14 @@ Every word in that sentence carries weight, so let's break it down.
 
 **Virtual** means there is no firewall appliance. No box, no dedicated software running inside your instance. The filtering happens in the hypervisor layer, outside your operating system. Your Ubuntu server never sees the packets that a security group drops. They're gone before they reach the kernel's network stack. This is why `iptables -L` on your EC2 instance shows you nothing about security group rules. They live in a different layer entirely.
 
-<svg width="100%" viewBox="0 0 680 380" role="img" xmlns="http://www.w3.org/2000/svg">
-  <title>The layers a packet crosses before reaching an application</title>
-  <desc>A vertical stack showing route table, NACL, security group, OS firewall, and application layers a packet passes through</desc>
-  <style>
-    .lbl { font-family: -apple-system, system-ui, sans-serif; font-size: 13px; fill: #444441; font-weight: 500; }
-    .sub { font-family: -apple-system, system-ui, sans-serif; font-size: 11px; fill: #5F5E5A; }
-  </style>
-  <defs>
-    <marker id="arrL" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M2 1L8 5L2 9" fill="none" stroke="#888780" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-    </marker>
-  </defs>
-  <text class="lbl" x="20" y="24">Internet</text>
-  <line x1="70" y1="30" x2="70" y2="55" stroke="#888780" stroke-width="1.5" marker-end="url(#arrL)"/>
-
-  <rect x="20" y="58" width="640" height="46" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.8"/>
-  <text class="lbl" x="40" y="80" font-size="12">Route Table (VPC)</text>
-  <text class="sub" x="40" y="97">Which subnet does this go to?</text>
-  <line x1="70" y1="104" x2="70" y2="120" stroke="#888780" stroke-width="1.5" marker-end="url(#arrL)"/>
-
-  <rect x="20" y="122" width="640" height="46" rx="8" fill="#FCEBEB" stroke="#E24B4A" stroke-width="1"/>
-  <text class="lbl" x="40" y="144" font-size="12">NACL (subnet boundary)</text>
-  <text class="sub" x="40" y="161">Stateless. Checks both directions.</text>
-  <line x1="70" y1="168" x2="70" y2="184" stroke="#888780" stroke-width="1.5" marker-end="url(#arrL)"/>
-
-  <rect x="20" y="186" width="640" height="46" rx="8" fill="#E6F1FB" stroke="#378ADD" stroke-width="1.4"/>
-  <text class="lbl" x="40" y="208" font-size="12">Security Group (ENI)</text>
-  <text class="sub" x="40" y="225">Stateful. This post.</text>
-  <line x1="70" y1="232" x2="70" y2="248" stroke="#888780" stroke-width="1.5" marker-end="url(#arrL)"/>
-
-  <rect x="20" y="250" width="640" height="46" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
-  <text class="lbl" x="40" y="272" font-size="12">OS firewall (iptables / nftables / ufw)</text>
-  <text class="sub" x="40" y="289">Inside your instance. Most teams never configure this.</text>
-  <line x1="70" y1="296" x2="70" y2="312" stroke="#888780" stroke-width="1.5" marker-end="url(#arrL)"/>
-
-  <rect x="20" y="314" width="640" height="46" rx="8" fill="#EAF3DE" stroke="#639922" stroke-width="1"/>
-  <text class="lbl" x="40" y="342" font-size="12">Your application (:3000)</text>
-</svg>
+```mermaid
+flowchart TD
+    A[Internet] --> B["Route Table (VPC)\nWhich subnet does this go to?"]
+    B --> C["NACL (subnet boundary)\nStateless. Checks both directions."]
+    C --> D["Security Group (ENI)\nStateful. This post."]
+    D --> E["OS firewall (iptables / nftables / ufw)\nInside the instance. Most teams never configure this."]
+    E --> F["Your application (:3000)"]
+```
 
 **Stateful** is the most important word and the most misunderstood. It means the security group tracks connections, not just packets. If an inbound rule allows traffic in, the response traffic is automatically allowed out, regardless of what your outbound rules say. We'll go deep on this in the How section, because connection tracking is the mechanism that makes security groups feel "magic" until the day it surprises you.
 
@@ -84,41 +54,19 @@ Two structural facts complete the picture:
 
 That second point is where audits go wrong:
 
-<svg width="100%" viewBox="0 0 680 300" role="img" xmlns="http://www.w3.org/2000/svg">
-  <title>All rules in a security group are evaluated together, any match allows the packet</title>
-  <desc>Three rules on the api-prod security group, an SSH packet from an unknown external IP matches only the permissive rule 3 and is allowed through</desc>
-  <style>
-    .lbl { font-family: -apple-system, system-ui, sans-serif; font-size: 13px; fill: #444441; font-weight: 500; }
-    .sub { font-family: -apple-system, system-ui, sans-serif; font-size: 11px; fill: #5F5E5A; }
-    .mono { font-family: ui-monospace, monospace; font-size: 11px; fill: #2C2C2A; }
-    .allow { font-family: ui-monospace, monospace; font-size: 11px; fill: #A32D2D; font-weight: 700; }
-  </style>
-  <defs>
-    <marker id="arrR" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M2 1L8 5L2 9" fill="none" stroke="#888780" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-    </marker>
-  </defs>
-  <text class="lbl" x="20" y="24">Security group: api-prod</text>
-  <rect x="20" y="38" width="300" height="34" rx="6" fill="#EAF3DE" stroke="#639922" stroke-width="0.8"/>
-  <text class="mono" x="34" y="60">Rule 1: TCP 22 from 10.0.0.0/16 (internal)</text>
-  <rect x="20" y="78" width="300" height="34" rx="6" fill="#EAF3DE" stroke="#639922" stroke-width="0.8"/>
-  <text class="mono" x="34" y="100">Rule 2: TCP 443 from 0.0.0.0/0 (web API)</text>
-  <rect x="20" y="118" width="300" height="34" rx="6" fill="#FCEBEB" stroke="#E24B4A" stroke-width="1.2"/>
-  <text class="mono" x="34" y="140">Rule 3: TCP 22 from 0.0.0.0/0 (added March)</text>
+```mermaid
+flowchart TD
+    P["Packet: SSH from 185.220.x.x\n(unknown, external)"]
+    R1["Rule 1: TCP 22 from 10.0.0.0/16 (internal)"]
+    R2["Rule 2: TCP 443 from 0.0.0.0/0 (web API)"]
+    R3["Rule 3: TCP 22 from 0.0.0.0/0 (added March)"]
+    SSHD[Packet reaches sshd]
 
-  <text class="sub" x="360" y="30">Packet: SSH from 185.220.x.x (unknown, external)</text>
-  <line x1="450" y1="40" x2="180" y2="72" stroke="#B4B2A9" stroke-width="1.2"/>
-  <text class="sub" x="130" y="60" text-anchor="middle">no match</text>
-  <line x1="450" y1="40" x2="180" y2="112" stroke="#B4B2A9" stroke-width="1.2"/>
-  <text class="sub" x="130" y="100" text-anchor="middle">no match</text>
-  <line x1="450" y1="40" x2="180" y2="152" stroke="#E24B4A" stroke-width="2" marker-end="url(#arrR)"/>
-  <text class="allow" x="330" y="112" text-anchor="middle">MATCH → ALLOW</text>
-
-  <line x1="170" y1="152" x2="170" y2="210" stroke="#E24B4A" stroke-width="2" marker-end="url(#arrR)"/>
-  <rect x="60" y="212" width="220" height="40" rx="8" fill="#FCEBEB" stroke="#E24B4A" stroke-width="1.2"/>
-  <text class="lbl" x="170" y="237" text-anchor="middle" font-size="12">Packet reaches sshd</text>
-  <text class="sub" x="20" y="280">Rule 1 looks responsible. Rule 3 makes Rule 1 decorative.</text>
-</svg>
+    P -.no match.-> R1
+    P -.no match.-> R2
+    P == MATCH: ALLOW ==> R3
+    R3 ==> SSHD
+```
 
 Rule 1 looks responsible. Rule 3 makes Rule 1 decorative. This is why "we have a restricted SSH rule" means nothing until you've read every rule in the group.
 
@@ -187,41 +135,20 @@ In-house teams don't avoid this because they're better engineers. They avoid it 
 
 Let's trace real traffic. Your NestJS API runs on an EC2 instance, security group allows inbound TCP 443 from `0.0.0.0/0`. A user in Dhaka opens the app.
 
-<svg width="100%" viewBox="0 0 680 320" role="img" xmlns="http://www.w3.org/2000/svg">
-  <title>Connection tracking for an inbound HTTPS connection</title>
-  <desc>A three-step sequence showing the SYN packet checked against inbound rules, a conntrack entry created, and reply traffic matched against that entry instead of outbound rules</desc>
-  <style>
-    .lbl { font-family: -apple-system, system-ui, sans-serif; font-size: 13px; fill: #444441; font-weight: 500; }
-    .sub { font-family: -apple-system, system-ui, sans-serif; font-size: 11px; fill: #5F5E5A; }
-    .mono { font-family: ui-monospace, monospace; font-size: 11px; fill: #2C2C2A; }
-  </style>
-  <defs>
-    <marker id="arrC" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M2 1L8 5L2 9" fill="none" stroke="#378ADD" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-    </marker>
-  </defs>
-  <text class="lbl" x="20" y="24">CLIENT 103.4.x.x:51234</text>
-  <text class="lbl" x="500" y="24">SERVER :443</text>
+```mermaid
+sequenceDiagram
+    participant Client as CLIENT 103.4.x.x:51234
+    participant SG as Security Group
+    participant Server as SERVER :443
 
-  <line x1="180" y1="40" x2="480" y2="40" stroke="#378ADD" stroke-width="2" marker-end="url(#arrC)"/>
-  <text class="sub" x="330" y="35" text-anchor="middle">1. SYN</text>
-  <rect x="180" y="52" width="300" height="46" rx="6" fill="#E6F1FB" stroke="#378ADD" stroke-width="1"/>
-  <text class="mono" x="330" y="70" text-anchor="middle">Inbound rule: TCP 443 from 0.0.0.0/0</text>
-  <text class="mono" x="330" y="88" text-anchor="middle">MATCH — conntrack entry created</text>
-
-  <rect x="140" y="110" width="400" height="60" rx="6" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.8"/>
-  <text class="mono" x="160" y="130">proto=TCP src=103.4.x.x:51234 dst=:443</text>
-  <text class="mono" x="160" y="148">state=SYN_SENT → ESTABLISHED</text>
-
-  <line x1="480" y1="190" x2="180" y2="190" stroke="#1D9E75" stroke-width="2" marker-end="url(#arrC)"/>
-  <text class="sub" x="330" y="185" text-anchor="middle">2. SYN-ACK (reply)</text>
-  <rect x="180" y="200" width="300" height="46" rx="6" fill="#EAF3DE" stroke="#1D9E75" stroke-width="1"/>
-  <text class="mono" x="330" y="218" text-anchor="middle">Outbound rules NOT checked</text>
-  <text class="mono" x="330" y="236" text-anchor="middle">Matches conntrack entry — pass</text>
-
-  <text class="sub" x="20" y="290">3. All further packets in both directions match the conntrack entry.</text>
-  <text class="sub" x="20" y="306">Rules aren't consulted again until the connection closes and the entry expires.</text>
-</svg>
+    Client->>SG: 1. SYN
+    Note over SG: Inbound rule: TCP 443 from 0.0.0.0/0<br/>MATCH — conntrack entry created<br/>proto=TCP state=SYN_SENT → ESTABLISHED
+    SG->>Server: SYN forwarded
+    Server-->>SG: 2. SYN-ACK (reply)
+    Note over SG: Outbound rules NOT checked<br/>Matches conntrack entry — pass
+    SG-->>Client: SYN-ACK forwarded
+    Note over Client,Server: 3. All further packets in both directions match the conntrack entry.<br/>Rules aren't consulted again until the connection closes and the entry expires.
+```
 
 Three consequences of this mechanism catch people in production:
 
@@ -276,43 +203,14 @@ resource "aws_security_group" "db" {
 }
 ```
 
-<svg width="100%" viewBox="0 0 680 220" role="img" xmlns="http://www.w3.org/2000/svg">
-  <title>The trust chain created by security-group-to-security-group references</title>
-  <desc>Internet reaches the ALB security group on 443, the ALB security group reaches the API security group on 3000, the API security group reaches the database security group on 5432, no rule references a raw IP</desc>
-  <style>
-    .lbl { font-family: -apple-system, system-ui, sans-serif; font-size: 13px; fill: #444441; font-weight: 500; }
-    .sub { font-family: -apple-system, system-ui, sans-serif; font-size: 11px; fill: #5F5E5A; }
-  </style>
-  <defs>
-    <marker id="arrT" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M2 1L8 5L2 9" fill="none" stroke="#888780" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-    </marker>
-  </defs>
-  <rect x="10" y="80" width="90" height="46" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.8"/>
-  <text class="lbl" x="55" y="107" text-anchor="middle" font-size="12">Internet</text>
-  <line x1="100" y1="103" x2="160" y2="103" stroke="#888780" stroke-width="1.5" marker-end="url(#arrT)"/>
-  <text class="sub" x="130" y="95" text-anchor="middle">:443 from anyone</text>
+```mermaid
+flowchart LR
+    I[Internet] -- ":443 from anyone" --> ALB["sg: alb\n:443"]
+    ALB -- ":3000 from alb SG" --> API["sg: api\n:3000"]
+    API -- ":5432 from api SG" --> DB["sg: db\n:5432"]
+```
 
-  <rect x="162" y="70" width="120" height="66" rx="8" fill="#E6F1FB" stroke="#378ADD" stroke-width="1.2"/>
-  <text class="lbl" x="222" y="98" text-anchor="middle" font-size="12">sg: alb</text>
-  <text class="sub" x="222" y="118" text-anchor="middle">:443</text>
-  <line x1="284" y1="103" x2="344" y2="103" stroke="#888780" stroke-width="1.5" marker-end="url(#arrT)"/>
-  <text class="sub" x="314" y="95" text-anchor="middle">:3000 from alb SG</text>
-
-  <rect x="346" y="70" width="120" height="66" rx="8" fill="#EAF3DE" stroke="#639922" stroke-width="1.2"/>
-  <text class="lbl" x="406" y="98" text-anchor="middle" font-size="12">sg: api</text>
-  <text class="sub" x="406" y="118" text-anchor="middle">:3000</text>
-  <line x1="468" y1="103" x2="528" y2="103" stroke="#888780" stroke-width="1.5" marker-end="url(#arrT)"/>
-  <text class="sub" x="498" y="95" text-anchor="middle">:5432 from api SG</text>
-
-  <rect x="530" y="70" width="120" height="66" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1.2"/>
-  <text class="lbl" x="590" y="98" text-anchor="middle" font-size="12">sg: db</text>
-  <text class="sub" x="590" y="118" text-anchor="middle">:5432</text>
-
-  <text class="sub" x="20" y="175">The database has no rule that references an IP address. It cannot be reached from the</text>
-  <text class="sub" x="20" y="191">internet even if someone fat-fingers a route table. Autoscaling the API tier requires</text>
-  <text class="sub" x="20" y="207">zero security group changes.</text>
-</svg>
+The database has no rule that references an IP address. It cannot be reached from the internet even if someone fat-fingers a route table. Autoscaling the API tier requires zero security group changes.
 
 Notice what's absent: SSH. Modern setups use SSM Session Manager or EC2 Instance Connect, which need no inbound port at all. If you must have SSH, it's `/32` to a bastion or VPN CIDR, never `0.0.0.0/0`, and ideally it's a rule you add for the session and remove after.
 
@@ -357,56 +255,16 @@ sudo ss -tlnp
 
 Then apply this decision tree to every finding from command 1:
 
-<svg width="100%" viewBox="0 0 680 320" role="img" xmlns="http://www.w3.org/2000/svg">
-  <title>Decision tree for a rule open to the entire internet</title>
-  <desc>Starting from a rule open to 0.0.0.0/0, check if it is a public web port, then check for a written reason, then check if that reason still holds, ending in keep or close</desc>
-  <style>
-    .lbl { font-family: -apple-system, system-ui, sans-serif; font-size: 12px; fill: #444441; font-weight: 500; }
-    .sub { font-family: -apple-system, system-ui, sans-serif; font-size: 11px; fill: #5F5E5A; }
-  </style>
-  <defs>
-    <marker id="arrD" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M2 1L8 5L2 9" fill="none" stroke="#888780" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-    </marker>
-  </defs>
-  <rect x="240" y="8" width="200" height="40" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.8"/>
-  <text class="lbl" x="340" y="32" text-anchor="middle">Rule open to 0.0.0.0/0</text>
-
-  <line x1="340" y1="48" x2="340" y2="70" stroke="#888780" stroke-width="1.3" marker-end="url(#arrD)"/>
-  <rect x="220" y="72" width="240" height="40" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.8"/>
-  <text class="lbl" x="340" y="96" text-anchor="middle">Public 80/443 on web tier?</text>
-
-  <line x1="270" y1="112" x2="140" y2="150" stroke="#639922" stroke-width="1.3" marker-end="url(#arrD)"/>
-  <text class="sub" x="150" y="135">yes</text>
-  <rect x="60" y="152" width="140" height="34" rx="8" fill="#EAF3DE" stroke="#639922" stroke-width="1"/>
-  <text class="lbl" x="130" y="174" text-anchor="middle">Fine.</text>
-
-  <line x1="410" y1="112" x2="500" y2="150" stroke="#888780" stroke-width="1.3" marker-end="url(#arrD)"/>
-  <text class="sub" x="500" y="135">no</text>
-  <rect x="380" y="152" width="260" height="40" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.8"/>
-  <text class="lbl" x="510" y="176" text-anchor="middle">Written reason (description/IaC/ticket)?</text>
-
-  <line x1="450" y1="192" x2="380" y2="230" stroke="#888780" stroke-width="1.3" marker-end="url(#arrD)"/>
-  <text class="sub" x="390" y="215">yes</text>
-  <rect x="300" y="232" width="200" height="40" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.8"/>
-  <text class="lbl" x="400" y="256" text-anchor="middle">Is the reason still true?</text>
-
-  <line x1="330" y1="272" x2="270" y2="300" stroke="#639922" stroke-width="1.3" marker-end="url(#arrD)"/>
-  <text class="sub" x="270" y="292" text-anchor="middle">yes</text>
-  <rect x="200" y="296" width="150" height="20" rx="6" fill="#EAF3DE" stroke="#639922" stroke-width="1"/>
-  <text class="sub" x="275" y="310" text-anchor="middle">Keep, set review date</text>
-
-  <line x1="460" y1="272" x2="520" y2="300" stroke="#E24B4A" stroke-width="1.3" marker-end="url(#arrD)"/>
-  <text class="sub" x="520" y="292" text-anchor="middle">no</text>
-  <rect x="470" y="296" width="120" height="20" rx="6" fill="#FCEBEB" stroke="#E24B4A" stroke-width="1"/>
-  <text class="sub" x="530" y="310" text-anchor="middle">Close it</text>
-
-  <line x1="570" y1="192" x2="620" y2="230" stroke="#E24B4A" stroke-width="1.3" marker-end="url(#arrD)"/>
-  <text class="sub" x="620" y="215" text-anchor="middle">no</text>
-  <rect x="530" y="232" width="140" height="40" rx="8" fill="#FCEBEB" stroke="#E24B4A" stroke-width="1.2"/>
-  <text class="lbl" x="600" y="250" text-anchor="middle" font-size="11">CLOSE IT TODAY</text>
-  <text class="sub" x="600" y="264" text-anchor="middle" font-size="10">undocumented + open</text>
-</svg>
+```mermaid
+flowchart TD
+    A["Rule open to 0.0.0.0/0"] --> B["Public 80/443 on web tier?"]
+    B -- yes --> C["Fine."]
+    B -- no --> D["Written reason (description/IaC/ticket)?"]
+    D -- no --> E["CLOSE IT TODAY\n(undocumented + open)"]
+    D -- yes --> F["Is the reason still true?"]
+    F -- yes --> G["Keep, set review date"]
+    F -- no --> H["Close it"]
+```
 
 The rule of thumb underneath the tree: **a rule with no story defaults to closed.** If closing it breaks something, you'll find out fast, loudly, and fixably. If leaving it open goes wrong, you find out slowly, silently, and expensively.
 

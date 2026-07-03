@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Clock, Calendar, Sparkles, ArrowUpRight, MessageSquare } from "lucide-react";
+import { ArrowLeft, Clock, Calendar, ArrowUpRight, MessageSquare } from "lucide-react";
 import { getBlogBySlug, getAllBlogSlugs, getRelatedBlogs } from "@/lib/blogs";
 import { parseMarkdown, extractToc } from "@/lib/markdown";
 import { Badge } from "@/components/ui/badge";
@@ -67,7 +67,6 @@ export default async function BlogPostPage({
   const html = parseMarkdown(post.content);
   const toc = extractToc(post.content);
   const related = getRelatedBlogs(slug, post.tags);
-  const tldr = post.tldr || post.excerpt || post.metaDescription;
 
   const blogJsonLd = {
     "@context": "https://schema.org",
@@ -180,16 +179,6 @@ export default async function BlogPostPage({
           </aside>
 
           <article className="min-w-0 max-w-3xl flex-1 rounded-2xl border border-white/5 bg-slate-900/40 backdrop-blur-sm p-6 md:p-10">
-            {/* TL;DR */}
-            {tldr && (
-              <div className="mb-10 rounded-2xl border border-cyan-500/20 bg-cyan-500/5 p-5">
-                <p className="mb-2 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.2em] text-cyan-400">
-                  <Sparkles className="h-3.5 w-3.5" /> TL;DR
-                </p>
-                <p className="text-sm leading-relaxed text-gray-300">{tldr}</p>
-              </div>
-            )}
-
             <MermaidRenderer html={html} />
 
             {/* FAQ */}

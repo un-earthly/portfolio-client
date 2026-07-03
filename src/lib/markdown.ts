@@ -24,8 +24,8 @@ renderer.code = function ({ text, lang }) {
   return `<div class="code-block-wrapper">${langLabel}<pre class="code-pre"><code class="language-${lang || "text"}">${escapeHtml(text)}</code></pre></div>`;
 };
 
-renderer.blockquote = function ({ text }) {
-  return `<blockquote class="blog-blockquote">${text}</blockquote>`;
+renderer.blockquote = function ({ tokens }) {
+  return `<blockquote class="blog-blockquote">${this.parser.parse(tokens)}</blockquote>`;
 };
 
 export type TocItem = { id: string; text: string; depth: number };
@@ -53,21 +53,24 @@ export function slugifyHeading(text: string): string {
     .slice(0, 60);
 }
 
-renderer.heading = function ({ text, depth }) {
+renderer.heading = function ({ tokens, depth }) {
+  const text = this.parser.parseInline(tokens);
   const id = slugifyHeading(text);
   return `<h${depth} id="${id}" class="blog-h${depth}">${text}</h${depth}>`;
 };
 
-renderer.paragraph = function ({ text }) {
-  // pass SVG blocks through unwrapped
+renderer.paragraph = function ({ tokens, text }) {
+  // pass SVG blocks through unwrapped (raw HTML paragraphs carry no inline tokens)
   if (text.trimStart().startsWith("<svg")) return text;
-  return `<p class="blog-p">${text}</p>`;
+  return `<p class="blog-p">${this.parser.parseInline(tokens)}</p>`;
 };
 
-renderer.list = function ({ items, ordered }) {
-  const tag = ordered ? "ol" : "ul";
-  const cls = ordered ? "blog-ol" : "blog-ul";
-  const inner = items.map((item) => `<li>${item.text}</li>`).join("");
+renderer.list = function (token) {
+  const tag = token.ordered ? "ol" : "ul";
+  const cls = token.ordered ? "blog-ol" : "blog-ul";
+  const inner = token.items
+    .map((item) => `<li>${this.parser.parse(item.tokens)}</li>`)
+    .join("");
   return `<${tag} class="${cls}">${inner}</${tag}>`;
 };
 

@@ -57,86 +57,24 @@ Hash the key `k` times. Check the bit at each position. If every bit is 1, repor
 
 The "definitely not present" guarantee comes directly from the structure: inserting a key sets bits, it never clears them. So if a bit is still 0, that position was never set by any inserted key, meaning this key was never inserted.
 
-<svg width="100%" viewBox="0 0 680 360" role="img" xmlns="http://www.w3.org/2000/svg">
-  <title>Bloom filter bit array insert and lookup</title>
-  <desc>A bit array showing two keys inserted with k=3 hash functions each, setting bits, and a third key lookup checking those bits</desc>
-  <style>
-    .lbl { font-family: -apple-system, system-ui, sans-serif; font-size: 13px; fill: #444441; font-weight: 500; }
-    .sub { font-family: -apple-system, system-ui, sans-serif; font-size: 11px; fill: #5F5E5A; }
-    .mono { font-family: ui-monospace, monospace; font-size: 11px; fill: #2C2C2A; }
-    .hit  { font-family: ui-monospace, monospace; font-size: 12px; fill: #042C53; font-weight: 600; }
-    .miss { font-family: ui-monospace, monospace; font-size: 12px; fill: #A32D2D; font-weight: 600; }
-  </style>
-  <text class="lbl" x="20" y="28">Bit array, 16 bits, k=3 hash functions</text>
-  <g>
-    <rect x="20"  y="55" width="35" height="35" rx="5" fill="#B5D4F4" stroke="#378ADD" stroke-width="1"/>
-    <text class="hit" x="37"  y="77" text-anchor="middle">1</text>
-    <text class="sub" x="37"  y="107" text-anchor="middle">0</text>
-    <rect x="57"  y="55" width="35" height="35" rx="5" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
-    <text class="mono" x="74"  y="77" text-anchor="middle">0</text>
-    <text class="sub" x="74"  y="107" text-anchor="middle">1</text>
-    <rect x="94"  y="55" width="35" height="35" rx="5" fill="#B5D4F4" stroke="#378ADD" stroke-width="1"/>
-    <text class="hit" x="111" y="77" text-anchor="middle">1</text>
-    <text class="sub" x="111" y="107" text-anchor="middle">2</text>
-    <rect x="131" y="55" width="35" height="35" rx="5" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
-    <text class="mono" x="148" y="77" text-anchor="middle">0</text>
-    <text class="sub" x="148" y="107" text-anchor="middle">3</text>
-    <rect x="168" y="55" width="35" height="35" rx="5" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
-    <text class="mono" x="185" y="77" text-anchor="middle">0</text>
-    <text class="sub" x="185" y="107" text-anchor="middle">4</text>
-    <rect x="205" y="55" width="35" height="35" rx="5" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
-    <text class="mono" x="222" y="77" text-anchor="middle">0</text>
-    <text class="sub" x="222" y="107" text-anchor="middle">5</text>
-    <rect x="242" y="55" width="35" height="35" rx="5" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
-    <text class="mono" x="259" y="77" text-anchor="middle">0</text>
-    <text class="sub" x="259" y="107" text-anchor="middle">6</text>
-    <rect x="279" y="55" width="35" height="35" rx="5" fill="#B5D4F4" stroke="#378ADD" stroke-width="1"/>
-    <text class="hit" x="296" y="77" text-anchor="middle">1</text>
-    <text class="sub" x="296" y="107" text-anchor="middle">7</text>
-    <rect x="316" y="55" width="35" height="35" rx="5" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
-    <text class="mono" x="333" y="77" text-anchor="middle">0</text>
-    <text class="sub" x="333" y="107" text-anchor="middle">8</text>
-    <rect x="353" y="55" width="35" height="35" rx="5" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
-    <text class="mono" x="370" y="77" text-anchor="middle">0</text>
-    <text class="sub" x="370" y="107" text-anchor="middle">9</text>
-    <rect x="390" y="55" width="35" height="35" rx="5" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
-    <text class="mono" x="407" y="77" text-anchor="middle">0</text>
-    <text class="sub" x="407" y="107" text-anchor="middle">10</text>
-    <rect x="427" y="55" width="35" height="35" rx="5" fill="#B5D4F4" stroke="#378ADD" stroke-width="1"/>
-    <text class="hit" x="444" y="77" text-anchor="middle">1</text>
-    <text class="sub" x="444" y="107" text-anchor="middle">11</text>
-    <rect x="464" y="55" width="35" height="35" rx="5" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
-    <text class="mono" x="481" y="77" text-anchor="middle">0</text>
-    <text class="sub" x="481" y="107" text-anchor="middle">12</text>
-    <rect x="501" y="55" width="35" height="35" rx="5" fill="#B5D4F4" stroke="#378ADD" stroke-width="1"/>
-    <text class="hit" x="518" y="77" text-anchor="middle">1</text>
-    <text class="sub" x="518" y="107" text-anchor="middle">13</text>
-    <rect x="538" y="55" width="35" height="35" rx="5" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
-    <text class="mono" x="555" y="77" text-anchor="middle">0</text>
-    <text class="sub" x="555" y="107" text-anchor="middle">14</text>
-    <rect x="575" y="55" width="35" height="35" rx="5" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
-    <text class="mono" x="592" y="77" text-anchor="middle">0</text>
-    <text class="sub" x="592" y="107" text-anchor="middle">15</text>
-  </g>
-  <text class="lbl" x="20" y="140">Inserted: "alice" → bits 2, 7, 13 set | "bob" → bits 0, 7, 11 set</text>
-  <text class="lbl" x="20" y="175">Lookup: "alice", check bits 2, 7, 13</text>
-  <rect x="94"  y="190" width="35" height="30" rx="5" fill="#9FE1CB" stroke="#0F6E56" stroke-width="1.5"/>
-  <text class="hit" x="111" y="209" text-anchor="middle">1</text>
-  <rect x="279" y="190" width="35" height="30" rx="5" fill="#9FE1CB" stroke="#0F6E56" stroke-width="1.5"/>
-  <text class="hit" x="296" y="209" text-anchor="middle">1</text>
-  <rect x="501" y="190" width="35" height="30" rx="5" fill="#9FE1CB" stroke="#0F6E56" stroke-width="1.5"/>
-  <text class="hit" x="518" y="209" text-anchor="middle">1</text>
-  <text class="mono" x="630" y="209">→ PRESENT</text>
-  <text class="lbl" x="20" y="250">Lookup: "carol", check bits 4, 9, 14 (none set)</text>
-  <rect x="168" y="265" width="35" height="30" rx="5" fill="#F7C1C1" stroke="#E24B4A" stroke-width="1.5"/>
-  <text class="miss" x="185" y="284" text-anchor="middle">0</text>
-  <rect x="353" y="265" width="35" height="30" rx="5" fill="#F7C1C1" stroke="#E24B4A" stroke-width="1.5"/>
-  <text class="miss" x="370" y="284" text-anchor="middle">0</text>
-  <rect x="538" y="265" width="35" height="30" rx="5" fill="#F7C1C1" stroke="#E24B4A" stroke-width="1.5"/>
-  <text class="miss" x="555" y="284" text-anchor="middle">0</text>
-  <text class="mono" x="590" y="284">→ ABSENT (certain)</text>
-  <text class="sub" x="20" y="330">Any single 0 bit on lookup = definitive absence. All 1s = probable presence. Never a false negative.</text>
-</svg>
+Bit array, 16 bits (indices 0-15), k=3 hash functions. `"alice"` sets bits 2, 7, 13. `"bob"` sets bits 0, 7, 11. All other bits remain 0.
+
+| Bit index | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Value | 1 | 0 | 1 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 1 | 0 | 1 | 0 | 0 |
+| Set by | bob | | alice | | | | | alice, bob | | | | bob | | alice | | |
+
+```mermaid
+flowchart LR
+    subgraph Lookup1["Lookup: &quot;alice&quot; -- check bits 2, 7, 13"]
+        A2["bit 2 = 1"] --> A7["bit 7 = 1"] --> A13["bit 13 = 1"] --> APresent["PRESENT (probable)"]
+    end
+    subgraph Lookup2["Lookup: &quot;carol&quot; -- check bits 4, 9, 14"]
+        C4["bit 4 = 0"] --> CAbsent["ABSENT (certain)"]
+    end
+```
+
+Any single 0 bit on lookup means definitive absence. All bits being 1 means probable presence. A Bloom filter never produces a false negative.
 
 ---
 
@@ -190,45 +128,18 @@ The Bloom filter uses roughly 2 percent of the memory for a 1% false positive ra
 
 ## Memory vs False Positive Rate Tradeoff
 
-<svg width="100%" viewBox="0 0 680 340" role="img" xmlns="http://www.w3.org/2000/svg">
-  <title>Memory usage versus false positive rate for 10 million items</title>
-  <desc>A chart showing Bloom filter memory decreasing as false positive rate increases, compared to hash set flat memory line</desc>
-  <style>
-    .lbl { font-family: -apple-system, system-ui, sans-serif; font-size: 13px; fill: #444441; font-weight: 500; }
-    .sub { font-family: -apple-system, system-ui, sans-serif; font-size: 11px; fill: #5F5E5A; }
-    .axis { font-family: ui-monospace, monospace; font-size: 10px; fill: #5F5E5A; }
-    .note { font-family: -apple-system, system-ui, sans-serif; font-size: 10px; fill: #2C2C2A; }
-  </style>
-  <text class="lbl" x="20" y="25">Memory cost at 10M items (Bloom filter vs hash set)</text>
-  <line x1="70" y1="40" x2="70" y2="275" stroke="#B4B2A9" stroke-width="1"/>
-  <line x1="70" y1="275" x2="640" y2="275" stroke="#B4B2A9" stroke-width="1"/>
-  <text class="axis" x="62" y="44"  text-anchor="end">600</text>
-  <text class="axis" x="62" y="100" text-anchor="end">400</text>
-  <text class="axis" x="62" y="160" text-anchor="end">200</text>
-  <text class="axis" x="62" y="220" text-anchor="end">50</text>
-  <text class="axis" x="62" y="258" text-anchor="end">10</text>
-  <text class="axis" x="62" y="275" text-anchor="end">0</text>
-  <text class="sub" x="14" y="160" text-anchor="middle" transform="rotate(-90,14,160)">Memory (MB)</text>
-  <text class="axis" x="70"  y="290" text-anchor="middle">0.01%</text>
-  <text class="axis" x="185" y="290" text-anchor="middle">0.1%</text>
-  <text class="axis" x="300" y="290" text-anchor="middle">1%</text>
-  <text class="axis" x="415" y="290" text-anchor="middle">5%</text>
-  <text class="axis" x="530" y="290" text-anchor="middle">10%</text>
-  <text class="axis" x="630" y="290" text-anchor="middle">50%</text>
-  <text class="sub" x="350" y="315" text-anchor="middle">False positive rate</text>
-  <line x1="70" y1="66" x2="640" y2="66" stroke="#E24B4A" stroke-width="2" stroke-dasharray="6 3"/>
-  <text class="note" x="645" y="66" text-anchor="start">Hash set ~534MB</text>
-  <polyline points="70,266 185,268 300,271 415,272 530,272 630,274" fill="none" stroke="#1D9E75" stroke-width="2"/>
-  <text class="note" x="645" y="272">Bloom filter</text>
-  <circle cx="300" cy="271" r="4" fill="#1D9E75"/>
-  <line x1="300" y1="267" x2="300" y2="230" stroke="#1D9E75" stroke-width="0.8" stroke-dasharray="3 2"/>
-  <text class="sub" x="308" y="220">1% FPR</text>
-  <text class="sub" x="308" y="233">~11 MB</text>
-  <line x1="80" y1="310" x2="110" y2="310" stroke="#E24B4A" stroke-width="2" stroke-dasharray="6 3"/>
-  <text class="sub" x="116" y="314">Hash set</text>
-  <line x1="200" y1="310" x2="230" y2="310" stroke="#1D9E75" stroke-width="2"/>
-  <text class="sub" x="236" y="314">Bloom filter</text>
-</svg>
+**Memory cost at 10M items (Bloom filter vs hash set):**
+
+| False positive rate | Bloom filter memory | Hash set memory |
+|---|---|---|
+| 0.01% | ~17 MB | ~534 MB |
+| 0.1% | ~14 MB | ~534 MB |
+| 1% | ~11 MB | ~534 MB |
+| 5% | ~7 MB | ~534 MB |
+| 10% | ~5 MB | ~534 MB |
+| 50% | ~2 MB | ~534 MB |
+
+The hash set memory is a flat 534MB regardless of tolerance for error. The Bloom filter shrinks as the tolerated false positive rate rises, and at a practical 1% FPR it uses roughly 2% of the hash set's memory (~11 MB).
 
 ---
 
