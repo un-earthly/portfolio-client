@@ -148,7 +148,7 @@ fn draw(frame: &mut Frame, probes: &[Probe]) {
     .header(Row::new(vec!["ENDPOINT", "STATUS", "LATENCY"]).bold())
     .block(
         Block::default()
-            .title(" pulse — q to quit ")
+            .title(" pulse, q to quit ")
             .borders(Borders::ALL),
     );
 
@@ -156,43 +156,21 @@ fn draw(frame: &mut Frame, probes: &[Probe]) {
 }
 ```
 
-<svg width="100%" viewBox="0 0 680 280" role="img" xmlns="http://www.w3.org/2000/svg">
-  <title>The pulse terminal dashboard layout</title>
-  <desc>A bordered terminal panel titled pulse with a header row and several endpoint rows colored green, yellow, and red by status</desc>
-  <style>
-    .term { font-family: ui-monospace, monospace; font-size: 12px; fill: #2C2C2A; }
-    .hd   { font-family: ui-monospace, monospace; font-size: 12px; fill: #444441; font-weight: 700; }
-    .sub  { font-family: -apple-system, system-ui, sans-serif; font-size: 11px; fill: #5F5E5A; }
-  </style>
-  <rect x="20" y="20" width="640" height="220" rx="8" fill="#F1EFE8" stroke="#2C2C2A" stroke-width="1.5"/>
-  <rect x="20" y="20" width="640" height="26" rx="8" fill="#E6F1FB" stroke="#2C2C2A" stroke-width="1.5"/>
-  <text class="hd" x="40" y="38">┌ pulse, q to quit ─────────────────────────────────────────┐</text>
-  <text class="hd" x="40"  y="74">ENDPOINT</text>
-  <text class="hd" x="430" y="74">STATUS</text>
-  <text class="hd" x="560" y="74">LATENCY</text>
-  <line x1="40" y1="84" x2="640" y2="84" stroke="#B4B2A9" stroke-width="0.8"/>
-  <text class="term" x="40"  y="108">https://api.example.com/auth</text>
-  <circle cx="436" cy="104" r="5" fill="#1D9E75"/>
-  <text class="term" x="448" y="108" fill="#0F6E56">UP</text>
-  <text class="term" x="560" y="108">42 ms</text>
-  <text class="term" x="40"  y="134">https://api.example.com/billing</text>
-  <circle cx="436" cy="130" r="5" fill="#1D9E75"/>
-  <text class="term" x="448" y="134" fill="#0F6E56">UP</text>
-  <text class="term" x="560" y="134">61 ms</text>
-  <text class="term" x="40"  y="160">https://api.example.com/search</text>
-  <circle cx="436" cy="156" r="5" fill="#FAC775"/>
-  <text class="term" x="448" y="160" fill="#BA7517">SLOW</text>
-  <text class="term" x="560" y="160">812 ms</text>
-  <text class="term" x="40"  y="186">https://api.example.com/payments</text>
-  <circle cx="436" cy="182" r="5" fill="#E24B4A"/>
-  <text class="term" x="448" y="186" fill="#A32D2D">DOWN</text>
-  <text class="term" x="560" y="186">- -</text>
-  <text class="term" x="40"  y="212">https://api.example.com/notify</text>
-  <circle cx="436" cy="208" r="5" fill="#1D9E75"/>
-  <text class="term" x="448" y="212" fill="#0F6E56">UP</text>
-  <text class="term" x="560" y="212">55 ms</text>
-  <text class="sub" x="20" y="262">Each row's color comes straight from a `match` on the `Status` enum, the compiler guarantees every variant maps to something.</text>
-</svg>
+```mermaid
+flowchart TD
+    subgraph pulse[" pulse, q to quit "]
+        direction TB
+        H["ENDPOINT | STATUS | LATENCY"]
+        R1["https://api.example.com/auth 🟢 UP, 42 ms"]
+        R2["https://api.example.com/billing 🟢 UP, 61 ms"]
+        R3["https://api.example.com/search 🟡 SLOW, 812 ms"]
+        R4["https://api.example.com/payments 🔴 DOWN, - -"]
+        R5["https://api.example.com/notify 🟢 UP, 55 ms"]
+        H --> R1 --> R2 --> R3 --> R4 --> R5
+    end
+```
+
+*Each row's color comes straight from a `match` on the `Status` enum, the compiler guarantees every variant maps to something.*
 
 ---
 
@@ -283,42 +261,23 @@ fn main() -> anyhow::Result<()> {
 
 The key fact: when a Rust program panics, by default it *unwinds* the stack, walking back up through every frame and running the `Drop` for every live value on the way out, exactly as if each had gone out of scope normally. So whether `run_ui` returns `Ok`, returns an `Err` via `?`, or panics outright, `_guard` is dropped on the way out and the terminal is restored. There is no code path that skips it. I deleted the manual teardown lines and the bug became structurally impossible.
 
-<svg width="100%" viewBox="0 0 680 320" role="img" xmlns="http://www.w3.org/2000/svg">
-  <title>RAII guarantees terminal restore on every exit path including panic</title>
-  <desc>Three exit paths from the run function, normal return, error via question mark, and panic, all converge on the guard's Drop running and the terminal being restored</desc>
-  <style>
-    .lbl  { font-family: -apple-system, system-ui, sans-serif; font-size: 13px; fill: #444441; font-weight: 600; }
-    .sub  { font-family: -apple-system, system-ui, sans-serif; font-size: 11px; fill: #5F5E5A; }
-    .mono { font-family: ui-monospace, monospace; font-size: 11px; fill: #2C2C2A; }
-    .ok   { font-family: -apple-system, system-ui, sans-serif; font-size: 11px; fill: #0F6E56; font-weight: 600; }
-  </style>
-  <defs>
-    <marker id="d1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-    </marker>
-  </defs>
-  <rect x="240" y="20" width="200" height="36" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1.2"/>
-  <text class="mono" x="340" y="42" text-anchor="middle">TerminalGuard::enter()  🔒</text>
-  <rect x="40"  y="110" width="160" height="40" rx="8" fill="#EAF3DE" stroke="#639922" stroke-width="1"/>
-  <text class="sub" x="120" y="135" text-anchor="middle">normal return Ok(())</text>
-  <rect x="260" y="110" width="160" height="40" rx="8" fill="#E6F1FB" stroke="#378ADD" stroke-width="1"/>
-  <text class="sub" x="340" y="129" text-anchor="middle">early return via `?`</text>
-  <text class="sub" x="340" y="143" text-anchor="middle">(an Err)</text>
-  <rect x="480" y="110" width="160" height="40" rx="8" fill="#FCEBEB" stroke="#E24B4A" stroke-width="1"/>
-  <text class="sub" x="560" y="135" text-anchor="middle">panic!, stack unwinds</text>
-  <line x1="340" y1="56" x2="120" y2="108" stroke="#B4B2A9" stroke-width="1" marker-end="url(#d1)"/>
-  <line x1="340" y1="56" x2="340" y2="108" stroke="#B4B2A9" stroke-width="1" marker-end="url(#d1)"/>
-  <line x1="340" y1="56" x2="560" y2="108" stroke="#B4B2A9" stroke-width="1" marker-end="url(#d1)"/>
-  <rect x="220" y="200" width="240" height="44" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1.4"/>
-  <text class="mono" x="340" y="220" text-anchor="middle">_guard.drop() runs</text>
-  <text class="sub" x="340" y="236" text-anchor="middle">disable_raw_mode + leave alt screen</text>
-  <line x1="120" y1="150" x2="300" y2="198" stroke="#639922" stroke-width="1.3" marker-end="url(#d1)"/>
-  <line x1="340" y1="150" x2="340" y2="198" stroke="#378ADD" stroke-width="1.3" marker-end="url(#d1)"/>
-  <line x1="560" y1="150" x2="380" y2="198" stroke="#E24B4A" stroke-width="1.3" marker-end="url(#d1)"/>
-  <rect x="240" y="276" width="200" height="34" rx="8" fill="#EAF3DE" stroke="#639922" stroke-width="1.2"/>
-  <text class="ok" x="340" y="297" text-anchor="middle">✓ terminal restored, always</text>
-  <line x1="340" y1="244" x2="340" y2="274" stroke="#B4B2A9" stroke-width="1" marker-end="url(#d1)"/>
-</svg>
+```mermaid
+flowchart TD
+    Enter["TerminalGuard::enter() 🔒"]
+    Ok["normal return Ok(())"]
+    Err["early return via `?` (an Err)"]
+    Panic["panic!, stack unwinds"]
+    Drop["_guard.drop() runs<br/>disable_raw_mode + leave alt screen"]
+    Restored["✓ terminal restored, always"]
+
+    Enter --> Ok
+    Enter --> Err
+    Enter --> Panic
+    Ok --> Drop
+    Err --> Drop
+    Panic --> Drop
+    Drop --> Restored
+```
 
 This is the same mechanism from Part 1, generalized. There, `Drop` freed a `String`'s heap buffer at end of scope. Here, `Drop` restores the terminal. A file handle's `Drop` closes the file; a `MutexGuard`'s `Drop` (Part 3) releases the lock. **Rust has exactly one cleanup model, and it works for memory, locks, files, sockets, and terminals identically.** Learn it once for `String` and you've learned it for everything. Compare that to languages where memory is the GC's job, files want `try-with-resources` or `with`, and locks want a `finally`, three different mechanisms for the same idea.
 

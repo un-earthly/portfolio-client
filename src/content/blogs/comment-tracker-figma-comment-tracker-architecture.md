@@ -19,7 +19,7 @@ This post is about why, how, and where it bit me.
 
 ```mermaid
 flowchart TD
-    subgraph Browser["Browser — static HTML / CSS / JS"]
+    subgraph Browser["Browser: static HTML / CSS / JS"]
         FS["Filter Sidebar\n─────────────\nStatus · Pages\nAuthors · Labels"]
         CL["Comment List\n─────────────\nRendered in-memory\nDeep links → Figma nodes"]
     end
@@ -75,7 +75,7 @@ The OAuth code-for-token exchange needs a client secret. A client secret cannot 
 The entire server side is one Cloudflare Function:
 
 ```javascript
-// figma-token.js — the only server-side code in the project
+// figma-token.js: the only server-side code in the project
 export default {
   async fetch(request, env) {
     if (request.method !== "POST") {

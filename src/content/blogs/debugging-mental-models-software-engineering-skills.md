@@ -45,7 +45,7 @@ The prediction-verification loop:
 Form hypothesis: "The user.permissions array is empty at this point"
 Add log:         console.log("permissions:", user.permissions)
 Run:             See [ "read", "write", "admin" ]
-Update model:    Permissions are populated — the issue is downstream
+Update model:    Permissions are populated, the issue is downstream
 ```
 
 The engineers who skip the prediction step drift through debugging by observation. The engineers who commit to predictions maintain a sharp model.

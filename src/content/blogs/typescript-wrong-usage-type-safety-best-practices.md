@@ -7,7 +7,7 @@ readTime: 11
 type: hot-take
 excerpt: The 'any' type is a lie you tell TypeScript so it stops asking questions. Every codebase I've walked into that claimed to be "written in TypeScript" has had the same anti-patterns. Here's what TypeScript looks like when used as an architecture tool.
 cover: '/blog-covers/typescript-wrong-usage-type-safety-best-practices.svg'
-faqs: What are the most common TypeScript anti-patterns you see in real codebases?::The most common ones: using `any` at API boundaries, not enabling `strict` mode in tsconfig, defining types as interfaces with all optional fields, and typing function return values as `object` or `unknown` without narrowing. All of these give TypeScript the shape of safety without the substance. | How do you tighten TypeScript in a legacy codebase without a full rewrite?::Enable `strict: true` in tsconfig. Run `tsc --noEmit` in CI. Set a policy that `@ts-ignore` requires a written justification comment. Start tracking the count of `any` in the codebase as a metric. None of these require a rewrite — they surface where the type system is being bypassed. | Which of these patterns is most worth adopting first?::Discriminated unions and the exhaustive `never` check are the two that pay back most consistently. Branded types are invaluable on any codebase handling multiple kinds of IDs or domain primitives. State machine types eliminate an entire class of UI bugs around loading/error/success state.
+faqs: What are the most common TypeScript anti-patterns you see in real codebases?::The most common ones: using `any` at API boundaries, not enabling `strict` mode in tsconfig, defining types as interfaces with all optional fields, and typing function return values as `object` or `unknown` without narrowing. All of these give TypeScript the shape of safety without the substance. | How do you tighten TypeScript in a legacy codebase without a full rewrite?::Enable `strict: true` in tsconfig. Run `tsc --noEmit` in CI. Set a policy that `@ts-ignore` requires a written justification comment. Start tracking the count of `any` in the codebase as a metric. None of these require a rewrite: they surface where the type system is being bypassed. | Which of these patterns is most worth adopting first?::Discriminated unions and the exhaustive `never` check are the two that pay back most consistently. Branded types are invaluable on any codebase handling multiple kinds of IDs or domain primitives. State machine types eliminate an entire class of UI bugs around loading/error/success state.
 ---
 
 The `any` type is a lie you tell TypeScript so it stops asking questions.
@@ -25,7 +25,7 @@ Design your data model so that a whole class of bugs cannot exist by constructio
 The difference between TypeScript as spellcheck and TypeScript as architecture tool:
 
 ```typescript
-// Spellcheck TypeScript — the anti-pattern
+// Spellcheck TypeScript: the anti-pattern
 function processPayment(data: any) {
   // TypeScript has no idea what 'data' is.
   // You get autocomplete on 'data.' but it lies.
@@ -33,7 +33,7 @@ function processPayment(data: any) {
   return data.transactionId; // silently undefined if failed
 }
 
-// Architecture TypeScript — making impossible states unrepresentable
+// Architecture TypeScript: making impossible states unrepresentable
 type PaymentResult =
   | { status: "success"; transactionId: string; settledAt: Date }
   | { status: "failed"; reason: "insufficient_funds" | "card_expired" | "fraud_hold" }
@@ -65,7 +65,7 @@ if (result.status === "success") {
 ### Branded Types for Domain Primitives
 
 ```typescript
-// Without branded types: string is string — IDs are interchangeable
+// Without branded types: string is string, IDs are interchangeable
 function assignOrderToUser(orderId: string, userId: string): void { ... }
 assignOrderToUser(userId, orderId); // wrong order, TypeScript doesn't care
 
@@ -146,4 +146,4 @@ The engineers who complain that TypeScript is slow and annoying are the ones usi
 
 **Walking into a TypeScript codebase that's essentially typed JavaScript?**
 
-This is one of the most common issues I find on product teams — a TS config that doesn't enforce anything and an `any` count that climbs every sprint. If you're inheriting a codebase like this and need a realistic plan to tighten it without a rewrite, [get in touch](/contact).
+This is one of the most common issues I find on product teams: a TS config that doesn't enforce anything and an `any` count that climbs every sprint. If you're inheriting a codebase like this and need a realistic plan to tighten it without a rewrite, [get in touch](/contact).

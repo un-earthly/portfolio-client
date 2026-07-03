@@ -102,7 +102,7 @@ fn avg_healthy_latency(probes: &[Probe]) -> Option<u128> {
         .filter_map(|p| p.latency())   // Some(ms) for Up/Slow, None for Down
         .collect();
     if latencies.is_empty() {
-        return None;                   // no null — absence is explicit
+        return None;                   // no null: absence is explicit
     }
     Some(latencies.iter().sum::<u128>() / latencies.len() as u128)
 }
@@ -124,43 +124,13 @@ fn down_count(probes: &[Probe]) -> usize {
 
 Same instructions. The expressive version is not a "nice but slower" option you trade performance for, it is, after optimization, the loop. This is the claim that sounds too good until you read the generated assembly, at which point it's just true.
 
-<svg width="100%" viewBox="0 0 680 300" role="img" xmlns="http://www.w3.org/2000/svg">
-  <title>Zero-cost abstraction: an iterator chain compiles down to a single loop</title>
-  <desc>An iterator chain of filter and count passes through the compiler's monomorphization and inlining stages and emerges as machine code identical to a hand-written loop</desc>
-  <style>
-    .lbl  { font-family: -apple-system, system-ui, sans-serif; font-size: 13px; fill: #444441; font-weight: 600; }
-    .sub  { font-family: -apple-system, system-ui, sans-serif; font-size: 11px; fill: #5F5E5A; }
-    .mono { font-family: ui-monospace, monospace; font-size: 11px; fill: #2C2C2A; }
-  </style>
-  <defs>
-    <marker id="e1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-    </marker>
-  </defs>
-  <text class="lbl" x="20" y="28">What you write</text>
-  <rect x="20" y="40" width="280" height="74" rx="8" fill="#E6F1FB" stroke="#378ADD" stroke-width="1"/>
-  <text class="mono" x="34" y="62" font-size="10">probes.iter()</text>
-  <text class="mono" x="34" y="80" font-size="10">  .filter(|p| p.is_down())</text>
-  <text class="mono" x="34" y="98" font-size="10">  .count()</text>
-  <text class="lbl" x="20" y="150">Compiler</text>
-  <rect x="20" y="162" width="280" height="56" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
-  <text class="sub" x="34" y="184">1. monomorphize adapters to concrete types</text>
-  <text class="sub" x="34" y="202">2. inline each adapter's next() call</text>
-  <text class="sub" x="34" y="216" font-size="10">→ no allocations, no indirection survive</text>
-  <line x1="160" y1="114" x2="160" y2="160" stroke="#888780" stroke-width="1.5" marker-end="url(#e1)"/>
-  <line x1="300" y1="190" x2="360" y2="190" stroke="#888780" stroke-width="1.5" marker-end="url(#e1)"/>
-  <text class="lbl" x="380" y="28">What runs (equivalent)</text>
-  <rect x="380" y="40" width="280" height="178" rx="8" fill="#EAF3DE" stroke="#639922" stroke-width="1"/>
-  <text class="mono" x="394" y="66" font-size="10">let mut n = 0;</text>
-  <text class="mono" x="394" y="86" font-size="10">for p in probes {</text>
-  <text class="mono" x="394" y="106" font-size="10">    if p.is_down() {</text>
-  <text class="mono" x="394" y="126" font-size="10">        n += 1;</text>
-  <text class="mono" x="394" y="146" font-size="10">    }</text>
-  <text class="mono" x="394" y="166" font-size="10">}</text>
-  <text class="sub" x="394" y="196">a single loop, identical instructions</text>
-  <text class="sub" x="20" y="260">The abstraction exists only in the source. By the time the CPU sees it, the layers are gone, that is the literal meaning of "zero-cost."</text>
-  <text class="sub" x="20" y="278">You pay for it once, in compile time, instead of on every execution.</text>
-</svg>
+```mermaid
+flowchart LR
+    A["What you write:<br/>probes.iter().filter(...).count()"] --> B["Compiler:<br/>1. monomorphize adapters<br/>2. inline each next() call<br/>→ no allocations, no indirection survive"]
+    B --> C["What runs:<br/>one hand-written-style loop<br/>identical instructions"]
+```
+
+The abstraction exists only in the source. By the time the CPU sees it, the layers are gone, that is the literal meaning of "zero-cost." You pay for it once, in compile time, instead of on every execution.
 
 ---
 
@@ -201,29 +171,13 @@ Here's the part that makes the abstraction debate concrete. I built the same tri
 | Runtime required on target | none | Node | Python |
 | GC pauses affecting latency readings | none | possible | possible |
 
-<svg width="100%" viewBox="0 0 680 250" role="img" xmlns="http://www.w3.org/2000/svg">
-  <title>Idle resident memory comparison across Rust, Python, and Node implementations</title>
-  <desc>Bar chart comparing idle RSS: Rust around 5 megabytes, Python around 28, Node around 55</desc>
-  <style>
-    .lbl  { font-family: -apple-system, system-ui, sans-serif; font-size: 13px; fill: #444441; font-weight: 600; }
-    .sub  { font-family: -apple-system, system-ui, sans-serif; font-size: 11px; fill: #5F5E5A; }
-    .val  { font-family: ui-monospace, monospace; font-size: 12px; fill: #2C2C2A; font-weight: 700; }
-    .axis { font-family: ui-monospace, monospace; font-size: 10px; fill: #5F5E5A; }
-  </style>
-  <text class="lbl" x="20" y="26">Idle resident memory, lower is better</text>
-  <line x1="120" y1="50" x2="120" y2="200" stroke="#B4B2A9" stroke-width="1"/>
-  <line x1="120" y1="200" x2="650" y2="200" stroke="#B4B2A9" stroke-width="1"/>
-  <text class="sub" x="110" y="78"  text-anchor="end">Rust</text>
-  <rect x="120" y="64" width="48" height="26" rx="3" fill="#1D9E75" stroke="#0F6E56" stroke-width="0.8"/>
-  <text class="val" x="178" y="83">5 MB</text>
-  <text class="sub" x="110" y="128" text-anchor="end">Python</text>
-  <rect x="120" y="114" width="252" height="26" rx="3" fill="#FAC775" stroke="#BA7517" stroke-width="0.8"/>
-  <text class="val" x="382" y="133">28 MB</text>
-  <text class="sub" x="110" y="178" text-anchor="end">Node.js</text>
-  <rect x="120" y="164" width="495" height="26" rx="3" fill="#F5C4B3" stroke="#D85A30" stroke-width="0.8"/>
-  <text class="val" x="565" y="183" fill="#A32D2D">55 MB</text>
-  <text class="sub" x="120" y="226">No runtime, no interpreter, no GC heap reserved up front, just the working set of the program itself.</text>
-</svg>
+| Implementation | Idle resident memory (RSS) | Relative to Rust |
+|---|---|---|
+| Rust (`pulse`, release) | ~5 MB | 1x |
+| Python equivalent | ~28 MB | ~5.6x |
+| Node.js equivalent | ~55 MB | ~11x |
+
+No runtime, no interpreter, no GC heap reserved up front, just the working set of the program itself.
 
 None of this makes Rust "better" in the abstract, a Python script you write in ten minutes is the right tool for plenty of jobs, and the Node ecosystem is enormous. But for a long-lived, resource-sensitive utility, the gap is exactly the runtime you're *not* shipping. There's no VM warming up, no interpreter resident in memory, no collector heap reserved before your program does anything. The safety guarantees from Parts 1–4 didn't add a runtime to pay for them; they were enforced and then compiled away.
 
@@ -238,7 +192,7 @@ rustup target add x86_64-unknown-linux-musl
 cargo build --release --target x86_64-unknown-linux-musl
 
 scp target/x86_64-unknown-linux-musl/release/pulse server:/usr/local/bin/
-ssh server pulse        # just runs — nothing else to install
+ssh server pulse        # just runs, nothing else to install
 ```
 
 Linking against musl produces a static binary with no dynamic dependencies. That single file *is* the deployment. No `node_modules` to sync, no virtualenv to recreate, no "works on my machine" because the machine ships inside the binary. For a monitoring tool you want to drop onto arbitrary servers, this is the whole game.

@@ -93,48 +93,41 @@ There are two kinds, and the distinction is the whole game:
 
 This is the borrowing rule, and it is worth stating as a slogan: **shared XOR mutable**. Many readers, or one writer, never both. The compiler enforces it everywhere, always.
 
-<svg width="100%" viewBox="0 0 680 300" role="img" xmlns="http://www.w3.org/2000/svg">
-  <title>Borrowing rules: many shared borrows allowed, or one exclusive borrow, never both</title>
-  <desc>Two panels. Left: a value with multiple read-only shared borrows, allowed. Right: a value with one mutable borrow alone, allowed, while mixing shared and mutable is rejected.</desc>
-  <style>
-    .lbl  { font-family: -apple-system, system-ui, sans-serif; font-size: 13px; fill: #444441; font-weight: 600; }
-    .sub  { font-family: -apple-system, system-ui, sans-serif; font-size: 11px; fill: #5F5E5A; }
-    .mono { font-family: ui-monospace, monospace; font-size: 11px; fill: #2C2C2A; }
-    .ok   { font-family: -apple-system, system-ui, sans-serif; font-size: 11px; fill: #0F6E56; font-weight: 600; }
-    .no   { font-family: -apple-system, system-ui, sans-serif; font-size: 11px; fill: #A32D2D; font-weight: 600; }
-  </style>
-  <defs>
-    <marker id="b1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-    </marker>
-  </defs>
-  <text class="lbl" x="20" y="26">Allowed, any number of shared (&amp;T) borrows</text>
-  <rect x="120" y="44" width="120" height="38" rx="6" fill="#EAF3DE" stroke="#639922" stroke-width="1.2"/>
-  <text class="mono" x="180" y="68" text-anchor="middle">data: Health</text>
-  <rect x="20"  y="120" width="80" height="30" rx="6" fill="#E6F1FB" stroke="#378ADD" stroke-width="1"/>
-  <text class="mono" x="60"  y="140" text-anchor="middle" font-size="10">&amp;data</text>
-  <rect x="140" y="120" width="80" height="30" rx="6" fill="#E6F1FB" stroke="#378ADD" stroke-width="1"/>
-  <text class="mono" x="180" y="140" text-anchor="middle" font-size="10">&amp;data</text>
-  <rect x="260" y="120" width="80" height="30" rx="6" fill="#E6F1FB" stroke="#378ADD" stroke-width="1"/>
-  <text class="mono" x="300" y="140" text-anchor="middle" font-size="10">&amp;data</text>
-  <line x1="170" y1="82" x2="70"  y2="118" stroke="#378ADD" stroke-width="1.3" marker-end="url(#b1)"/>
-  <line x1="180" y1="82" x2="180" y2="118" stroke="#378ADD" stroke-width="1.3" marker-end="url(#b1)"/>
-  <line x1="190" y1="82" x2="300" y2="118" stroke="#378ADD" stroke-width="1.3" marker-end="url(#b1)"/>
-  <text class="ok" x="120" y="172">✓ readers can't trip over each other</text>
-  <line x1="360" y1="20" x2="360" y2="280" stroke="#D3D1C7" stroke-width="1"/>
-  <text class="lbl" x="380" y="26">Allowed, exactly one exclusive (&amp;mut T) borrow</text>
-  <rect x="470" y="44" width="120" height="38" rx="6" fill="#EAF3DE" stroke="#639922" stroke-width="1.2"/>
-  <text class="mono" x="530" y="68" text-anchor="middle">data: Health</text>
-  <rect x="470" y="120" width="120" height="30" rx="6" fill="#FAEEDA" stroke="#BA7517" stroke-width="1.2"/>
-  <text class="mono" x="530" y="140" text-anchor="middle" font-size="10">&amp;mut data</text>
-  <line x1="530" y1="82" x2="530" y2="118" stroke="#BA7517" stroke-width="1.5" marker-end="url(#b1)"/>
-  <text class="ok" x="430" y="172">✓ the one writer has no aliases</text>
-  <rect x="380" y="196" width="280" height="84" rx="8" fill="#FCEBEB" stroke="#E24B4A" stroke-width="1"/>
-  <text class="no" x="396" y="220">✗ Rejected at compile time:</text>
-  <text class="mono" x="396" y="240" font-size="10">&amp;data and &amp;mut data at the same time</text>
-  <text class="sub" x="396" y="260">A writer mutating while readers read = the</text>
-  <text class="sub" x="396" y="274">data race / iterator-invalidation class of bug.</text>
-</svg>
+```mermaid
+flowchart TB
+    subgraph shared["Allowed: any number of shared (&T) borrows"]
+        direction TB
+        D1["data: Health"]
+        R1["&data"]
+        R2["&data"]
+        R3["&data"]
+        D1 --> R1
+        D1 --> R2
+        D1 --> R3
+        OK1["✓ readers can't trip over each other"]
+    end
+
+    subgraph exclusive["Allowed: exactly one exclusive (&mut T) borrow"]
+        direction TB
+        D2["data: Health"]
+        M1["&mut data"]
+        D2 --> M1
+        OK2["✓ the one writer has no aliases"]
+    end
+
+    subgraph invalid["INVALID: rejected at compile time"]
+        direction TB
+        BAD["&data and &mut data at the same time\nA writer mutating while readers read =\nthe data race / iterator-invalidation bug class"]
+    end
+
+    style D1 fill:#EAF3DE,stroke:#639922
+    style D2 fill:#EAF3DE,stroke:#639922
+    style R1 fill:#E6F1FB,stroke:#378ADD
+    style R2 fill:#E6F1FB,stroke:#378ADD
+    style R3 fill:#E6F1FB,stroke:#378ADD
+    style M1 fill:#FAEEDA,stroke:#BA7517
+    style BAD fill:#FCEBEB,stroke:#E24B4A,stroke-width:2px
+```
 
 Why be this strict? Because the dangerous bug is exactly the forbidden case: something reads a value while something else mutates it. Here's that bug, and how the compiler stops it before it can exist:
 
@@ -164,7 +157,7 @@ A reference doesn't have to point at a whole value. A **slice** borrows a contig
 
 ```rust
 let url = String::from("https://example.test/health");
-let scheme: &str = &url[0..5];   // borrows "https" — points into url's buffer
+let scheme: &str = &url[0..5];   // borrows "https", points into url's buffer
 ```
 
 `scheme` owns nothing. It is a (pointer, length) pair aimed at the middle of `url`'s heap buffer. Which raises the obvious, dangerous question: what happens if `url` gets dropped while `scheme` is still around? That question is what lifetimes exist to answer.
@@ -197,30 +190,22 @@ fn fetch_health() -> HealthRef {       // returns a borrow... of what?
 error[E0515]: cannot return value referencing local variable `body`
 ```
 
-<svg width="100%" viewBox="0 0 680 280" role="img" xmlns="http://www.w3.org/2000/svg">
-  <title>Dangling reference: a returned borrow outliving the local buffer it points into</title>
-  <desc>Timeline showing a local String buffer being created, a reference borrowing into it, the buffer dropping at function exit, and the reference left dangling, rejected by the compiler</desc>
-  <style>
-    .lbl  { font-family: -apple-system, system-ui, sans-serif; font-size: 13px; fill: #444441; font-weight: 600; }
-    .sub  { font-family: -apple-system, system-ui, sans-serif; font-size: 11px; fill: #5F5E5A; }
-    .mono { font-family: ui-monospace, monospace; font-size: 11px; fill: #2C2C2A; }
-    .no   { font-family: -apple-system, system-ui, sans-serif; font-size: 11px; fill: #A32D2D; font-weight: 600; }
-  </style>
-  <text class="lbl" x="20" y="26">Inside fetch_health()</text>
-  <rect x="20" y="40" width="300" height="30" rx="6" fill="#EAF3DE" stroke="#639922" stroke-width="1"/>
-  <text class="mono" x="34" y="60">body: String  (owns heap bytes)</text>
-  <rect x="20" y="86" width="300" height="26" rx="6" fill="#E6F1FB" stroke="#378ADD" stroke-width="1"/>
-  <text class="mono" x="34" y="104" font-size="10">HealthRef { service: &amp;body[..] }</text>
-  <text class="sub" x="340" y="60">lifetime of `body` ───────┐</text>
-  <text class="sub" x="340" y="104">borrow points into `body`</text>
-  <line x1="60" y1="124" x2="60" y2="170" stroke="#B4B2A9" stroke-width="1" stroke-dasharray="3 3"/>
-  <text class="no" x="20" y="160">} ← `body` dropped, heap freed</text>
-  <rect x="20" y="178" width="380" height="26" rx="6" fill="#FCEBEB" stroke="#E24B4A" stroke-width="1" stroke-dasharray="4 3"/>
-  <text class="mono" x="34" y="196" fill="#A32D2D" font-size="10">returned HealthRef still points at freed memory ✗</text>
-  <rect x="20" y="224" width="640" height="44" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.6"/>
-  <text class="sub" x="36" y="246">The compiler proves the returned reference would outlive `body` and rejects the function.</text>
-  <text class="sub" x="36" y="262">In C this compiles silently and is a use-after-free. In Rust it never builds.</text>
-</svg>
+```mermaid
+sequenceDiagram
+    participant Caller
+    participant fetch_health as fetch_health()
+    participant body as body: String (heap)
+
+    Caller->>fetch_health: call
+    fetch_health->>body: let body = get_body()
+    fetch_health->>fetch_health: HealthRef { service: &body[..] }
+    Note right of fetch_health: borrow points into `body`
+    fetch_health->>body: } scope ends, body dropped, heap freed
+    fetch_health-->>Caller: return HealthRef
+    Note over Caller: ERROR: returned HealthRef still<br/>points at freed memory
+```
+
+The compiler proves the returned reference would outlive `body` and rejects the function. In C this compiles silently and is a use-after-free. In Rust it never builds.
 
 There are two honest fixes, and choosing between them is the same trade-off from Part 1 wearing a new outfit.
 
@@ -230,7 +215,7 @@ There are two honest fixes, and choosing between them is the same trade-off from
 fn fetch_health() -> Health {                 // owns everything
     let body = get_body();
     serde_json::from_str(&body).unwrap()       // copies strings out of body
-} // body drops, but Health doesn't point into it — fine
+} // body drops, but Health doesn't point into it, fine
 ```
 
 **Fix B, let the caller own the buffer.** Keep the zero-copy `HealthRef`, but take the buffer as a borrowed argument so its lifetime is the caller's problem, not ours. The `'a` ties the output to the input: the result lives as long as the buffer does.
@@ -244,7 +229,7 @@ fn main() {
     let body = get_body();                     // caller owns the buffer
     let health = parse_health(&body);          // borrows into it
     println!("{health:?}");                    // valid: body still alive here
-} // body drops last, after health — order is correct
+} // body drops last, after health: order is correct
 ```
 
 That `<'a>` is the entire lifetime syntax most people ever need. It's not describing *how long* anything lives in seconds; it's describing a *relationship*: "the returned reference is valid for the same region as the input." The compiler checks the relationship holds at every call site.

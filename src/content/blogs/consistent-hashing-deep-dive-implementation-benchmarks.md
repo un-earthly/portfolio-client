@@ -41,54 +41,17 @@ In a caching layer, a moved key is a cache miss. A cache miss is a database read
 
 The diagram below shows the catastrophe visually. Each key is colored by which node owns it. Adding one node should be a minor event. With modulo hashing, it is a near-total reshuffle.
 
-<svg width="100%" viewBox="0 0 680 360" role="img" xmlns="http://www.w3.org/2000/svg">
-  <title>Modulo hashing redistribution after adding one node</title>
-  <desc>Two rows of keys colored by node assignment, showing nearly every key changes color when a fifth node is added</desc>
-  <style>
-    .lbl { font-family: -apple-system, system-ui, sans-serif; font-size: 13px; fill: #444441; font-weight: 500; }
-    .sub { font-family: -apple-system, system-ui, sans-serif; font-size: 11px; fill: #5F5E5A; }
-    .keytxt { font-family: ui-monospace, monospace; font-size: 10px; fill: #2C2C2A; }
-  </style>
-  <text class="lbl" x="20" y="30">Before: 4 nodes (hash % 4)</text>
-  <text class="lbl" x="20" y="200">After: 5 nodes (hash % 5)</text>
-  <g>
-    <rect x="20"  y="45" width="50" height="40" rx="6" fill="#CECBF6"/><text class="keytxt" x="33" y="69">k0→0</text>
-    <rect x="75"  y="45" width="50" height="40" rx="6" fill="#9FE1CB"/><text class="keytxt" x="88" y="69">k1→1</text>
-    <rect x="130" y="45" width="50" height="40" rx="6" fill="#F5C4B3"/><text class="keytxt" x="143" y="69">k2→2</text>
-    <rect x="185" y="45" width="50" height="40" rx="6" fill="#FAC775"/><text class="keytxt" x="198" y="69">k3→3</text>
-    <rect x="240" y="45" width="50" height="40" rx="6" fill="#CECBF6"/><text class="keytxt" x="253" y="69">k4→0</text>
-    <rect x="295" y="45" width="50" height="40" rx="6" fill="#9FE1CB"/><text class="keytxt" x="308" y="69">k5→1</text>
-    <rect x="350" y="45" width="50" height="40" rx="6" fill="#F5C4B3"/><text class="keytxt" x="363" y="69">k6→2</text>
-    <rect x="405" y="45" width="50" height="40" rx="6" fill="#FAC775"/><text class="keytxt" x="418" y="69">k7→3</text>
-    <rect x="460" y="45" width="50" height="40" rx="6" fill="#CECBF6"/><text class="keytxt" x="473" y="69">k8→0</text>
-    <rect x="515" y="45" width="50" height="40" rx="6" fill="#9FE1CB"/><text class="keytxt" x="528" y="69">k9→1</text>
-    <rect x="570" y="45" width="50" height="40" rx="6" fill="#F5C4B3"/><text class="keytxt" x="580" y="69">k10→2</text>
-    <rect x="625" y="45" width="50" height="40" rx="6" fill="#FAC775"/><text class="keytxt" x="634" y="69">k11→3</text>
-  </g>
-  <g>
-    <rect x="20" y="105" width="14" height="14" rx="3" fill="#CECBF6"/><text class="sub" x="40" y="116">node 0</text>
-    <rect x="100" y="105" width="14" height="14" rx="3" fill="#9FE1CB"/><text class="sub" x="120" y="116">node 1</text>
-    <rect x="180" y="105" width="14" height="14" rx="3" fill="#F5C4B3"/><text class="sub" x="200" y="116">node 2</text>
-    <rect x="260" y="105" width="14" height="14" rx="3" fill="#FAC775"/><text class="sub" x="280" y="116">node 3</text>
-    <rect x="340" y="105" width="14" height="14" rx="3" fill="#F4C0D1"/><text class="sub" x="360" y="116">node 4 (new)</text>
-  </g>
-  <g>
-    <rect x="20"  y="215" width="50" height="40" rx="6" fill="#CECBF6"/><text class="keytxt" x="33" y="239">k0→0</text>
-    <rect x="75"  y="215" width="50" height="40" rx="6" fill="#9FE1CB"/><text class="keytxt" x="88" y="239">k1→1</text>
-    <rect x="130" y="215" width="50" height="40" rx="6" fill="#F5C4B3"/><text class="keytxt" x="143" y="239">k2→2</text>
-    <rect x="185" y="215" width="50" height="40" rx="6" fill="#FAC775"/><text class="keytxt" x="198" y="239">k3→3</text>
-    <rect x="240" y="215" width="50" height="40" rx="6" fill="#F4C0D1"/><text class="keytxt" x="253" y="239">k4→4</text>
-    <rect x="295" y="215" width="50" height="40" rx="6" fill="#CECBF6"/><text class="keytxt" x="308" y="239">k5→0</text>
-    <rect x="350" y="215" width="50" height="40" rx="6" fill="#9FE1CB"/><text class="keytxt" x="363" y="239">k6→1</text>
-    <rect x="405" y="215" width="50" height="40" rx="6" fill="#F5C4B3"/><text class="keytxt" x="418" y="239">k7→2</text>
-    <rect x="460" y="215" width="50" height="40" rx="6" fill="#FAC775"/><text class="keytxt" x="473" y="239">k8→3</text>
-    <rect x="515" y="215" width="50" height="40" rx="6" fill="#F4C0D1"/><text class="keytxt" x="528" y="239">k9→4</text>
-    <rect x="570" y="215" width="50" height="40" rx="6" fill="#CECBF6"/><text class="keytxt" x="580" y="239">k10→0</text>
-    <rect x="625" y="215" width="50" height="40" rx="6" fill="#9FE1CB"/><text class="keytxt" x="634" y="239">k11→1</text>
-  </g>
-  <text class="sub" x="20" y="295">Keys that changed node: k4 through k11, 8 of 12 (67%). At realistic scale (N=10→11) this is ~90%.</text>
-  <text class="sub" x="20" y="315">Every changed key is a cache miss. A million of them at once is a backend outage.</text>
-</svg>
+**Before: 4 nodes (`hash % 4`)** vs **after: 5 nodes (`hash % 5`)**
+
+| Key | k0 | k1 | k2 | k3 | k4 | k5 | k6 | k7 | k8 | k9 | k10 | k11 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Node (N=4) | 0 | 1 | 2 | 3 | 0 | 1 | 2 | 3 | 0 | 1 | 2 | 3 |
+| Node (N=5) | 0 | 1 | 2 | 3 | 4 | 0 | 1 | 2 | 3 | 4 | 0 | 1 |
+| Changed? | no | no | no | no | **yes** | **yes** | **yes** | **yes** | **yes** | **yes** | **yes** | **yes** |
+
+Keys that changed node: k4 through k11, 8 of 12 (67%) in this small example. At realistic scale (N=10 to N=11) this reaches roughly 90%.
+
+Every changed key is a cache miss. A million of them at once is a backend outage.
 
 ---
 
@@ -106,41 +69,27 @@ When a node is removed, only the keys that were walking clockwise into that node
 
 This is the entire idea. The redistribution is bounded by the size of one arc, not the size of the whole ring.
 
-<svg width="100%" viewBox="0 0 680 480" role="img" xmlns="http://www.w3.org/2000/svg">
-  <title>The hash ring with nodes and keys</title>
-  <desc>A circle representing the keyspace with three nodes placed on it and keys assigned clockwise to the next node</desc>
-  <style>
-    .lbl { font-family: -apple-system, system-ui, sans-serif; font-size: 13px; fill: #444441; font-weight: 500; }
-    .sub { font-family: -apple-system, system-ui, sans-serif; font-size: 11px; fill: #5F5E5A; }
-    .node-t { font-family: -apple-system, system-ui, sans-serif; font-size: 12px; fill: #042C53; font-weight: 500; }
-    .key-t { font-family: ui-monospace, monospace; font-size: 10px; fill: #2C2C2A; }
-  </style>
-  <circle cx="300" cy="240" r="160" fill="none" stroke="#B4B2A9" stroke-width="2"/>
-  <path d="M 300 70 A 170 170 0 0 1 340 74" fill="none" stroke="#888780" stroke-width="1.5" marker-end="url(#a)"/>
-  <defs>
-    <marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M2 1L8 5L2 9" fill="none" stroke="#888780" stroke-width="1.5"/>
-    </marker>
-  </defs>
-  <text class="sub" x="350" y="70">clockwise</text>
-  <circle cx="300" cy="80" r="13" fill="#378ADD"/>
-  <text class="node-t" x="300" y="58" text-anchor="middle">Node A</text>
-  <circle cx="438" cy="320" r="13" fill="#1D9E75"/>
-  <text class="node-t" x="470" y="324" text-anchor="start">Node B</text>
-  <circle cx="162" cy="320" r="13" fill="#D85A30"/>
-  <text class="node-t" x="130" y="324" text-anchor="end">Node C</text>
-  <circle cx="410" cy="130" r="7" fill="#9FE1CB"/>
-  <text class="key-t" x="424" y="128">k1 → B</text>
-  <circle cx="455" cy="220" r="7" fill="#9FE1CB"/>
-  <text class="key-t" x="469" y="223">k2 → B</text>
-  <circle cx="300" cy="400" r="7" fill="#F5C4B3"/>
-  <text class="key-t" x="314" y="418">k3 → C</text>
-  <circle cx="170" cy="180" r="7" fill="#B5D4F4"/>
-  <text class="key-t" x="80" y="178">k4 → A</text>
-  <circle cx="240" cy="95" r="7" fill="#B5D4F4"/>
-  <text class="key-t" x="150" y="92">k5 → A</text>
-  <text class="lbl" x="20" y="455">Each key is owned by the first node clockwise. Remove Node B and only k1, k2 move, to C. A and its keys never move.</text>
-</svg>
+The ring is walked clockwise starting from position 0. Positions increase in the order: Node A, k5, k4, k1, k2, Node B, k3, Node C, then wrap back to Node A.
+
+```mermaid
+flowchart LR
+    NodeA["Node A\n(ring position)"] -- clockwise --> K5["k5"]
+    K5 --> K4["k4"]
+    K4 --> K1["k1"]
+    K1 --> K2["k2"]
+    K2 --> NodeB["Node B\n(ring position)"]
+    NodeB -- clockwise --> K3["k3"]
+    K3 --> NodeC["Node C\n(ring position)"]
+    NodeC -. wraps around .-> NodeA
+
+    K5 -.owned by.-> NodeA
+    K4 -.owned by.-> NodeA
+    K1 -.owned by.-> NodeB
+    K2 -.owned by.-> NodeB
+    K3 -.owned by.-> NodeC
+```
+
+Each key is owned by the first node found walking clockwise from the key's position: k1 and k2 belong to Node B, k3 belongs to Node C, and k4 and k5 belong to Node A. If Node B is removed, only k1 and k2 move, continuing clockwise to Node C. Node A and its keys never move.
 
 ---
 
@@ -156,41 +105,13 @@ The solution is elegant. Instead of placing each physical node on the ring once,
 
 With 150 virtual nodes per physical node, the arcs interleave finely enough that load variance drops dramatically. The law of large numbers does the work: many small arcs average out far better than a few large ones.
 
-<svg width="100%" viewBox="0 0 680 440" role="img" xmlns="http://www.w3.org/2000/svg">
-  <title>Virtual nodes smoothing distribution on the ring</title>
-  <desc>The same three nodes each placed multiple times around the ring so their arcs interleave and balance load</desc>
-  <style>
-    .lbl { font-family: -apple-system, system-ui, sans-serif; font-size: 13px; fill: #444441; font-weight: 500; }
-    .sub { font-family: -apple-system, system-ui, sans-serif; font-size: 11px; fill: #5F5E5A; }
-    .leg { font-family: -apple-system, system-ui, sans-serif; font-size: 11px; fill: #2C2C2A; }
-  </style>
-  <text class="lbl" x="20" y="28">Each physical node appears many times. Arcs interleave, load evens out.</text>
-  <circle cx="300" cy="240" r="150" fill="none" stroke="#D3D1C7" stroke-width="2"/>
-  <circle cx="300" cy="90" r="6" fill="#378ADD"/>
-  <circle cx="347" cy="98" r="6" fill="#1D9E75"/>
-  <circle cx="390" cy="120" r="6" fill="#D85A30"/>
-  <circle cx="424" cy="153" r="6" fill="#378ADD"/>
-  <circle cx="445" cy="195" r="6" fill="#1D9E75"/>
-  <circle cx="450" cy="240" r="6" fill="#D85A30"/>
-  <circle cx="445" cy="285" r="6" fill="#378ADD"/>
-  <circle cx="424" cy="327" r="6" fill="#1D9E75"/>
-  <circle cx="390" cy="360" r="6" fill="#D85A30"/>
-  <circle cx="347" cy="382" r="6" fill="#378ADD"/>
-  <circle cx="300" cy="390" r="6" fill="#1D9E75"/>
-  <circle cx="253" cy="382" r="6" fill="#D85A30"/>
-  <circle cx="210" cy="360" r="6" fill="#378ADD"/>
-  <circle cx="176" cy="327" r="6" fill="#1D9E75"/>
-  <circle cx="155" cy="285" r="6" fill="#D85A30"/>
-  <circle cx="150" cy="240" r="6" fill="#378ADD"/>
-  <circle cx="155" cy="195" r="6" fill="#1D9E75"/>
-  <circle cx="176" cy="153" r="6" fill="#D85A30"/>
-  <circle cx="210" cy="120" r="6" fill="#378ADD"/>
-  <circle cx="253" cy="98" r="6" fill="#1D9E75"/>
-  <rect x="20" y="395" width="14" height="14" rx="3" fill="#378ADD"/><text class="leg" x="40" y="406">Node A virtuals</text>
-  <rect x="170" y="395" width="14" height="14" rx="3" fill="#1D9E75"/><text class="leg" x="190" y="406">Node B virtuals</text>
-  <rect x="320" y="395" width="14" height="14" rx="3" fill="#D85A30"/><text class="leg" x="340" y="406">Node C virtuals</text>
-  <text class="sub" x="20" y="430">With ~150 virtuals per node in production, load variance across nodes typically drops below 5%.</text>
-</svg>
+Each physical node appears many times around the ring via virtual positions, so the arcs interleave and load evens out. Walking clockwise from position 1:
+
+| Ring position (clockwise) | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Physical node | A | B | C | A | B | C | A | B | C | A | B | C | A | B | C | A | B | C | A | B |
+
+With ~150 virtuals per physical node in production (rather than the 6-7 per node shown above), load variance across nodes typically drops below 5%.
 
 ---
 
@@ -258,45 +179,14 @@ The following numbers come from a simulation distributing 1,000,000 keys across 
 
 The pattern is exact and predictable: consistent hashing moves approximately `K/(N+1)` keys, while modulo hashing moves approximately `K · N/(N+1)`. The larger your cluster, the more dramatic the advantage, which is precisely the direction every growing system moves in.
 
-<svg width="100%" viewBox="0 0 680 380" role="img" xmlns="http://www.w3.org/2000/svg">
-  <title>Key redistribution comparison bar chart</title>
-  <desc>Grouped bars comparing percent of keys moved by modulo hashing versus consistent hashing at four cluster sizes</desc>
-  <style>
-    .lbl { font-family: -apple-system, system-ui, sans-serif; font-size: 13px; fill: #444441; font-weight: 500; }
-    .sub { font-family: -apple-system, system-ui, sans-serif; font-size: 11px; fill: #5F5E5A; }
-    .axis { font-family: ui-monospace, monospace; font-size: 10px; fill: #5F5E5A; }
-    .val { font-family: ui-monospace, monospace; font-size: 10px; fill: #2C2C2A; }
-  </style>
-  <text class="lbl" x="20" y="28">Percent of keys relocated when adding one node</text>
-  <line x1="60" y1="300" x2="660" y2="300" stroke="#B4B2A9" stroke-width="1"/>
-  <line x1="60" y1="60" x2="60" y2="300" stroke="#B4B2A9" stroke-width="1"/>
-  <text class="axis" x="52" y="304" text-anchor="end">0%</text>
-  <text class="axis" x="52" y="180" text-anchor="end">50%</text>
-  <text class="axis" x="52" y="64" text-anchor="end">100%</text>
-  <line x1="56" y1="180" x2="60" y2="180" stroke="#B4B2A9" stroke-width="1"/>
-  <rect x="90"  y="108" width="44" height="192" rx="3" fill="#E24B4A"/>
-  <text class="val" x="112" y="103" text-anchor="middle">80%</text>
-  <rect x="138" y="265" width="44" height="35" rx="3" fill="#1D9E75"/>
-  <text class="val" x="160" y="260" text-anchor="middle">18%</text>
-  <text class="sub" x="136" y="320" text-anchor="middle">4 → 5</text>
-  <rect x="240" y="82" width="44" height="218" rx="3" fill="#E24B4A"/>
-  <text class="val" x="262" y="77" text-anchor="middle">91%</text>
-  <rect x="288" y="283" width="44" height="17" rx="3" fill="#1D9E75"/>
-  <text class="val" x="310" y="278" text-anchor="middle">9%</text>
-  <text class="sub" x="286" y="320" text-anchor="middle">10 → 11</text>
-  <rect x="390" y="71" width="44" height="229" rx="3" fill="#E24B4A"/>
-  <text class="val" x="412" y="66" text-anchor="middle">95%</text>
-  <rect x="438" y="291" width="44" height="9" rx="3" fill="#1D9E75"/>
-  <text class="val" x="460" y="286" text-anchor="middle">5%</text>
-  <text class="sub" x="436" y="320" text-anchor="middle">20 → 21</text>
-  <rect x="540" y="64" width="44" height="236" rx="3" fill="#E24B4A"/>
-  <text class="val" x="562" y="59" text-anchor="middle">98%</text>
-  <rect x="588" y="296" width="44" height="4" rx="3" fill="#1D9E75"/>
-  <text class="val" x="610" y="291" text-anchor="middle">2%</text>
-  <text class="sub" x="586" y="320" text-anchor="middle">50 → 51</text>
-  <rect x="90" y="345" width="14" height="14" rx="3" fill="#E24B4A"/><text class="sub" x="110" y="356">Modulo hashing</text>
-  <rect x="240" y="345" width="14" height="14" rx="3" fill="#1D9E75"/><text class="sub" x="260" y="356">Consistent hashing (150 vnodes)</text>
-</svg>
+**Percent of keys relocated when adding one node:**
+
+| Cluster size (N → N+1) | Modulo hashing | Consistent hashing (150 vnodes) |
+|---|---|---|
+| 4 → 5 | 80% | 18% |
+| 10 → 11 | 91% | 9% |
+| 20 → 21 | 95% | 5% |
+| 50 → 51 | 98% | 2% |
 
 **Lookup latency:** with a sorted-array ring and binary search, lookups remain in the low microseconds regardless of cluster size. At 150 virtual nodes across 50 physical nodes, the ring holds 7,500 entries and a lookup is a `log2(7500) ≈ 13` step binary search. This is not the bottleneck. The network call that follows the lookup dominates by three orders of magnitude.
 

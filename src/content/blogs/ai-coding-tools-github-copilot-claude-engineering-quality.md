@@ -26,7 +26,7 @@ The weak engineer uses the same tools to generate code they don't understand fas
 I reviewed a PR recently where the developer had used AI to generate an authentication middleware. It looked right at a glance:
 
 ```typescript
-// AI-generated auth middleware — looks correct, has a subtle flaw
+// AI-generated auth middleware: looks correct, has a subtle flaw
 export async function authMiddleware(req: Request, res: Response, next: NextFunction) {
   const token = req.headers.authorization?.split(" ")[1];
 
@@ -53,7 +53,7 @@ A strong engineer catches this instantly because they've seen it fail before. Th
 const JWT_SECRET = process.env.JWT_SECRET;
 if (!JWT_SECRET) {
   throw new Error("JWT_SECRET environment variable is not configured");
-  // This throws at startup, not at runtime — fast fail, visible error
+  // This throws at startup, not at runtime: fast fail, visible error
 }
 
 export async function authMiddleware(req: Request, res: Response, next: NextFunction) {

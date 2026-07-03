@@ -19,7 +19,7 @@ Offline support is not a feature. It's an architectural commitment that determin
 I've seen this pattern many times, and I inherited it on OurStoryz:
 
 ```typescript
-// Online-first data fetching — the default pattern
+// Online-first data fetching: the default pattern
 async function getEventGuests(eventId: string): Promise<Guest[]> {
   // Network is the source of truth. No network = no data.
   const response = await fetch(`/api/events/${eventId}/guests`);
@@ -60,7 +60,7 @@ async function getEventGuests(eventId: string): Promise<Guest[]> {
   const localGuests = await realmDb.objects<Guest>("Guest")
     .filtered("eventId == $0", eventId);
 
-  // Trigger background sync — but don't block the read
+  // Trigger background sync, but don't block the read
   syncService.requestSync(eventId).catch(console.warn);
 
   return Array.from(localGuests);
@@ -79,7 +79,7 @@ function GuestList({ eventId }: { eventId: string }) {
     return unsub;
   }, [eventId]);
 
-  // No error state for "offline" — that's a normal operating condition
+  // No error state for "offline": that's a normal operating condition
   // UI shows sync indicator, not an error message
   return (
     <>
@@ -158,7 +158,7 @@ async function checkInGuest(guestId: string): Promise<void> {
     if (guest) guest.checkedIn = true;
   });
 
-  // Queue for sync — will retry until acknowledged
+  // Queue for sync: will retry until acknowledged
   await mutationQueue.enqueue({
     type: "CHECK_IN",
     payload: { guestId, timestamp: Date.now() },

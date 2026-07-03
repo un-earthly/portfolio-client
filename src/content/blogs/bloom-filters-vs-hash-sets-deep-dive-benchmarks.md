@@ -66,10 +66,10 @@ Bit array, 16 bits (indices 0-15), k=3 hash functions. `"alice"` sets bits 2, 7,
 
 ```mermaid
 flowchart LR
-    subgraph Lookup1["Lookup: &quot;alice&quot; -- check bits 2, 7, 13"]
+    subgraph Lookup1["Lookup: \"alice\" -- check bits 2, 7, 13"]
         A2["bit 2 = 1"] --> A7["bit 7 = 1"] --> A13["bit 13 = 1"] --> APresent["PRESENT (probable)"]
     end
-    subgraph Lookup2["Lookup: &quot;carol&quot; -- check bits 4, 9, 14"]
+    subgraph Lookup2["Lookup: \"carol\" -- check bits 4, 9, 14"]
         C4["bit 4 = 0"] --> CAbsent["ABSENT (certain)"]
     end
 ```
@@ -255,39 +255,13 @@ The math is tight. Empirical rates land within a fraction of a percent of the fo
 
 ---
 
-<svg width="100%" viewBox="0 0 680 260" role="img" xmlns="http://www.w3.org/2000/svg">
-  <title>Architecture: Bloom filter as a guard in front of the database</title>
-  <desc>Request flow showing Bloom filter checked first, definite misses short-circuited, probable hits falling through to the database</desc>
-  <style>
-    .lbl { font-family: -apple-system, system-ui, sans-serif; font-size: 13px; fill: #444441; font-weight: 500; }
-    .sub { font-family: -apple-system, system-ui, sans-serif; font-size: 11px; fill: #5F5E5A; }
-    .mono { font-family: ui-monospace, monospace; font-size: 10px; }
-  </style>
-  <defs>
-    <marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-    </marker>
-  </defs>
-  <rect x="20" y="100" width="90" height="44" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.8"/>
-  <text class="lbl" x="65" y="126" text-anchor="middle" font-size="12">Request</text>
-  <line x1="110" y1="122" x2="165" y2="122" stroke="#888780" stroke-width="1.5" marker-end="url(#arr2)"/>
-  <rect x="167" y="88" width="130" height="70" rx="8" fill="#E6F1FB" stroke="#378ADD" stroke-width="1.2"/>
-  <text class="lbl" x="232" y="117" text-anchor="middle" font-size="12">Bloom filter</text>
-  <text class="sub" x="232" y="133" text-anchor="middle">in-memory, ~11MB</text>
-  <line x1="232" y1="158" x2="232" y2="200" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arr2)"/>
-  <text class="sub" x="242" y="185" fill="#0F6E56">Absent (certain)</text>
-  <rect x="167" y="202" width="130" height="40" rx="8" fill="#EAF3DE" stroke="#639922" stroke-width="0.8"/>
-  <text class="sub" x="232" y="227" text-anchor="middle" fill="#3B6D11">Return "not found"</text>
-  <text class="sub" x="232" y="248" text-anchor="middle" fill="#3B6D11">Zero DB calls</text>
-  <line x1="297" y1="122" x2="360" y2="122" stroke="#888780" stroke-width="1.5" marker-end="url(#arr2)"/>
-  <text class="sub" x="327" y="115" text-anchor="middle">Probable</text>
-  <rect x="362" y="100" width="110" height="44" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
-  <text class="lbl" x="417" y="126" text-anchor="middle" font-size="12">Cache</text>
-  <line x1="472" y1="122" x2="535" y2="122" stroke="#888780" stroke-width="1.5" marker-end="url(#arr2)"/>
-  <text class="sub" x="503" y="115" text-anchor="middle">Cache miss</text>
-  <rect x="537" y="100" width="110" height="44" rx="8" fill="#FCEBEB" stroke="#E24B4A" stroke-width="1"/>
-  <text class="lbl" x="592" y="126" text-anchor="middle" font-size="12">Database</text>
-</svg>
+```mermaid
+flowchart LR
+    Request["Request"] --> BF["Bloom filter\nin-memory, ~11MB"]
+    BF -- "Absent (certain)" --> NotFound["Return 'not found'\nZero DB calls"]
+    BF -- "Probable" --> Cache["Cache"]
+    Cache -- "Cache miss" --> DB["Database"]
+```
 
 ---
 

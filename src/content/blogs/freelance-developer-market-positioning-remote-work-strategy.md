@@ -46,7 +46,7 @@ flowchart TD
     S1["Step 1: Identify your actual depth\nWhat problem have you solved that most devs haven't?"]
     S2["Step 2: Write one public artifact\nCase study, post-mortem, or annotated GitHub project\n(problem · approach · outcome · lessons)"]
     S3["Step 3: Build signal around the niche\nLinkedIn headline: specific outcome, not 'Senior Developer'"]
-    S4["Step 4: Let inbound find you\nCase study is searchable — clients arrive pre-qualified"]
+    S4["Step 4: Let inbound find you\nCase study is searchable, clients arrive pre-qualified"]
     S1 --> S2 --> S3 --> S4
 ```
 

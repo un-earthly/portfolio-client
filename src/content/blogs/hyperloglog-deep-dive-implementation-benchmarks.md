@@ -58,65 +58,30 @@ HyperLogLog applies exactly this logic to hash functions:
 
 The "run 1,000 sequences simultaneously" step is called register splitting: instead of one maximum, maintain `m` registers and use the first few bits of each hash to determine which register it updates. Average the registers to cancel out noise.
 
-<svg width="100%" viewBox="0 0 680 420" role="img" xmlns="http://www.w3.org/2000/svg">
-  <title>HyperLogLog mechanism: hashing, leading zeros, registers</title>
-  <desc>Diagram showing a user ID hashed to a binary string, leading zeros counted, and a register updated</desc>
-  <style>
-    .lbl  { font-family: -apple-system, system-ui, sans-serif; font-size: 13px; fill: #444441; font-weight: 500; }
-    .sub  { font-family: -apple-system, system-ui, sans-serif; font-size: 11px; fill: #5F5E5A; }
-    .mono { font-family: ui-monospace, monospace; font-size: 12px; fill: #2C2C2A; }
-    .hi   { font-family: ui-monospace, monospace; font-size: 12px; fill: #042C53; font-weight: 700; }
-    .dim  { font-family: ui-monospace, monospace; font-size: 12px; fill: #B4B2A9; }
-  </style>
-  <defs>
-    <marker id="arr3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-    </marker>
-  </defs>
-  <text class="lbl" x="20" y="28">Step 1, Hash the element to 64 bits</text>
-  <rect x="20" y="40" width="140" height="44" rx="8" fill="#F1EFE8" stroke="#888780" stroke-width="0.8"/>
-  <text class="mono" x="90" y="66" text-anchor="middle">user:alice_42</text>
-  <line x1="160" y1="62" x2="210" y2="62" stroke="#888780" stroke-width="1.5" marker-end="url(#arr3)"/>
-  <text class="sub" x="185" y="55">SHA256</text>
-  <rect x="212" y="40" width="440" height="44" rx="8" fill="#E6F1FB" stroke="#378ADD" stroke-width="1"/>
-  <text class="hi"  x="230" y="66">00101</text>
-  <text class="dim" x="280" y="66">|</text>
-  <text class="hi"  x="290" y="66">0001</text>
-  <text class="dim" x="330" y="66">1010 0110 1101 0011 ...</text>
-  <text class="sub" x="232" y="96">register</text>
-  <text class="sub" x="232" y="108">selector</text>
-  <text class="sub" x="300" y="96">leading zeros = 3</text>
-  <text class="sub" x="300" y="108">(0001... starts with 3 zeros)</text>
-  <text class="lbl" x="20" y="150">Step 2, Route to register, update max leading zeros</text>
-  <g>
-    <rect x="20"  y="165" width="60" height="40" rx="6" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
-    <text class="mono" x="50" y="189" text-anchor="middle" font-size="11">R[0]=2</text>
-    <rect x="82"  y="165" width="60" height="40" rx="6" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
-    <text class="mono" x="112" y="189" text-anchor="middle" font-size="11">R[1]=1</text>
-    <rect x="144" y="165" width="60" height="40" rx="6" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
-    <text class="mono" x="174" y="189" text-anchor="middle" font-size="11">R[2]=4</text>
-    <rect x="206" y="165" width="60" height="40" rx="6" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
-    <text class="mono" x="236" y="189" text-anchor="middle" font-size="11">R[3]=0</text>
-    <rect x="268" y="165" width="60" height="40" rx="6" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
-    <text class="mono" x="298" y="189" text-anchor="middle" font-size="11">R[4]=3</text>
-    <rect x="330" y="158" width="60" height="54" rx="6" fill="#B5D4F4" stroke="#378ADD" stroke-width="1.5"/>
-    <text class="hi" x="360" y="182" text-anchor="middle" font-size="11">R[5]=3</text>
-    <text class="sub" x="360" y="200" text-anchor="middle">updated!</text>
-    <text class="sub" x="360" y="212" text-anchor="middle">max(1,3)=3</text>
-    <rect x="392" y="165" width="60" height="40" rx="6" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
-    <text class="mono" x="422" y="189" text-anchor="middle" font-size="11">R[6]=2</text>
-    <rect x="454" y="165" width="60" height="40" rx="6" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
-    <text class="mono" x="484" y="189" text-anchor="middle" font-size="11">R[7]=5</text>
-  </g>
-  <text class="sub" x="20" y="240">Only 8 registers shown. Production uses m=16384 (2^14). Each register stores a value 0-63 in 6 bits.</text>
-  <text class="sub" x="20" y="255">Total memory: 16384 registers × 6 bits = 98304 bits = 12 KB.</text>
-  <text class="lbl" x="20" y="295">Step 3, Estimate cardinality from register values</text>
-  <rect x="20" y="310" width="640" height="90" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
-  <text class="mono" x="40" y="336" font-size="11">harmonic_mean = m / sum(2^(-R[i]) for i in range(m))</text>
-  <text class="mono" x="40" y="356" font-size="11">raw_estimate  = alpha_m * m^2 * harmonic_mean</text>
-  <text class="mono" x="40" y="376" font-size="11">final_count   = bias_correction(raw_estimate, m)</text>
-  <text class="sub" x="40" y="395">alpha_m is a correction constant per register count. Bias correction handles small and large cardinality edge cases.</text>
-</svg>
+```mermaid
+flowchart TD
+    Elem["\"user:alice_42\""] -->|SHA256| Hash["Hash: 00101 0001 1010 0110 1101 0011 ...\nfirst 5 bits = register selector\nremainder starts with 0001... -> leading zeros = 3"]
+    Hash --> Route["Route to register R[5]\nupdate: R[5] = max(previous, 3)"]
+```
+
+Only a handful of registers are shown for illustration. Production uses `m = 16384` (2^14) registers, each storing a value 0-63 in 6 bits:
+
+| Register | R[0] | R[1] | R[2] | R[3] | R[4] | R[5] | R[6] | R[7] |
+|---|---|---|---|---|---|---|---|---|
+| Before | 2 | 1 | 4 | 0 | 3 | 1 | 2 | 5 |
+| After `"user:alice_42"` | 2 | 1 | 4 | 0 | 3 | **3** (updated, max(1,3)=3) | 2 | 5 |
+
+Total memory: 16384 registers x 6 bits = 98304 bits = 12 KB.
+
+**Step 3: estimate cardinality from register values**
+
+```
+harmonic_mean = m / sum(2^(-R[i]) for i in range(m))
+raw_estimate  = alpha_m * m^2 * harmonic_mean
+final_count   = bias_correction(raw_estimate, m)
+```
+
+`alpha_m` is a correction constant per register count. Bias correction handles small and large cardinality edge cases.
 
 ---
 
@@ -231,45 +196,18 @@ print(f"Memory:    {hll.memory_bytes / 1024:.1f} KB")  # ~12 KB
 
 The HLL memory is constant. It does not move. Counting 10 thousand distinct items and counting 10 billion costs the same memory.
 
-<svg width="100%" viewBox="0 0 680 320" role="img" xmlns="http://www.w3.org/2000/svg">
-  <title>Memory comparison: exact counting vs HyperLogLog at increasing cardinality</title>
-  <desc>Log scale chart showing hash set memory growing linearly while HyperLogLog stays flat near zero</desc>
-  <style>
-    .lbl  { font-family: -apple-system, system-ui, sans-serif; font-size: 13px; fill: #444441; font-weight: 500; }
-    .sub  { font-family: -apple-system, system-ui, sans-serif; font-size: 11px; fill: #5F5E5A; }
-    .axis { font-family: ui-monospace, monospace; font-size: 10px; fill: #5F5E5A; }
-  </style>
-  <text class="lbl" x="20" y="25">Memory usage (log scale), exact vs HyperLogLog</text>
-  <line x1="80" y1="45" x2="80" y2="265" stroke="#B4B2A9" stroke-width="1"/>
-  <line x1="80" y1="265" x2="640" y2="265" stroke="#B4B2A9" stroke-width="1"/>
-  <text class="axis" x="72" y="50"  text-anchor="end">1 TB</text>
-  <text class="axis" x="72" y="98"  text-anchor="end">10 GB</text>
-  <text class="axis" x="72" y="145" text-anchor="end">100 MB</text>
-  <text class="axis" x="72" y="195" text-anchor="end">1 MB</text>
-  <text class="axis" x="72" y="240" text-anchor="end">1 KB</text>
-  <line x1="80" y1="98"  x2="640" y2="98"  stroke="#D3D1C7" stroke-width="0.5" stroke-dasharray="3 3"/>
-  <line x1="80" y1="145" x2="640" y2="145" stroke="#D3D1C7" stroke-width="0.5" stroke-dasharray="3 3"/>
-  <line x1="80" y1="195" x2="640" y2="195" stroke="#D3D1C7" stroke-width="0.5" stroke-dasharray="3 3"/>
-  <line x1="80" y1="240" x2="640" y2="240" stroke="#D3D1C7" stroke-width="0.5" stroke-dasharray="3 3"/>
-  <text class="axis" x="130" y="280" text-anchor="middle">10K</text>
-  <text class="axis" x="224" y="280" text-anchor="middle">1M</text>
-  <text class="axis" x="318" y="280" text-anchor="middle">10M</text>
-  <text class="axis" x="412" y="280" text-anchor="middle">100M</text>
-  <text class="axis" x="506" y="280" text-anchor="middle">1B</text>
-  <text class="axis" x="600" y="280" text-anchor="middle">10B</text>
-  <text class="sub" x="360" y="300" text-anchor="middle">Distinct element count</text>
-  <polyline points="130,195 224,145 318,112 412,72 506,52 600,45" fill="none" stroke="#E24B4A" stroke-width="2"/>
-  <text class="sub" x="610" y="42" fill="#A32D2D">Hash set</text>
-  <line x1="130" y1="228" x2="600" y2="228" stroke="#1D9E75" stroke-width="2"/>
-  <text class="sub" x="610" y="231" fill="#0F6E56">HLL ~12KB</text>
-  <circle cx="506" cy="52" r="4" fill="#E24B4A"/>
-  <text class="sub" x="460" y="42" fill="#A32D2D">~80 GB</text>
-  <circle cx="506" cy="228" r="4" fill="#1D9E75"/>
-  <line x1="90" y1="310" x2="120" y2="310" stroke="#E24B4A" stroke-width="2"/>
-  <text class="sub" x="126" y="314">Exact (hash set)</text>
-  <line x1="240" y1="310" x2="270" y2="310" stroke="#1D9E75" stroke-width="2"/>
-  <text class="sub" x="276" y="314">HyperLogLog (b=14, ~0.81% error)</text>
-</svg>
+**Memory usage: exact counting vs HyperLogLog at increasing cardinality:**
+
+| Distinct element count | Hash set (exact) | HyperLogLog (b=14, ~0.81% error) |
+|---|---|---|
+| 10K | ~1 MB | ~12 KB |
+| 1M | ~100 MB | ~12 KB |
+| 10M | ~1 GB | ~12 KB |
+| 100M | ~10 GB | ~12 KB |
+| 1B | ~80 GB | ~12 KB |
+| 10B | ~1 TB | ~12 KB |
+
+The hash set grows linearly with cardinality. HyperLogLog stays fixed at ~12 KB regardless of scale.
 
 **Accuracy at increasing cardinality (b=14, empirical):**
 
@@ -319,43 +257,13 @@ This is a profound property for distributed analytics:
 
 You never move raw event data across the network. You move 12KB per shard. This is why systems like Presto, Spark, and Druid all ship HyperLogLog as a native aggregate function. The shard-level HLLs can be computed in parallel across hundreds of machines and merged in milliseconds.
 
-<svg width="100%" viewBox="0 0 680 300" role="img" xmlns="http://www.w3.org/2000/svg">
-  <title>HyperLogLog merging in a distributed analytics system</title>
-  <desc>Three shards each maintain an HLL locally, which are merged at query time to produce a global cardinality estimate</desc>
-  <style>
-    .lbl { font-family: -apple-system, system-ui, sans-serif; font-size: 13px; fill: #444441; font-weight: 500; }
-    .sub { font-family: -apple-system, system-ui, sans-serif; font-size: 11px; fill: #5F5E5A; }
-    .mono { font-family: ui-monospace, monospace; font-size: 10px; fill: #2C2C2A; }
-  </style>
-  <defs>
-    <marker id="arr5" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-    </marker>
-  </defs>
-  <rect x="20"  y="40" width="120" height="80" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
-  <text class="lbl" x="80"  y="68"  text-anchor="middle" font-size="11">Shard A</text>
-  <text class="sub" x="80"  y="84"  text-anchor="middle">300M events</text>
-  <text class="mono" x="80" y="104" text-anchor="middle">HLL_A (12KB)</text>
-  <rect x="160" y="40" width="120" height="80" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
-  <text class="lbl" x="220" y="68"  text-anchor="middle" font-size="11">Shard B</text>
-  <text class="sub" x="220" y="84"  text-anchor="middle">280M events</text>
-  <text class="mono" x="220" y="104" text-anchor="middle">HLL_B (12KB)</text>
-  <rect x="300" y="40" width="120" height="80" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
-  <text class="lbl" x="360" y="68"  text-anchor="middle" font-size="11">Shard C</text>
-  <text class="sub" x="360" y="84"  text-anchor="middle">320M events</text>
-  <text class="mono" x="360" y="104" text-anchor="middle">HLL_C (12KB)</text>
-  <line x1="80"  y1="120" x2="250" y2="185" stroke="#888780" stroke-width="1.5" marker-end="url(#arr5)"/>
-  <line x1="220" y1="120" x2="260" y2="185" stroke="#888780" stroke-width="1.5" marker-end="url(#arr5)"/>
-  <line x1="360" y1="120" x2="270" y2="185" stroke="#888780" stroke-width="1.5" marker-end="url(#arr5)"/>
-  <text class="sub" x="180" y="158">36KB sent over network (not 900M events)</text>
-  <rect x="190" y="188" width="160" height="60" rx="8" fill="#E6F1FB" stroke="#378ADD" stroke-width="1.2"/>
-  <text class="lbl" x="270" y="214" text-anchor="middle" font-size="12">Merge (element-wise max)</text>
-  <text class="mono" x="270" y="234" text-anchor="middle">HLL_merged = max(A,B,C)</text>
-  <line x1="350" y1="218" x2="450" y2="218" stroke="#888780" stroke-width="1.5" marker-end="url(#arr5)"/>
-  <rect x="452" y="198" width="200" height="60" rx="8" fill="#EAF3DE" stroke="#639922" stroke-width="1"/>
-  <text class="lbl" x="552" y="222" text-anchor="middle" font-size="12">Distinct users: ~720M</text>
-  <text class="sub" x="552" y="242" text-anchor="middle">±0.81% error, 12KB used</text>
-</svg>
+```mermaid
+flowchart TD
+    A["Shard A\n300M events\nHLL_A (12KB)"] -->|"36KB sent over network\n(not 900M events)"| Merge["Merge (element-wise max)\nHLL_merged = max(A,B,C)"]
+    B["Shard B\n280M events\nHLL_B (12KB)"] --> Merge
+    C["Shard C\n320M events\nHLL_C (12KB)"] --> Merge
+    Merge --> Result["Distinct users: ~720M\n+/-0.81% error, 12KB used"]
+```
 
 ---
 

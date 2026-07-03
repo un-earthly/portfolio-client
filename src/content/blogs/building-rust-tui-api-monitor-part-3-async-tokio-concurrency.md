@@ -104,38 +104,26 @@ The difference is not subtle.
 | Sequential (`for url { check(url).await }`) | sum of all latencies | ~960 ms |
 | Concurrent (`join_all`) | max of all latencies | ~120 ms |
 
-<svg width="100%" viewBox="0 0 680 300" role="img" xmlns="http://www.w3.org/2000/svg">
-  <title>Sequential versus concurrent polling on a timeline</title>
-  <desc>Top: four requests run one after another, total time is their sum. Bottom: four requests run overlapping, total time is the longest single request.</desc>
-  <style>
-    .lbl  { font-family: -apple-system, system-ui, sans-serif; font-size: 13px; fill: #444441; font-weight: 600; }
-    .sub  { font-family: -apple-system, system-ui, sans-serif; font-size: 11px; fill: #5F5E5A; }
-    .mono { font-family: ui-monospace, monospace; font-size: 10px; fill: #2C2C2A; }
-  </style>
-  <text class="lbl" x="20" y="26">Sequential, each request waits for the previous one</text>
-  <rect x="60"  y="40" width="120" height="22" rx="4" fill="#F5C4B3" stroke="#D85A30" stroke-width="0.8"/>
-  <text class="mono" x="120" y="55" text-anchor="middle">req 1</text>
-  <rect x="180" y="40" width="120" height="22" rx="4" fill="#F5C4B3" stroke="#D85A30" stroke-width="0.8"/>
-  <text class="mono" x="240" y="55" text-anchor="middle">req 2</text>
-  <rect x="300" y="40" width="120" height="22" rx="4" fill="#F5C4B3" stroke="#D85A30" stroke-width="0.8"/>
-  <text class="mono" x="360" y="55" text-anchor="middle">req 3</text>
-  <rect x="420" y="40" width="120" height="22" rx="4" fill="#F5C4B3" stroke="#D85A30" stroke-width="0.8"/>
-  <text class="mono" x="480" y="55" text-anchor="middle">req 4</text>
-  <line x1="60" y1="74" x2="540" y2="74" stroke="#A32D2D" stroke-width="1"/>
-  <text class="sub" x="300" y="90" text-anchor="middle" fill="#A32D2D">total ≈ sum of all four</text>
-  <text class="lbl" x="20" y="150">Concurrent, all four in flight, the thread juggles them</text>
-  <rect x="60" y="166" width="130" height="18" rx="4" fill="#9FE1CB" stroke="#0F6E56" stroke-width="0.8"/>
-  <text class="mono" x="125" y="179" text-anchor="middle">req 1</text>
-  <rect x="60" y="188" width="150" height="18" rx="4" fill="#9FE1CB" stroke="#0F6E56" stroke-width="0.8"/>
-  <text class="mono" x="135" y="201" text-anchor="middle">req 2</text>
-  <rect x="60" y="210" width="120" height="18" rx="4" fill="#9FE1CB" stroke="#0F6E56" stroke-width="0.8"/>
-  <text class="mono" x="120" y="223" text-anchor="middle">req 3</text>
-  <rect x="60" y="232" width="140" height="18" rx="4" fill="#9FE1CB" stroke="#0F6E56" stroke-width="0.8"/>
-  <text class="mono" x="130" y="245" text-anchor="middle">req 4</text>
-  <line x1="60" y1="262" x2="210" y2="262" stroke="#0F6E56" stroke-width="1"/>
-  <text class="sub" x="135" y="278" text-anchor="middle" fill="#0F6E56">total ≈ the single slowest request</text>
-  <line x1="210" y1="160" x2="210" y2="262" stroke="#B4B2A9" stroke-width="0.6" stroke-dasharray="3 3"/>
-</svg>
+```mermaid
+gantt
+    title Sequential vs concurrent polling (4 requests, ~80ms each)
+    dateFormat X
+    axisFormat %Lms
+
+    section Sequential (waits for previous)
+    req 1 : seq1, 0, 80
+    req 2 : seq2, after seq1, 80
+    req 3 : seq3, after seq2, 80
+    req 4 : seq4, after seq3, 80
+
+    section Concurrent (all in flight)
+    req 1 : con1, 0, 65
+    req 2 : con2, 0, 75
+    req 3 : con3, 0, 60
+    req 4 : con4, 0, 70
+```
+
+Sequential: total time is the sum of all four, roughly 320ms. Concurrent: total time is the single slowest request, roughly 75ms. The thread juggles all four while each awaits I/O instead of waiting for one to fully finish before starting the next.
 
 One thread, no extra OS threads spawned, an 8x speedup. This is the entire reason async exists: I/O-bound work where the bottleneck is waiting, not computing.
 
@@ -224,39 +212,30 @@ async fn main() {
 
 `Arc::clone(&probes)` is cheap and explicit, it's an atomic increment, and Rust makes you write it so you never accidentally deep-copy. Each task owns its own handle; the `Vec` lives until the last handle drops. `probes.lock()` blocks until this task has exclusive access, hands back a guard, and, RAII again, straight from Part 1, the lock releases automatically when the guard goes out of scope at the end of the `push`. You cannot forget to unlock.
 
-<svg width="100%" viewBox="0 0 680 320" role="img" xmlns="http://www.w3.org/2000/svg">
-  <title>Arc Mutex: many task handles sharing one mutex-guarded vector</title>
-  <desc>Three async tasks each hold an Arc clone pointing to a single Mutex-wrapped Vec on the heap. Only the task holding the lock can mutate it.</desc>
-  <style>
-    .lbl  { font-family: -apple-system, system-ui, sans-serif; font-size: 13px; fill: #444441; font-weight: 600; }
-    .sub  { font-family: -apple-system, system-ui, sans-serif; font-size: 11px; fill: #5F5E5A; }
-    .mono { font-family: ui-monospace, monospace; font-size: 10px; fill: #2C2C2A; }
-  </style>
-  <defs>
-    <marker id="c1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-    </marker>
-  </defs>
-  <rect x="20"  y="40" width="150" height="46" rx="8" fill="#E6F1FB" stroke="#378ADD" stroke-width="1"/>
-  <text class="lbl" x="95" y="60" text-anchor="middle" font-size="11">Task A</text>
-  <text class="mono" x="95" y="78" text-anchor="middle">Arc clone #1</text>
-  <rect x="20"  y="130" width="150" height="46" rx="8" fill="#E6F1FB" stroke="#378ADD" stroke-width="1"/>
-  <text class="lbl" x="95" y="150" text-anchor="middle" font-size="11">Task B 🔒 holds lock</text>
-  <text class="mono" x="95" y="168" text-anchor="middle">Arc clone #2</text>
-  <rect x="20"  y="220" width="150" height="46" rx="8" fill="#E6F1FB" stroke="#378ADD" stroke-width="1"/>
-  <text class="lbl" x="95" y="240" text-anchor="middle" font-size="11">Task C ⏳ waiting</text>
-  <text class="mono" x="95" y="258" text-anchor="middle">Arc clone #3</text>
-  <rect x="380" y="110" width="280" height="96" rx="10" fill="#F1EFE8" stroke="#888780" stroke-width="1"/>
-  <text class="sub" x="395" y="100">HEAP, one allocation, refcount = 3</text>
-  <rect x="400" y="126" width="240" height="28" rx="6" fill="#FAEEDA" stroke="#BA7517" stroke-width="1.2"/>
-  <text class="mono" x="520" y="144" text-anchor="middle">Mutex (locked by B)</text>
-  <rect x="400" y="160" width="240" height="32" rx="6" fill="#EAF3DE" stroke="#639922" stroke-width="1"/>
-  <text class="mono" x="520" y="180" text-anchor="middle">Vec&lt;Probe&gt;  [..]</text>
-  <line x1="170" y1="63"  x2="378" y2="135" stroke="#378ADD" stroke-width="1.2" marker-end="url(#c1)"/>
-  <line x1="170" y1="153" x2="378" y2="150" stroke="#BA7517" stroke-width="2"   marker-end="url(#c1)"/>
-  <line x1="170" y1="243" x2="378" y2="168" stroke="#B4B2A9" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#c1)"/>
-  <text class="sub" x="20" y="300">Three owners, one value. Only the lock-holder (B) mutates; C blocks until B's guard drops. The compiler guarantees no two writers at once.</text>
-</svg>
+```mermaid
+flowchart LR
+    A["Task A\nArc clone #1"]
+    B["Task B 🔒 holds lock\nArc clone #2"]
+    C["Task C ⏳ waiting\nArc clone #3"]
+
+    subgraph heap["HEAP: one allocation, refcount = 3"]
+        M["Mutex (locked by B)"]
+        V["Vec&lt;Probe&gt; [..]"]
+        M --- V
+    end
+
+    A --> M
+    B -->|holds lock| M
+    C -.->|blocked| M
+
+    style A fill:#E6F1FB,stroke:#378ADD
+    style B fill:#E6F1FB,stroke:#378ADD
+    style C fill:#E6F1FB,stroke:#378ADD
+    style M fill:#FAEEDA,stroke:#BA7517
+    style V fill:#EAF3DE,stroke:#639922
+```
+
+Three owners, one value. Only the lock-holder (B) mutates; C blocks until B's guard drops. The compiler guarantees no two writers at once.
 
 > **A real footgun worth naming:** holding a standard `std::sync::Mutex` guard across an `.await` can deadlock a Tokio task, because the task may be parked while still holding the lock. Lock, mutate, and drop the guard *before* you await, as the code above does, or use `tokio::sync::Mutex`, which is designed to be held across await points.
 

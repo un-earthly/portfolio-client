@@ -41,9 +41,9 @@ A security group rule has exactly four meaningful parts:
 
 | Type | Protocol | Port Range | Source |
 |---|---|---|---|
-| SSH | TCP | 22 | `203.0.113.42/32` — one IP |
-| HTTPS | TCP | 443 | `0.0.0.0/0` — the internet |
-| Custom | TCP | 5432 | `sg-0abc123def` — another security group |
+| SSH | TCP | 22 | `203.0.113.42/32`, one IP |
+| HTTPS | TCP | 443 | `0.0.0.0/0`, the internet |
+| Custom | TCP | 5432 | `sg-0abc123def`, another security group |
 
 That third row is the feature most people underuse: **the source can be another security group.** Instead of saying "allow Postgres from IP 10.0.1.5," you say "allow Postgres from anything wearing the `api-server` security group." Instances come and go, IPs change, autoscaling spins up new machines, and the rule keeps working because it references identity, not address. This one feature is the difference between security groups that rot and security groups that scale.
 
@@ -142,10 +142,10 @@ sequenceDiagram
     participant Server as SERVER :443
 
     Client->>SG: 1. SYN
-    Note over SG: Inbound rule: TCP 443 from 0.0.0.0/0<br/>MATCH — conntrack entry created<br/>proto=TCP state=SYN_SENT → ESTABLISHED
+    Note over SG: Inbound rule: TCP 443 from 0.0.0.0/0<br/>MATCH, conntrack entry created<br/>proto=TCP state=SYN_SENT → ESTABLISHED
     SG->>Server: SYN forwarded
     Server-->>SG: 2. SYN-ACK (reply)
-    Note over SG: Outbound rules NOT checked<br/>Matches conntrack entry — pass
+    Note over SG: Outbound rules NOT checked<br/>Matches conntrack entry, pass
     SG-->>Client: SYN-ACK forwarded
     Note over Client,Server: 3. All further packets in both directions match the conntrack entry.<br/>Rules aren't consulted again until the connection closes and the entry expires.
 ```

@@ -140,50 +140,39 @@ When you write `let label = endpoint;`, Rust copies the *header*, three machine 
 
 Rust's fix is almost rude in its simplicity: after the copy, it marks the original binding as moved-out and refuses to let you touch it. Exactly one header is valid, so exactly one free happens.
 
-<svg width="100%" viewBox="0 0 680 380" role="img" xmlns="http://www.w3.org/2000/svg">
-  <title>String move: stack header copied, heap buffer shared, original invalidated</title>
-  <desc>Diagram showing a String as a stack header (pointer, length, capacity) pointing to heap bytes, then a move that copies the header and invalidates the source binding</desc>
-  <style>
-    .lbl  { font-family: -apple-system, system-ui, sans-serif; font-size: 13px; fill: #444441; font-weight: 500; }
-    .sub  { font-family: -apple-system, system-ui, sans-serif; font-size: 11px; fill: #5F5E5A; }
-    .mono { font-family: ui-monospace, monospace; font-size: 12px; fill: #2C2C2A; }
-    .dead { font-family: ui-monospace, monospace; font-size: 12px; fill: #A32D2D; }
-  </style>
-  <defs>
-    <marker id="a1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-    </marker>
-  </defs>
-  <text class="lbl" x="20" y="26">Before the move, one owner, `endpoint`</text>
-  <rect x="20" y="38" width="150" height="30" rx="6" fill="#F1EFE8" stroke="#888780" stroke-width="0.8"/>
-  <text class="sub" x="28" y="32">STACK</text>
-  <text class="mono" x="30" y="58">endpoint</text>
-  <rect x="180" y="38" width="240" height="64" rx="6" fill="#E6F1FB" stroke="#378ADD" stroke-width="1"/>
-  <text class="mono" x="192" y="58" font-size="11">ptr  ──────────────┐</text>
-  <text class="mono" x="192" y="76" font-size="11">len  = 30</text>
-  <text class="mono" x="192" y="94" font-size="11">cap  = 30</text>
-  <rect x="470" y="38" width="190" height="64" rx="6" fill="#EAF3DE" stroke="#639922" stroke-width="1"/>
-  <text class="sub" x="478" y="32">HEAP</text>
-  <text class="mono" x="480" y="64" font-size="10">"https://httpbin</text>
-  <text class="mono" x="480" y="82" font-size="10">.org/status/200"</text>
-  <line x1="418" y1="58" x2="468" y2="70" stroke="#378ADD" stroke-width="1.5" marker-end="url(#a1)"/>
-  <text class="lbl" x="20" y="170">After `let label = endpoint;`, header copied, source invalidated</text>
-  <rect x="20" y="184" width="150" height="30" rx="6" fill="#FCEBEB" stroke="#E24B4A" stroke-width="0.8" stroke-dasharray="4 3"/>
-  <text class="dead" x="30" y="204">endpoint ✗ moved</text>
-  <rect x="20" y="222" width="150" height="30" rx="6" fill="#F1EFE8" stroke="#888780" stroke-width="0.8"/>
-  <text class="mono" x="30" y="242">label</text>
-  <rect x="180" y="222" width="240" height="64" rx="6" fill="#E6F1FB" stroke="#378ADD" stroke-width="1"/>
-  <text class="mono" x="192" y="242" font-size="11">ptr  ──────────────┐</text>
-  <text class="mono" x="192" y="260" font-size="11">len  = 30</text>
-  <text class="mono" x="192" y="278" font-size="11">cap  = 30</text>
-  <rect x="470" y="222" width="190" height="64" rx="6" fill="#EAF3DE" stroke="#639922" stroke-width="1"/>
-  <text class="mono" x="480" y="248" font-size="10">"https://httpbin</text>
-  <text class="mono" x="480" y="266" font-size="10">.org/status/200"</text>
-  <line x1="418" y1="242" x2="468" y2="254" stroke="#378ADD" stroke-width="1.5" marker-end="url(#a1)"/>
-  <text class="sub" x="20" y="318">The heap buffer was never copied, only the 3-word header moved. Cheap.</text>
-  <text class="sub" x="20" y="336">`endpoint` is now off-limits, so only `label` frees the buffer. No double free.</text>
-  <text class="sub" x="20" y="354">This is why the move is both fast and safe: it is a `memcpy` of 24 bytes plus a compile-time flag.</text>
-</svg>
+```mermaid
+flowchart TD
+    subgraph before["Before the move: one owner, endpoint"]
+        direction LR
+        subgraph stack1["STACK"]
+            E["endpoint\nptr | len=30 | cap=30"]
+        end
+        subgraph heap1["HEAP"]
+            H1["\"https://httpbin.org/status/200\""]
+        end
+        E -- ptr --> H1
+    end
+    subgraph after["After let label = endpoint; header copied, source invalidated"]
+        direction LR
+        subgraph stack2["STACK"]
+            OLD["endpoint ✗ moved"]
+            L["label\nptr | len=30 | cap=30"]
+        end
+        subgraph heap2["HEAP"]
+            H2["\"https://httpbin.org/status/200\""]
+        end
+        L -- ptr --> H2
+    end
+    before --> after
+
+    style OLD fill:#FCEBEB,stroke:#E24B4A,stroke-dasharray: 4 3
+    style H1 fill:#EAF3DE,stroke:#639922
+    style H2 fill:#EAF3DE,stroke:#639922
+    style E fill:#E6F1FB,stroke:#378ADD
+    style L fill:#E6F1FB,stroke:#378ADD
+```
+
+The heap buffer was never copied, only the 3-word header moved, which is cheap. `endpoint` is now off-limits, so only `label` frees the buffer: no double free. This is why the move is both fast and safe, it is a `memcpy` of 24 bytes plus a compile-time flag.
 
 This is the whole trick. Other languages avoid double frees with a garbage collector (track references at runtime, free when unreachable) or by making you call `free` yourself (and trusting you to get it right). Rust avoids them by proving, at compile time, that each value has one owner and is freed once. The cost is paid by you, the programmer, in the form of errors like `E0382`. The payoff is no GC pauses, no manual `free`, and no double-free CVEs.
 
@@ -218,7 +207,7 @@ fn log_target(t: &Target) {        // borrows, does not take ownership
 
 let target = Target { name: "httpbin".into(), url: "https://...".into() };
 log_target(&target);  // lend it
-log_target(&target);  // lend it again — target still owns everything
+log_target(&target);  // lend it again: target still owns everything
 ```
 
 Notice the trade-off the language is forcing into the open. `clone()` is simple but costs an allocation. Borrowing is free but introduces the question *how long does the reference stay valid?*, which is exactly the question lifetimes answer in Part 2.
@@ -248,29 +237,16 @@ fn check_once() {
 
 This pattern, a resource tied to a value's lifetime, released the instant the value drops, is called **RAII** (Resource Acquisition Is Initialization). It is not limited to memory. A file handle drops and closes the file. A lock guard drops and releases the lock. In Part 4 we use exactly this mechanism to guarantee the terminal is restored to a sane state even if the program panics mid-render. Memory is just the first thing RAII manages; it ends up managing everything.
 
-<svg width="100%" viewBox="0 0 680 250" role="img" xmlns="http://www.w3.org/2000/svg">
-  <title>Value lifecycle: owned on creation, dropped at end of scope</title>
-  <desc>Timeline showing a value being created and owned inside a scope, then automatically dropped and its memory freed when the scope ends</desc>
-  <style>
-    .lbl  { font-family: -apple-system, system-ui, sans-serif; font-size: 13px; fill: #444441; font-weight: 500; }
-    .sub  { font-family: -apple-system, system-ui, sans-serif; font-size: 11px; fill: #5F5E5A; }
-    .mono { font-family: ui-monospace, monospace; font-size: 11px; fill: #2C2C2A; }
-  </style>
-  <line x1="60" y1="70" x2="640" y2="70" stroke="#B4B2A9" stroke-width="1.5"/>
-  <circle cx="120" cy="70" r="6" fill="#1D9E75"/>
-  <text class="lbl" x="120" y="50" text-anchor="middle">create</text>
-  <text class="mono" x="120" y="98" text-anchor="middle" font-size="10">let body = ...</text>
-  <text class="sub" x="120" y="114" text-anchor="middle">heap allocated</text>
-  <rect x="180" y="58" width="320" height="24" rx="12" fill="#E6F1FB" stroke="#378ADD" stroke-width="1"/>
-  <text class="sub" x="340" y="74" text-anchor="middle" fill="#042C53">`body` owns the buffer, you can use it freely here</text>
-  <circle cx="560" cy="70" r="6" fill="#E24B4A"/>
-  <text class="lbl" x="560" y="50" text-anchor="middle">scope ends</text>
-  <text class="mono" x="560" y="98" text-anchor="middle" font-size="10">}</text>
-  <text class="sub" x="560" y="114" text-anchor="middle">drop() runs, heap freed</text>
-  <rect x="60" y="160" width="580" height="64" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.6"/>
-  <text class="sub" x="80" y="186">No garbage collector decided when to free this. No `free()` call in your code freed it.</text>
-  <text class="sub" x="80" y="206">The compiler inserted the cleanup at the closing brace because that is where the owner died.</text>
-</svg>
+```mermaid
+flowchart LR
+    A(["create\nlet body = ...\nheap allocated"]) --> B["`body` owns the buffer,\nyou can use it freely here"] --> C(["scope ends\n}\ndrop() runs, heap freed"])
+
+    style A fill:#1D9E75,color:#fff
+    style C fill:#E24B4A,color:#fff
+    style B fill:#E6F1FB,stroke:#378ADD
+```
+
+No garbage collector decided when to free this. No `free()` call in your code freed it. The compiler inserted the cleanup at the closing brace because that is where the owner died.
 
 ---
 

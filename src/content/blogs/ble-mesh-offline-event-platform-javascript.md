@@ -7,7 +7,7 @@ readTime: 22
 type: technical
 excerpt: Most apps assume the internet exists. I built one that doesn't. This is how I architected OurStoryz, a production event platform that works fully offline using BLE mesh networking, Kalman filtering for RSSI-based positioning, and hybrid transport layers.
 cover: '/blog-covers/ble-mesh-offline-event-platform-javascript.svg'
-faqs: Does this work on both iOS and Android?::Yes. Both platforms support concurrent BLE advertising and scanning (dual Central/Peripheral role), but the API surface is different enough to require an abstraction layer. The hybrid transport logic handles iOS-specific Multipeer Connectivity alongside the cross-platform BLE and Wi-Fi Direct layers. | What's the practical range of the mesh?::BLE range is roughly 10-30m per hop depending on environment. Wi-Fi Direct extends this to ~200m for paired devices. Because messages can hop peer-to-peer across the mesh, a 300-person venue is fully covered even if no two devices are directly in range — the network finds a route. | How do you handle messages sent while a device is outside the mesh?::Every outgoing message is persisted in a local Realm DB queue before transmission. If the device is out of range or the transport fails, the retry worker picks up pending messages every 5 seconds when the app is foregrounded. Messages with 5 failed attempts are marked failed and surfaced to the user. | Can you build something like this for my project?::Yes. BLE mesh, offline-first architecture, and hybrid transport systems are core work I've shipped in production. If your product needs to operate in RF-hostile or connectivity-uncertain environments, reach out and we can scope what the architecture looks like for your use case.
+faqs: Does this work on both iOS and Android?::Yes. Both platforms support concurrent BLE advertising and scanning (dual Central/Peripheral role), but the API surface is different enough to require an abstraction layer. The hybrid transport logic handles iOS-specific Multipeer Connectivity alongside the cross-platform BLE and Wi-Fi Direct layers. | What's the practical range of the mesh?::BLE range is roughly 10-30m per hop depending on environment. Wi-Fi Direct extends this to ~200m for paired devices. Because messages can hop peer-to-peer across the mesh, a 300-person venue is fully covered even if no two devices are directly in range: the network finds a route. | How do you handle messages sent while a device is outside the mesh?::Every outgoing message is persisted in a local Realm DB queue before transmission. If the device is out of range or the transport fails, the retry worker picks up pending messages every 5 seconds when the app is foregrounded. Messages with 5 failed attempts are marked failed and surfaced to the user. | Can you build something like this for my project?::Yes. BLE mesh, offline-first architecture, and hybrid transport systems are core work I've shipped in production. If your product needs to operate in RF-hostile or connectivity-uncertain environments, reach out and we can scope what the architecture looks like for your use case.
 ---
 
 Most apps assume the internet exists. I built one that doesn't.
@@ -114,8 +114,8 @@ interface KalmanState {
   p: number;  // estimation error covariance
 }
 
-const Q = 0.008; // process noise — how fast the true signal can change
-const R = 2.5;   // measurement noise — how noisy the sensor is
+const Q = 0.008; // process noise: how fast the true signal can change
+const R = 2.5;   // measurement noise: how noisy the sensor is
 
 class RSSIKalmanFilter {
   private states: Map<string, KalmanState> = new Map();

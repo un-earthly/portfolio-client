@@ -65,7 +65,7 @@ The API intermediary was the architectural cornerstone. By inserting a NestJS la
 3. Run both old and new simultaneously, validating output parity
 
 ```typescript
-// The API intermediary pattern — NestJS wrapping the legacy query
+// The API intermediary pattern: NestJS wrapping the legacy query
 // The Nuxt.js frontend never knows it's hitting a 2003 database
 
 @Injectable()
@@ -110,7 +110,7 @@ FETCH NEXT FROM emp_cursor INTO @EmpID
 
 WHILE @@FETCH_STATUS = 0
 BEGIN
-    -- Nested scan per employee — O(n*m) against a non-indexed table
+    -- Nested scan per employee: O(n*m) against a non-indexed table
     INSERT INTO #TempAttendance
     SELECT EmpID, COUNT(*) AS DaysPresent
     FROM AttendanceLog
