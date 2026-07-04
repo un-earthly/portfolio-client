@@ -15,6 +15,10 @@ This post is a live case study. Every commit described here was made during an a
 
 That's the premise. Here's how it works.
 
+> **TL;DR**: Built a stateless MCP server as a Next.js API route (`WebStandardStreamableHTTPServerTransport`) that proxies Claude's tool calls to the GitHub Contents API, giving it direct read/write/commit access to the repo. The bug that broke it for an hour: calling `server.close()` before the async `transport.handleRequest()` Promise resolved, which tore down the stream mapping mid-flight and silently dropped the tool list.
+
+---
+
 ## The Problem With AI-Assisted Development Today
 
 Most AI coding workflows look like this: you describe a task, the AI generates code in a chat window, you copy it, paste it into your editor, run it, find an error, paste the error back, get a fix, repeat. It's useful but it's inherently disconnected. The AI has no persistent access to your actual files: it's working from whatever you paste into the window.
