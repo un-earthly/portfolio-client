@@ -16,6 +16,10 @@ Every codebase I've walked into that claimed to be "written in TypeScript" has h
 
 That's not TypeScript. That's JavaScript with extra steps and a false sense of safety.
 
+> **TL;DR**: TypeScript's value isn't catching typos, it's making impossible states unrepresentable at compile time. Discriminated unions, the exhaustive `never` check, branded types for domain primitives, and state machines encoded as types eliminate entire bug classes structurally, no runtime check required. If your codebase leans on `any` at the API boundary and `@ts-ignore` on anything complex, you're writing JavaScript with a compiler tax, not TypeScript.
+
+---
+
 ## The Actual Value of TypeScript
 
 TypeScript's value is not catching typos. It's **making impossible states unrepresentable**.

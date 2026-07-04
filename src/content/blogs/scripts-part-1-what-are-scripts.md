@@ -24,6 +24,8 @@ This post is the first in a four-part series built from a real production monore
 
 This part also goes one level lower than the rest of the series. Before you can reason about *which* scripts a project needs, you need to know what actually happens on the machine when you type `pnpm dev` and hit enter, and how to take that back if you hit enter on the wrong thing. So alongside the architecture argument, this post covers the Bash and Linux mechanics underneath: process execution, exit codes, and how to stop something you started by accident without taking down your whole terminal session.
 
+> **TL;DR**: npm/pnpm scripts are architecture, not shortcuts: they encode how a project runs, builds, tests, and ships behind a stable name. Running one spawns a real subshell with `node_modules/.bin` on `PATH`, so exit codes, shebangs, and signals all behave like any other Linux process. Ctrl+C sends `SIGINT` to the foreground job; for backgrounded or orphaned processes (like a stuck dev server on a port), use `jobs`/`fg`/`kill` or `lsof` + `kill`, trying `SIGTERM` before `SIGKILL`. A minimum viable script set is three: `dev`, `lint` (auto-fix), `build` (single source of truth for compilation).
+
 ---
 
 ## What a Script Actually Is

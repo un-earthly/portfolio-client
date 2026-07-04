@@ -17,6 +17,10 @@ Everyone wants to build greenfield. Almost no one wants to touch the system that
 
 Grimm had a VB.NET desktop application sitting on top of a 20-year-old MSSQL database. Millions of records. Business logic embedded in stored procedures nobody fully understood. Queries that ran in nested loops written before JOIN optimization was a concern. The system worked, barely, and replacing it wrong would've taken the business down.
 
+> **TL;DR**: I migrated a 20-year-old VB.NET monolith running on millions of MSSQL records to a Nuxt.js stack using the strangler-fig pattern, an API intermediary in front of the legacy database instead of a big-bang rewrite. The business ran the whole time with zero downtime and zero data loss, while p95 load times dropped 97.2 percent. The lesson: legacy modernization is 40 percent technical and 60 percent managing stakeholder trust in a slower, safer rollout.
+
+---
+
 ## The System We Inherited
 
 Before touching a single line, I spent two weeks mapping the actual state:

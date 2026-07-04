@@ -13,6 +13,10 @@ Every startup wants a full-stack developer. Someone who can do the database, the
 
 This is not a job description. It's a budget problem disguised as a job description.
 
+> **TL;DR**: "Full-stack developer" is usually a hiring fiction for "one salary, three roles," not an achievable level of expertise. Nobody has senior-level depth in React, database tuning, Kubernetes networking, and mobile concurrency at the same time. The engineers who actually win are T-shaped: deep in one or two domains, functionally literate everywhere else. Lead with your depth, because specialists get hired for hard problems and generalists just fill sprints.
+
+---
+
 ## What "Full-Stack" Actually Means
 
 "Full-stack developer" as typically advertised means: "we want to pay one salary for three roles." And engineers, desperate to seem versatile, afraid of being pigeonholed, claim the title enthusiastically.

@@ -13,6 +13,10 @@ Two engineers face the same bug. One resolves it in 20 minutes. The other spends
 
 They have access to the same logs, the same debugger, the same codebase. The difference is not tooling. It's the quality of their mental model of the system.
 
+> **TL;DR**: The skill that separates fast debuggers from slow ones isn't reading stack traces, it's the quality of their internal mental model of how the system behaves. You build that model through four practices: reading code you don't own for its invariants, predicting outcomes before you verify them, tracing data instead of code, and teaching the system to someone else to expose the gaps in your own understanding. Debug from the model; the tools are just confirmation.
+
+---
+
 ## What a Mental Model Is
 
 A mental model is your internal simulation of how the system behaves, what state exists where, how data flows between layers, what each component assumes about its inputs and guarantees about its outputs.

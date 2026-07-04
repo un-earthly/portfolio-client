@@ -11,6 +11,10 @@ cover: '/blog-covers/ai-coding-tools-github-copilot-claude-engineering-quality.s
 
 GitHub Copilot and Claude do not make all engineers equally capable. They make the gap between good and bad engineers wider and faster to observe.
 
+> **TL;DR**: AI coding tools are a confidence amplifier, not an equalizer: strong engineers use them to ship faster while catching the subtle bugs, weak engineers use them to generate plausible-looking code they don't understand and can't debug when it fails in production. The skills AI has automated (syntax, boilerplate, standard patterns) were never what separated good engineers from bad ones. The skills that still matter, catching subtle failures, evaluating trade-offs, owning production accountability, are the ones AI is structurally bad at. Your job now is being a rigorous reviewer of your own AI's output, not a generator of code.
+
+---
+
 ## The Pattern
 
 Here's what I've watched play out repeatedly:

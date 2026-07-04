@@ -15,6 +15,10 @@ Comments are fetched live from the Figma REST API on every load. Supabase handle
 
 This post is about why, how, and where it bit me.
 
+> **TL;DR**: I built Comment Tracker with zero backend comment storage: every comment is fetched live from the Figma REST API in the browser, and Supabase only holds auth and user settings. The only server-side code is one Cloudflare Function that exchanges the OAuth code for a token without leaking the client secret. The tradeoff loses history and server-side notifications, but for triage during an active sprint, always-fresh data beats a sync pipeline you don't need.
+
+---
+
 ## The Architecture
 
 ```mermaid

@@ -21,6 +21,8 @@ A quality gate is a script that runs automatically and refuses to let bad work p
 
 This monorepo runs six distinct checks at commit time, all wired through Husky git hooks and `lint-staged`. The interesting part is not that these checks exist: every mature project has linting. The interesting part is the design decisions that make developers trust the gate instead of bypassing it with `--no-verify`.
 
+> **TL;DR**: Six pre-commit checks (Prettier, ESLint, cspell, secretlint, pnpm audit, and a custom OpenAPI annotation checker) run through Husky and `lint-staged` on staged files only, keeping the hook under three seconds. Speed is the entire design constraint: a slow gate gets bypassed with `--no-verify`, not disabled by policy. Everything auto-fixes and stages its own corrections except the one check that hard-blocks the commit: `secretlint`, because a leaked credential in git history can't be un-committed.
+
 ---
 
 ## The Cardinal Rule: Speed Determines Trust

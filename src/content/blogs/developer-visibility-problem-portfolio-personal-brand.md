@@ -14,6 +14,10 @@ I've talked to developers with five years of production experience who can't lan
 
 The difference is not skill. It's visibility.
 
+> **TL;DR**: Skilled developers stay invisible because their best work lives behind NDAs and private repos, with nothing Googleable a recruiter or client can evaluate in 30 seconds. Recruiters and CTOs can't assess skill directly, so they use proxies, and one deep public case study beats ten resume lines because it's searchable, shareable, and self-validating. Write the case study, then keep writing: the compounding from 30 to 180 days is what turns skill into inbound.
+
+---
+
 ## The Visibility Paradox
 
 Software engineering has a visibility paradox: the most technically capable people are often the worst at making their work legible to the people who would pay for it. They work on impressive systems that live inside private repositories, company intranets, and NDAs. They have no artifacts. Nothing Googleable. Nothing a recruiter, startup CTO, or potential client can evaluate in 30 seconds.

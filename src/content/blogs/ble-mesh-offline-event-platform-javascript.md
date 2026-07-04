@@ -18,6 +18,10 @@ The core problem: how do you enable real-time communication and location trackin
 
 The answer was BLE mesh.
 
+> **TL;DR**: I built OurStoryz, a production event platform where devices form a peer-to-peer BLE mesh with no central server: each node runs dual Central/Peripheral roles, RSSI readings are smoothed with a Kalman filter and converted to positions via trilateration, and messages hop across a hybrid transport (BLE, Wi-Fi Direct, Multipeer Connectivity) selected by payload size and channel health. Everything is end-to-end encrypted with ECDH/AES-256-GCM and queued locally in Realm DB so nothing is lost during handovers. In a 300-person test venue it delivered messages in ~180ms average with zero internet dependency.
+
+---
+
 ## The Architecture
 
 ```mermaid

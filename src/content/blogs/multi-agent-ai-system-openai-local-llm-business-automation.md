@@ -13,6 +13,10 @@ I run a small incense brand called Insencetic alongside my engineering work. I d
 
 This isn't a tutorial about GPT wrappers. This is about building a real multi-agent system with local LLMs, persistent state, and actual task delegation, running on my own hardware, zero cloud AI costs.
 
+> **TL;DR**: I built a four-agent system (CEO, PM, Marketing, Content) running entirely on local Ollama models, using a self-hosted Planka kanban board as shared state instead of shared context windows, and Telegram as the human interface. Strict role separation, agents write output to a review queue rather than publishing directly, is what keeps the system from collapsing into role leakage. Zero API cost, zero data leaving the server, and the real value isn't agent intelligence, it's that the process itself, with roles and contracts, runs without my attention.
+
+---
+
 ## The Stack
 
 **Hardware:** Home Ubuntu server (Ryzen 5700G APU, 24GB unified RAM) running Ollama with `qwen3:14b` as the primary reasoning model and `gemma4:e4b` for lightweight content tasks.

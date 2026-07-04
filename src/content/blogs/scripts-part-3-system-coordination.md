@@ -21,6 +21,8 @@ A single repository has problems an individual file does not: it needs a build, 
 
 This monorepo solves three of these system-level problems with scripts. Each one replaces a multi-step manual process, the kind that works until the day someone forgets a step, with a single command.
 
+> **TL;DR**: Three coordination problems, three scripts. `contracts:generate` walks the API's Swagger decorators into an `openapi.json` and regenerates the frontend's TypeScript types, so the type chain can't silently drift. `sub:sync` (and its `:push`/`:pr` variants) pulls all four submodules, regenerates the shared lockfile, and commits the pointers together, eliminating the `ERR_PNPM_OUTDATED_LOCKFILE` failure mode. `pr:create` and `pr:list` derive correctly formatted PRs from branch names and unify the cross-repo PR backlog. Each script collapses a multi-step manual process into one command so no human has to remember the steps.
+
 ---
 
 ## Problem One: The Type Chain Must Never Drift

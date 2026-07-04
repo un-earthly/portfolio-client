@@ -15,6 +15,10 @@ It's also responsible for some of the most over-engineered, slow-to-ship codebas
 
 I'll say the quiet part out loud: **clean code orthodoxy is a productivity killer dressed up as professionalism.**
 
+> **TL;DR**: Clean Code orthodoxy treats abstraction and small functions as moral imperatives instead of engineering trade-offs, which is how teams end up with interfaces wrapping three lines of logic and three-hour PR reviews over naming while bugs sit in production. The actual question is never "does this violate SRP," it's "what does this abstraction cost versus what it buys right now." Ship the direct, readable version; add the abstraction later if duplication actually shows up. Pragmatic engineers can write clean code and fast, ugly, working code, and they know which one the moment calls for.
+
+---
+
 ## What the Cult Looks Like in Practice
 
 When a team internalises clean code rules as moral imperatives rather than engineering tradeoffs, you get:

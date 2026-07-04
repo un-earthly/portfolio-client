@@ -16,6 +16,10 @@ Wrong. Completely wrong.
 
 Here's what's actually happening on engineering teams right now.
 
+> **TL;DR**: AI is not eating junior roles first, it's compressing the mid-level skill premium to zero, because everything that defines "mid-level" (implementing a spec, writing readable code, debugging integrations, estimating tickets) is exactly what Claude and GPT-4 do on autopilot. The two safe zones are juniors, who are cheap enough to pair with AI and are upskilling faster than any previous generation, and seniors, whose value was always architectural judgment and accountability, not code output. If your entire value proposition is "I can implement this feature correctly without supervision," that's the job AI just automated.
+
+---
+
 ## The Economics Are Brutal for Mid-Level
 
 Junior developers are getting hired specifically because they're cheap to pair with AI tools. A junior who can effectively prompt, review, and integrate AI-generated code is doing the work that used to require a mid-level. The economics are brutal for the mid-level: they cost 2-3x more, but AI has compressed the skill gap.

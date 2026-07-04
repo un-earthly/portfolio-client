@@ -30,6 +30,8 @@ markdown ──▶ TF-IDF keywords ──▶ icon resolution ──▶ SVG compo
 
 Four stages. Four algorithms. No external service in the critical path at generation time, because the network results are disk-cached on first run. This is the design.
 
+> **TL;DR**: A 300-line Node.js script generates every cover image on this site: TF-IDF extracts the post's distinctive keywords, a curated map plus Sørensen-Dice fuzzy matching and Iconify search resolves an icon, two different hashes (a rolling hash and FNV-1a-seeded PRNG) pick a deterministic accent colour and glyph texture, and a template composes the final SVG. No AI, no design tool, and the same post always produces the same file, which is what makes it usable as a build step instead of a one-off manual task.
+
 ---
 
 ## Why Not AI?

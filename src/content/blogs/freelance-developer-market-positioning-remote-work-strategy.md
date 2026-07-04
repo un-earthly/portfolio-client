@@ -17,6 +17,10 @@ The race-to-the-bottom market is real, for generic web development. "I build Rea
 
 But that's not the freelance market. That's one undifferentiated tier of it.
 
+> **TL;DR**: The freelance market isn't saturated, the undifferentiated "I build React apps" tier is. Specialists who've solved a problem most developers haven't, legacy modernization, a specific domain, a hard architecture, compete against the cost of the problem continuing to exist, not against the lowest bidder, and command $100-200/hr instead of $30-60/hr. The move: identify your actual depth, write one public case study proving it, and let inbound clients arrive pre-qualified instead of bidding on jobs.
+
+---
+
 ## The Two Freelance Markets
 
 They look the same from the outside. They're completely different in practice.

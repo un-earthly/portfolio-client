@@ -15,6 +15,10 @@ That's almost never true.
 
 What's true is that marketing revealed the actual answer, nobody wanted it badly enough to pay for it, and "I ran out of time" is a story that protects the ego from that conclusion.
 
+> **TL;DR**: Side projects don't fail from bad marketing or weak execution, they fail because nobody validated demand before building. The real signal isn't "would you use this," it's whether strangers are already paying for or hacking together bad solutions to the same problem. Talk to potential users before writing code, find the complaint first, and build the complaint-solver second. You can't execute your way out of a market that doesn't exist.
+
+---
+
 ## The Developer Side Project Failure Pattern
 
 I've been here. Built tools that I found genuinely useful, got them to a launchable state, told a few people, and heard silence. Not "this is broken," not "wrong price." Silence. The sound of a market that has no problem worth solving for.

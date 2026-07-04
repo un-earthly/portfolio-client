@@ -14,6 +14,10 @@ faqs: Which conflict resolution strategy is right for my app?::Last-write-wins i
 
 Offline support is not a feature. It's an architectural commitment that determines how you store data, how you handle conflicts, how you design your sync layer, and how you structure your UI state. It touches every layer of the application. Adding it after the fact means rebuilding the application.
 
+> **TL;DR**: Offline-first means the local database is the source of truth and the server is a sync target, which inverts the data flow, the UI state machine, and the mutation layer compared to an online-first app. You can't bolt this on before launch because it isn't a feature, it's an architectural decision touching data storage, conflict resolution, and how mutations get sent. If reliable offline use is a real requirement, that conversation has to happen before you write a line of code, because retrofitting it later is close to a full rebuild.
+
+---
+
 ## What "Online-First" Architecture Looks Like
 
 I've seen this pattern many times, and I inherited it on OurStoryz:
