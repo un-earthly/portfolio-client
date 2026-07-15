@@ -635,11 +635,6 @@ const socialLinks = [
     label: "Email",
     icon: Mail,
     href: 'mailto:md.c.alamin00@gmail.com'
-  },
-  {
-    label: "Resume",
-    icon: FileUser,
-    href: '/resume.pdf'
   }
 
 ];
