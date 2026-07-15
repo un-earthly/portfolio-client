@@ -1,6 +1,6 @@
 'use client'
 import { motion, useReducedMotion } from 'motion/react'
-import { Mail, FileUser } from 'lucide-react'
+import { Mail } from 'lucide-react'
 import { Scheduler } from '@/components/Scheduler'
 
 /* ── Inline SVG icons ───────────────────────────────────────── */
@@ -69,7 +69,6 @@ const SECONDARY = [
   { label: 'Email', value: 'md.c.alamin00@gmail.com', href: 'mailto:md.c.alamin00@gmail.com', Icon: Mail },
   { label: 'GitHub', value: 'github.com/un-earthly', href: 'https://github.com/un-earthly', Icon: GitHubIcon },
   { label: 'LinkedIn', value: 'linkedin.com/in/alamin-md', href: 'https://www.linkedin.com/in/alamin-md/', Icon: LinkedInIcon },
-  { label: 'Resume', value: 'Download PDF', href: '/resume.pdf', Icon: FileUser },
 ]
 
 export default function ContactPage() {
