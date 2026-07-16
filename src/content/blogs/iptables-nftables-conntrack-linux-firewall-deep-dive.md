@@ -18,7 +18,7 @@ This post goes under the cloud abstraction, into the layer that's actually pulli
 
 ## What Netfilter Actually Is
 
-Netfilter is not a firewall. It's the framework inside the Linux kernel that lets other things build firewalls. iptables, nftables, ufw, firewalld, Docker's networking layer, Kubernetes' kube-proxy in iptables mode — every one of these is a userspace tool that writes rules into netfilter. The kernel is the thing actually evaluating packets. The tools are just different pens writing on the same paper.
+Netfilter is not a firewall. It's the framework inside the Linux kernel that lets other things build firewalls. iptables, nftables, ufw, firewalld, Docker's networking layer, Kubernetes' kube-proxy in iptables mode: every one of these is a userspace tool that writes rules into netfilter. The kernel is the thing actually evaluating packets. The tools are just different pens writing on the same paper.
 
 Netfilter works by exposing five fixed points in the path a packet takes through the kernel's networking stack. These are called hooks, and every single packet that touches the machine passes through some subset of them, in a fixed order, whether you've configured anything or not.
 
@@ -60,10 +60,10 @@ iptables is the older, more widely deployed interface to netfilter, and it's sti
 
 A table groups rules by what kind of decision they make. There are four that matter:
 
-- **filter** — the actual allow/drop/reject decisions. This is what people mean when they say "firewall rules."
-- **nat** — rewrites source or destination addresses. This is how a Docker container with a private IP becomes reachable on a public port.
-- **mangle** — modifies packet headers for things like QoS marking.
-- **raw** — runs before conntrack even starts tracking a connection, used to exempt specific traffic from connection tracking entirely.
+- **filter**: the actual allow/drop/reject decisions. This is what people mean when they say "firewall rules."
+- **nat**: rewrites source or destination addresses. This is how a Docker container with a private IP becomes reachable on a public port.
+- **mangle**: modifies packet headers for things like QoS marking.
+- **raw**: runs before conntrack even starts tracking a connection, used to exempt specific traffic from connection tracking entirely.
 
 Each table contains chains, and each chain maps to one of the netfilter hooks. The filter table has INPUT, OUTPUT, and FORWARD chains. The nat table has PREROUTING and POSTROUTING chains (this is where Docker's port mapping rules actually live). A rule you write always belongs to a specific table and a specific chain, and the table determines what class of decision that rule is allowed to make.
 
@@ -82,7 +82,7 @@ num   pkts bytes target     prot opt in     out     source               destina
 4        88  6600 ACCEPT     tcp  --  eth0   *       0.0.0.0/0            0.0.0.0/0            tcp dpt:5432
 ```
 
-Two things matter here more than the specific rules. First, the policy on the chain is DROP — meaning anything that doesn't match a rule above is silently dropped by default, the same allow-only philosophy AWS security groups use. Second, and this is the part that catches people, is rule 4: `tcp dpt:5432` with no source restriction, on `eth0`. Someone opened Postgres to the world on the instance's local firewall, independent of whatever the security group says. If the security group for that instance also happens to allow 5432 broadly, for "temporary debugging" that nobody rolled back, you now have two independent misconfigurations that individually might not have mattered, and together define your actual exposure.
+Two things matter here more than the specific rules. First, the policy on the chain is DROP, meaning anything that doesn't match a rule above is silently dropped by default, the same allow-only philosophy AWS security groups use. Second, and this is the part that catches people, is rule 4: `tcp dpt:5432` with no source restriction, on `eth0`. Someone opened Postgres to the world on the instance's local firewall, independent of whatever the security group says. If the security group for that instance also happens to allow 5432 broadly, for "temporary debugging" that nobody rolled back, you now have two independent misconfigurations that individually might not have mattered, and together define your actual exposure.
 
 Rules are evaluated top to bottom, and the first match wins. Order isn't cosmetic, it's the entire logic of the ruleset. A DROP rule sitting above an ACCEPT rule for the same traffic makes that ACCEPT rule dead code that will never fire, and nothing in `iptables -L` warns you about that. You have to read the order yourself.
 
@@ -90,7 +90,7 @@ Rules are evaluated top to bottom, and the first match wins. Order isn't cosmeti
 
 nftables was built to replace iptables, arptables, and ip6tables with one unified syntax, and it's been the default backend on most major distributions (Debian, RHEL, Ubuntu) for years now. But "default backend" doesn't mean "what's actually running." A huge number of production servers were provisioned years ago with iptables rules that were never rewritten, and the compatibility layer (`iptables-nft`) quietly translates old iptables commands into nftables rules underneath, which means two engineers can be looking at what they think is the same firewall and be using completely different tools to inspect it.
 
-The core difference that matters practically: nftables lets you express what used to take four separate iptables rules — one per protocol, one per direction — as a single rule with a set.
+The core difference that matters practically: nftables lets you express what used to take four separate iptables rules (one per protocol, one per direction) as a single rule with a set.
 
 ```bash
 sudo nft list ruleset
@@ -119,10 +119,10 @@ When people say a security group or a firewall is "stateful," what they actually
 
 Every time a new connection starts, the kernel creates an entry in the conntrack table before a single filter rule gets evaluated for the response traffic. That entry tracks the connection's state through a lifecycle:
 
-- **NEW** — first packet of a connection the kernel hasn't seen before.
-- **ESTABLISHED** — the kernel has seen traffic in both directions; a full handshake completed.
-- **RELATED** — a new connection that's logically tied to an existing one, the classic example being the separate data connection FTP opens alongside its control connection.
-- **INVALID** — a packet that doesn't fit any known connection or violates protocol expectations, like a TCP packet with the ACK flag set arriving with no matching SYN ever seen.
+- **NEW**: first packet of a connection the kernel hasn't seen before.
+- **ESTABLISHED**: the kernel has seen traffic in both directions; a full handshake completed.
+- **RELATED**: a new connection that's logically tied to an existing one, the classic example being the separate data connection FTP opens alongside its control connection.
+- **INVALID**: a packet that doesn't fit any known connection or violates protocol expectations, like a TCP packet with the ACK flag set arriving with no matching SYN ever seen.
 
 You can read this table directly, live, on any running server:
 
@@ -160,7 +160,7 @@ An engineer configures a security group correctly: inbound 443 from anywhere, in
 
 Weeks later, someone installs Docker on that same instance to run a sidecar service. Docker, by default, manages its own iptables rules to handle container networking and port publishing, and it inserts them directly into the FORWARD and NAT chains, ahead of rules that were already there. If that sidecar container gets started with `-p 5432:5432` for local debugging and never gets stopped, Docker has just opened a path to port 5432 that bypasses the reasoning the security group review was based on entirely. The security group still shows exactly what it showed during review. Nothing in the AWS console changed. The exposure exists one layer down, written by a tool whose job was never firewall policy in the first place, just container networking convenience.
 
-This is precisely the pattern this series is named for. The ownership gap isn't a technical flaw in security groups or in iptables. It's the assumption that reviewing one layer means you've reviewed the system. Nobody owns the intersection between "what AWS allows" and "what the OS actually enforces," so nobody checks it, until an audit — or an incident — forces the question.
+This is precisely the pattern this series is named for. The ownership gap isn't a technical flaw in security groups or in iptables. It's the assumption that reviewing one layer means you've reviewed the system. Nobody owns the intersection between "what AWS allows" and "what the OS actually enforces," so nobody checks it, until an audit or an incident forces the question.
 
 ## Auditing Both Layers, Not Just One
 
