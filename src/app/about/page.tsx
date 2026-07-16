@@ -44,7 +44,7 @@ const AboutMe = () => {
                 <div className="inline-block p-3 rounded-full bg-cyan-500/10 mb-4">
                   <trait.icon className="h-6 w-6 text-cyan-400" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-100 mb-2">{trait.trait}</h3>
+                <h2 className="text-lg font-semibold text-gray-100 mb-2">{trait.trait}</h2>
                 <p className="text-gray-400">{trait.description}</p>
               </CardContent>
             </Card>

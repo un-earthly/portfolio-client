@@ -1,6 +1,7 @@
 import React from 'react'
 import { Card, CardContent } from './ui/card'
 import Link from 'next/link'
+import Image from 'next/image'
 import { ArrowUpRight, ExternalLink } from 'lucide-react'
 import { truncateText } from '@/lib/utils'
 import { Button } from './ui/button'
@@ -20,11 +21,13 @@ export default function ProjectCard({ project }: any) {
 
             <CardContent className="relative z-10 p-6">
                 <div className="grid md:grid-cols-2 gap-6">
-                    <div className="relative rounded-lg">
-                        <img
+                    <div className="relative rounded-lg aspect-video">
+                        <Image
                             src={project.image}
                             alt={`${project.title} preview`}
-                            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                            fill
+                            sizes="(min-width: 768px) 50vw, 100vw"
+                            className="object-cover transition-transform duration-300 group-hover:scale-105"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </div>

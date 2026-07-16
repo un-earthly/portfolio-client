@@ -71,18 +71,19 @@ const AnimatedBackground = ({ mousePosition }: any) => {
                 return (
                     <motion.div
                         key={index}
-                        className={`absolute font-mono ${getFontSize()}`}
+                        className={`absolute top-0 left-0 font-mono ${getFontSize()}`}
                         style={{
-                            left: position.x,
-                            top: position.y,
                             color: getColor(snippet.color),
-                            opacity: 0,
                         }}
-                        initial={{ opacity: 0 }}
+                        initial={{
+                            opacity: 0,
+                            x: position.x,
+                            y: position.y,
+                        }}
                         animate={{
                             opacity: 0.2,
-                            x: mousePosition.x * getMovementRange() + Math.random() * (windowSize.width * 0.1) - (windowSize.width * 0.05),
-                            y: mousePosition.y * getMovementRange() + Math.random() * (windowSize.height * 0.1) - (windowSize.height * 0.05),
+                            x: position.x + mousePosition.x * getMovementRange() + Math.random() * (windowSize.width * 0.1) - (windowSize.width * 0.05),
+                            y: position.y + mousePosition.y * getMovementRange() + Math.random() * (windowSize.height * 0.1) - (windowSize.height * 0.05),
                             rotate: Math.random() * 360,
                         }}
                         transition={{

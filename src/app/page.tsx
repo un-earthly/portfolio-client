@@ -230,10 +230,12 @@ function FeaturedProjectCard({
         tall ? 'h-72' : 'h-52',
       ].join(' ')}
     >
-      <img
+      <Image
         src={project.image}
         alt={project.title}
-        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+        fill
+        sizes="(min-width: 1024px) 33vw, 100vw"
+        className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
       />
       <div className="absolute inset-0 bg-black/45 group-hover:bg-black/25 transition-colors duration-500" />
       <div className="absolute inset-x-0 bottom-0 h-3/4 bg-linear-to-t from-black/90 via-black/40 to-transparent" />
