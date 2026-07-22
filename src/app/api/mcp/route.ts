@@ -14,6 +14,7 @@ export const dynamic = "force-dynamic";
 const OWNER = process.env.GITHUB_REPO_OWNER ?? "un-earthly";
 const REPO = process.env.GITHUB_REPO_NAME ?? "portfolio-client";
 const BLOGS_PATH = process.env.GITHUB_BLOGS_PATH ?? "src/content/blogs";
+const MANIFEST_PATH = process.env.GITHUB_BLOGS_MANIFEST_PATH ?? "src/content/blogs-manifest.json";
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN ?? "";
 
 // ── GitHub API helpers ───────────────────────────────────────────────────────
@@ -208,13 +209,76 @@ function rawToPost(slug: string, raw: string): BlogPost {
   };
 }
 
+// ── Manifest helpers ─────────────────────────────────────────────────────────
+// A single JSON file holding every post's metadata (no content). list_blogs,
+// search_blogs, and get_blog_stats read this ONE file instead of fetching
+// every markdown file individually. Every write path below keeps it in sync.
+
+async function getManifestRaw(): Promise<{ entries: BlogMeta[]; sha: string } | null> {
+  const data = await repoGetFile(MANIFEST_PATH);
+  if (!data) return null;
+  try {
+    const entries = JSON.parse(data.content) as BlogMeta[];
+    return { entries, sha: data.sha };
+  } catch {
+    return null;
+  }
+}
+
+async function rebuildManifestFromFiles(): Promise<BlogMeta[]> {
+  const files = await listBlogFiles();
+  const posts = await Promise.all(
+    files.map(async (f) => {
+      const slug = f.name.replace(".md", "");
+      const data = await getFile(slug);
+      if (!data) return null;
+      const { content: _content, ...meta } = rawToPost(slug, data.content);
+      return meta;
+    })
+  );
+  return posts
+    .filter((b): b is BlogMeta => b !== null)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+}
+
+async function writeManifest(entries: BlogMeta[], message: string, sha?: string): Promise<void> {
+  const sorted = [...entries].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
+  await repoPutFile(MANIFEST_PATH, JSON.stringify(sorted, null, 2), message, sha);
+}
+
+/** Read the manifest, transparently rebuilding + persisting it once if it doesn't exist yet. */
+async function getBlogList(): Promise<BlogMeta[]> {
+  const manifest = await getManifestRaw();
+  if (manifest) return manifest.entries;
+  const rebuilt = await rebuildManifestFromFiles();
+  await writeManifest(rebuilt, "blog: initialize manifest.json");
+  return rebuilt;
+}
+
+async function upsertManifestEntry(meta: BlogMeta): Promise<void> {
+  const manifest = await getManifestRaw();
+  const base = manifest ? manifest.entries : await rebuildManifestFromFiles();
+  const entries = base.filter((b) => b.slug !== meta.slug);
+  entries.push(meta);
+  await writeManifest(entries, `blog: sync manifest for ${meta.slug}`, manifest?.sha);
+}
+
+async function removeManifestEntry(slug: string): Promise<void> {
+  const manifest = await getManifestRaw();
+  const base = manifest ? manifest.entries : await rebuildManifestFromFiles();
+  const entries = base.filter((b) => b.slug !== slug);
+  await writeManifest(entries, `blog: remove ${slug} from manifest`, manifest?.sha);
+}
+
 // ── MCP Tools ────────────────────────────────────────────────────────────────
 
 const TOOLS: Tool[] = [
   // ── Blog tools ──────────────────────────────────────────────────────────
   {
     name: "list_blogs",
-    description: "List all blog posts with metadata, newest first. Optionally filter by tag or type.",
+    description: "List all blog posts with metadata, newest first. Optionally filter by tag or type. Reads the manifest, not every file.",
     inputSchema: {
       type: "object",
       properties: {
@@ -236,7 +300,7 @@ const TOOLS: Tool[] = [
   },
   {
     name: "create_blog",
-    description: "Create a new blog post and commit it to the GitHub repo.",
+    description: "Create a new blog post, commit it to the GitHub repo, and sync the manifest.",
     inputSchema: {
       type: "object",
       properties: {
@@ -265,7 +329,7 @@ const TOOLS: Tool[] = [
   },
   {
     name: "update_blog",
-    description: "Update metadata fields or body of an existing blog post. Only supplied fields change.",
+    description: "Update metadata fields or body of an existing blog post. Only supplied fields change. Syncs the manifest.",
     inputSchema: {
       type: "object",
       properties: {
@@ -294,7 +358,7 @@ const TOOLS: Tool[] = [
   },
   {
     name: "delete_blog",
-    description: "Delete a blog post from the GitHub repo.",
+    description: "Delete a blog post from the GitHub repo and remove it from the manifest.",
     inputSchema: {
       type: "object",
       properties: { slug: { type: "string" } },
@@ -303,7 +367,7 @@ const TOOLS: Tool[] = [
   },
   {
     name: "rename_blog",
-    description: "Rename a blog slug: copies the file under a new name and deletes the old one.",
+    description: "Rename a blog slug: copies the file under a new name, deletes the old one, and updates the manifest.",
     inputSchema: {
       type: "object",
       properties: {
@@ -316,7 +380,7 @@ const TOOLS: Tool[] = [
   {
     name: "search_blogs",
     description:
-      "Search blog posts by keyword across title, excerpt, and tags. Pass search_content: true to also scan markdown bodies (slower — fetches all files).",
+      "Search blog posts by keyword across title, excerpt, and tags using the manifest (fast). Pass search_content: true to also scan markdown bodies (slower — fetches every file).",
     inputSchema: {
       type: "object",
       properties: {
@@ -328,7 +392,13 @@ const TOOLS: Tool[] = [
   },
   {
     name: "get_blog_stats",
-    description: "Aggregate stats: total count, breakdown by type, avg read time, top 10 tags.",
+    description: "Aggregate stats: total count, breakdown by type, avg read time, top 10 tags. Reads the manifest only.",
+    inputSchema: { type: "object", properties: {} },
+  },
+  {
+    name: "rebuild_blog_manifest",
+    description:
+      "Force-rebuild manifest.json from the actual markdown files in the repo. Use only if the manifest ever drifts out of sync, e.g. after someone edits a blog file directly with repo_write_file instead of the blog tools.",
     inputSchema: { type: "object", properties: {} },
   },
 
@@ -392,7 +462,7 @@ const TOOLS: Tool[] = [
 
 function createMcpServer(): Server {
   const server = new Server(
-    { name: "portfolio-manager", version: "2.0.0" },
+    { name: "portfolio-manager", version: "2.1.0" },
     { capabilities: { tools: {} } }
   );
 
@@ -405,19 +475,7 @@ function createMcpServer(): Server {
       switch (name) {
         // ── list_blogs ──────────────────────────────────────────────────
         case "list_blogs": {
-          const files = await listBlogFiles();
-          const posts = await Promise.all(
-            files.map(async (f) => {
-              const slug = f.name.replace(".md", "");
-              const data = await getFile(slug);
-              if (!data) return null;
-              const { content: _, ...meta } = rawToPost(slug, data.content);
-              return meta;
-            })
-          );
-          let blogs = posts
-            .filter((b): b is BlogMeta => b !== null)
-            .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+          let blogs = await getBlogList();
 
           if (args.tag) {
             const tag = (args.tag as string).toLowerCase();
@@ -455,7 +513,8 @@ function createMcpServer(): Server {
               isError: true,
             };
           }
-          const meta: Partial<BlogMeta> = {
+          const meta: BlogMeta = {
+            slug,
             title: args.title as string,
             date: args.date as string,
             tags: (args.tags as string[]) || [],
@@ -469,7 +528,8 @@ function createMcpServer(): Server {
           };
           const fileContent = buildFrontmatter(meta) + (args.content as string);
           await putFile(slug, fileContent, `blog: add ${slug}`);
-          return { content: [{ type: "text", text: `Created and committed: ${slug}.md` }] };
+          await upsertManifestEntry(meta);
+          return { content: [{ type: "text", text: `Created and committed: ${slug}.md (manifest synced)` }] };
         }
 
         // ── update_blog ─────────────────────────────────────────────────
@@ -483,7 +543,19 @@ function createMcpServer(): Server {
             };
           }
           const existing = rawToPost(slug, data.content);
-          const updated: BlogMeta = { ...existing };
+          const updated: BlogMeta = {
+            slug: existing.slug,
+            title: existing.title,
+            date: existing.date,
+            tags: existing.tags,
+            metaDescription: existing.metaDescription,
+            readTime: existing.readTime,
+            excerpt: existing.excerpt,
+            type: existing.type,
+            cover: existing.cover,
+            tldr: existing.tldr,
+            faqs: existing.faqs,
+          };
           if (args.title !== undefined) updated.title = args.title as string;
           if (args.date !== undefined) updated.date = args.date as string;
           if (args.tags !== undefined) updated.tags = args.tags as string[];
@@ -494,9 +566,12 @@ function createMcpServer(): Server {
           if (args.cover !== undefined) updated.cover = args.cover as string;
           if (args.tldr !== undefined) updated.tldr = args.tldr as string;
           if (args.faqs !== undefined) updated.faqs = args.faqs as { q: string; a: string }[];
+
           const newBody = args.content !== undefined ? (args.content as string) : existing.content;
+
           await putFile(slug, buildFrontmatter(updated) + newBody, `blog: update ${slug}`, data.sha);
-          return { content: [{ type: "text", text: `Updated and committed: ${slug}.md` }] };
+          await upsertManifestEntry(updated);
+          return { content: [{ type: "text", text: `Updated and committed: ${slug}.md (manifest synced)` }] };
         }
 
         // ── delete_blog ─────────────────────────────────────────────────
@@ -510,7 +585,8 @@ function createMcpServer(): Server {
             };
           }
           await deleteFile(slug, data.sha, `blog: delete ${slug}`);
-          return { content: [{ type: "text", text: `Deleted: ${slug}.md` }] };
+          await removeManifestEntry(slug);
+          return { content: [{ type: "text", text: `Deleted: ${slug}.md (manifest synced)` }] };
         }
 
         // ── rename_blog ─────────────────────────────────────────────────
@@ -535,35 +611,43 @@ function createMcpServer(): Server {
           const newContent = oldData.content.includes(autoOld)
             ? oldData.content.replaceAll(autoOld, autoNew)
             : oldData.content;
+
           await putFile(newSlug, newContent, `blog: rename ${oldSlug} → ${newSlug}`);
           await deleteFile(oldSlug, oldData.sha, `blog: rename ${oldSlug} → ${newSlug} (remove old)`);
-          return { content: [{ type: "text", text: `Renamed: ${oldSlug} → ${newSlug}` }] };
+
+          const { content: _c, ...oldMeta } = rawToPost(oldSlug, newContent);
+          await removeManifestEntry(oldSlug);
+          await upsertManifestEntry({ ...oldMeta, slug: newSlug });
+
+          return { content: [{ type: "text", text: `Renamed: ${oldSlug} → ${newSlug} (manifest synced)` }] };
         }
 
         // ── search_blogs ────────────────────────────────────────────────
         case "search_blogs": {
           const query = (args.query as string).toLowerCase();
           const searchContent = (args.search_content as boolean) ?? false;
-          const files = await listBlogFiles();
+          const manifest = await getBlogList();
 
-          const results: BlogMeta[] = [];
-          await Promise.all(
-            files.map(async (f) => {
-              const slug = f.name.replace(".md", "");
-              const data = await getFile(slug);
-              if (!data) return;
-              const post = rawToPost(slug, data.content);
-              const hit =
-                post.title.toLowerCase().includes(query) ||
-                post.excerpt.toLowerCase().includes(query) ||
-                post.tags.some((t) => t.toLowerCase().includes(query)) ||
-                (searchContent && post.content.toLowerCase().includes(query));
-              if (hit) {
-                const { content: _, ...meta } = post;
-                results.push(meta);
-              }
-            })
-          );
+          const metaHit = (b: BlogMeta) =>
+            b.title.toLowerCase().includes(query) ||
+            b.excerpt.toLowerCase().includes(query) ||
+            b.tags.some((t) => t.toLowerCase().includes(query));
+
+          let results: BlogMeta[];
+          if (!searchContent) {
+            results = manifest.filter(metaHit);
+          } else {
+            const checked = await Promise.all(
+              manifest.map(async (b) => {
+                if (metaHit(b)) return b;
+                const data = await getFile(b.slug);
+                if (data?.content.toLowerCase().includes(query)) return b;
+                return null;
+              })
+            );
+            results = checked.filter((b): b is BlogMeta => b !== null);
+          }
+
           results.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
           return {
@@ -581,19 +665,7 @@ function createMcpServer(): Server {
 
         // ── get_blog_stats ──────────────────────────────────────────────
         case "get_blog_stats": {
-          const files = await listBlogFiles();
-          const posts = await Promise.all(
-            files.map(async (f) => {
-              const slug = f.name.replace(".md", "");
-              const data = await getFile(slug);
-              if (!data) return null;
-              const { content: _, ...meta } = rawToPost(slug, data.content);
-              return meta;
-            })
-          );
-          const blogs = posts
-            .filter((b): b is BlogMeta => b !== null)
-            .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+          const blogs = await getBlogList();
 
           const tagCount: Record<string, number> = {};
           const byType: Record<string, number> = {};
@@ -625,6 +697,14 @@ function createMcpServer(): Server {
           };
         }
 
+        // ── rebuild_blog_manifest ────────────────────────────────────────
+        case "rebuild_blog_manifest": {
+          const rebuilt = await rebuildManifestFromFiles();
+          const manifest = await getManifestRaw();
+          await writeManifest(rebuilt, "blog: rebuild manifest.json", manifest?.sha);
+          return { content: [{ type: "text", text: `Rebuilt manifest with ${rebuilt.length} entries.` }] };
+        }
+
         // ── repo_read_file ──────────────────────────────────────────────
         case "repo_read_file": {
           const filePath = args.path as string;
@@ -646,7 +726,6 @@ function createMcpServer(): Server {
           const content = args.content as string;
           const message = args.message as string;
 
-          // Get existing SHA if file exists (required for updates)
           const existing = await repoGetFile(filePath);
           await repoPutFile(filePath, content, message, existing?.sha);
 
