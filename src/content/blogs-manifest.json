@@ -1,0 +1,787 @@
+[
+  {
+    "slug": "load-balancer-connection-termination-source-ip-health-checks",
+    "title": "Load Balancers Terminate Connections: What That Does to Source IPs, Health Checks, and Draining",
+    "date": "2026-07-22",
+    "tags": [
+      "AWS",
+      "load balancer",
+      "ALB",
+      "NLB",
+      "source IP preservation",
+      "X-Forwarded-For",
+      "proxy protocol",
+      "health checks",
+      "connection draining",
+      "conntrack",
+      "DevOps",
+      "infrastructure"
+    ],
+    "metaDescription": "A complete technical breakdown of what a load balancer actually does to a TCP connection: connection termination versus passthrough, why source IP preservation is a configuration decision and not a default, how health check traffic differs from real traffic, connection draining and deregistration delay, and a real case study of a team debugging the wrong layer for intermittent drops.",
+    "readTime": 14,
+    "excerpt": "Every layer in this series so far assumed the connection hitting your security group belongs to the client. It doesn't, not once a load balancer sits in front of the instance. The load balancer ends the client's connection and opens a new one of its own. This is what that actually changes, at the packet level, and why teams debugging intermittent drops keep looking at the wrong layer.",
+    "type": "technical",
+    "cover": "/blog-covers/load-balancer-connection-termination-source-ip-health-checks.svg",
+    "faqs": [
+      {
+        "q": "Does an NLB always preserve the client's source IP?",
+        "a": "By default, yes, for instance targets and IP targets in the same VPC, because NLB operates at layer 4 and typically forwards the original packet rather than terminating the TCP connection. Cross-zone routing to IP targets in a different VPC, or client IP preservation being explicitly disabled on the target group, breaks this. Always check the target group's client IP preservation attribute directly rather than assuming it based on NLB versus ALB."
+      },
+      {
+        "q": "Why does my security group rule allowing traffic from a specific client IP stop working after adding a load balancer?",
+        "a": "Because the connection your instance now receives originates from the load balancer's own network interface, not the client. Any security group rule written against a client CIDR needs to move to the load balancer's security group instead, and the backend's security group should allow traffic from the load balancer's security group by reference."
+      },
+      {
+        "q": "Should I set the deregistration delay to zero for faster deployments?",
+        "a": "No. A zero deregistration delay stops routing new connections to the instance immediately but does not guarantee in-flight requests finish, and some load balancer implementations will forcibly close connections still in progress. A short delay, long enough to cover your slowest realistic request plus a margin, is the safer default. Tune it against your actual p99 request duration, not a guess."
+      },
+      {
+        "q": "Why do health checks show the instance as healthy while real users report errors?",
+        "a": "Health checks hit a specific, usually lightweight path with no cookies, no keep-alive reuse, and no payload, so they can pass while a real request path involving a database call, a session lookup, or a larger payload times out or fails. A health check only proves the checked path works, not that the service works."
+      }
+    ]
+  },
+  {
+    "slug": "iptables-nftables-conntrack-linux-firewall-deep-dive",
+    "title": "Iptables, Nftables, and Conntrack: What's Actually Enforcing Your Security Group",
+    "date": "2026-07-16",
+    "tags": [
+      "Linux",
+      "iptables",
+      "nftables",
+      "netfilter",
+      "conntrack",
+      "firewall",
+      "AWS",
+      "security groups",
+      "DevOps",
+      "infrastructure"
+    ],
+    "metaDescription": "A complete technical breakdown of Linux packet filtering: netfilter hooks, iptables tables and chains, the iptables to nftables migration, how conntrack actually tracks connection state, stateless vs stateful filtering, and a real case study of a local firewall rule silently undoing a correctly configured AWS security group.",
+    "readTime": 15,
+    "excerpt": "A security group is a suggestion the moment traffic crosses the network interface. The kernel makes the real decision, packet by packet, through netfilter, iptables or nftables, and a connection tracking table that remembers every flow your server has ever touched. This is that layer, in full.",
+    "type": "technical",
+    "cover": "/blog-covers/iptables-nftables-conntrack-linux-firewall-deep-dive.svg",
+    "faqs": []
+  },
+  {
+    "slug": "agent-stack-moat-is-not-the-model",
+    "title": "The Most Expensive Part of Your Agent Stack Is Also the Least Predictable",
+    "date": "2026-07-08",
+    "tags": [
+      "agentic ai",
+      "llm architecture",
+      "slm",
+      "ai infrastructure",
+      "agent stack",
+      "model routing"
+    ],
+    "metaDescription": "A technical breakdown of why frontier LLMs shouldn't sit at every layer of your agent stack, with architecture diagrams, cost tables, a security layer, a migration case study, and a model selection guide.",
+    "readTime": 17,
+    "excerpt": "Routing, model selection, and task assignment are bounded decisions. They don't need a frontier model, they need a policy. Architecture, cost tables, a security layer, a real migration case study, and a model shopping list.",
+    "type": "technical",
+    "cover": "/blog-covers/agent-stack-moat-is-not-the-model.svg",
+    "tldr": "Most agent platforms route every decision through a frontier LLM, including ones that are just bounded classification problems. Production systems use a tiered architecture instead - deterministic code for anything rule-based, fine-tuned small models for narrow repetitive tasks, custom models trained on curated traffic, and frontier models reserved for genuine open-ended reasoning. This post covers the architecture, cost math, security guardrails placement, a migration case study with before/after numbers, and a concrete model selection table by tier.",
+    "faqs": []
+  },
+  {
+    "slug": "aws-security-groups-deep-dive-stateful-firewall",
+    "title": "Security Groups Explained: The Firewall Rule That Outlives Every Project",
+    "date": "2026-07-04",
+    "tags": [
+      "AWS",
+      "security groups",
+      "stateful firewall",
+      "connection tracking",
+      "VPC",
+      "NACL",
+      "cloud security",
+      "DevOps",
+      "infrastructure"
+    ],
+    "metaDescription": "A complete technical deep dive into AWS security groups: stateful vs stateless filtering, connection tracking, rule anatomy, security groups vs NACLs, real production configurations, audit commands, and why misconfigured rules survive project handoffs.",
+    "readTime": 14,
+    "excerpt": "A security group is a stateful firewall attached to your instance's network interface. This is a complete breakdown: what it is, why it works the way it does, how packet evaluation actually happens, real production examples, and the delivery handoff pattern that turns a temporary rule into a breach.",
+    "type": "technical",
+    "cover": "/blog-covers/aws-security-groups-deep-dive-stateful-firewall.svg",
+    "faqs": [
+      {
+        "q": "If a security group has no deny rules, how do I block a specific malicious IP?",
+        "a": "You can't, with a security group alone. Security groups are allow-only. To block a specific CIDR range you need a NACL deny rule at the subnet boundary, which is stateless and evaluated by rule number."
+      },
+      {
+        "q": "Does deleting a security group rule immediately close an active connection?",
+        "a": "No. Connection tracking means an already-established connection keeps flowing until it closes naturally or the conntrack entry expires. Removing the rule only blocks new connections. To kill a live session you need to terminate the connection itself or use a stateless NACL deny, which applies immediately."
+      },
+      {
+        "q": "Why does the outbound rule matter if security groups are stateful?",
+        "a": "Return traffic bypasses outbound rules automatically, but traffic your instance initiates does not. Tightening outbound rules limits what a compromised instance can reach or exfiltrate to, which is exactly the traffic that matters during an incident."
+      },
+      {
+        "q": "We're a freelance/agency team shipping infra for clients. What's the actual fix for the handoff problem?",
+        "a": "Either leave a handoff document listing every open rule, its reason, and who to contact, or keep a retainer where someone is still watching the account. The twenty-minute audit in this post is the minimum bar before any handoff."
+      }
+    ]
+  },
+  {
+    "slug": "self-hosted-mcp-server-nextjs-portfolio",
+    "title": "I Gave an AI Direct Write Access to My Codebase. Here's the Architecture.",
+    "date": "2026-06-27",
+    "tags": [
+      "MCP",
+      "Model Context Protocol",
+      "Next.js",
+      "AI tooling",
+      "GitHub API",
+      "self-hosted",
+      "developer tooling",
+      "agentic AI"
+    ],
+    "metaDescription": "How I built a self-hosted MCP server inside a Next.js portfolio app that gives Claude direct read/write access to the GitHub repo: architecture, debugging, and the stateless transport bug that took an hour to find.",
+    "readTime": 14,
+    "excerpt": "Most developers use AI as a text generator. I wired Claude directly into my portfolio repo, and it can now read, write, and commit any file without me touching a keyboard. This is how the MCP server works, what broke during the build, and why server.close() was the culprit.",
+    "type": "technical",
+    "cover": "/blog-covers/self-hosted-mcp-server-nextjs-portfolio.svg",
+    "tldr": "Built a stateless MCP server as a Next.js API route. It proxies Claude tool calls to the GitHub Contents API, giving an AI agent direct commit access to the repo. The bug that broke it: calling server.close() before the async transport Promise resolved.",
+    "faqs": [
+      {
+        "q": "Is this safe? Claude has write access to your entire repo?",
+        "a": "The GITHUB_TOKEN lives in Vercel's environment variables, never in the codebase or chat. The MCP endpoint has no auth of its own: the security model is that only Claude.ai (with the connector configured) can reach it, and Claude operates under its own safety constraints. For a personal portfolio this is an acceptable risk. For a production app with customer data you'd add an API key or OAuth layer on the MCP endpoint itself."
+      },
+      {
+        "q": "Why not just use the official GitHub MCP?",
+        "a": "The official GitHub MCP exists but isn't in Claude's integration marketplace yet. Self-hosting inside the existing Next.js app meant zero additional infrastructure: the MCP server deploys with the portfolio on every git push to main."
+      },
+      {
+        "q": "Why is the transport stateless? Doesn't that lose context between tool calls?",
+        "a": "MCP context lives in the Claude conversation, not in the server. Each tool call is a fresh HTTP request with all the information it needs in the request body. Stateless is correct here, since it's the serverless-friendly design and it's what lets Vercel handle it without sticky sessions."
+      },
+      {
+        "q": "Can I use this pattern for my own portfolio or project?",
+        "a": "Yes. The full pattern is: Next.js API route + WebStandardStreamableHTTPServerTransport + GitHub Contents API + GITHUB_TOKEN in env vars. The key constraint is don't call server.close() before transport.handleRequest() resolves: that's the bug that killed the tool list."
+      }
+    ]
+  },
+  {
+    "slug": "scripts-part-4-beyond-the-toolchain",
+    "title": "Broadening the Horizon: What Scripts Can Build Beyond the Toolchain",
+    "date": "2026-06-25",
+    "tags": [
+      "scripts",
+      "code generation",
+      "SVG",
+      "TF-IDF",
+      "Node.js",
+      "developer tooling",
+      "algorithms",
+      "automation"
+    ],
+    "metaDescription": "How a single 300-line Node.js script generates a unique, branded SVG cover for every blog post on this site, using TF-IDF keyword extraction, Sørensen–Dice fuzzy matching, Iconify icon resolution, and deterministic hashing. No AI. No design tool.",
+    "readTime": 5,
+    "excerpt": "Every post on this site has a unique branded cover generated by a 300-line Node.js script. TF-IDF keyword extraction, Sørensen-Dice fuzzy matching, Iconify icon resolution, deterministic hashing. No AI. No design tool. One command.",
+    "type": "technical",
+    "cover": "/blog-covers/scripts-part-4-beyond-the-toolchain.svg",
+    "faqs": []
+  },
+  {
+    "slug": "scripts-part-3-system-coordination",
+    "title": "Scripts as System Coordination: Managing a Monorepo with Node.js Scripts",
+    "date": "2026-06-24",
+    "tags": [
+      "scripts",
+      "monorepo",
+      "system coordination",
+      "Node.js",
+      "type generation",
+      "deploy",
+      "automation"
+    ],
+    "metaDescription": "How three Node.js scripts in a production monorepo replace fragile multi-step manual processes, keeping the type chain in sync, orchestrating deploys, and seeding databases, with single commands.",
+    "readTime": 5,
+    "excerpt": "A monorepo with four submodules, a shared contracts package, and a generated type chain has coordination problems no single repo has. Here are three scripts that solve them with one command each.",
+    "type": "technical",
+    "cover": "/blog-covers/scripts-part-3-system-coordination.svg",
+    "faqs": []
+  },
+  {
+    "slug": "scripts-part-2-quality-gates",
+    "title": "Scripts as Quality Gates: How the Pre-Commit Hook Works",
+    "date": "2026-06-22",
+    "tags": [
+      "scripts",
+      "quality gates",
+      "pre-commit",
+      "Husky",
+      "lint-staged",
+      "monorepo",
+      "CI",
+      "developer tooling"
+    ],
+    "metaDescription": "How six pre-commit checks in a production monorepo enforce code quality at commit time using Husky and lint-staged, and why speed is what makes developers trust a gate instead of bypassing it.",
+    "readTime": 5,
+    "excerpt": "Six pre-commit checks, all running on staged files only, completing in under three seconds. Here's the design behind a quality gate that developers leave enabled instead of bypassing with --no-verify.",
+    "type": "technical",
+    "cover": "/blog-covers/scripts-part-2-quality-gates.svg",
+    "faqs": []
+  },
+  {
+    "slug": "scripts-part-1-what-are-scripts",
+    "title": "Scripts Are Not Shortcuts. They Are Architecture.",
+    "date": "2026-06-20",
+    "tags": [
+      "scripts",
+      "monorepo",
+      "developer tooling",
+      "Node.js",
+      "automation",
+      "architecture",
+      "package.json"
+    ],
+    "metaDescription": "Why npm scripts are a form of architecture, not just aliases: a deep dive into how a real monorepo uses scripts to encode decisions about how a project is run, validated, and shipped, plus the Bash and Linux process mechanics underneath, including how to safely stop a script you didn't mean to run.",
+    "readTime": 10,
+    "excerpt": "npm scripts are not aliases. They are the interface between a developer's intent and a system's behaviour. Here's how a real production monorepo uses over fifty scripts to encode decisions about how it runs, validates itself, and ships, plus what actually happens on the machine when a script runs and how to stop one cleanly.",
+    "type": "technical",
+    "cover": "/blog-covers/scripts-part-1-what-are-scripts.svg",
+    "tldr": "npm/pnpm scripts are architecture, not shortcuts: they encode how a project runs, builds, tests, and ships behind a stable name. Running one spawns a real subshell with node_modules/.bin on PATH, so exit codes, shebangs, and signals all behave like any other Linux process. Ctrl+C sends SIGINT to the foreground job; for backgrounded or orphaned processes (like a stuck dev server on a port), use jobs/fg/kill or lsof + kill, trying SIGTERM before SIGKILL. A minimum viable script set is three: dev, lint (auto-fix), build (single source of truth for compilation).",
+    "faqs": []
+  },
+  {
+    "slug": "building-rust-tui-api-monitor-part-5-traits-performance-release",
+    "title": "Where Did the Cost Go? Building a Terminal API Monitor, Part 5",
+    "date": "2026-06-18",
+    "tags": [
+      "Rust",
+      "traits",
+      "generics",
+      "iterators",
+      "zero-cost abstractions",
+      "monomorphization",
+      "release build",
+      "cross-compilation",
+      "performance benchmarks",
+      "memory footprint",
+      "TUI series"
+    ],
+    "metaDescription": "The finale of building a terminal API monitor in Rust. Traits and generics, iterators that compile to hand-written loops, the meaning of \"zero-cost abstractions,\" the release build with LTO, cross-compiling a static binary, and benchmarks measuring memory and binary size against Node and Python equivalents.",
+    "readTime": 15,
+    "excerpt": "For four parts I claimed Rust gives you memory safety and fearless concurrency at no runtime cost. This is where I prove it, traits, iterators that vanish into loops, zero-cost abstractions, and a release binary measured against Node and Python. The cost was real; it was just paid at compile time. Part 5 of 5.",
+    "type": "technical",
+    "cover": "/blog-covers/building-rust-tui-api-monitor-part-5-traits-performance-release.svg",
+    "faqs": []
+  },
+  {
+    "slug": "building-rust-tui-api-monitor-part-4-ratatui-error-handling",
+    "title": "A Panic Wrecked My Terminal, Then RAII Fixed It Forever: Building a Terminal API Monitor, Part 4",
+    "date": "2026-06-16",
+    "tags": [
+      "Rust",
+      "ratatui",
+      "crossterm",
+      "TUI",
+      "error handling",
+      "Result",
+      "Option",
+      "pattern matching",
+      "RAII",
+      "Drop",
+      "anyhow",
+      "thiserror",
+      "TUI series"
+    ],
+    "metaDescription": "Part 4 of building a terminal API monitor in Rust. We build the live dashboard with ratatui, handle errors with Result and the ? operator instead of exceptions, model status with enums and pattern matching, and use RAII and the Drop trait to guarantee the terminal is restored even on panic.",
+    "readTime": 14,
+    "excerpt": "I ran the TUI, it panicked mid-render, and left my terminal in raw mode, no echo, no newlines, a wreck. The fix turned out to be the same RAII mechanism that frees memory in Rust. This is the part about error handling without exceptions, pattern matching, and the Drop trait. Part 4 of 5.",
+    "type": "technical",
+    "cover": "/blog-covers/building-rust-tui-api-monitor-part-4-ratatui-error-handling.svg",
+    "faqs": []
+  },
+  {
+    "slug": "building-rust-tui-api-monitor-part-3-async-tokio-concurrency",
+    "title": "Fearless Concurrency Is Real: Building a Terminal API Monitor, Part 3",
+    "date": "2026-06-14",
+    "tags": [
+      "Rust",
+      "async",
+      "tokio",
+      "concurrency",
+      "Arc",
+      "Mutex",
+      "Send",
+      "Sync",
+      "channels",
+      "data races",
+      "fearless concurrency",
+      "TUI series"
+    ],
+    "metaDescription": "Part 3 of building a terminal API monitor in Rust. We go async with Tokio, poll a dozen endpoints concurrently, and hit the wall of shared mutable state, Send, Sync, Arc<Mutex<T>>, and channels, discovering that the borrow checker prevents data races at compile time.",
+    "readTime": 15,
+    "excerpt": "Polling one endpoint at a time is slow. Polling them concurrently means sharing state between tasks, and that is exactly where every other language hands you a data race at 3 a.m. This is the part where Rust's ownership rules stop feeling like bureaucracy and start feeling like a superpower. Part 3 of 5.",
+    "type": "technical",
+    "cover": "/blog-covers/building-rust-tui-api-monitor-part-3-async-tokio-concurrency.svg",
+    "faqs": []
+  },
+  {
+    "slug": "building-rust-tui-api-monitor-part-2-borrowing-lifetimes",
+    "title": "Borrowed Value Does Not Live Long Enough: Building a Terminal API Monitor, Part 2",
+    "date": "2026-06-12",
+    "tags": [
+      "Rust",
+      "borrowing",
+      "lifetimes",
+      "references",
+      "serde",
+      "zero-copy deserialization",
+      "slices",
+      "borrow checker",
+      "JSON",
+      "TUI series"
+    ],
+    "metaDescription": "Part 2 of building a terminal API monitor in Rust. We parse JSON health responses with serde and walk straight into lifetimes, shared vs mutable borrows, the aliasing rule, zero-copy deserialization, and the dreaded \"does not live long enough\" error.",
+    "readTime": 14,
+    "excerpt": "Ownership was the warm-up. The error that actually broke my brain was \"borrowed value does not live long enough.\" This is the part where serde, borrowing rules, and lifetimes collide while parsing an API response, and where Rust's reputation for difficulty is earned and then justified. Part 2 of 5.",
+    "type": "technical",
+    "cover": "/blog-covers/building-rust-tui-api-monitor-part-2-borrowing-lifetimes.svg",
+    "faqs": []
+  },
+  {
+    "slug": "building-rust-tui-api-monitor-part-1-ownership",
+    "title": "I Tried to Print a Variable Twice and Rust Refused: Building a Terminal API Monitor, Part 1",
+    "date": "2026-06-10",
+    "tags": [
+      "Rust",
+      "ownership",
+      "borrow checker",
+      "memory management",
+      "stack and heap",
+      "move semantics",
+      "RAII",
+      "reqwest",
+      "CLI",
+      "TUI series"
+    ],
+    "metaDescription": "Part 1 of a 5-part series building a terminal API monitor in Rust. We scaffold the project, fire the first HTTP request, and meet the borrow checker head-on, ownership, move semantics, the stack/heap split, and why Rust frees memory without a garbage collector.",
+    "readTime": 13,
+    "excerpt": "I came to Rust from garbage-collected languages and got stopped cold on day one, by trying to use a variable twice. This is the story of building `pulse`, a terminal API monitor, and the afternoon ownership rewired how I think about memory. Part 1 of 5.",
+    "type": "technical",
+    "cover": "/blog-covers/building-rust-tui-api-monitor-part-1-ownership.svg",
+    "faqs": []
+  },
+  {
+    "slug": "bloom-filters-vs-hash-sets-deep-dive-benchmarks",
+    "title": "Bloom Filters vs Hash Sets: Why the Wrong Choice Costs You Millions of Database Calls",
+    "date": "2026-06-05",
+    "tags": [
+      "bloom filter",
+      "hash set",
+      "false positive rate",
+      "membership testing",
+      "bit array",
+      "distributed caching",
+      "Cassandra",
+      "BigTable",
+      "system design"
+    ],
+    "metaDescription": "A complete technical breakdown of Bloom filters versus hash sets for membership testing at scale: the math, the implementation, false positive tuning, and benchmarks across one million, ten million, and one billion items.",
+    "readTime": 12,
+    "excerpt": "At ten million items, a well-tuned Bloom filter uses ~9MB where a hash set uses ~320MB. Here's the math, the implementation, false positive tuning, and benchmarks across one million, ten million, and one billion items.",
+    "type": "technical",
+    "cover": "/blog-covers/bloom-filters-vs-hash-sets-deep-dive-benchmarks.svg",
+    "faqs": []
+  },
+  {
+    "slug": "consistent-hashing-deep-dive-implementation-benchmarks",
+    "title": "Consistent Hashing: The Algorithm That Keeps Million-User Apps From Falling Over",
+    "date": "2026-06-05",
+    "tags": [
+      "consistent hashing",
+      "distributed systems",
+      "hash ring",
+      "virtual nodes",
+      "system design",
+      "load balancing",
+      "performance benchmarks"
+    ],
+    "metaDescription": "A complete technical breakdown of consistent hashing: the hash ring, virtual nodes, the math behind key redistribution, and benchmarks comparing it to modulo hashing under node churn.",
+    "readTime": 14,
+    "excerpt": "When you add one server and your app goes down, the culprit is almost always naive load distribution. Consistent hashing solves this by moving only K/N keys instead of nearly all of them. Here's the mechanism, the implementation, and benchmarks under real node churn.",
+    "type": "technical",
+    "cover": "/blog-covers/consistent-hashing-deep-dive-implementation-benchmarks.svg",
+    "faqs": []
+  },
+  {
+    "slug": "hyperloglog-deep-dive-implementation-benchmarks",
+    "title": "HyperLogLog: How Spotify Counts 600 Million Users With 12 Kilobytes of Memory",
+    "date": "2026-06-05",
+    "tags": [
+      "HyperLogLog",
+      "cardinality estimation",
+      "probabilistic data structures",
+      "distinct count",
+      "Redis HLL",
+      "streaming analytics",
+      "LogLog",
+      "Flajolet-Martin"
+    ],
+    "metaDescription": "A complete technical breakdown of HyperLogLog: the probabilistic counting intuition, the register scheme, bias correction, and benchmarks comparing exact counting against HLL at 1M, 10M, and 1B distinct values.",
+    "readTime": 13,
+    "excerpt": "HyperLogLog estimates the count of distinct elements in a stream using O(log log N) memory. In practice, 12KB and ~1.3% error across cardinalities from 1 to 10 billion. Here's the mechanism, implementation, merge property, and benchmarks.",
+    "type": "technical",
+    "cover": "/blog-covers/hyperloglog-deep-dive-implementation-benchmarks.svg",
+    "faqs": []
+  },
+  {
+    "slug": "comment-tracker-figma-comment-tracker-architecture",
+    "title": "I Built a Figma Comment Tracker With No Backend Comment Storage. Here's Why.",
+    "date": "2025-11-28",
+    "tags": [
+      "figma",
+      "architecture",
+      "javascript",
+      "webdev"
+    ],
+    "metaDescription": "How I built Comment Tracker, a browser-based Figma comment dashboard with live API fetching, zero backend comment storage, and a single Cloudflare Function handling the OAuth secret exchange.",
+    "readTime": 12,
+    "excerpt": "The standard approach to a tool like this would be to fetch comments, store them in a database, and serve from your own API. I made a different call. No backend comment storage at all. Here is the architecture, the tradeoffs, and the one thing that bit me.",
+    "type": "technical",
+    "cover": "/blog-covers/comment-tracker-figma-comment-tracker-architecture.svg",
+    "faqs": []
+  },
+  {
+    "slug": "ble-mesh-offline-event-platform-javascript",
+    "title": "How I Built an Offline-First Event Platform Using BLE Mesh Networking",
+    "date": "2025-11-15",
+    "tags": [
+      "BLE mesh",
+      "React Native",
+      "offline-first",
+      "JavaScript",
+      "mobile engineering",
+      "Bluetooth networking"
+    ],
+    "metaDescription": "How I designed a production-grade offline-first event management app using BLE mesh networking, Kalman filtering, and hybrid transport layers, without any internet dependency.",
+    "readTime": 22,
+    "excerpt": "Most apps assume the internet exists. I built one that doesn't. This is how I architected OurStoryz, a production event platform that works fully offline using BLE mesh networking, Kalman filtering for RSSI-based positioning, and hybrid transport layers.",
+    "type": "technical",
+    "cover": "/blog-covers/ble-mesh-offline-event-platform-javascript.svg",
+    "faqs": [
+      {
+        "q": "Does this work on both iOS and Android?",
+        "a": "Yes. Both platforms support concurrent BLE advertising and scanning (dual Central/Peripheral role), but the API surface is different enough to require an abstraction layer. The hybrid transport logic handles iOS-specific Multipeer Connectivity alongside the cross-platform BLE and Wi-Fi Direct layers."
+      },
+      {
+        "q": "What's the practical range of the mesh?",
+        "a": "BLE range is roughly 10-30m per hop depending on environment. Wi-Fi Direct extends this to ~200m for paired devices. Because messages can hop peer-to-peer across the mesh, a 300-person venue is fully covered even if no two devices are directly in range: the network finds a route."
+      },
+      {
+        "q": "How do you handle messages sent while a device is outside the mesh?",
+        "a": "Every outgoing message is persisted in a local Realm DB queue before transmission. If the device is out of range or the transport fails, the retry worker picks up pending messages every 5 seconds when the app is foregrounded. Messages with 5 failed attempts are marked failed and surfaced to the user."
+      },
+      {
+        "q": "Can you build something like this for my project?",
+        "a": "Yes. BLE mesh, offline-first architecture, and hybrid transport systems are core work I've shipped in production. If your product needs to operate in RF-hostile or connectivity-uncertain environments, reach out and we can scope what the architecture looks like for your use case."
+      }
+    ]
+  },
+  {
+    "slug": "ai-replacing-mid-level-developers-not-juniors",
+    "title": "Junior Devs Are Not Losing Jobs to AI. Mid-Level Devs Are.",
+    "date": "2025-11-01",
+    "tags": [
+      "AI",
+      "software engineering",
+      "career",
+      "developer jobs",
+      "LLM coding tools",
+      "future of programming"
+    ],
+    "metaDescription": "Everyone says AI will replace junior developers first. They're wrong. The developers actually at risk are mid-level engineers, here's why.",
+    "readTime": 8,
+    "excerpt": "The conventional wisdom is wrong. AI is not eating junior developer roles first, it's compressing the mid-level skill premium out of existence. Here's what's actually happening on engineering teams right now.",
+    "type": "hot-take",
+    "cover": "/blog-covers/ai-replacing-mid-level-developers-not-juniors.svg",
+    "faqs": [
+      {
+        "q": "Are juniors actually safe? Or is this more nuanced?",
+        "a": "Not entirely. Juniors at risk are the ones who treat AI as a search engine rather than a tool they critically evaluate. A junior who understands why generated code works, catches the subtle type errors, and pushes back on bad output is more valuable than a mid-level coasting on pattern recognition."
+      },
+      {
+        "q": "How do you define 'going senior' beyond just job title?",
+        "a": "Senior is not a title, it's an architectural scope. The clearest signal: are you the person who implements what others spec, or the person who determines what gets built and why? If it's the former, you're still in mid-level territory regardless of your years or pay grade."
+      },
+      {
+        "q": "What are the safest niches to specialise in right now?",
+        "a": "Legacy systems with no AI training data, hardware-adjacent work where latency and device APIs matter, high-accountability systems where a human has to own the decision, and domain-specific architecture that requires organisational context. These are the niches AI is structurally bad at."
+      }
+    ]
+  },
+  {
+    "slug": "legacy-system-modernization-vbnet-nuxtjs-case-study",
+    "title": "I Modernized a 20-Year-Old VB.NET System Without Burning the Business Down",
+    "date": "2025-10-20",
+    "tags": [
+      "legacy modernization",
+      "VB.NET",
+      "Nuxt.js",
+      "MSSQL",
+      "migration",
+      "software engineering",
+      "case study"
+    ],
+    "metaDescription": "A technical case study on migrating a 20-year-old VB.NET monolith with millions of MSSQL records to a modern Nuxt.js stack, including strategy, pitfalls, and measurable results.",
+    "readTime": 20,
+    "excerpt": "Legacy modernization is the most underrated skill in software engineering. This is the Grimm Scientific case study, migrating a VB.NET monolith to Nuxt.js while the business ran uninterrupted, with 95% load time reduction.",
+    "type": "technical",
+    "cover": "/blog-covers/legacy-system-modernization-vbnet-nuxtjs-case-study.svg",
+    "tldr": "Migrated a 20-year-old VB.NET monolith on millions of MSSQL records to a Nuxt.js stack using the strangler-fig pattern. Zero downtime, 95% faster page loads, and the business never stopped running.",
+    "faqs": [
+      {
+        "q": "How long did the migration take?",
+        "a": "Roughly nine months end to end, shipping incrementally behind the strangler-fig proxy rather than a big-bang cutover."
+      },
+      {
+        "q": "Did users experience downtime?",
+        "a": "No. Old and new ran side by side, traffic shifted route by route, with instant rollback per slice."
+      },
+      {
+        "q": "What was the hardest part?",
+        "a": "Untangling business logic buried in stored procedures nobody fully understood. We characterized behavior with tests before moving it."
+      },
+      {
+        "q": "Can you do this for my legacy system?",
+        "a": "Yes, this is core work I take on. Book a call and we will scope a safe path."
+      }
+    ]
+  },
+  {
+    "slug": "clean-code-overrated-pragmatic-engineering-productivity",
+    "title": "Clean Code\" Is Killing Your Productivity and Your Team Doesn't Know It",
+    "date": "2025-10-15",
+    "tags": [
+      "clean code",
+      "software engineering",
+      "pragmatism",
+      "developer productivity",
+      "technical debt",
+      "code quality"
+    ],
+    "metaDescription": "Clean Code is treated as sacred in software engineering. But the cult of clean code is quietly destroying team velocity, here's the case for pragmatic engineering instead.",
+    "readTime": 9,
+    "excerpt": "Clean Code by Robert Martin has sold millions of copies. It's also responsible for some of the most over-engineered, slow-to-ship codebases I've ever seen. Here's the case for pragmatic engineering over clean code orthodoxy.",
+    "type": "hot-take",
+    "cover": "/blog-covers/clean-code-overrated-pragmatic-engineering-productivity.svg",
+    "faqs": []
+  },
+  {
+    "slug": "multi-agent-ai-system-openai-local-llm-business-automation",
+    "title": "I Built a Multi-Agent AI System That Runs My Business While I Sleep",
+    "date": "2025-10-05",
+    "tags": [
+      "AI agents",
+      "multi-agent systems",
+      "LLM",
+      "automation",
+      "local AI",
+      "Ollama",
+      "Telegram",
+      "software engineering"
+    ],
+    "metaDescription": "How I built a four-agent AI system using local LLMs (Ollama), Telegram, and a kanban board to automate business operations, without spending a dollar on API calls.",
+    "readTime": 16,
+    "excerpt": "I run a small incense brand alongside my engineering work. I don't have time to be the operator. So I built agents to do it, a four-agent system on local LLMs with zero cloud AI cost, running on my own hardware.",
+    "type": "technical",
+    "cover": "/blog-covers/multi-agent-ai-system-openai-local-llm-business-automation.svg",
+    "faqs": []
+  },
+  {
+    "slug": "developer-visibility-problem-portfolio-personal-brand",
+    "title": "You Don't Have a Skill Problem. You Have a Visibility Problem.",
+    "date": "2025-09-20",
+    "tags": [
+      "developer career",
+      "personal branding",
+      "portfolio",
+      "LinkedIn",
+      "software engineering career",
+      "developer marketing"
+    ],
+    "metaDescription": "Most skilled developers are invisible to the clients and companies they want to work with. The problem isn't skill, it's that nobody knows you exist.",
+    "readTime": 7,
+    "excerpt": "I've talked to developers with five years of production experience who can't land a remote contract. And I've seen two-year developers charging $150/hour. The difference is not skill. It's visibility.",
+    "type": "hot-take",
+    "cover": "/blog-covers/developer-visibility-problem-portfolio-personal-brand.svg",
+    "faqs": [
+      {
+        "q": "What's the minimum viable visibility stack for a developer who's starting from zero?",
+        "a": "A GitHub profile with documented real projects, one deep public case study with real numbers, and a LinkedIn headline that names a specific outcome rather than a role title. In that order. The case study does the most work: it's searchable, shareable, and self-validating in a way a resume never is."
+      },
+      {
+        "q": "How do you write a case study that actually converts, not just impresses other developers?",
+        "a": "Start with the problem, not the tech. \"I built a BLE mesh event platform\" is a topic. \"I built an event platform that works with no internet for 300 people in a signal-hostile venue\" is a story with a client on the other end of it. Every case study should have: the problem, the constraint, your approach, the measurable outcome."
+      },
+      {
+        "q": "Is content marketing or a case study more important for inbound?",
+        "a": "Both, but in the right order. A case study gets you found by people who already have the problem. LinkedIn content builds recall and trust with people who don't have the problem yet but will. The case study is the floor: it has to exist before the content amplification is worth doing."
+      }
+    ]
+  },
+  {
+    "slug": "offline-first-architecture-mobile-apps-design-decision",
+    "title": "Offline-First Is Not a Feature. It's an Architecture Decision You Can't Bolt On Later.",
+    "date": "2025-09-15",
+    "tags": [
+      "offline-first",
+      "mobile development",
+      "software architecture",
+      "React Native",
+      "local-first",
+      "app development"
+    ],
+    "metaDescription": "Developers treat offline support as a feature to add before launch. It's not, offline-first is a foundational architectural decision that shapes every layer of your app.",
+    "readTime": 10,
+    "excerpt": "We'll add offline support before launch\" is the engineering equivalent of \"we'll add tests after it's working.\" It reveals a misunderstanding of what offline-first actually is. Here's what it costs to get this wrong.",
+    "type": "hot-take",
+    "cover": "/blog-covers/offline-first-architecture-mobile-apps-design-decision.svg",
+    "faqs": [
+      {
+        "q": "Which conflict resolution strategy is right for my app?",
+        "a": "Last-write-wins is simplest and works when concurrent offline edits to the same record are rare and recoverable. Server-authoritative is safer for high-stakes state (check-ins, payments). CRDTs are the right answer when you need true concurrent merges but they add significant implementation complexity. Pick based on what a conflict actually costs."
+      },
+      {
+        "q": "What's the best local database for offline-first React Native?",
+        "a": "Realm and WatermelonDB are the two serious options for React Native. Realm has better out-of-the-box sync if you're using Atlas Device Sync. WatermelonDB is lighter and more flexible for custom sync layers. For pure SQLite control, op-sqlite is worth evaluating. The choice matters less than committing to it early."
+      },
+      {
+        "q": "Does offline-first apply to web apps too, or just mobile?",
+        "a": "The architecture is the same. Local DB as source of truth, background sync, queued mutations, conflict resolution policy. The implementation layers differ (IndexedDB instead of Realm, Service Workers for background sync), but the data flow inversion is identical. Progressive Web Apps with offline-first architecture follow the same principles."
+      }
+    ]
+  },
+  {
+    "slug": "full-stack-developer-myth-t-shaped-skills-specialization",
+    "title": "Full-Stack Is a Lie. Here's What Actually Matters.",
+    "date": "2025-09-05",
+    "tags": [
+      "full-stack developer",
+      "software engineering",
+      "specialization",
+      "T-shaped skills",
+      "web development",
+      "career advice"
+    ],
+    "metaDescription": "The \"full-stack developer\" title is a hiring fiction that benefits companies, not engineers. Here's what the label hides and what actually matters for your career.",
+    "readTime": 8,
+    "excerpt": "Every startup wants a full-stack developer. Someone who can do the database, the API, the frontend, the CI/CD pipeline, the cloud infrastructure, and review the security audit on weekends. This is not a job description. It's a budget problem.",
+    "type": "hot-take",
+    "cover": "/blog-covers/full-stack-developer-myth-t-shaped-skills-specialization.svg",
+    "faqs": []
+  },
+  {
+    "slug": "typescript-wrong-usage-type-safety-best-practices",
+    "title": "Stop Using TypeScript Like It's JavaScript With Spellcheck",
+    "date": "2025-08-25",
+    "tags": [
+      "TypeScript",
+      "JavaScript",
+      "type safety",
+      "software engineering",
+      "web development",
+      "developer tools",
+      "best practices"
+    ],
+    "metaDescription": "Most developers are using TypeScript wrong, treating it as optional documentation rather than a structural tool. Here's what real TypeScript usage looks like and why it matters.",
+    "readTime": 11,
+    "excerpt": "The 'any' type is a lie you tell TypeScript so it stops asking questions. Every codebase I've walked into that claimed to be \"written in TypeScript\" has had the same anti-patterns. Here's what TypeScript looks like when used as an architecture tool.",
+    "type": "hot-take",
+    "cover": "/blog-covers/typescript-wrong-usage-type-safety-best-practices.svg",
+    "faqs": [
+      {
+        "q": "What are the most common TypeScript anti-patterns you see in real codebases?",
+        "a": "The most common ones: using `any` at API boundaries, not enabling `strict` mode in tsconfig, defining types as interfaces with all optional fields, and typing function return values as `object` or `unknown` without narrowing. All of these give TypeScript the shape of safety without the substance."
+      },
+      {
+        "q": "How do you tighten TypeScript in a legacy codebase without a full rewrite?",
+        "a": "Enable `strict: true` in tsconfig. Run `tsc --noEmit` in CI. Set a policy that `@ts-ignore` requires a written justification comment. Start tracking the count of `any` in the codebase as a metric. None of these require a rewrite: they surface where the type system is being bypassed."
+      },
+      {
+        "q": "Which of these patterns is most worth adopting first?",
+        "a": "Discriminated unions and the exhaustive `never` check are the two that pay back most consistently. Branded types are invaluable on any codebase handling multiple kinds of IDs or domain primitives. State machine types eliminate an entire class of UI bugs around loading/error/success state."
+      }
+    ]
+  },
+  {
+    "slug": "side-project-failure-reasons-product-market-fit-developer",
+    "title": "Your Side Project Is Not Failing Because of Execution. It's Failing Because Nobody Wants It.",
+    "date": "2025-08-10",
+    "tags": [
+      "side projects",
+      "product market fit",
+      "indie hacking",
+      "micro-SaaS",
+      "developer entrepreneurship",
+      "product development"
+    ],
+    "metaDescription": "Most developers blame execution for their failed side projects. The real reason is simpler and harder to hear, the market didn't want what you built.",
+    "readTime": 7,
+    "excerpt": "Every failed side project has the same autopsy, \"I just didn't have time to market it.\" That's almost never true. Here's what's actually happening and how to build something the market actually wants.",
+    "type": "hot-take",
+    "cover": "/blog-covers/side-project-failure-reasons-product-market-fit-developer.svg",
+    "faqs": []
+  },
+  {
+    "slug": "debugging-mental-models-software-engineering-skills",
+    "title": "The Best Debugging Skill Is Not Reading Stack Traces. It's Building Mental Models.",
+    "date": "2025-08-01",
+    "tags": [
+      "debugging",
+      "software engineering",
+      "mental models",
+      "problem solving",
+      "developer skills",
+      "programming"
+    ],
+    "metaDescription": "The actual skill that separates fast debuggers from slow ones is mental model quality, here's what that means and how to build it.",
+    "readTime": 9,
+    "excerpt": "Two engineers face the same bug. One resolves it in 20 minutes, the other in three hours. Same logs, same debugger, same codebase. The difference is not tooling, it's mental model quality.",
+    "type": "hot-take",
+    "cover": "/blog-covers/debugging-mental-models-software-engineering-skills.svg",
+    "faqs": []
+  },
+  {
+    "slug": "ai-coding-tools-github-copilot-claude-engineering-quality",
+    "title": "AI Coding Tools Don't Make You a Better Engineer. They Make Visible Whether You Already Were One.",
+    "date": "2025-07-20",
+    "tags": [
+      "AI coding tools",
+      "GitHub Copilot",
+      "Claude",
+      "software engineering",
+      "developer productivity",
+      "AI programming"
+    ],
+    "metaDescription": "AI coding assistants are accelerators, not equalizers. In the hands of strong engineers they compound capability. In weak hands, they accelerate the production of confident garbage.",
+    "readTime": 9,
+    "excerpt": "GitHub Copilot and Claude do not make all engineers equally capable. They make the gap between good and bad engineers wider and faster to observe. Here's the pattern I've watched play out.",
+    "type": "hot-take",
+    "cover": "/blog-covers/ai-coding-tools-github-copilot-claude-engineering-quality.svg",
+    "faqs": []
+  },
+  {
+    "slug": "freelance-developer-market-positioning-remote-work-strategy",
+    "title": "The Freelance Developer Market Is Not Saturated. It's Mis-Positioned.",
+    "date": "2025-07-05",
+    "tags": [
+      "freelance development",
+      "remote work",
+      "developer positioning",
+      "Upwork",
+      "client acquisition",
+      "software engineering career"
+    ],
+    "metaDescription": "Developers say the freelance market is saturated and rates are falling. That's only true in the undifferentiated middle. Specialists with clear positioning are commanding higher rates than ever.",
+    "readTime": 8,
+    "excerpt": "Freelance dev is dead. Upwork is a race to the bottom.\" This is partially true and mostly wrong. The race-to-the-bottom market is real, for generic web development. The market for specialists is undersupplied. Here's the difference.",
+    "type": "hot-take",
+    "cover": "/blog-covers/freelance-developer-market-positioning-remote-work-strategy.svg",
+    "faqs": []
+  }
+]
