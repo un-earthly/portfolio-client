@@ -322,30 +322,48 @@ function BlogCard({ slug, title, excerpt, readTime, type, tags, cover }: BlogCar
   )
 }
 
-/* ── Blog horizontal scroll section ────────────────────────── */
-function BlogScrollSection() {
+/* ── Read-all-posts CTA card — reused by both the desktop track and the mobile grid ── */
+function ReadMoreCard({ count, compact }: { count: number; compact?: boolean }) {
+  return (
+    <Link
+      href="/blogs"
+      style={compact ? undefined : { height: '100%' }}
+      className={[
+        'flex flex-col items-center justify-center gap-4 rounded-2xl border border-white/8 bg-white/2',
+        'hover:border-cyan-500/30 hover:bg-cyan-500/5 transition-all duration-300 group px-8',
+        compact ? 'h-64' : 'h-full',
+      ].join(' ')}
+    >
+      <span className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 group-hover:border-cyan-500/40 group-hover:bg-cyan-500/10 transition-all duration-300">
+        <ArrowUpRight className="h-5 w-5 text-gray-400 group-hover:text-cyan-400 transition-colors" />
+      </span>
+      <div className="text-center">
+        <p className="text-lg font-black text-white tracking-tight group-hover:text-cyan-50 transition-colors">
+          Read all posts
+        </p>
+        <p className="mt-1 text-[10px] font-mono text-gray-600 tracking-widest uppercase">
+          {count} articles &amp; essays
+        </p>
+      </div>
+    </Link>
+  )
+}
+
+/* ── Blog horizontal scroll section (desktop, pinned) ────────── */
+function BlogScrollSection({ featured }: { featured: BlogCardData[] }) {
   const outerRef = useRef<HTMLDivElement>(null)
   const innerRef = useRef<HTMLDivElement>(null)   // measures real content width
   const [scrollDist, setScrollDist] = React.useState(0)
-  const [featured, setFeatured] = React.useState<BlogCardData[]>([])
 
-  // Fetch posts at runtime so new markdown blogs appear automatically.
-  React.useEffect(() => {
-    let alive = true
-    fetch('/api/blogs')
-      .then((r) => r.json())
-      .then((d) => { if (alive) setFeatured(d.blogs ?? []) })
-      .catch(() => {})
-    return () => { alive = false }
-  }, [])
+  // 7 cards total after the hero card, position 6 (index 5) becomes the CTA card.
+  const gridItems = featured.slice(1, 8)
 
   React.useEffect(() => {
     const CARD_W = 500
     const GAP = 12
     const PL = 32
     const PR = 64
-    const remainingCards = Math.min(Math.max(0, featured.length - 1), 12)
-    const cols = Math.ceil(remainingCards / 2) + 1 // +1 for the CTA card column
+    const cols = Math.ceil(Math.max(1, gridItems.length) / 2)
 
     const measure = () => {
       // hero(50vw) + gap + grid(cols*500 + (cols-1)*gap) + paddings - viewport
@@ -357,7 +375,7 @@ function BlogScrollSection() {
     measure()
     window.addEventListener('resize', measure)
     return () => window.removeEventListener('resize', measure)
-  }, [featured.length])
+  }, [gridItems.length])
 
   const { scrollYProgress } = useScroll({
     target: outerRef,
@@ -404,7 +422,7 @@ function BlogScrollSection() {
             Written from<br /><span className="text-cyan-400">the trenches.</span>
           </h2>
           <p className="text-[11px] text-gray-600 font-mono mt-2 max-w-xs leading-relaxed">
-            Real-world engineering, hot takes, and deep dives — from production systems, not tutorials.
+            Real-world engineering, hot takes, and deep dives, from production systems, not tutorials.
           </p>
         </div>
 
@@ -438,7 +456,7 @@ function BlogScrollSection() {
                 </div>
               )}
 
-              {/* remaining cards — 2-row grid, auto columns at 500px */}
+              {/* 7 cards — 2-row grid, auto columns at 500px, 6th slot is the CTA */}
               <div style={{
                 flexShrink: 0,
                 height: '100%',
@@ -448,32 +466,11 @@ function BlogScrollSection() {
                 gridAutoColumns: '500px',
                 gap: '12px',
               }}>
-                {featured.slice(1, 13).map(post => (
-                  <div key={post.slug} style={{ minHeight: 0 }}>
-                    <BlogCard {...post} />
+                {gridItems.map((post, i) => (
+                  <div key={i === 5 ? 'read-more' : post.slug} style={{ minHeight: 0 }}>
+                    {i === 5 ? <ReadMoreCard count={featured.length} /> : <BlogCard {...post} />}
                   </div>
                 ))}
-
-                {/* End-of-track CTA — spans both rows */}
-                <div style={{ gridRow: '1 / -1', minHeight: 0 }}>
-                  <Link
-                    href="/blogs"
-                    style={{ height: '100%' }}
-                    className="flex flex-col items-center justify-center gap-5 rounded-2xl border border-white/8 bg-white/2 hover:border-cyan-500/30 hover:bg-cyan-500/5 transition-all duration-300 group px-12"
-                  >
-                    <span className="flex h-14 w-14 items-center justify-center rounded-full border border-white/10 bg-white/5 group-hover:border-cyan-500/40 group-hover:bg-cyan-500/10 transition-all duration-300">
-                      <ArrowUpRight className="h-6 w-6 text-gray-400 group-hover:text-cyan-400 transition-colors" />
-                    </span>
-                    <div className="text-center">
-                      <p className="text-xl font-black text-white tracking-tight group-hover:text-cyan-50 transition-colors">
-                        Read all posts
-                      </p>
-                      <p className="mt-1 text-xs font-mono text-gray-600 tracking-widest uppercase">
-                        {featured.length} articles &amp; essays
-                      </p>
-                    </div>
-                  </Link>
-                </div>
               </div>
             </div>
           </motion.div>
@@ -496,6 +493,69 @@ function BlogScrollSection() {
 
       </div>
     </div>
+  )
+}
+
+/* ── Blog plain section (mobile, no pin/scroll-jack) ─────────── */
+function BlogMobileSection({ featured }: { featured: BlogCardData[] }) {
+  // Same 7-card rule as the desktop track: position 6 (index 5) is the CTA.
+  const gridItems = featured.slice(1, 8)
+
+  return (
+    <section className="px-6 py-14 border-t border-white/5">
+      <div className="flex items-center justify-between mb-2">
+        <p className="text-[10px] font-mono tracking-[0.25em] uppercase text-cyan-500/50">Latest Writing</p>
+        <p className="text-[10px] font-mono text-gray-700">{featured.length} articles &amp; essays</p>
+      </div>
+
+      <h2 className="text-3xl font-black text-white leading-none tracking-tight mb-2">
+        Written from<br /><span className="text-cyan-400">the trenches.</span>
+      </h2>
+      <p className="text-[11px] text-gray-600 font-mono mb-6 leading-relaxed max-w-sm">
+        Real-world engineering, hot takes, and deep dives, from production systems, not tutorials.
+      </p>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {featured[0] && (
+          <div className="sm:col-span-2 h-72">
+            <BlogCard {...featured[0]} />
+          </div>
+        )}
+        {gridItems.map((post, i) => (
+          <div key={i === 5 ? 'read-more' : post.slug} className="h-64">
+            {i === 5 ? <ReadMoreCard count={featured.length} compact /> : <BlogCard {...post} />}
+          </div>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+/* ── Blog section wrapper — fetches once, renders the right layout per breakpoint ── */
+function BlogSection() {
+  const [featured, setFeatured] = React.useState<BlogCardData[]>([])
+
+  // Fetch posts at runtime so new markdown blogs appear automatically.
+  React.useEffect(() => {
+    let alive = true
+    fetch('/api/blogs')
+      .then((r) => r.json())
+      .then((d) => { if (alive) setFeatured(d.blogs ?? []) })
+      .catch(() => {})
+    return () => { alive = false }
+  }, [])
+
+  return (
+    <>
+      {/* Desktop / tablet — pinned horizontal scroll */}
+      <div className="hidden md:block">
+        <BlogScrollSection featured={featured} />
+      </div>
+      {/* Mobile — plain stacked section, no scroll-jacking */}
+      <div className="md:hidden">
+        <BlogMobileSection featured={featured} />
+      </div>
+    </>
   )
 }
 
@@ -545,8 +605,8 @@ export default function Home() {
 
       </div>
 
-      {/* Horizontal scroll blog section — full bleed */}
-      <BlogScrollSection />
+      {/* Blog section — pinned scroll on desktop, plain stack on mobile */}
+      <BlogSection />
 
       <HowIWork />
     </div>
