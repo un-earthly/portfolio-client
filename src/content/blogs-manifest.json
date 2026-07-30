@@ -1,5 +1,45 @@
 [
   {
+    "slug": "dns-cdn-edge-layer-ttl-cache-keys-failover",
+    "title": "DNS and the CDN Edge: The Layer That Decides Whether Your Load Balancer Ever Sees the Request",
+    "date": "2026-07-30",
+    "tags": [
+      "DNS",
+      "CDN",
+      "TTL",
+      "cache key",
+      "Route53",
+      "failover",
+      "edge caching",
+      "AWS",
+      "DevOps",
+      "infrastructure"
+    ],
+    "type": "technical",
+    "excerpt": "Three posts in, this series went security group, to OS firewall, to load balancer. Every one of those assumed the traffic in front of it was already headed to the right place. Part 4 goes one layer earlier, DNS and the CDN edge, the system that decides whether your load balancer sees the request at all, or whether it gets answered before it ever leaves the edge.",
+    "metaDescription": "A complete technical breakdown of the DNS and CDN edge layer: how TTL caching actually behaves across resolvers, why cache keys are the source of the worst edge bugs, origin shield and cache stampedes, untested DNS failover, and a real case study of a fix that shipped but never reached users.",
+    "readTime": 14,
+    "cover": "/blog-covers/dns-cdn-edge-layer-ttl-cache-keys-failover.svg",
+    "faqs": [
+      {
+        "a": "For most workloads, a TTL drop from something like 3600 to 60 seconds adds a small amount of additional query volume to your authoritative nameserver, which is usually negligible in cost and imperceptible in latency to the client, since the extra lookups happen far less often than actual requests. The tradeoff is almost entirely one-sided in favor of the lower TTL on any record you might ever need to move quickly.",
+        "q": "If I lower my DNS TTL, does that hurt performance or cost me anything meaningful?"
+      },
+      {
+        "a": "The most common cause is a cache key that only includes the URL, not the header, cookie, or query parameter that actually determines the personalized content. The first response the CDN sees for that URL gets cached and served to the next request for the same URL regardless of who made it. The fix is either excluding the route from caching entirely for authenticated content, or explicitly including the varying header or cookie in the cache key.",
+        "q": "Why did my CDN serve one user's personalized data to a different user?"
+      },
+      {
+        "a": "The only reliable way is to have triggered it on purpose, on a schedule, the same way you'd test a backup restore. A failover health check that has never changed state since it was configured has never been proven, regardless of how correct the configuration looks on paper.",
+        "q": "How do I know if my DNS failover actually works?"
+      },
+      {
+        "a": "max-age governs how long a private cache, typically the browser, holds the response. s-maxage governs how long a shared cache, like a CDN, holds it, and CDNs will use s-maxage over max-age when both are present. They're commonly set to very different values, and it's the s-maxage value, not max-age, that determines how stale content can get at the edge after a deploy.",
+        "q": "What's the difference between max-age and s-maxage in a Cache-Control header?"
+      }
+    ]
+  },
+  {
     "slug": "load-balancer-connection-termination-source-ip-health-checks",
     "title": "Load Balancers Terminate Connections: What That Does to Source IPs, Health Checks, and Draining",
     "date": "2026-07-22",
