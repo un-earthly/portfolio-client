@@ -451,52 +451,52 @@ const codeSnippets = [
 ];
 const persona = {
   role: "Senior Full Stack Developer & Technical Leader",
-  mission: "To architect innovative solutions that drive digital transformation while mentoring the next generation of developers",
+  mission: "I own outcomes, not tickets: architecture decisions, product tradeoffs, and delivery risk, then the accountability for what happens after",
   characteristics: [
     {
       trait: "Solution Architect",
-      description: "Designs enterprise-scale systems with modern architecture patterns",
+      description: "Owns system design decisions end to end, from RFC to rollout, and defends the tradeoffs made along the way",
       icon: Database
     },
     {
-      trait: "Technical Leader",
-      description: "Mentors teams and drives technical excellence in organizations",
-      icon: Users
+      trait: "Product-Minded Engineer",
+      description: "Sits close enough to the roadmap to challenge it, and turns business intent into technical scope",
+      icon: Target
     },
     {
-      trait: "Innovation Driver",
-      description: "Integrates cutting-edge technologies like AI/ML into business solutions",
-      icon: Brain
+      trait: "Decision Owner",
+      description: "Default answer to ambiguous problems is a decision, not an escalation, with the accountability to match",
+      icon: Zap
     }
   ],
   epics: [
     {
       title: "The Foundation Years",
-      description: "Built strong fundamentals through self-directed learning and practical projects",
+      description: "Built strong fundamentals through self-directed learning and practical projects, with an early bias toward shipping over studying",
       milestones: [
-        "Mastered MERN stack through hands-on project development",
-        "Completed comprehensive courses in system design and architecture",
-        "Built first production-ready LMS serving 5k+ users",
+        "Mastered the MERN stack through hands-on production work, not tutorials",
+        "Built and shipped a production-ready LMS serving 5k+ users solo",
+        "Learned to take a system from zero to live without a safety net",
       ],
       icon: Rocket
     },
     {
-      title: "The Leadership Journey",
-      description: "Evolved from developer to technical leader driving complex projects",
+      title: "The Ownership Shift",
+      description: "Moved from assigned work to owned outcomes, and started making architecture calls other people had to live with",
       milestones: [
-        "Led enterprise system migration from VB.NET to modern web architecture",
-        "Managed cross-functional teams across multiple international projects",
-        "Mentored 25+ developers while maintaining hands-on technical contribution"
+        "Led an enterprise migration from VB.NET to a modern web stack, owning the technical roadmap end to end",
+        "Made the call on system boundaries, data models, and rollout sequencing, not just implementation",
+        "Mentored 25+ developers while staying hands-on, the classic staff-track split"
       ],
       icon: Target
     },
     {
-      title: "The Innovation Phase",
-      description: "Pioneering AI integration and modern architecture patterns",
+      title: "The Authority Phase",
+      description: "Now operating with architectural and product authority across projects, not just technical authority within one",
       milestones: [
-        "Successfully integrated AI/ML models in production applications",
-        "Architected microservices handling 10K+ concurrent users",
-        "Delivered solutions for international clients with 95% satisfaction rate"
+        "Set technical direction and standards enforced across multiple teams",
+        "Architected microservices handling 10K+ concurrent users, and owned the capacity and failure-mode decisions behind that number",
+        "Delivered for international clients where scope, tradeoffs, and outcome were mine to own, not just the code"
       ],
       icon: Brain
     }
@@ -505,24 +505,48 @@ const persona = {
 
 const userStories = [
   {
-    as: "A Senior Developer",
-    want: "To architect and deliver enterprise-scale solutions",
-    so: "That businesses can achieve digital transformation and growth",
-    metrics: ["5+ years experience", "30+ successful projects", "Multiple Lead Roles"]
-  },
-  {
-    as: "A Technical Leader",
-    want: "To mentor teams and drive technical excellence",
-    so: "That organizations can build robust, scalable systems",
-    metrics: ["25+ developers mentored", "5+ teams led", "95% project success rate"]
-  },
-  {
     as: "A Solution Architect",
-    want: "To design cutting-edge systems with modern technologies",
-    so: "That clients receive future-proof, maintainable solutions",
-    metrics: ["Enterprise migrations", "Microservices design", "AI/ML integration"]
+    want: "to own system design decisions from RFC to rollout",
+    so: "engineering teams inherit fewer regrets and less rework",
+    metrics: ["5+ years experience", "30+ systems shipped to production", "Final say on architecture across multiple teams"]
+  },
+  {
+    as: "A Technical Leader Moving Toward Staff Scope",
+    want: "to set technical direction across teams, not just within one",
+    so: "the organization ships coherent systems instead of eleven local optima",
+    metrics: ["25+ developers mentored", "5+ teams led", "Cross-team standards authored and enforced"]
+  },
+  {
+    as: "A Product-Aware Engineer",
+    want: "to sit in on roadmap and prioritization conversations, not just sprint planning",
+    so: "technical decisions get made with business context, not in a vacuum",
+    metrics: ["Direct client ownership", "Scope and tradeoff calls made pre-build", "95% delivery success rate"]
   }
 ];
+
+const decisionPrinciples = [
+  {
+    title: "RFC before code",
+    description: "Contentious or expensive decisions get written down, with tradeoffs stated explicitly, before implementation starts",
+    icon: PenTool
+  },
+  {
+    title: "Reversibility first",
+    description: "Decisions get sorted by how expensive they are to undo. Cheap-to-reverse calls get made fast and alone. Expensive ones get a written case",
+    icon: Repeat
+  },
+  {
+    title: "Own the blast radius",
+    description: "If a decision is mine to make, the outcome is mine to answer for. No distributing credit for wins and diffusing blame for failures",
+    icon: Shield
+  },
+  {
+    title: "Business context before technical elegance",
+    description: "A technically correct answer that ignores product timing or client reality is the wrong answer",
+    icon: Target
+  }
+];
+
 const skillCategories = [
   {
     title: "Frontend Technologies",
@@ -1315,6 +1339,7 @@ export {
   userStories,
   persona,
   personalInterests,
+  decisionPrinciples,
   codeSnippets,
   geistSans,
   geistMono,
