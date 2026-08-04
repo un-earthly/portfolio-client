@@ -19,7 +19,7 @@ import {
   ArrowRight,
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
-import { persona, personalInterests, skillCategories, userStories } from '@/mock-data';
+import { persona, personalInterests, skillCategories, userStories, decisionPrinciples } from '@/mock-data';
 
 const AboutMe = () => {
 
@@ -121,6 +121,29 @@ const AboutMe = () => {
                 </div>
               ))}
             </div>
+          </div>
+        </section>
+
+
+        <section className="mb-16">
+          <h2 className="text-2xl font-bold text-gray-100 mb-2">How I Make Decisions</h2>
+          <p className="text-gray-400 mb-8">The operating pattern behind moving from senior to staff, and staff to VP-track: less time writing code, more time deciding what code should exist and why.</p>
+          <div className="grid md:grid-cols-2 gap-6">
+            {decisionPrinciples.map((principle, index) => (
+              <Card key={index} className="bg-gradient-to-br from-slate-950 to-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300">
+                <CardContent className="p-6">
+                  <div className="flex items-start gap-4">
+                    <div className="p-2 rounded-lg bg-cyan-500/10 shrink-0">
+                      <principle.icon className="h-5 w-5 text-cyan-400" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-100 mb-2">{principle.title}</h3>
+                      <p className="text-gray-400">{principle.description}</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </section>
 
