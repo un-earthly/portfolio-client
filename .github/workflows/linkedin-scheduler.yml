@@ -1,0 +1,17 @@
+name: LinkedIn Scheduler
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch: {}
+
+jobs:
+  publish-due-posts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger LinkedIn cron endpoint
+        run: |
+          curl -sS -X POST "https://alamin-md.xyz/api/linkedin/cron" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            -H "Content-Type: application/json" \
+            --fail-with-body
