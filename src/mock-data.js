@@ -256,7 +256,22 @@ const projects = [
     category: 'Enterprise Application',
     timeline: '3 months'
   },
-
+  {
+    id: 'bodhisys',
+    title: "Bodhisys",
+    description: "Property management system with a React Native mobile app — tenant management, rent collection, maintenance workflows, real-time notifications, and an owner dashboard for multi-property portfolios.",
+    image: "/bodhisys.svg",
+    technologies: ['React Native', 'Next.js', 'Node.js', 'PostgreSQL', 'WebSocket'],
+    liveUrl: '#',
+    githubUrl: '#',
+    category: 'Web & Mobile Application',
+    timeline: '8 months',
+    metrics: {
+      platforms: 'iOS & Android',
+      notifications: 'Real-time',
+      properties: 'Multi-property'
+    }
+  },
   {
     id: 'gadgets-heaven',
     title: "Gadgets Heaven",
@@ -300,7 +315,22 @@ const projects = [
       "Output": "1200×630 SVG"
     }
   },
-
+  {
+    id: "fpl-analytica",
+    title: "FPL Analytica — FPL Analytics Platform",
+    description: "A full-stack real-time analytics platform for Fantasy Premier League. Features progressive loading endpoints (core, live, analytics), a repository-pattern data layer with TTL caching, scheduled ETL ingestion pipelines harvesting official API data to Azure SQL, and live benchmarking against the top 1,000 global managers.",
+    image: "/fpl-analytica.png",
+    technologies: ["React", "TypeScript", "Python", "FastAPI", "Azure SQL", "Azure Storage", "TanStack Query", "Redux Toolkit", "Vite", "Tailwind CSS"],
+    liveUrl: "#",
+    githubUrl: "#",
+    category: "Full Stack Application",
+    timeline: "6 months",
+    metrics: {
+      "ETL Pipelines": "Scheduled scraper",
+      "API Endpoints": "53 endpoints",
+      "Live Pages": "5 of 19 live"
+    }
+  }
 ];
 const categories = ['All Projects', 'Full Stack', 'Mobile Apps', 'E-Commerce', 'Enterprise'];
 
@@ -1133,6 +1163,173 @@ const projectsDetails = [
     ]
   },
   {
+    id: "bodhisys",
+    title: "Bodhisys",
+    subtitle: "Property management system with React Native mobile app — tenant management, rent collection, maintenance workflows, and owner dashboard.",
+    thumbnail: "/bodhisys.svg",
+    timeline: "8 months",
+    role: "Full Stack Developer",
+    client: "Property Management Startup",
+    overview: `Bodhisys is a property management platform built for multi-property owners and managers. It combines a React Native mobile app for tenants and field staff with a Next.js web dashboard for owners and administrators. The system handles tenant onboarding, rent collection, maintenance requests, lease tracking, and real-time notifications across iOS and Android.`,
+    challenges: [
+      {
+        title: "Cross-platform mobile UX",
+        description: "Delivering a consistent, responsive experience on both iOS and Android with offline-friendly workflows.",
+        icon: Smartphone
+      },
+      {
+        title: "Real-time updates",
+        description: "Keeping tenants, owners, and maintenance staff in sync with live status updates across devices.",
+        icon: Zap
+      },
+      {
+        title: "Multi-property data model",
+        description: "Designing a PostgreSQL schema that cleanly separates owners, properties, units, tenants, leases, and payments.",
+        icon: Database
+      },
+      {
+        title: "Payment tracking",
+        description: "Accurate rent collection, overdue tracking, and financial reporting for multiple properties.",
+        icon: LayoutDashboard
+      }
+    ],
+    solutions: [
+      {
+        title: "React Native mobile app",
+        description: "Built a single mobile codebase for tenants and staff with push notifications and image uploads for maintenance requests.",
+        icon: Smartphone,
+        details: [
+          "Tenant rent payment and receipt history",
+          "Maintenance request submission with photo attachments",
+          "Push notifications for announcements and status updates",
+          "Offline-aware forms with sync on reconnect",
+          "Unified iOS and Android release pipeline"
+        ]
+      },
+      {
+        title: "Owner dashboard",
+        description: "Next.js web dashboard giving owners a real-time view of occupancy, rent status, and maintenance pipelines.",
+        icon: LayoutDashboard,
+        details: [
+          "Multi-property portfolio overview",
+          "Rent collection and overdue tracking",
+          "Maintenance request assignment and status board",
+          "Tenant lease and document management",
+          "Financial reporting and export"
+        ]
+      },
+      {
+        title: "WebSocket-driven notifications",
+        description: "Real-time updates for maintenance status, payment confirmations, and owner announcements.",
+        icon: Zap,
+        details: [
+          "WebSocket rooms scoped by property and role",
+          "Reliable reconnection handling on mobile networks",
+          "Broadcast notifications for urgent announcements",
+          "Read-state tracking per user"
+        ]
+      },
+      {
+        title: "Scalable backend",
+        description: "Node.js and PostgreSQL backend with a normalized schema and role-based access control.",
+        icon: Database,
+        details: [
+          "PostgreSQL schema with owners, properties, units, leases, tenants, payments, and maintenance",
+          "RBAC middleware separating tenant, staff, and owner permissions",
+          "RESTful APIs for CRUD and reporting",
+          "File uploads for lease documents and maintenance photos"
+        ]
+      }
+    ],
+    techStack: {
+      frontend: ["React Native", "Next.js", "React.js", "Tailwind CSS"],
+      backend: ["Node.js", "Express", "WebSocket", "RESTful APIs", "JWT", "RBAC"],
+      database: ["PostgreSQL", "Sequelize ORM"],
+      devops: ["AWS", "Docker"]
+    },
+    keyFeatures: [
+      "Tenant management and onboarding",
+      "Rent collection and overdue tracking",
+      "Maintenance request workflow with photo uploads",
+      "Real-time push and WebSocket notifications",
+      "Owner dashboard with multi-property reporting",
+      "iOS and Android mobile apps",
+      "Lease and document management"
+    ],
+    metrics: {
+      platforms: "iOS & Android",
+      notifications: "Real-time",
+      properties: "Multi-property",
+      timeline: "8 months"
+    },
+    developmentPhases: [
+      {
+        title: "Architecture & schema design",
+        duration: "3 weeks",
+        activities: [
+          "Defined multi-property data model in PostgreSQL",
+          "Set up React Native and Next.js project foundations",
+          "Designed WebSocket notification architecture",
+          "Established RBAC and auth flow with JWT"
+        ]
+      },
+      {
+        title: "Mobile MVP",
+        duration: "8 weeks",
+        activities: [
+          "Built tenant authentication and profile screens",
+          "Implemented rent payment and history views",
+          "Created maintenance request submission flow",
+          "Added push notification support"
+        ]
+      },
+      {
+        title: "Owner dashboard",
+        duration: "6 weeks",
+        activities: [
+          "Built multi-property overview and analytics",
+          "Implemented rent and maintenance reporting",
+          "Created tenant and lease management screens",
+          "Added document upload and storage"
+        ]
+      },
+      {
+        title: "Integration & launch",
+        duration: "5 weeks",
+        activities: [
+          "Connected WebSocket events across mobile and web",
+          "Resolved real-time sync edge cases",
+          "Conducted end-to-end mobile QA",
+          "Published apps to App Store and Google Play"
+        ]
+      }
+    ],
+    responsibilities: [
+      {
+        role: "Full Stack Developer",
+        icon: Code,
+        tasks: [
+          "Built React Native screens and navigation for tenants and staff",
+          "Implemented Next.js owner dashboard with property and tenant management",
+          "Designed PostgreSQL schema and Sequelize models",
+          "Integrated WebSocket server for real-time notifications",
+          "Handled mobile release builds and store submissions"
+        ]
+      },
+      {
+        role: "Backend Developer",
+        icon: Terminal,
+        tasks: [
+          "Developed Node.js/Express APIs for rent, leases, and maintenance",
+          "Implemented JWT-based auth and role-based access control",
+          "Built file upload and storage pipeline for documents and photos",
+          "Optimized PostgreSQL queries for reporting and dashboards"
+        ]
+      }
+    ],
+    href: "#"
+  },
+  {
     id: "comment-flow",
     title: "CommentFlow — Figma Comment Manager",
     subtitle: "Full-stack comment management platform with React admin panel, Figma OAuth broker, newsletter engine, and support ticketing",
@@ -1322,8 +1519,168 @@ The platform also includes a newsletter subscription engine built into the landi
       }
     ],
     href: "https://comment-tracker.xyz"
-  }
+  },
+  {
+    id: "fpl-analytica",
+    title: "FPL Analytica — Real-Time FPL Analytics Platform",
+    subtitle: "A full-stack statistics and optimization platform for Fantasy Premier League managers, featuring progressive rendering, scheduled ETL pipelines, and repository-pattern tiered caching.",
+    thumbnail: "/fpl-analytica.png",
+    timeline: "6 months",
+    role: "Full Stack Developer",
+    client: "Personal Project / Case Study",
+    overview: `FPL Analytica is a data-driven web application designed to solve the informational void in the official Fantasy Premier League (FPL) platform. By combining a React SPA on the frontend, a Python/FastAPI service on the backend, scheduled ETL scraping pipelines, and an Azure SQL Database, the application provides manager identity trends, live gameweek standing updates, and multi-second optimization solves without blocking performance.
 
+The platform processes millions of data points from the official FPL API using decoupled pipeline scripts (\`fpl_data_harvesting_pipeline.py\`) that run on schedules and land CSV files in Azure Blob Storage before loading them into Azure SQL Database. The backend enforces a strict repository pattern via \`app/data_access/repository.py\` to cache queries (with custom TTLs like 120s for mini-leagues and 900s for chip indices) and isolate expensive season-long computations from low-latency identity reads.`,
+    challenges: [
+      {
+        title: "Balancing slow analytics against fast reads",
+        description: "Optimality and chip-timing calculations are extremely expensive, taking 5 to 30 seconds to complete. Running these queries synchronously would block simple reads and freeze the dashboard.",
+        icon: Clock
+      },
+      {
+        title: "Decoupling live FPL API rate limits",
+        description: "Querying the official FPL API live on every user request is not viable at scale due to strict rate limits and external API downtime during gameweeks.",
+        icon: Zap
+      },
+      {
+        title: "Enforcing backend architecture boundaries",
+        description: "In large-scale designs, developers often inadvertently import database layer functions directly into API route handlers, eroding the repository pattern boundary over time.",
+        icon: Shield
+      },
+      {
+        title: "Handling breaking API spec updates",
+        description: "The backend API contract underwent a major breaking change mid-project (introducing /api/ prefixes and renaming/removing 30+ endpoints), threatening frontend integration.",
+        icon: AlertCircle
+      }
+    ],
+    solutions: [
+      {
+        title: "Tiered progressive loading strategy",
+        description: "Implemented a progressive API design that returns immediate dashboard data (<500ms), fetches live standings in the background, and lazy-loads heavy analytical calculations.",
+        icon: Laptop,
+        details: [
+          "Immediate tier (/dashboard/core/{id}) serves manager identity and rank trend",
+          "Fast background tier (/dashboard/live/{id}) loads live fixtures and top-1000 benchmarks",
+          "Lazy-load tier (/dashboard/analytics/{id}) streams optimality solvers and chip timing",
+          "Ensures the dashboard remains interactive immediately while computations run"
+        ]
+      },
+      {
+        title: "Scheduled scraping and CSV staging",
+        description: "Built automated ingestion pipelines (*_pipeline.py) that harvest live data on a cron schedule and stage it as CSV files in Azure Blob Storage.",
+        icon: Database,
+        details: [
+          "Decouples the web application entirely from live third-party API availability",
+          "Allows heavy optimization algorithms to run against consistent, versioned snapshots of the season",
+          "Drastically reduces outbound API call frequency, preventing rate limit blocks"
+        ]
+      },
+      {
+        title: "Mechanical import verification script",
+        description: "Wrote a custom linting script (check_api_imports.py) that runs in the CI/CD pipeline before every PR merge to verify import paths.",
+        icon: Terminal,
+        details: [
+          "Scans backend endpoint files to block direct database function imports",
+          "Ensures all endpoints only communicate with the repository.py layer",
+          "Maintains clean layer separation and enables backend storage swapability"
+        ]
+      },
+      {
+        title: "Traceability matrix and API spec audits",
+        description: "Authored and maintained API_MAPPING.md and CONTENT_MAPPING.md as living integration matrices, performing systematic audits.",
+        icon: Puzzle,
+        details: [
+          "Mapped all 53 backend endpoints against the 39 frontend query wrapper functions",
+          "Instantly highlighted mismatched route parameters, deprecated calls, and dead paths",
+          "Saved weeks of manual debugging by establishing contract-first verification"
+        ]
+      }
+    ],
+    techStack: {
+      frontend: ["React 18", "TypeScript", "Vite", "TanStack Query", "Redux Toolkit", "Tailwind CSS", "Recharts", "@tanstack/react-virtual"],
+      backend: ["Python 3.11", "FastAPI", "JWT Auth", "CORS allowlisting"],
+      database: ["Azure SQL Database", "Azure Blob Storage", "In-Memory TTL Cache"],
+      devops: ["Azure App Service", "Azure Static Web Apps", "Husky + Commitlint", "pytest", "Jest + RTL"]
+    },
+    keyFeatures: [
+      "Three-tier progressive dashboard rendering (Immediate, Background, Lazy)",
+      "Scheduled scraping pipelines harvesting gameweek, player, and manager data",
+      "Strict repository pattern separating API endpoints from database queries",
+      "Dynamic TTL-based caching layer tailored by data volatility",
+      "Virtualised player points tables for high performance during live gameweeks",
+      "Statistical benchmarking comparison against top 1,000 global managers",
+      "JWT auth protection with context-header checking on all write paths",
+      "GDPR-compliant data deletion and user consent tracking endpoints",
+      "Husky & commitlint git hooks for strict conventional commit compliance",
+      "Automated architecture validation via custom python import check scripts"
+    ],
+    metrics: {
+      "Live Pages": "5 of 19 fully live",
+      "API Endpoints": "53 audited",
+      "Core Latency": "< 500ms target",
+      "Commits": "152 frontend commits"
+    },
+    developmentPhases: [
+      {
+        title: "Spec & Matrix Mapping",
+        duration: "4 weeks",
+        activities: [
+          "Created page-by-page UI specifications in CONTENT_MAPPING.md",
+          "Drafted API_MAPPING.md traceability matrix connecting UI to backend contracts",
+          "Designed the developer onboarding roadmap and environment setup guidelines"
+        ]
+      },
+      {
+        title: "Ingestion Pipelines & Repository",
+        duration: "6 weeks",
+        activities: [
+          "Wrote scheduled scraper scripts (fpl_data_harvesting_pipeline.py)",
+          "Set up Azure SQL database schemas and Azure Blob Storage CSV landing path",
+          "Implemented repository and cache layers with custom TTL timings"
+        ]
+      },
+      {
+        title: "Tiered API & Security",
+        duration: "8 weeks",
+        activities: [
+          "Built FastAPI progressive endpoints (Immediate, Fast, Lazy) with response isolation",
+          "Configured JWT authentication headers and CORS origin restrictions",
+          "Implemented GDPR/privacy consent and deletion endpoints"
+        ]
+      },
+      {
+        title: "Frontend Core Pages",
+        duration: "6 weeks",
+        activities: [
+          "Initialized Vite + TypeScript client app and integrated TanStack Query and Redux Toolkit",
+          "Built and styled the 5 core pages: Dashboard, Precision, and Manager/Mini-League/Elite tracking",
+          "Implemented list virtualization for large player tables using @tanstack/react-virtual"
+        ]
+      }
+    ],
+    responsibilities: [
+      {
+        role: "Frontend & State Architect",
+        icon: Code,
+        tasks: [
+          "Created the Vite SPA setup with Redux Toolkit and TanStack Query caching",
+          "Designed the UI layouts using Tailwind CSS and components from the spec",
+          "Implemented the progressive loading states and virtualised points list scroll"
+        ]
+      },
+      {
+        role: "Backend & Data Engineer",
+        icon: Terminal,
+        tasks: [
+          "Developed the FastAPI endpoints and the progressive response framework",
+          "Implemented the repository pattern and database-import verification lint scripts",
+          "Created scheduled ETL scripts scraping and loading data into Azure SQL",
+          "Audited and resolved breaking changes in the API spec routes mapping"
+        ]
+      }
+    ],
+    href: "#"
+  }
 ];
 export {
   developmentProcess,
