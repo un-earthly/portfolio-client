@@ -5,16 +5,6 @@ import {
   ListToolsRequestSchema,
   type Tool,
 } from "@modelcontextprotocol/sdk/types";
-import {
-  createDraft,
-  deletePost as deleteLinkedInPost,
-  getMyLinkedInProfile,
-  getPost as getLinkedInPost,
-  linkedinConfigured,
-  listPosts as listLinkedInPosts,
-  publishStoredPost,
-  updatePost as updateLinkedInPost,
-} from "@/lib/linkedin";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -466,103 +456,13 @@ const TOOLS: Tool[] = [
       required: ["path"],
     },
   },
-
-  // ── LinkedIn tools ────────────────────────────────────────────────────────
-  {
-    name: "linkedin_draft_post",
-    description: "Create a new LinkedIn post draft. Does not publish anything — just stores the draft for review.",
-    inputSchema: {
-      type: "object",
-      properties: {
-        content: { type: "string", description: "Full post text as it should appear on LinkedIn" },
-      },
-      required: ["content"],
-    },
-  },
-  {
-    name: "linkedin_list_posts",
-    description: "List LinkedIn posts (drafts, scheduled, published, or failed), newest first.",
-    inputSchema: {
-      type: "object",
-      properties: {
-        status: { type: "string", enum: ["draft", "scheduled", "published", "failed"] },
-      },
-    },
-  },
-  {
-    name: "linkedin_get_post",
-    description: "Get a single LinkedIn post by id.",
-    inputSchema: {
-      type: "object",
-      properties: { id: { type: "string" } },
-      required: ["id"],
-    },
-  },
-  {
-    name: "linkedin_update_post",
-    description: "Edit the content of an existing LinkedIn draft or scheduled post.",
-    inputSchema: {
-      type: "object",
-      properties: {
-        id: { type: "string" },
-        content: { type: "string" },
-      },
-      required: ["id", "content"],
-    },
-  },
-  {
-    name: "linkedin_delete_post",
-    description: "Delete a LinkedIn post record (draft, scheduled, or otherwise). Does not affect anything already live on LinkedIn.",
-    inputSchema: {
-      type: "object",
-      properties: { id: { type: "string" } },
-      required: ["id"],
-    },
-  },
-  {
-    name: "linkedin_schedule_post",
-    description:
-      "Mark a LinkedIn draft as scheduled for a future time. Actual publishing happens via the cron worker when scheduled_at is reached.",
-    inputSchema: {
-      type: "object",
-      properties: {
-        id: { type: "string" },
-        scheduled_at: { type: "string", description: "ISO 8601 datetime, e.g. 2026-08-05T09:00:00Z" },
-      },
-      required: ["id", "scheduled_at"],
-    },
-  },
-  {
-    name: "linkedin_unschedule_post",
-    description: "Revert a scheduled LinkedIn post back to draft status.",
-    inputSchema: {
-      type: "object",
-      properties: { id: { type: "string" } },
-      required: ["id"],
-    },
-  },
-  {
-    name: "linkedin_publish_post",
-    description: "Publish a LinkedIn post immediately, regardless of its current status.",
-    inputSchema: {
-      type: "object",
-      properties: { id: { type: "string" } },
-      required: ["id"],
-    },
-  },
-  {
-    name: "linkedin_get_my_profile",
-    description:
-      "Fetch your own LinkedIn profile info (name, headline, picture) live from LinkedIn. Confirms the access token is still valid.",
-    inputSchema: { type: "object", properties: {} },
-  },
 ];
 
 // ── Build MCP Server ─────────────────────────────────────────────────────────
 
 function createMcpServer(): Server {
   const server = new Server(
-    { name: "portfolio-manager", version: "2.2.0" },
+    { name: "portfolio-manager", version: "2.3.0" },
     { capabilities: { tools: {} } }
   );
 
@@ -848,93 +748,6 @@ function createMcpServer(): Server {
           return {
             content: [{ type: "text", text: JSON.stringify(items, null, 2) }],
           };
-        }
-
-        // ── linkedin_draft_post ───────────────────────────────────────────
-        case "linkedin_draft_post": {
-          const post = await createDraft(args.content as string);
-          return { content: [{ type: "text", text: JSON.stringify(post, null, 2) }] };
-        }
-
-        // ── linkedin_list_posts ───────────────────────────────────────────
-        case "linkedin_list_posts": {
-          const posts = await listLinkedInPosts(args.status as never);
-          return { content: [{ type: "text", text: JSON.stringify({ count: posts.length, posts }, null, 2) }] };
-        }
-
-        // ── linkedin_get_post ─────────────────────────────────────────────
-        case "linkedin_get_post": {
-          const post = await getLinkedInPost(args.id as string);
-          if (!post) {
-            return { content: [{ type: "text", text: `Post "${args.id}" not found.` }], isError: true };
-          }
-          return { content: [{ type: "text", text: JSON.stringify(post, null, 2) }] };
-        }
-
-        // ── linkedin_update_post ──────────────────────────────────────────
-        case "linkedin_update_post": {
-          const post = await updateLinkedInPost(args.id as string, { content: args.content as string });
-          if (!post) {
-            return { content: [{ type: "text", text: `Post "${args.id}" not found.` }], isError: true };
-          }
-          return { content: [{ type: "text", text: JSON.stringify(post, null, 2) }] };
-        }
-
-        // ── linkedin_delete_post ──────────────────────────────────────────
-        case "linkedin_delete_post": {
-          const ok = await deleteLinkedInPost(args.id as string);
-          if (!ok) {
-            return { content: [{ type: "text", text: `Post "${args.id}" not found.` }], isError: true };
-          }
-          return { content: [{ type: "text", text: `Deleted: ${args.id as string}` }] };
-        }
-
-        // ── linkedin_schedule_post ────────────────────────────────────────
-        case "linkedin_schedule_post": {
-          const post = await updateLinkedInPost(args.id as string, {
-            status: "scheduled",
-            scheduled_at: args.scheduled_at as string,
-          });
-          if (!post) {
-            return { content: [{ type: "text", text: `Post "${args.id}" not found.` }], isError: true };
-          }
-          return { content: [{ type: "text", text: JSON.stringify(post, null, 2) }] };
-        }
-
-        // ── linkedin_unschedule_post ──────────────────────────────────────
-        case "linkedin_unschedule_post": {
-          const post = await updateLinkedInPost(args.id as string, { status: "draft", scheduled_at: undefined });
-          if (!post) {
-            return { content: [{ type: "text", text: `Post "${args.id}" not found.` }], isError: true };
-          }
-          return { content: [{ type: "text", text: JSON.stringify(post, null, 2) }] };
-        }
-
-        // ── linkedin_publish_post ─────────────────────────────────────────
-        case "linkedin_publish_post": {
-          const post = await getLinkedInPost(args.id as string);
-          if (!post) {
-            return { content: [{ type: "text", text: `Post "${args.id}" not found.` }], isError: true };
-          }
-          if (!linkedinConfigured()) {
-            return {
-              content: [
-                {
-                  type: "text",
-                  text: "LinkedIn is not configured yet. Set LINKEDIN_ACCESS_TOKEN and LINKEDIN_PERSON_URN in Vercel.",
-                },
-              ],
-              isError: true,
-            };
-          }
-          const published = await publishStoredPost(post);
-          return { content: [{ type: "text", text: JSON.stringify(published, null, 2) }] };
-        }
-
-        // ── linkedin_get_my_profile ───────────────────────────────────────
-        case "linkedin_get_my_profile": {
-          const profile = await getMyLinkedInProfile();
-          return { content: [{ type: "text", text: JSON.stringify(profile, null, 2) }] };
         }
 
         default:
