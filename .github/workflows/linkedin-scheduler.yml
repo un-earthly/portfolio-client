@@ -1,17 +1,14 @@
-name: LinkedIn Scheduler
+name: LinkedIn Scheduler (disabled)
+
+# Disabled 2026-08-10: LinkedIn tooling removed from the MCP server.
+# This workflow is inert. Delete this file (and the /api/linkedin/cron
+# route it called) once you're ready to clean up.
 
 on:
-  schedule:
-    - cron: '*/15 * * * *'
   workflow_dispatch: {}
 
 jobs:
-  publish-due-posts:
+  noop:
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger LinkedIn cron endpoint
-        run: |
-          curl -sS -X POST "https://alamin-md.xyz/api/linkedin/cron" \
-            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
-            -H "Content-Type: application/json" \
-            --fail-with-body
+      - run: echo "LinkedIn scheduler disabled — safe to delete this workflow file."
