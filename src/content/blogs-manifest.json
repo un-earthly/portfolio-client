@@ -1,5 +1,45 @@
 [
   {
+    "slug": "application-auth-layer-authentication-authorization-trust-boundary",
+    "title": "Authentication and Authorization: The Layer That Assumes Nothing Upstream Already Checked",
+    "date": "2026-08-10",
+    "tags": [
+      "authentication",
+      "authorization",
+      "JWT",
+      "IDOR",
+      "broken object level authorization",
+      "X-Forwarded-For",
+      "API security",
+      "DevOps",
+      "infrastructure",
+      "application security"
+    ],
+    "type": "technical",
+    "excerpt": "Four posts moved earlier through the stack: security group, OS firewall, load balancer, DNS and the CDN edge. Part 5 moves to the other end, the application itself, the last place a request can be checked before it touches data, and the only layer that was ever going to catch a valid session asking for someone else's resource.",
+    "metaDescription": "A complete technical breakdown of the application auth layer: why X-Forwarded-For and other upstream headers are claims, not facts, the difference between authentication and authorization, broken object-level authorization, JWT algorithm confusion and revocation, ungated internal endpoints, and a real audit checklist.",
+    "readTime": 13,
+    "cover": "/blog-covers/application-auth-layer-authentication-authorization-trust-boundary.svg",
+    "faqs": [
+      {
+        "a": "Authentication confirms identity: this request has a valid session or token belonging to a real user. Authorization confirms permission: this specific user is allowed to perform this specific action on this specific resource. A route can require authentication and still have zero authorization checks, which is exactly how broken object-level authorization happens, a logged-in user requesting a resource that belongs to someone else.",
+        "q": "What's the actual difference between authentication and authorization in practice?"
+      },
+      {
+        "a": "Yes, because the risk isn't that you'll accidentally issue a token with the wrong algorithm, it's that an attacker-supplied token can declare any algorithm it wants in its header, and a verifier that reads the algorithm from the token instead of enforcing one explicitly can be tricked into verifying a forged token incorrectly, most notably in the RS256-to-HMAC confusion attack. Always pass an explicit algorithms allowlist to your verification call.",
+        "q": "Is checking the algorithm on JWT verification really necessary if I control both the issuer and the verifier?"
+      },
+      {
+        "a": "A JWT is self-contained and valid purely based on its signature and expiry, both of which are unaffected by anything happening in your application's database. Unless you maintain a separate mechanism, a denylist, a token version field on the user record, or short-lived access tokens paired with revocable refresh tokens, an issued JWT keeps working until it naturally expires regardless of logout, password reset, or account suspension.",
+        "q": "Why doesn't logging a user out actually invalidate their existing JWT?"
+      },
+      {
+        "a": "Log in as two different test accounts, then use the first account's token to request a resource ID that belongs to the second account, across every route that takes an ID as a parameter. If the response returns data instead of a 403 or 404, that route is missing an ownership check. This has to be done deliberately since normal testing, done as a single user against their own data, will never expose it.",
+        "q": "How do I actually find broken object-level authorization instead of just hoping code review catches it?"
+      }
+    ]
+  },
+  {
     "slug": "dns-cdn-edge-layer-ttl-cache-keys-failover",
     "title": "DNS and the CDN Edge: The Layer That Decides Whether Your Load Balancer Ever Sees the Request",
     "date": "2026-07-30",
